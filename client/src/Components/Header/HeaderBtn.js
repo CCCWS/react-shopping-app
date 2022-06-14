@@ -23,7 +23,7 @@ export function HeaderBtn({ onSideMenu, setMenuClick }) {
         <button
           key={data.id}
           id={data.id}
-          className={onSideMenu ? "side-menu-btn" : "header-btn"}
+          className={onSideMenu ? "side-menu-btn" : "btn"}
           onClick={goPage}
         >
           {data.value}
@@ -43,7 +43,7 @@ export function HeaderLogInBtn({ onSideMenu, setModalOpen, userAuth, logOut }) {
       {userAuth ? (
         <>
           <button
-            className={onSideMenu ? "side-menu-btn" : "header-btn"}
+            className={onSideMenu ? "side-menu-btn" : "btn"}
             onClick={logOut}
           >
             로그아웃
@@ -53,7 +53,7 @@ export function HeaderLogInBtn({ onSideMenu, setModalOpen, userAuth, logOut }) {
       ) : (
         <>
           <button
-            className={onSideMenu ? "side-menu-btn" : "header-btn"}
+            className={onSideMenu ? "side-menu-btn" : "btn"}
             onClick={onLogIn}
           >
             로그인·가입

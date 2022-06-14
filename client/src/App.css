@@ -1,0 +1,68 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(129, 129, 129);
+}
+
+.page {
+  width: 900px;
+  margin: auto;
+  background-color: rgb(255, 255, 255);
+}
+
+@media (max-width: 900px) {
+  .page {
+    width: 100%;
+  }
+}
+
+li {
+  list-style-type: none;
+  position: relative;
+  margin: 2px;
+  padding: 0.5em 0.5em 0.5em 2em;
+  background: lightgrey;
+  font-family: sans-serif;
+}
+
+li::before {
+  content: "";
+  position: absolute;
+  background-color: red;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 10px;
+  transition: all ease 1s;
+}
+
+li:hover::before {
+  width: 100%;
+}
+
+.btn {
+  position: relative;
+  border: none;
+  font-size: 16px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  background-color: rgb(255, 111, 111);
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  border-radius: 0px 50px 50px 0px;
+  transition: all ease 0.3s;
+}
+
+.btn:hover::before {
+  width: 100%;
+  z-index: -10;
+}

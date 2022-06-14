@@ -4,6 +4,8 @@ import Auth from "../src/hoc/auth";
 import Main from "./Page/Main";
 import Header from "./Components/Header/Header";
 
+import "./App.css"
+
 function App() {
   return (
     <BrowserRouter>

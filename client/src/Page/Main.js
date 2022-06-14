@@ -1,9 +1,7 @@
-import React from 'react'
+import React, { useState } from "react";
 
 function Main() {
-  return (
-    <div>Main</div>
-  )
+  return <div className="page"></div>;
 }
 
-export default Main
+export default Main;
