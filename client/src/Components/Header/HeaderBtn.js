@@ -6,7 +6,7 @@ export function HeaderBtn({ onSideMenu, setMenuClick }) {
   const btn = [
     {
       id: "",
-      value: "버튼",
+      value: "홈",
     },
   ];
 
