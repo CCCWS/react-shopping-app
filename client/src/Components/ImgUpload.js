@@ -27,6 +27,11 @@ function ImgUpload() {
   };
   /////////////////////////////////
 
+  const onDelete = (e) => {
+    const copyImg = [...img];
+    setImg(copyImg.filter((data) => data !== e.target.id));
+  };
+
   return (
     <>
       <div className="drop-box">
@@ -52,11 +57,14 @@ function ImgUpload() {
       </div>
       {img.length > 0 && (
         <div>
-          {img.map((data) => (
+          {img.map((data, index) => (
             <img
               src={`http://localhost:3001/${data}`}
+              key={index}
               alt="img"
               className="upload-img"
+              id={data}
+              onClick={onDelete}
             />
           ))}
         </div>
