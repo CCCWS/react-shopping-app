@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+
+import { categoryList } from "../data/CatecoryList";
+import Modal from "../Components/Modal";
+import ImgUpload from "../Components/ImgUpload";
+
 import "./Upload.css";
 
 function Upload() {
-  // const [title, setTitle] = useState("");
-  // const [description, setDescription] = useState("");
-  // const [price, setPrice] = useState("");
-
+  const [modalOpen, setModalOpen] = useState(false);
   const [state, setState] = useState({
     title: "",
     price: "",
     description: "",
+    category: "카테고리 선택",
   });
 
   const saveData = (e) => {
@@ -21,13 +24,35 @@ function Upload() {
       setState({ ...state, price: e.target.value });
     }
 
+    if (e.target.id === "category") {
+      setState({ ...state, category: e.target.innerText });
+      setModalOpen(false);
+    }
+
     if (e.target.id === "description") {
       setState({ ...state, description: e.target.value });
     }
   };
 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
   return (
     <div className="page">
+      <Modal
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        data={categoryList}
+        setState={saveData}
+      />
+
+      <section className="Upload-section">
+        <div>상품이미지</div>
+        <ImgUpload />
+      </section>
+
+      <hr />
       <section className="Upload-section">
         <div>제목</div>
         <input
@@ -36,9 +61,9 @@ function Upload() {
           onChange={saveData}
           id="title"
           placeholder="제목"
-          maxLength={39}
+          maxLength={40}
         />
-        <div>{`${state.title.length} / 40`}</div>
+        <span>{`${state.title.length} / 40`}</span>
       </section>
 
       <hr />
@@ -52,7 +77,16 @@ function Upload() {
           id="price"
           placeholder="가격"
         />
-        <div>원</div>
+        <label>원</label>
+      </section>
+
+      <hr />
+
+      <section className="Upload-section">
+        <div>카테고리</div>
+        <button onClick={openModal} className="btn">
+          {state.category}
+        </button>
       </section>
 
       <hr />
@@ -65,7 +99,9 @@ function Upload() {
           onChange={saveData}
           id="description"
           placeholder="설명"
+          maxLength={2000}
         />
+        <span>{`${state.description.length} / 2000`}</span>
       </section>
     </div>
   );

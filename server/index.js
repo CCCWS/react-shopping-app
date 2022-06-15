@@ -12,8 +12,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // json파일을 분석해서 가져옴
 app.use(bodyParser.json());
-
 app.use(cookieParser());
+
+/////
+app.use('/uploads', express.static('uploads')); //nodejs에서 정적파일을 제공
+app.use("/api/product", require("./models/product")); //해당 경로로 이동하여 처리
 
 mongoose
   .connect(config.mongoURI)
@@ -22,7 +25,7 @@ mongoose
   //   useUnifiedTopology: true,
   //   useCreateIndex: true,
   //   useFindAndModify: false,
-  // } 몽고DB 버전 6.0이상에선 자동처리 
+  // } 몽고DB 버전 6.0이상에선 자동처리
 
   .then(() => console.log("DB Connected"))
   .catch((err) => console.log(err));
