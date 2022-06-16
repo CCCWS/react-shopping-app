@@ -19,9 +19,7 @@ function ImgUpload() {
 
     axios.post("/api/product/img", formData, config).then((res) => {
       if (res.data.success) {
-        setImg([...img, res.data.filePath]);
-      } else {
-        alert("이미지 등록 실패");
+        setImg([...img, res.data.file.filename]);
       }
     });
   };
@@ -29,7 +27,7 @@ function ImgUpload() {
 
   const onDelete = (e) => {
     const copyImg = [...img];
-    setImg(copyImg.filter((data) => data !== e.target.id));
+    setImg(copyImg.filter((data) => data !== e));
   };
 
   return (
@@ -56,15 +54,17 @@ function ImgUpload() {
         </Dropzone>
       </div>
       {img.length > 0 && (
-        <div>
+        <div className="test">
           {img.map((data, index) => (
-            <img
-              src={`http://localhost:3001/${data}`}
+            <div
+              style={{
+                backgroundImage: `url('http://localhost:3001/uploads/${data}')`,
+              }}
+              src={`http://localhost:3001/uploads/${data}`}
               key={index}
               alt="img"
               className="upload-img"
-              id={data}
-              onClick={onDelete}
+              onClick={() => onDelete(data)}
             />
           ))}
         </div>
