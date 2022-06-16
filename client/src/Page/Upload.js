@@ -8,6 +8,8 @@ import "./Upload.css";
 
 function Upload() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [imgCount, setImgCount] = useState(0);
+  const [imgData, setImgData] = useState([]);
   const [state, setState] = useState({
     title: "",
     price: "",
@@ -36,6 +38,7 @@ function Upload() {
 
   const openModal = () => {
     setModalOpen(true);
+    console.log(imgData);
   };
 
   return (
@@ -43,13 +46,21 @@ function Upload() {
       <Modal
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
-        data={categoryList}
-        setState={saveData}
+        // data={categoryList}
+        // setState={saveData}
+        data={imgData}
       />
 
       <section className="Upload-section">
-        <div>상품이미지</div>
-        <ImgUpload />
+        <div>
+          상품이미지 <div>{`${imgCount} / 12`}</div>
+        </div>
+
+        <ImgUpload
+          setImgCount={setImgCount}
+          setModalOpen={setModalOpen}
+          setImgData={setImgData}
+        />
       </section>
 
       <hr />

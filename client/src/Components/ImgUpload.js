@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import "./ImgUpload.css";
 import { CameraOutlined } from "@ant-design/icons";
 
-function ImgUpload() {
+function ImgUpload({ setImgCount, setModalOpen, setImgData }) {
   const [img, setImg] = useState([]);
   //////////////////////////////////
   const dropItem = (files) => {
+    if (img.length === 12) {
+      return alert("사진 첨부는 12개까지 가능합니다.");
+    }
     let formData = new FormData();
 
     const config = {
@@ -19,19 +22,36 @@ function ImgUpload() {
 
     axios.post("/api/product/img", formData, config).then((res) => {
       if (res.data.success) {
-        setImg([...img, res.data.file.filename]);
+        const getImg = new Image();
+        getImg.onload = function () {
+          setImg([
+            ...img,
+            {
+              name: res.data.file.filename,
+              width: this.width,
+              height: this.height,
+            },
+          ]);
+        };
+        getImg.src = `http://localhost:3001/${res.data.file.path}`;
       }
     });
   };
   /////////////////////////////////
 
-  const onDelete = (e) => {
-    const copyImg = [...img];
-    setImg(copyImg.filter((data) => data !== e));
+  useEffect(() => {
+    setImgCount(img.length);
+  }, [img]);
+
+  const openModal = (e) => {
+    // const copyImg = [...img];
+    // setImg(copyImg.filter((data) => data !== e));
+    setImgData(e);
+    setModalOpen(true);
   };
 
   return (
-    <>
+    <div className="ImgUpload-page">
       <div className="drop-box">
         <Dropzone onDrop={dropItem}>
           {({ getRootProps, getInputProps }) => (
@@ -53,23 +73,23 @@ function ImgUpload() {
           )}
         </Dropzone>
       </div>
+
       {img.length > 0 && (
-        <div className="test">
+        <>
           {img.map((data, index) => (
             <div
               style={{
-                backgroundImage: `url('http://localhost:3001/uploads/${data}')`,
+                backgroundImage: `url('http://localhost:3001/uploads/${data.name}')`,
               }}
-              src={`http://localhost:3001/uploads/${data}`}
               key={index}
               alt="img"
               className="upload-img"
-              onClick={() => onDelete(data)}
+              onClick={() => openModal(data)}
             />
           ))}
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 }
 

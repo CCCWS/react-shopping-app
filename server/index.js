@@ -18,6 +18,8 @@ app.use(cookieParser());
 app.use('/uploads', express.static('uploads')); //nodejs에서 정적파일을 제공
 app.use("/api/product", require("./models/product")); //해당 경로로 이동하여 처리
 
+
+
 mongoose
   .connect(config.mongoURI)
   // {

@@ -19,7 +19,6 @@ function Modal({ setModalOpen, modalOpen, data, setState }) {
     setModalOpen(false);
     document.querySelector("body").classList.toggle("not-scroll");
   };
-
   return (
     <div
       className={[`modal ${modalOpen ? "modal-open" : null}`].join(" ")}
@@ -30,8 +29,8 @@ function Modal({ setModalOpen, modalOpen, data, setState }) {
           <button onClick={modalCloseBtn} className="modal-close-btn">
             X
           </button>
-          <div className="item-box">
-            {data.map((data) => (
+
+          {/* {data.map((data) => (
               <div
                 key={data.id}
                 onClick={setState}
@@ -40,8 +39,16 @@ function Modal({ setModalOpen, modalOpen, data, setState }) {
               >
                 {data.name}
               </div>
-            ))}
-          </div>
+            ))} */}
+
+          <img
+            src={`http://localhost:3001/uploads/${data.name}`}
+            alt="img"
+            id="modalImg"
+            className={
+              data.width > data.height ? "longer-width" : "longer-height"
+            }
+          />
         </>
       )}
     </div>

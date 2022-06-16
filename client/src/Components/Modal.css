@@ -27,21 +27,18 @@
 
 .item-box {
   background-color: rgba(197, 197, 197, 0.582);
-  width: 200px;
-  height: 450px;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 30px;
 }
 
-.item-box > div {
+/* .item-box > div {
   padding: 10px;
   font-size: 16px;
   margin-bottom: 10px;
-}
+} */
 
 .modal-close-btn {
   background-color: transparent;
@@ -57,4 +54,22 @@
   cursor: pointer;
   transition: all ease 0.5s;
   background-color: rgba(255, 0, 0, 0.459);
+}
+
+.longer-width {
+  width: 90vh;
+}
+
+.longer-height {
+  width: 50vh;
+}
+
+@media (max-width: 500px) {
+  .longer-width {
+    width: 100%;
+  }
+
+  .longer-height {
+    width: 70%;
+  }
 }
