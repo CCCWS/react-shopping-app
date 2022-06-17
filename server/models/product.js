@@ -2,7 +2,7 @@ const express = require("express");
 const app = express.Router();
 const multer = require("multer");
 const fs = require("fs");
-const { productData } = require("../models/productData");
+const { ProductData } = require("./ProductData");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -30,7 +30,13 @@ app.post("/img", upload.single("file"), (req, res) => {
 
 app.post("/write", (req, res) => {
   //받은 정보를 DB에 저장
-  console.log(productData(req.body));
+  const productData = new ProductData(req.body);
+  productData.save((err) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+    return res.status(200).json({ success: true });
+  });
 });
 
 app.post("/delImg", async (req, res) => {

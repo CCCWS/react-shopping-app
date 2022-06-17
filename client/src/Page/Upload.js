@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { categoryList } from "../data/CatecoryList";
 import Modal from "../Components/Modal";
@@ -12,6 +13,7 @@ function Upload({ user }) {
   //auth.js에서 받은 user props
   //모든 페이지에 방문할때마다 로그인 체크를 수행.
 
+  const nav = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [imgData, setImgData] = useState([]);
   const [state, setState] = useState({
@@ -74,12 +76,12 @@ function Upload({ user }) {
     axios.post("/api/product/write", data).then((res) => {
       if (res.data.success) {
         alert("등록 완료");
+        nav("/");
       } else {
         alert("등록 실패");
       }
     });
   };
-
 
   return (
     <div className="page">
