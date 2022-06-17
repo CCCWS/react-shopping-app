@@ -1,7 +1,7 @@
 .SelectBox {
   width: 200px;
   font-size: 16px;
-  height: 35px;
+  height: 40px;
   position: relative;
   background-color: rgba(180, 180, 180, 0.452);
   display: flex;
@@ -52,7 +52,7 @@
 }
 
 .select-value-open {
-  max-height: 500px;
+  max-height: 200px;
   padding: 10px 20px 10px 20px;
   border-radius: 5px;
 }

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../_action/user_action";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
   function AuthCheck(props) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
 
     useEffect(() => {
       dispatch(auth()).then((response) => {
@@ -19,7 +20,8 @@ export default function (SpecificComponent, option, adminRoute = null) {
 
         if (!response.payload.isAuth) {
           if (option) {
-            navigate("/LoginPage"); // 로그인 안한 유저가 로그인한 유저만 출입 가능한곳에 들어가려할때
+            navigate("/"); // 로그인 안한 유저가 로그인한 유저만 출입 가능한곳에 들어가려할때
+            alert("로그인이 필요합니다/");
           }
         } else {
           if (adminRoute && !response.payload.isAdmin) {
@@ -31,10 +33,10 @@ export default function (SpecificComponent, option, adminRoute = null) {
               navigate("/");
           }
         }
-      }); 
+      });
     }, []);
 
-    return <SpecificComponent />;
+    return <SpecificComponent user={user} />;
   }
 
   return <AuthCheck />;

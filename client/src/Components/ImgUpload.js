@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import "./ImgUpload.css";
@@ -8,15 +8,15 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 
-function ImgUpload({ setImgCount, setModalOpen, setImgData }) {
+function ImgUpload({ setModalOpen, setImgData, setState }) {
   const [img, setImg] = useState([]);
   //////////////////////////////////
   const dropItem = (files) => {
     if (img.length === 12) {
       return alert("사진 첨부는 12개까지 가능합니다.");
     }
-    let formData = new FormData();
 
+    const formData = new FormData();
     const config = {
       header: { "content-type": "multipart/form-data" },
     }; //header에 파일에 대한 타입을 정의
@@ -34,6 +34,7 @@ function ImgUpload({ setImgCount, setModalOpen, setImgData }) {
               name: res.data.file.filename,
               width: this.width,
               height: this.height,
+              path: `http://localhost:3001/uploads/${res.data.file.filename}`,
             },
           ]);
         };
@@ -44,7 +45,7 @@ function ImgUpload({ setImgCount, setModalOpen, setImgData }) {
   /////////////////////////////////
 
   useEffect(() => {
-    setImgCount(img.length);
+    setState(img);
   }, [img]);
 
   const openModal = (e) => {
@@ -55,6 +56,19 @@ function ImgUpload({ setImgCount, setModalOpen, setImgData }) {
   const delImg = (e) => {
     const copyImg = [...img];
     setImg(copyImg.filter((data) => data !== e));
+
+    const body = {
+      image: e.name,
+    };
+    axios.post("/api/product/delImg", body).then((res) => {
+      if (res.data.success) {
+        alert("삭제 완료");
+      }
+
+      if (res.data.success === false) {
+        alert("삭제 실패");
+      }
+    });
   };
 
   return (
@@ -86,7 +100,7 @@ function ImgUpload({ setImgCount, setModalOpen, setImgData }) {
           {img.map((data, index) => (
             <div
               style={{
-                backgroundImage: `url('http://localhost:3001/uploads/${data.name}')`,
+                backgroundImage: `url('${data.path}')`,
               }}
               key={index}
               alt="img"
@@ -106,4 +120,4 @@ function ImgUpload({ setImgCount, setModalOpen, setImgData }) {
   );
 }
 
-export default ImgUpload;
+export default React.memo(ImgUpload);

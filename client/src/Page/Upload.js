@@ -6,36 +6,80 @@ import ImgUpload from "../Components/ImgUpload";
 import SelectBox from "../Components/SelectBox";
 
 import "./Upload.css";
+import axios from "axios";
 
-function Upload() {
+function Upload({ user }) {
+  //auth.js에서 받은 user props
+  //모든 페이지에 방문할때마다 로그인 체크를 수행.
+
   const [modalOpen, setModalOpen] = useState(false);
-  const [imgCount, setImgCount] = useState(0);
   const [imgData, setImgData] = useState([]);
   const [state, setState] = useState({
     title: "",
     price: "",
     description: "",
     category: "카테고리 선택",
+    image: [],
   });
 
   const saveData = (e) => {
-    if (e.target.id === "title") {
-      setState({ ...state, title: e.target.value });
-    }
+    switch (e.target.id) {
+      case "title":
+        setState({ ...state, title: e.target.value });
+        break;
 
-    if (e.target.id === "price") {
-      setState({ ...state, price: e.target.value });
-    }
+      case "price":
+        setState({ ...state, price: e.target.value });
+        break;
 
-    if (e.target.id === "category") {
-      setState({ ...state, category: e.target.innerText });
-      setModalOpen(false);
-    }
+      case "category":
+        setState({ ...state, category: e.target.innerText });
+        break;
 
-    if (e.target.id === "description") {
-      setState({ ...state, description: e.target.value });
+      case "description":
+        setState({ ...state, description: e.target.value });
+        break;
+
+      default:
+        break;
     }
   };
+
+  const saveImg = (e) => {
+    setState({ ...state, image: e });
+  };
+
+  const onWrite = (e) => {
+    e.preventDefault();
+    if (
+      state.image.length < 1 ||
+      state.title.length < 2 ||
+      state.price.length < 1 ||
+      state.category === "카테고리 선택" ||
+      state.description.length < 10
+    ) {
+      alert("test");
+    }
+
+    const data = {
+      //로그인 유저의 id
+      writer: user.userData.name,
+      title: state.title,
+      price: state.price,
+      category: state.category,
+      description: state.description,
+      image: state.image,
+    };
+
+    axios.post("/api/product/write", data).then((res) => {
+      if (res.data.success) {
+        alert("등록 완료");
+      } else {
+        alert("등록 실패");
+      }
+    });
+  };
+
 
   return (
     <div className="page">
@@ -43,13 +87,13 @@ function Upload() {
 
       <section className="Upload-section">
         <div>
-          상품이미지 <div>{`${imgCount} / 12`}</div>
+          상품이미지 <div>{`${state.image.length} / 12`}</div>
         </div>
 
         <ImgUpload
-          setImgCount={setImgCount}
           setModalOpen={setModalOpen}
           setImgData={setImgData}
+          setState={saveImg}
         />
       </section>
 
@@ -106,8 +150,10 @@ function Upload() {
         />
         <span>{`${state.description.length} / 2000`}</span>
       </section>
+
+      <button onClick={onWrite}>작성</button>
     </div>
   );
 }
 
-export default Upload;
+export default React.memo(Upload);
