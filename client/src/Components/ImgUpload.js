@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import "./ImgUpload.css";
-import { CameraOutlined } from "@ant-design/icons";
+import {
+  CameraOutlined,
+  ZoomInOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 
 function ImgUpload({ setImgCount, setModalOpen, setImgData }) {
   const [img, setImg] = useState([]);
@@ -44,10 +48,13 @@ function ImgUpload({ setImgCount, setModalOpen, setImgData }) {
   }, [img]);
 
   const openModal = (e) => {
-    // const copyImg = [...img];
-    // setImg(copyImg.filter((data) => data !== e));
     setImgData(e);
     setModalOpen(true);
+  };
+
+  const delImg = (e) => {
+    const copyImg = [...img];
+    setImg(copyImg.filter((data) => data !== e));
   };
 
   return (
@@ -84,8 +91,14 @@ function ImgUpload({ setImgCount, setModalOpen, setImgData }) {
               key={index}
               alt="img"
               className="upload-img"
-              onClick={() => openModal(data)}
-            />
+            >
+              <div onClick={() => openModal(data)}>
+                <ZoomInOutlined />
+              </div>
+              <div className="ImgUpload-delBtn" onClick={() => delImg(data)}>
+                <CloseOutlined />
+              </div>
+            </div>
           ))}
         </>
       )}

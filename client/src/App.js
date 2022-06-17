@@ -5,6 +5,8 @@ import Main from "./Page/Main";
 import Upload from "./Page/Upload";
 import Header from "./Components/Header/Header";
 
+import Test from "./Page/Test";
+
 import "./App.css";
 
 function App() {
@@ -14,6 +16,7 @@ function App() {
       <Routes>
         <Route path={`/`} element={Auth(Main, null)} />
         <Route path={`/upload`} element={Auth(Upload, null)} />
+        <Route path={`/test`} element={Auth(Test, null)} />
       </Routes>
     </BrowserRouter>
   );

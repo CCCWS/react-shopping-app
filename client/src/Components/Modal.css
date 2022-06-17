@@ -64,12 +64,12 @@
   width: 50vh;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .longer-width {
-    width: 100%;
+    width: 80%;
   }
 
   .longer-height {
-    width: 70%;
+    width: 80%;
   }
 }

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { categoryList } from "../data/CatecoryList";
 import Modal from "../Components/Modal";
 import ImgUpload from "../Components/ImgUpload";
+import SelectBox from "../Components/SelectBox";
 
 import "./Upload.css";
 
@@ -36,20 +37,9 @@ function Upload() {
     }
   };
 
-  const openModal = () => {
-    setModalOpen(true);
-    console.log(imgData);
-  };
-
   return (
     <div className="page">
-      <Modal
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-        // data={categoryList}
-        // setState={saveData}
-        data={imgData}
-      />
+      <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} data={imgData} />
 
       <section className="Upload-section">
         <div>
@@ -95,9 +85,11 @@ function Upload() {
 
       <section className="Upload-section">
         <div>카테고리</div>
-        <button onClick={openModal} className="btn">
-          {state.category}
-        </button>
+        <SelectBox
+          data={categoryList}
+          setValue={saveData}
+          value={state.category}
+        />
       </section>
 
       <hr />

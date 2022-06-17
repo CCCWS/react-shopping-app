@@ -46,3 +46,9 @@
   height: 40px;
   margin-right: 10px;
 }
+
+@media (max-width: 550px) {
+  .Upload-section > :first-child {
+    min-width: 100px;
+  }
+}

@@ -1,0 +1,83 @@
+.SelectBox {
+  width: 200px;
+  font-size: 16px;
+  height: 35px;
+  position: relative;
+  background-color: rgba(180, 180, 180, 0.452);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition: all ease 0.3s;
+}
+
+.SelectBox:hover {
+  cursor: pointer;
+  background-color: rgba(71, 71, 71, 0.445);
+}
+
+.caret-filled {
+  position: absolute;
+  right: 5px;
+}
+
+.select-value {
+  position: absolute;
+  width: 100%;
+  top: 40px;
+  padding: 0px;
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  z-index: 1000;
+
+  transition: all ease 0.3s;
+  overflow: overlay;
+  border-radius: 5px;
+
+  background-color: rgb(143, 143, 143);
+}
+
+.select-value::-webkit-scrollbar {
+  width: 0px;
+}
+
+.select-value:hover::-webkit-scrollbar {
+  width: 5px;
+}
+
+.select-value-open {
+  max-height: 500px;
+  padding: 10px 20px 10px 20px;
+  border-radius: 5px;
+}
+
+.select-value-close {
+  padding: 0px 20px 0px 20px;
+  max-height: 0px;
+}
+
+.select-value-list {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 100%;
+  padding: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 5px;
+
+  transition: all ease 0.3s;
+}
+
+.select-value-list:hover {
+  cursor: pointer;
+  background-color: rgba(240, 248, 255, 0.212);
+}
