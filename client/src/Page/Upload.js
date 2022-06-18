@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { categoryList } from "../data/CatecoryList";
@@ -51,16 +51,33 @@ function Upload({ user }) {
     setState({ ...state, image: e });
   };
 
+  const titleRef = useRef();
+  const priceRef = useRef();
+  const descriptionRef = useRef();
+
   const onWrite = (e) => {
     e.preventDefault();
-    if (
-      state.image.length < 1 ||
-      state.title.length < 2 ||
-      state.price.length < 1 ||
-      state.category === "카테고리 선택" ||
-      state.description.length < 10
-    ) {
-      alert("test");
+    if (state.image.length < 1) {
+      return alert("이미지를 등록해주세요.");
+    }
+
+    if (state.title.length < 2) {
+      titleRef.current.focus();
+      return alert("제목을 2글자 이상 입력해주세요.");
+    }
+
+    if (state.price.length < 1) {
+      priceRef.current.focus();
+      return alert("가격을 입력해주세요.");
+    }
+
+    if (state.category === "카테고리 선택") {
+      return alert("카테고리를 선택해주세요.");
+    }
+
+    if (state.description.length < 10) {
+      descriptionRef.current.focus();
+      return alert("설명을 10글자 이상 입력해주세요.");
     }
 
     const data = {
@@ -107,8 +124,9 @@ function Upload({ user }) {
           value={state.title}
           onChange={saveData}
           id="title"
-          placeholder="제목"
+          placeholder="2글자 이상 입력해주세요."
           maxLength={40}
+          ref={titleRef}
         />
         <span>{`${state.title.length} / 40`}</span>
       </section>
@@ -118,11 +136,13 @@ function Upload({ user }) {
       <section className="Upload-section">
         <div>가격</div>
         <input
+          type="number"
           className="Upload-price"
           value={state.price}
           onChange={saveData}
           id="price"
-          placeholder="가격"
+          placeholder="숫자만 입력해주세요."
+          ref={priceRef}
         />
         <label>원</label>
       </section>
@@ -147,13 +167,18 @@ function Upload({ user }) {
           value={state.description}
           onChange={saveData}
           id="description"
-          placeholder="설명"
+          placeholder="10글자 이상 입력해주세요."
           maxLength={2000}
+          ref={descriptionRef}
         />
         <span>{`${state.description.length} / 2000`}</span>
       </section>
 
-      <button onClick={onWrite}>작성</button>
+      <div className="Upload-submit-btn">
+        <button onClick={onWrite} className="btn">
+          등록하기
+        </button>
+      </div>
     </div>
   );
 }
