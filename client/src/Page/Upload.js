@@ -175,9 +175,7 @@ function Upload({ user }) {
       </section>
 
       <div className="Upload-submit-btn">
-        <button onClick={onWrite} className="btn">
-          등록하기
-        </button>
+        <button onClick={onWrite}>등록하기</button>
       </div>
     </div>
   );
