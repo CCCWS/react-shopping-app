@@ -8,6 +8,10 @@ export function HeaderBtn({ onSideMenu, setMenuClick }) {
       id: "",
       value: "홈",
     },
+    {
+      id: "upload",
+      value: "판매하기",
+    },
   ];
 
   const goPage = (event) => {

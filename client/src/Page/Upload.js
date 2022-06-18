@@ -12,7 +12,6 @@ import axios from "axios";
 function Upload({ user }) {
   //auth.js에서 받은 user props
   //모든 페이지에 방문할때마다 로그인 체크를 수행.
-
   const nav = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [imgData, setImgData] = useState([]);
@@ -80,9 +79,13 @@ function Upload({ user }) {
       return alert("설명을 10글자 이상 입력해주세요.");
     }
 
+    uploadData();
+  };
+
+  const uploadData = async () => {
     const data = {
       //로그인 유저의 id
-      writer: user.userData.name,
+      writer: user.userData._id,
       title: state.title,
       price: state.price,
       category: state.category,
@@ -90,16 +93,14 @@ function Upload({ user }) {
       image: state.image,
     };
 
-    axios.post("/api/product/write", data).then((res) => {
-      if (res.data.success) {
-        alert("등록 완료");
-        nav("/");
-      } else {
-        alert("등록 실패");
-      }
-    });
+    try {
+      await axios.post("/api/product/write", data);
+      alert("등록 완료");
+      nav("/");
+    } catch (err) {
+      alert("등록 실패");
+    }
   };
-
   return (
     <div className="page">
       <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} data={imgData} />

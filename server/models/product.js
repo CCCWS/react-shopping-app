@@ -55,4 +55,16 @@ app.post("/delImg", async (req, res) => {
   }
 });
 
+app.post("/productList", (req, res) => {
+  //등록한 상품 리스트를 가져옴
+  ProductData.find() //mongoDb의 ProductData의 리스트를 조건없이 가져옴 필터기능 구현시 괄호안에 조건 입력
+    .populate("writer") //현재 저장된 id에는 암호회 되어있음. 해당 id에 대한 정보를 모두 가져옴
+    .exec((err, productInfo) => {
+      if (err) {
+        return res.status(400).json({ success: false, err });
+      }
+      return res.status(200).json({ success: true, productInfo });
+    });
+});
+
 module.exports = app;
