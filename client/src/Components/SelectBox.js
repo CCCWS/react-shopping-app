@@ -3,7 +3,7 @@ import { CaretDownFilled, CaretUpFilled } from "@ant-design/icons";
 
 import "./SelectBox.css";
 
-function SelectBox({ data, value, setValue }) {
+function SelectBox({ data, value, setValue, setSelectCategort, main }) {
   const selectRef1 = useRef();
   const selectRef2 = useRef();
 
@@ -14,7 +14,12 @@ function SelectBox({ data, value, setValue }) {
   };
 
   const select = (e) => {
-    setValue(e);
+    if (main === true) {
+      setSelectCategort(e.target.innerText);
+    } else {
+      setValue(e);
+    }
+
     setClick(!click);
   };
 
@@ -47,6 +52,15 @@ function SelectBox({ data, value, setValue }) {
         onChange={select}
         ref={selectRef2}
       >
+        {main === true && (
+          <li
+            onClick={select}
+            className="select-value-list"
+            id="category"
+          >
+            전체
+          </li>
+        )}
         {data.map((item) => (
           <li
             onClick={select}

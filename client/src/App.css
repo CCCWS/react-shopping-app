@@ -24,13 +24,13 @@ body {
 }
 
 .page {
-  width: 900px;
+  width: 1000px;
   min-height: 94vh;
   margin: auto;
   background-color: rgb(255, 255, 255);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .page {
     width: 100%;
   }

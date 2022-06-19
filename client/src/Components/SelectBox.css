@@ -40,7 +40,7 @@
   overflow: overlay;
   border-radius: 5px;
 
-  background-color: rgb(143, 143, 143);
+  backdrop-filter: blur(50px);
 }
 
 .select-value::-webkit-scrollbar {
@@ -52,7 +52,7 @@
 }
 
 .select-value-open {
-  max-height: 200px;
+  max-height: 250px;
   padding: 10px 20px 10px 20px;
   border-radius: 5px;
 }
@@ -79,5 +79,5 @@
 
 .select-value-list:hover {
   cursor: pointer;
-  background-color: rgba(240, 248, 255, 0.212);
+  background-color: rgba(73, 73, 73, 0.61);
 }
