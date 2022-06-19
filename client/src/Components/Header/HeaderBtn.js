@@ -9,7 +9,7 @@ export function HeaderBtn({ onSideMenu, setMenuClick }) {
       value: "홈",
     },
     {
-      id: "upload",
+      id: "upload", //이동할 주소 입력
       value: "판매하기",
     },
   ];

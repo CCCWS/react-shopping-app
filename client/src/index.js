@@ -6,7 +6,7 @@ import reduxPromisee from "redux-promise";
 import reduxThunk from "redux-thunk";
 import Reducer from "./_reducers/index";
 
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import App from "./App";
 
 const storeMiddleware = applyMiddleware(reduxPromisee, reduxThunk)(createStore);

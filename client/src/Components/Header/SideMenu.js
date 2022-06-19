@@ -38,17 +38,15 @@ function SideMenu({ menuClick, setMenuClick, setModalOpen, userAuth, logOut }) {
         onClick={menuClose}
       >
         <div className={menuClick ? "side-menu-open2" : "side-menu-close2"}>
-          {menuClick ? (
-            <div className="side-menu-item">
-              <HeaderLogInBtn
-                onSideMenu={true}
-                setModalOpen={setModalOpen}
-                userAuth={userAuth}
-                logOut={logOut}
-              />
-              <HeaderBtn onSideMenu={true} setMenuClick={setMenuClick} />
-            </div>
-          ) : null}
+          <div className="side-menu-item">
+            <HeaderLogInBtn
+              onSideMenu={true}
+              setModalOpen={setModalOpen}
+              userAuth={userAuth}
+              logOut={logOut}
+            />
+            <HeaderBtn onSideMenu={true} setMenuClick={setMenuClick} />
+          </div>
         </div>
       </div>
     </>

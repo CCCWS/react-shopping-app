@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
 
   filename: function (req, file, cb) {
     const ext = file.mimetype.split("/")[1];
-    if (["png", "jpg", "jpeg"].includes(ext)) {
+    if (["png", "jpg", "jpeg", "gif"].includes(ext)) {
       cb(null, `${Date.now()}`);
     } else {
       cb(new Error("이미지만 업로드 가능"));
@@ -57,7 +57,8 @@ app.post("/delImg", async (req, res) => {
 
 app.post("/productList", (req, res) => {
   //등록한 상품 리스트를 가져옴
-  ProductData.find() //mongoDb의 ProductData의 리스트를 조건없이 가져옴 필터기능 구현시 괄호안에 조건 입력
+  ProductData.find()
+    .sort({ createdAt: -1 }) //mongoDb의 ProductData의 리스트를 조건없이 가져옴 필터기능 구현시 괄호안에 조건 입력
     .populate("writer") //현재 저장된 id에는 암호회 되어있음. 해당 id에 대한 정보를 모두 가져옴
     .exec((err, productInfo) => {
       if (err) {
