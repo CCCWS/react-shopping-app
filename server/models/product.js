@@ -56,34 +56,28 @@ app.post("/delImg", async (req, res) => {
 });
 
 app.post("/productList", (req, res) => {
-  const skip = parseInt(req.body.skip, 10);
-  const limit = parseInt(req.body.limit, 10);
-  const gte = parseInt(req.body.price[0], 10); //최소
-  const lte = parseInt(req.body.price[1], 10); //최대
-
-  const category = req.body.category !== "전체" && true;
-
-  // const price =
-  //   req.body.price.length !== 0 &&  $gte: ${gte}, $lte: ${lte};
-
   const arg = {
-    price: { $gte: gte, $lte: lte },
+    price: {
+      $gte: parseInt(req.body.price[0], 10),
+      $lte: parseInt(req.body.price[1], 10),
+    },
   };
 
   if (req.body.category !== "전체") {
     arg.category = req.body.category;
   }
-  // if (req.body.price.length !== 0) {
-  //   arg.price = { $gte: gte, $lte: lte };
-  // }
 
-  // delete arg.category;
+  if (req.body.searchValue.length > 0) {
+    arg.$text = { $search: req.body.searchValue };
+  }
+
   //등록한 상품 리스트를 가져옴
   ProductData.find(arg)
+    // .find({ $text: { $search: req.body.searchValue } })
     .sort({ createdAt: -1 }) //mongoDb의 ProductData의 리스트를 조건없이 가져옴 필터기능 구현시 괄호안에 조건 입력
     .populate("writer") //현재 저장된 id에는 암호회 되어있음. 해당 id에 대한 정보를 모두 가져옴
-    .skip(skip)
-    .limit(limit)
+    .skip(parseInt(req.body.skip, 10))
+    .limit(parseInt(req.body.limit, 10))
     .exec((err, productInfo) => {
       if (err) {
         return res.status(400).json({ success: false, err });

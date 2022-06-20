@@ -17,6 +17,7 @@ function Main() {
   const [loading, setLoading] = useState(true);
   const [click, setClick] = useState(true);
   const [selectCategory, setSelectCategort] = useState("전체");
+  const [searchValue, setSearchValue] = useState("");
   const [price, setPrice] = useState({
     priceName: "전체",
     priceRange: [0, 100000000],
@@ -31,10 +32,11 @@ function Main() {
       limit: limit,
       category: selectCategory,
       price: price.priceRange,
+      searchValue: searchValue,
     };
     getProductList(option);
     setSkip(0);
-  }, [selectCategory, price]);
+  }, [selectCategory, price, searchValue]);
 
   const getProductList = async (data) => {
     if (data.readMore === undefined) {
@@ -61,6 +63,7 @@ function Main() {
       limit: limit,
       category: selectCategory,
       price: price.priceRange,
+      searchValue: searchValue,
       readMore: true,
     };
 
@@ -76,6 +79,10 @@ function Main() {
     if (e === "list") {
       setClick(false);
     }
+  };
+
+  const onSearchValue = (e) => {
+    setSearchValue(e.target.value);
   };
 
   return (
@@ -106,6 +113,7 @@ function Main() {
           </button>
         </div>
       </div>
+      <input value={searchValue} onChange={onSearchValue}></input>
       <div className={click ? "main-productList" : "main-productList-list"}>
         {loading ? (
           <div className="loading">

@@ -63,6 +63,6 @@ export const priceList = [
   {
     id: 6,
     name: "10만원 이상",
-    value: [100000, 10000000],
+    value: [100000, 100000000],
   },
 ];
