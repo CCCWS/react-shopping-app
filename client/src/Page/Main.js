@@ -6,8 +6,10 @@ import {
 } from "@ant-design/icons";
 import axios from "axios";
 import { categoryList } from "../data/CatecoryList";
+import { priceList } from "../data/CatecoryList";
 import ProductCard from "../Components/ProductCard";
 import SelectBox from "../Components/SelectBox";
+import SelectBoxPrice from "../Components/SelecBoxPrice";
 import "./Main.css";
 
 function Main() {
@@ -15,41 +17,55 @@ function Main() {
   const [loading, setLoading] = useState(true);
   const [click, setClick] = useState(true);
   const [selectCategory, setSelectCategort] = useState("전체");
+  const [price, setPrice] = useState({
+    priceName: "전체",
+    priceRange: [0, 100000000],
+  });
+
   const [skip, setSkip] = useState(0); //현재 가져온 데이터 갯수
   const limit = 8; //한번에 불러올 데이터 갯수
 
   useEffect(() => {
-    getProductList();
-  }, [skip]);
-
-  const getProductList = async () => {
     const option = {
-      skip: skip,
+      skip: 0,
       limit: limit,
       category: selectCategory,
+      price: price.priceRange,
     };
+    getProductList(option);
+    setSkip(0);
+  }, [selectCategory, price]);
+
+  const getProductList = async (data) => {
+    if (data.readMore === undefined) {
+      setLoading(true);
+    }
     try {
-      const res = await axios.post("api/product/productList", option);
-      setProductList([...productList, ...res.data.productInfo]);
+      const res = await axios.post("api/product/productList", data);
+
+      if (data.readMore === true) {
+        setProductList([...productList, ...res.data.productInfo]);
+      } else {
+        setProductList(res.data.productInfo);
+      }
+
       setLoading(false);
     } catch (err) {
-      // alert("데이터 조회 실패");
+      console.log("데이터 조회 실패");
     }
   };
 
-  const getCategoryFilter = async () => {
+  const readMore = () => {
     const option = {
-      skip: 0,
-      limit: 20,
+      skip: skip + limit,
+      limit: limit,
       category: selectCategory,
+      price: price.priceRange,
+      readMore: true,
     };
-    try {
-      const res = await axios.post("api/product/productList", option);
-      setProductList(res.data.productInfo);
-      setLoading(false);
-    } catch (err) {
-      // alert("데이터 조회 실패");
-    }
+
+    getProductList(option);
+    setSkip((prev) => prev + limit);
   };
 
   const view = (e) => {
@@ -62,10 +78,6 @@ function Main() {
     }
   };
 
-  const readMore = () => {
-    setSkip((prev) => prev + limit);
-  };
-
   return (
     <div className="page">
       <div className="main-option">
@@ -76,6 +88,8 @@ function Main() {
             setSelectCategort={setSelectCategort}
             main={true}
           />
+
+          <SelectBoxPrice data={priceList} price={price} setPrice={setPrice} />
         </div>
         <div>
           <button

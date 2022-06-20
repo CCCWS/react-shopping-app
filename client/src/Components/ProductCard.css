@@ -1,7 +1,7 @@
 /* card-style */
 .productCard {
   width: 23%;
-  height: 270px;
+  height: 280px;
   margin: 10px 5px 10px 5px;
   border-radius: 5px;
   box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
@@ -35,7 +35,7 @@
 
 .price-time {
   color: rgba(255, 0, 0, 0.644);
-
+  font-size: 14px;
   display: flex;
   justify-content: space-between;
 }

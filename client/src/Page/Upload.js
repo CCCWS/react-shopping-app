@@ -46,6 +46,12 @@ function Upload({ user }) {
     }
   };
 
+  function maxLengthCheck(e) {
+    if (e.target.value.length > e.target.maxLength) {
+      e.target.value = e.target.value.slice(0, e.target.maxLength);
+    }
+  }
+
   const saveImg = (e) => {
     setState({ ...state, image: e });
   };
@@ -144,6 +150,9 @@ function Upload({ user }) {
           id="price"
           placeholder="숫자만 입력해주세요."
           ref={priceRef}
+          min="1"
+          maxLength="8"
+          onInput={maxLengthCheck}
         />
         <label>원</label>
       </section>

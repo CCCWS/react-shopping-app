@@ -37,3 +37,17 @@
   align-items: center;
   padding: 10px;
 }
+
+.main-option > :first-child {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 450px) {
+  .main-option {
+    height: 80px;
+  }
+  .main-option > :first-child {
+    flex-direction: column;
+  }
+}
