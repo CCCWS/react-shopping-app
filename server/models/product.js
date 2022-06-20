@@ -68,12 +68,12 @@ app.post("/productList", (req, res) => {
   }
 
   if (req.body.searchValue.length > 0) {
-    arg.$text = { $search: req.body.searchValue };
+    arg.title = { $regex: req.body.searchValue, $options: "i" };
   }
 
+  console.log(arg);
   //등록한 상품 리스트를 가져옴
   ProductData.find(arg)
-    // .find({ $text: { $search: req.body.searchValue } })
     .sort({ createdAt: -1 }) //mongoDb의 ProductData의 리스트를 조건없이 가져옴 필터기능 구현시 괄호안에 조건 입력
     .populate("writer") //현재 저장된 id에는 암호회 되어있음. 해당 id에 대한 정보를 모두 가져옴
     .skip(parseInt(req.body.skip, 10))

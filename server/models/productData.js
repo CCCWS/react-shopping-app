@@ -45,9 +45,9 @@ const ProductDataSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-ProductDataSchema.index({
-  title: "text",
-});
+// ProductDataSchema.index({
+//   title: "text",
+// });
 
 const ProductData = mongoose.model("ProductData", ProductDataSchema);
 
