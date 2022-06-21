@@ -24,7 +24,7 @@ function Main() {
   });
 
   const [skip, setSkip] = useState(0); //현재 가져온 데이터 갯수
-  const limit = 8; //한번에 불러올 데이터 갯수
+  const limit = 20; //한번에 불러올 데이터 갯수
 
   useEffect(() => {
     const option = {

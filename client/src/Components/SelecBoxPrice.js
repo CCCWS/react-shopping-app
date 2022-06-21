@@ -18,8 +18,6 @@ function SelectBoxPrice({ data, price, setPrice }) {
       priceName: e.target.innerText,
       priceRange: e.target.id.split(","),
     });
-    console.log(e.target.id);
-
     setClick(!click);
   };
 

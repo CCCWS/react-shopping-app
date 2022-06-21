@@ -71,7 +71,6 @@ app.post("/productList", (req, res) => {
     arg.title = { $regex: req.body.searchValue, $options: "i" };
   }
 
-  console.log(arg);
   //등록한 상품 리스트를 가져옴
   ProductData.find(arg)
     .sort({ createdAt: -1 }) //mongoDb의 ProductData의 리스트를 조건없이 가져옴 필터기능 구현시 괄호안에 조건 입력
@@ -84,6 +83,17 @@ app.post("/productList", (req, res) => {
       }
       return res.status(200).json({ success: true, productInfo });
     });
+});
+
+app.post("/productDetail", (req, res) => {
+  console.log(req.body.id);
+
+  ProductData.find({ _id: req.body.id }).exec((err, productInfo) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+    return res.status(200).json({ success: true, productInfo });
+  });
 });
 
 module.exports = app;

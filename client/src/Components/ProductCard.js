@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import "./ProductCard.css";
 
 function ProductCard({ data, click }) {
+  const nav = useNavigate();
   const getTime = (time) => {
     const second = Math.floor(
       (new Date().getTime() - new Date(time).getTime()) / 1000
@@ -24,7 +26,12 @@ function ProductCard({ data, click }) {
   return (
     <>
       {data.map((data, index) => (
-        <div key={index} className={click ? "productCard" : "productCard-list"}>
+        <div
+          key={index}
+          className={click ? "productCard" : "productCard-list"}
+          id={data._id}
+          onClick={() => nav(`/product/${data._id}`)}
+        >
           <div
             style={{
               backgroundImage: `url('${data.image[0].path}')`,

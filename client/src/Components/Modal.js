@@ -30,17 +30,6 @@ function Modal({ setModalOpen, modalOpen, data, setState }) {
             X
           </button>
 
-          {/* {data.map((data) => (
-              <div
-                key={data.id}
-                onClick={setState}
-                id="category"
-                className="btn"
-              >
-                {data.name}
-              </div>
-            ))} */}
-
           <img
             src={`http://localhost:3001/uploads/${data.name}`}
             alt="img"

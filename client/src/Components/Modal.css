@@ -57,16 +57,16 @@
 }
 
 .longer-width {
-  width: 90vh;
+  width: 60%;
 }
 
 .longer-height {
   width: 50vh;
 }
 
-@media (max-width: 550px) {
+@media (max-width: 600px) {
   .longer-width {
-    width: 80%;
+    width: 100%;
   }
 
   .longer-height {
