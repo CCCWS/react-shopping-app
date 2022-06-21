@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./ProductCard.css";
 
-function ProductCard({ data, click }) {
+function ProductCard({ data, click, ProductDetail }) {
   const nav = useNavigate();
   const getTime = (time) => {
     const second = Math.floor(
@@ -23,6 +23,9 @@ function ProductCard({ data, click }) {
     }
   };
 
+  const goDetail = () => {
+    window.location.reload();
+  };
   return (
     <>
       {data.map((data, index) => (
@@ -30,7 +33,12 @@ function ProductCard({ data, click }) {
           key={index}
           className={click ? "productCard" : "productCard-list"}
           id={data._id}
-          onClick={() => nav(`/product/${data._id}`)}
+          onClick={() => {
+            nav(`/product/${data._id}`);
+            {
+              ProductDetail && window.location.reload();
+            }
+          }}
         >
           <div
             style={{

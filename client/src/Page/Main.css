@@ -3,8 +3,8 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  border-top: 1px solid rgb(223, 223, 223);
-  box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
+  /* border-top: 1px solid rgb(223, 223, 223); */
+  /* box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507); */
 }
 
 .main-productList-list {

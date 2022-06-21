@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import ImgCarousel from "../Components/ImgCarousel";
+import { LoadingOutlined, LeftOutlined, HomeOutlined } from "@ant-design/icons";
+import ProductCard from "../Components/ProductCard";
 import "./ProductDetail.css";
 
 function ProductDetail() {
+  const nav = useNavigate();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState([]);
-  const [image, setImage] = useState([]);
+  const [otherProduct, setOtherProduct] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -15,8 +19,8 @@ function ProductDetail() {
   }, []);
 
   useEffect(() => {
-    if (product.length !== 0) {
-      console.log(image);
+    if (product.category) {
+      getOtherProduct();
     }
   }, [product]);
 
@@ -24,20 +28,108 @@ function ProductDetail() {
     try {
       const res = await axios.post("/api/product/productDetail", { id });
       setProduct(...res.data.productInfo);
-      setImage(res.data.productInfo[0].image);
+    } catch (err) {
+      console.log("데이터 조회 실패");
+    }
+  };
+
+  const getOtherProduct = async () => {
+    const option = {
+      skip: 0,
+      limit: 20,
+      category: product.category,
+    };
+    try {
+      const res = await axios.post("/api/product/productList", option);
+      setOtherProduct(res.data.productInfo.filter((data) => data._id !== id));
       setLoading(false);
     } catch (err) {
       console.log("데이터 조회 실패");
     }
   };
 
+  const getTime = (time) => {
+    const second = Math.floor(
+      (new Date().getTime() - new Date(time).getTime()) / 1000
+    ); // 초
+
+    if (second <= 1200) {
+      return `${Math.floor(second / 60)}분 전`;
+    }
+
+    if (1200 < second && second <= 86400) {
+      return `${Math.floor(second / 60 / 60)}시간 전`;
+    }
+
+    if (86400 < second) {
+      return `${Math.floor(second / 60 / 60 / 24)}일 전`;
+    }
+  };
+
   return (
     <div className="page">
-      {image.map((data) => (
-        <div>
-          <img style={{ width: "500px" }} src={data.path} />
+      <div className="ProductDetail-backBtn" onClick={() => nav("/")}>
+        <LeftOutlined />
+        <HomeOutlined />
+      </div>
+      {loading ? (
+        <div className="loading">
+          <LoadingOutlined />
         </div>
-      ))}
+      ) : (
+        <div className="ProductDetail-info">
+          <ImgCarousel data={product.image} />
+          <div>
+            <div className="ProductDetail-writer">
+              {product.writer === undefined ? (
+                "익명"
+              ) : (
+                <>
+                  <div>{product.writer.name}</div>
+                  <div>{product.writer.email}</div>
+                </>
+              )}
+            </div>
+
+            <hr />
+
+            <div>
+              <div className="ProductDetail-title">
+                <div>{product.title}</div>
+                <div>{`${product.category} ∙ ${getTime(
+                  product.createdAt
+                )} ∙ 조회수 ${product.views} `}</div>
+              </div>
+
+              <div className="ProductDetail-description">
+                {product.description}
+              </div>
+            </div>
+            <hr />
+            <div className="ProductDetail-other">관련 상품</div>
+            <div className="main-productList ProductDetail-productCard">
+              <ProductCard
+                data={otherProduct}
+                click={true}
+                ProductDetail={true}
+              />
+            </div>
+            <hr />
+          </div>
+
+          <div className="ProductDetail-footer">
+            <div>
+              <div className="ProductDetail-footer-price">
+                {parseInt(product.price, 10).toLocaleString()}원
+              </div>
+              <div className="ProductDetail-footer-btn">
+                <button>장바구니</button>
+                <button>구매하기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

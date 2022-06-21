@@ -56,21 +56,27 @@ app.post("/delImg", async (req, res) => {
 });
 
 app.post("/productList", (req, res) => {
-  const arg = {
-    price: {
+  const arg = {};
+
+  if (req.body.price) {
+    arg.price = {
       $gte: parseInt(req.body.price[0], 10),
       $lte: parseInt(req.body.price[1], 10),
-    },
-  };
-
-  if (req.body.category !== "전체") {
-    arg.category = req.body.category;
+    };
   }
 
-  if (req.body.searchValue.length > 0) {
-    arg.title = { $regex: req.body.searchValue, $options: "i" };
+  if (req.body.category) {
+    if (req.body.category !== "전체") {
+      arg.category = req.body.category;
+    }
   }
 
+  if (req.body.searchValue) {
+    if (req.body.searchValue.length > 0) {
+      arg.title = { $regex: req.body.searchValue, $options: "i" };
+    }
+  }
+  console.log(arg);
   //등록한 상품 리스트를 가져옴
   ProductData.find(arg)
     .sort({ createdAt: -1 }) //mongoDb의 ProductData의 리스트를 조건없이 가져옴 필터기능 구현시 괄호안에 조건 입력
@@ -86,14 +92,14 @@ app.post("/productList", (req, res) => {
 });
 
 app.post("/productDetail", (req, res) => {
-  console.log(req.body.id);
-
-  ProductData.find({ _id: req.body.id }).exec((err, productInfo) => {
-    if (err) {
-      return res.status(400).json({ success: false, err });
-    }
-    return res.status(200).json({ success: true, productInfo });
-  });
+  ProductData.find({ _id: req.body.id })
+    .populate("writer")
+    .exec((err, productInfo) => {
+      if (err) {
+        return res.status(400).json({ success: false, err });
+      }
+      return res.status(200).json({ success: true, productInfo });
+    });
 });
 
 module.exports = app;
