@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import ImgCarousel from "../Components/ImgCarousel";
 import { LoadingOutlined, LeftOutlined, HomeOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import { addCart } from "../_action/user_action";
+
+import ImgCarousel from "../Components/ImgCarousel";
 import ProductCard from "../Components/ProductCard";
+import Modal from "../Components/Modal";
+
 import "./ProductDetail.css";
 
 function ProductDetail() {
+  const dispatch = useDispatch();
   const nav = useNavigate();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState([]);
   const [otherProduct, setOtherProduct] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalImg, setModalImg] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -45,6 +53,7 @@ function ProductDetail() {
       setLoading(false);
     } catch (err) {
       console.log("데이터 조회 실패");
+      getOtherProduct();
     }
   };
 
@@ -66,8 +75,17 @@ function ProductDetail() {
     }
   };
 
+  const OnAddCart = () => {
+    dispatch(addCart(product._id));
+  };
+
   return (
     <div className="page">
+      <Modal
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        data={modalImg}
+      />
       <div className="ProductDetail-backBtn" onClick={() => nav("/")}>
         <LeftOutlined />
         <HomeOutlined />
@@ -78,7 +96,11 @@ function ProductDetail() {
         </div>
       ) : (
         <div className="ProductDetail-info">
-          <ImgCarousel data={product.image} />
+          <ImgCarousel
+            data={product.image}
+            setModalOpen={setModalOpen}
+            setModalImg={setModalImg}
+          />
           <div>
             <div className="ProductDetail-writer">
               {product.writer === undefined ? (
@@ -123,7 +145,7 @@ function ProductDetail() {
                 {parseInt(product.price, 10).toLocaleString()}원
               </div>
               <div className="ProductDetail-footer-btn">
-                <button>장바구니</button>
+                <button onClick={OnAddCart}>장바구니</button>
                 <button>구매하기</button>
               </div>
             </div>

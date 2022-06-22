@@ -22,7 +22,7 @@ const userSchema = mongoose.Schema({
   },
   role: {
     type: Number,
-    default: 0, 
+    default: 0,
   },
   image: String,
   token: {
@@ -32,6 +32,14 @@ const userSchema = mongoose.Schema({
   cokenExp: {
     //유효기간
     type: Number,
+  },
+  cart: {
+    type: Array,
+    default: [],
+  },
+  purchase: {
+    type: Array,
+    defaul: [],
   },
 });
 

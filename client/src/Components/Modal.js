@@ -4,21 +4,24 @@ import "./Modal.css";
 function Modal({ setModalOpen, modalOpen, data, setState }) {
   useEffect(() => {
     if (modalOpen) {
-      document.querySelector("body").classList.toggle("not-scroll");
+      document.querySelector("body").classList.add("not-scroll");
+    }
+
+    if (modalOpen === false) {
+      document.querySelector("body").classList.remove("not-scroll");
     }
   }, [modalOpen]);
 
   const modalClose = (event) => {
     if (event.target.className === "modal modal-open") {
       setModalOpen(false);
-      document.querySelector("body").classList.toggle("not-scroll");
     }
   };
 
   const modalCloseBtn = () => {
     setModalOpen(false);
-    document.querySelector("body").classList.toggle("not-scroll");
   };
+
   return (
     <div
       className={[`modal ${modalOpen ? "modal-open" : null}`].join(" ")}

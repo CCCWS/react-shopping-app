@@ -18,15 +18,13 @@
 .ProductDetail-title > :first-child {
   font-size: 25px;
   font-weight: 500;
-  margin-top: 10px;
-  margin-left: 10px;
+  padding: 10px 10px 0px 10px;
 }
 
 .ProductDetail-title > :nth-child(2) {
   font-size: 14px;
   color: rgb(170, 170, 170);
-  margin-left: 10px;
-  margin-bottom: 20px;
+  padding: 0px 10px 10px 10px;
 }
 
 .ProductDetail-description {
@@ -70,7 +68,7 @@
 .ProductDetail-footer-price {
   margin-left: 10px;
   font-size: 30px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .ProductDetail-footer-btn > :first-child {

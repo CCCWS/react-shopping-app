@@ -54,6 +54,7 @@ function Main() {
       setLoading(false);
     } catch (err) {
       console.log("데이터 조회 실패");
+      getProductList(data);
     }
   };
 

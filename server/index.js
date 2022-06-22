@@ -15,10 +15,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 /////
-app.use('/uploads', express.static('uploads')); //nodejs에서 정적파일을 제공
+app.use("/uploads", express.static("uploads")); //nodejs에서 정적파일을 제공
 app.use("/api/product", require("./models/product")); //해당 경로로 이동하여 처리
-
-
 
 mongoose
   .connect(config.mongoURI)
@@ -104,7 +102,10 @@ app.get("/api/user/auth", auth, (req, res) => {
     name: req.user.name,
     lastname: req.user.lastname,
     role: req.user.role,
-    image: req.user.image, //해당 정보를 줌으로써 페이지에서 어떤 정보를 필요하는지 확인가능
+    image: req.user.image,
+    cart: req.user.cart,
+    history: req.user.history,
+    //해당 정보를 줌으로써 페이지에서 어떤 정보를 필요하는지 확인가능
   });
 }); //auth > 미들웨어 중간에서 작업을 해줌 auth.js
 
@@ -118,6 +119,71 @@ app.get("/api/user/logout", auth, (req, res) => {
     return res.status(200).send({
       success: true,
     });
+  });
+});
+
+app.post("/api/user/addCart", auth, (req, res) => {
+  //user 정보를 가져옴
+  User.findOne({ _id: req.user._id }, (err, userInfo) => {
+    //가져온 정보에서 상품이 카트에 있는지 확인
+    let duplication = false;
+    userInfo.cart.forEach((data) => {
+      if (data.id === req.body.productId) {
+        duplication = true; // id가 일치한다면 중복된 상품
+      }
+    });
+
+    //중복일때
+    if (duplication) {
+      // try {
+      //   console.log("test");
+      //   return res.status(200).json({ success: true });
+      // } catch (err) {
+      //   console.log("testtt");
+      //   return res.status(400).json({ success: false, err });
+      // }
+
+      User.findOneAndUpdate(
+        //많은 유저중에 로그인중인 유저 탐색
+        { _id: req.user._id },
+        {
+          $push: {
+            cart: {
+              id: req.body.productId, //카트에 들어갈 정보
+              date: Date.now(),
+            },
+          },
+        },
+        { new: true }, //업데이트된 정보를 받음
+
+        (err, userInfo) => {
+          if (err) return res.status(400).json({ success: false, err });
+          res.status(200).send(userInfo.cart);
+        }
+      );
+    }
+
+    //중복이 아닐때
+    if (duplication === false) {
+      User.findOneAndUpdate(
+        //많은 유저중에 로그인중인 유저 탐색
+        { _id: req.user._id },
+        {
+          $push: {
+            cart: {
+              id: req.body.productId, //카트에 들어갈 정보
+              date: Date.now(),
+            },
+          },
+        },
+        { new: true }, //업데이트된 정보를 받음
+
+        (err, userInfo) => {
+          if (err) return res.status(400).json({ success: false, err });
+          res.status(200).send(userInfo.cart);
+        }
+      );
+    }
   });
 });
 
