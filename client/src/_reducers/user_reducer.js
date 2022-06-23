@@ -10,7 +10,6 @@ export default function userData(state = {}, action) {
   //여러 데이터가 올 수 있기 때문에 switch문 사용
   switch (action.type) {
     case LOGIN_INFO:
-      console.log(action.payload);
       return { ...state, loginSuccess: action.payload };
       break;
 
@@ -19,20 +18,26 @@ export default function userData(state = {}, action) {
       break;
 
     case AUTH_INFO:
-      console.log(action.payload);
       return { ...state, userData: action.payload }; //payload에 모든 유저 정보가 들어감
       break;
 
     case ADD_CART:
-      return {
-        ...state,
-        userData: {
-          ...state.userData,
-          cart: action.payload,
-        },
-      };
-      //payload에 모든 유저 정보가 들어감
-      break;
+      if (action.payload.duplication) {
+        alert("중복");
+        return { ...state };
+        break;
+      } else {
+        alert("중복아님");
+        return {
+          ...state,
+          userData: {
+            ...state.userData,
+            cart: action.payload.cart,
+          },
+        };
+        break;
+      }
+    //payload에 모든 유저 정보가 들어감
 
     default:
       return state;

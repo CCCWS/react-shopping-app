@@ -135,32 +135,8 @@ app.post("/api/user/addCart", auth, (req, res) => {
 
     //중복일때
     if (duplication) {
-      // try {
-      //   console.log("test");
-      //   return res.status(200).json({ success: true });
-      // } catch (err) {
-      //   console.log("testtt");
-      //   return res.status(400).json({ success: false, err });
-      // }
-
-      User.findOneAndUpdate(
-        //많은 유저중에 로그인중인 유저 탐색
-        { _id: req.user._id },
-        {
-          $push: {
-            cart: {
-              id: req.body.productId, //카트에 들어갈 정보
-              date: Date.now(),
-            },
-          },
-        },
-        { new: true }, //업데이트된 정보를 받음
-
-        (err, userInfo) => {
-          if (err) return res.status(400).json({ success: false, err });
-          res.status(200).send(userInfo.cart);
-        }
-      );
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).send({ success: true, duplication: duplication });
     }
 
     //중복이 아닐때
@@ -180,7 +156,11 @@ app.post("/api/user/addCart", auth, (req, res) => {
 
         (err, userInfo) => {
           if (err) return res.status(400).json({ success: false, err });
-          res.status(200).send(userInfo.cart);
+          res.status(200).send({
+            success: true,
+            cart: userInfo.cart,
+            duplication: duplication,
+          });
         }
       );
     }

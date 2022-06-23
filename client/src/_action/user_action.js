@@ -40,19 +40,18 @@ export function auth() {
   };
 }
 
-export function addCart(data) {
-  const option = {
-    productId: data,
-  };
-  
-  const request = axios
-    .post("/api/user/addCart", option) //서버에서 받은 데이터를 저장
-    .then((response) => response.data);
+export const addCart = async (data) => {
+  try {
+    const res = await axios
+      .post("/api/user/addCart", { productId: data })
+      .then((res) => res.data);
 
-  return {
-    //request를 reducer에  > user_reducer.js
-    type: ADD_CART,
-    payload: request,
-    test: "tttt",
-  };
-}
+    return {
+      //request를 reducer에  > user_reducer.js
+      type: ADD_CART,
+      payload: res.data,
+    };
+  } catch (err) {
+    return err;
+  }
+};
