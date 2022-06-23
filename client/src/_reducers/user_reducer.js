@@ -22,12 +22,13 @@ export default function userData(state = {}, action) {
       break;
 
     case ADD_CART:
-      if (action.payload.duplication) {
-        alert("중복");
+      console.log(action.payload);
+      if (action.payload) {
+        alert("장바구니에 있는 상품입니다.");
         return { ...state };
         break;
       } else {
-        alert("중복아님");
+        alert("장바구니에 추가되었습니다.");
         return {
           ...state,
           userData: {
@@ -37,6 +38,7 @@ export default function userData(state = {}, action) {
         };
         break;
       }
+
     //payload에 모든 유저 정보가 들어감
 
     default:

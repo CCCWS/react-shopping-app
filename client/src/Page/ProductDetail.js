@@ -76,7 +76,7 @@ function ProductDetail() {
   };
 
   const OnAddCart = () => {
-    console.log(dispatch(addCart(product._id)));
+    dispatch(addCart(product._id));
   };
 
   return (

@@ -10,11 +10,11 @@
   position: relative;
 }
 
-.ant-carousel .slick-prev,
+/* .ant-carousel .slick-prev,
 .ant-carousel .slick-next,
 .ant-carousel .slick-prev:hover,
 .ant-carousel .slick-next:hover {
-}
+} */
 
 .slick-arrow.slick-prev {
   position: absolute !important;

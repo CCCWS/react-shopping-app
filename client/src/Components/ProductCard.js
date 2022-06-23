@@ -23,9 +23,6 @@ function ProductCard({ data, click, ProductDetail }) {
     }
   };
 
-  const goDetail = () => {
-    window.location.reload();
-  };
   return (
     <>
       {data.map((data, index) => (

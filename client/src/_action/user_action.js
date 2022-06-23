@@ -41,17 +41,15 @@ export function auth() {
 }
 
 export const addCart = async (data) => {
-  try {
-    const res = await axios
-      .post("/api/user/addCart", { productId: data })
-      .then((res) => res.data);
+  const option = {
+    productId: data,
+  };
 
-    return {
-      //request를 reducer에  > user_reducer.js
-      type: ADD_CART,
-      payload: res.data,
-    };
-  } catch (err) {
-    return err;
-  }
+  const res = await axios.post("/api/user/addCart", option); //서버에서 받은 데이터를 저장
+
+  return {
+    //request를 reducer에  > user_reducer.js
+    type: ADD_CART,
+    payload: res.data.duplication,
+  };
 };

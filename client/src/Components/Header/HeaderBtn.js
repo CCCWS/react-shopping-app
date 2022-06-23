@@ -12,6 +12,10 @@ export function HeaderBtn({ onSideMenu, setMenuClick }) {
       id: "upload", //이동할 주소 입력
       value: "판매하기",
     },
+    {
+      id: "cart", //이동할 주소 입력
+      value: "장바구니",
+    },
   ];
 
   const goPage = (event) => {
