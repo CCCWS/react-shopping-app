@@ -23,6 +23,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 10px;
+  margin-bottom: 50px;
 }
 
 .cart-card {
@@ -50,6 +51,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  cursor: pointer;
+}
+
+.cart-card-checkbox-check {
+  background-color: rgb(255, 118, 118);
 }
 
 .cart-img {
