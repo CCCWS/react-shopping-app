@@ -108,6 +108,7 @@ app.post("/cart", (req, res) => {
   })
     .populate("writer")
     .exec((err, productInfo) => {
+      console.log(productInfo);
       if (err) {
         return res.status(400).json({ success: false, err });
       }

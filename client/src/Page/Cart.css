@@ -1,3 +1,23 @@
+.cart-card-checkbox-all {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.cart-card-checkbox-all > :first-child {
+  margin-right: 10px;
+}
+
+.cart-card-checkbox-all > :nth-child(3) {
+  border: 1px solid rgb(156, 156, 156);
+  background-color: transparent;
+  width: 90px;
+  height: 30px;
+
+  cursor: pointer;
+}
+
 .cart-card-box {
   display: flex;
   flex-wrap: wrap;
@@ -6,10 +26,30 @@
 }
 
 .cart-card {
-  background-color: red;
-  width: 47%;
+  box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
+  width: 49%;
   height: 150px;
   margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart-card > :first-child {
+  display: flex;
+}
+
+.cart-card-checkbox {
+  border: 1px solid rgb(156, 156, 156);
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cart-img {
@@ -19,6 +59,32 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  border-radius: 5px;
+  margin-right: 10px;
+
+  cursor: pointer;
+}
+
+.cart-card-title {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.cart-card-title > :first-child {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.cart-card-delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid rgb(156, 156, 156);
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
 }
 
 @media (max-width: 800px) {
