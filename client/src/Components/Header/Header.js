@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import SideMenu from "./SideMenu";
 import LoginModal from "./LoginModal/LoginModal";
@@ -8,6 +9,7 @@ import { HeaderBtn, HeaderLogInBtn } from "./HeaderBtn";
 import "./Header.css";
 
 function Header() {
+  const nav = useNavigate();
   const [userAuth, setUserAuth] = useState(false);
   const [userName, setUserName] = useState("");
   const state = useSelector((auth_user) => auth_user.user.userData); //redux에 담긴 데이터를 가져옴
@@ -31,6 +33,7 @@ function Header() {
         setUserAuth(false);
         setUserName("");
         localStorage.removeItem("userId");
+        nav("/");
         window.location.reload();
       } else {
         alert("fail");

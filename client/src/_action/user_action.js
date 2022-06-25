@@ -1,5 +1,11 @@
 import axios from "axios";
-import { LOGIN_INFO, REGISTER_INFO, AUTH_INFO, ADD_CART } from "./types";
+import {
+  LOGIN_INFO,
+  REGISTER_INFO,
+  AUTH_INFO,
+  ADD_CART,
+  REMOVE_CART,
+} from "./types";
 
 export function loginInfo(data) {
   //submit로 발생한 값을 받아줌
@@ -41,15 +47,24 @@ export function auth() {
 }
 
 export const addCart = async (data) => {
-  const option = {
+  const res = await axios.post("/api/user/addCart", {
     productId: data,
-  };
-
-  const res = await axios.post("/api/user/addCart", option); //서버에서 받은 데이터를 저장
+  }); //서버에서 받은 데이터를 저장
 
   return {
     //request를 reducer에  > user_reducer.js
     type: ADD_CART,
     payload: res.data.duplication,
+  };
+};
+
+export const removeCart = async (data) => {
+  const res = await axios.post("/api/user/removeCart", {
+    productId: data,
+  }); //서버에서 받은 데이터를 저장
+  return {
+    //request를 reducer에  > user_reducer.js
+    type: REMOVE_CART,
+    payload: res.data.id,
   };
 };

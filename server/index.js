@@ -146,6 +146,7 @@ app.post("/api/user/addCart", auth, (req, res) => {
         { _id: req.user._id },
         {
           $push: {
+            //push > 데이터를 가져옴
             cart: {
               id: req.body.productId, //카트에 들어갈 정보
               date: Date.now(),
@@ -165,6 +166,34 @@ app.post("/api/user/addCart", auth, (req, res) => {
       );
     }
   });
+});
+
+app.post("/api/user/removeCart", auth, (req, res) => {
+  // console.log(req.body.productId);
+  // console.log(req.user._id);
+
+  //DB에서 user의 cart에서 항목을 삭제
+  User.findOneAndUpdate(
+    { _id: req.user._id }, //auth 미들웨어가 있어서 로그인한 유저의 id를 받아올수있음
+    {
+      $pull: {
+        //pull > 데이터를 빼줌
+        cart: {
+          id: req.body.productId,
+        },
+      },
+    },
+    { new: true },
+    (err, userInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).send({
+        success: true,
+        id: req.body.productId,
+      });
+    }
+  );
+
+  //redux의 user의 cart에서 항목을 삭제
 });
 
 app.listen(port, () => console.log(`port : ${port}`));

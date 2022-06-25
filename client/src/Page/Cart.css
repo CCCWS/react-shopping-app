@@ -15,7 +15,12 @@
   width: 90px;
   height: 30px;
 
+  transition: all ease 0.5s;
+}
+
+.cart-card-checkbox-all > :nth-child(3):hover {
   cursor: pointer;
+  background-color: rgb(255, 118, 118);
 }
 
 .cart-card-box {
@@ -24,6 +29,17 @@
   justify-content: space-between;
   padding: 10px;
   margin-bottom: 50px;
+}
+
+.cart-card-not-item {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  font-size: 25px;
 }
 
 .cart-card {
@@ -52,10 +68,15 @@
   justify-content: center;
   align-items: center;
 
-  cursor: pointer;
+  transition: all ease 0.5s;
 }
 
 .cart-card-checkbox-check {
+  background-color: rgb(255, 118, 118);
+}
+
+.cart-card-checkbox:hover {
+  cursor: pointer;
   background-color: rgb(255, 118, 118);
 }
 
@@ -92,6 +113,13 @@
   font-size: 20px;
   width: 30px;
   height: 30px;
+
+  transition: all ease 0.5s;
+}
+
+.cart-card-delete:hover {
+  cursor: pointer;
+  background-color: rgb(255, 118, 118);
 }
 
 @media (max-width: 800px) {
