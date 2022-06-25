@@ -32,6 +32,10 @@ function Cart() {
     }
   }, [cartData]);
 
+  useEffect(() => {
+    setCheckProduct([]);
+  }, [product]);
+
   const getProduct = async (option) => {
     const res = await axios.post("/api/product/cart", option);
     setProduct(res.data.productInfo); //cartData의 id를 사용하여 해당 id의 상품을 받아옴
@@ -39,12 +43,12 @@ function Cart() {
   };
 
   const onCheckDel = () => {
-    console.log(checkProduct);
-    console.log(product);
-    console.log(
-      checkProduct.reduce((prev, current) => prev + current.price, 0)
-    );
-    // setProduct([...checkProduct]);
+    if (checkProduct.length !== 0) {
+      if (window.confirm(`${checkProduct.length}개 상품을 삭제합니다.`)) {
+        const item = [...product];
+        setProduct(item.filter((data) => !checkProduct.includes(data)));
+      }
+    }
   };
 
   const onCheckAll = () => {
@@ -139,7 +143,7 @@ function Cart() {
           <div className="ProductDetail-footer">
             <div>
               <div className="ProductDetail-footer-price">
-                {`${checkProduct.length}개 상품 ${parseInt(
+                {`${checkProduct.length}개 상품 ∙ ${parseInt(
                   checkProduct.reduce(
                     (prev, current) => prev + current.price,
                     0

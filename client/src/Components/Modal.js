@@ -14,6 +14,7 @@ function Modal({ setModalOpen, modalOpen, data, setState }) {
 
   const modalClose = (event) => {
     if (event.target.className === "modal modal-open") {
+      document.querySelector("body").classList.remove("not-scroll");
       setModalOpen(false);
     }
   };
