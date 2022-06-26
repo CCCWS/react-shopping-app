@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeCart } from "../_action/user_action";
+import PaymentBtn from "../Components/PaymentBtn";
 import {
   LoadingOutlined,
   CheckOutlined,
@@ -18,6 +19,7 @@ function Cart() {
   const [cartData, setCartData] = useState([]);
   const [product, setProduct] = useState([]);
   const [checkProduct, setCheckProduct] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
@@ -49,6 +51,12 @@ function Cart() {
   useEffect(() => {
     setCheckProduct([]);
   }, [product]);
+
+  useEffect(() => {
+    setTotalPrice(
+      parseInt(checkProduct.reduce((prev, current) => prev + current.price, 0))
+    );
+  }, [checkProduct]);
 
   const getProduct = async (option) => {
     //redux에서 유저정보의 cart의 id를 가져옴
@@ -111,6 +119,7 @@ function Cart() {
         </div>
       ) : (
         <div className="page">
+          <PaymentBtn price={totalPrice} />
           <div>{`장바구니 ${product.length}개`}</div>
 
           <div className="cart-card-checkbox-all">
@@ -192,12 +201,9 @@ function Cart() {
           <div className="ProductDetail-footer">
             <div>
               <div className="ProductDetail-footer-price">
-                {`${checkProduct.length}개 상품 ∙ ${parseInt(
-                  checkProduct.reduce(
-                    (prev, current) => prev + current.price,
-                    0
-                  )
-                ).toLocaleString()}원`}
+                {`${
+                  checkProduct.length
+                }개 상품 ∙ ${totalPrice.toLocaleString()}원`}
               </div>
               <div className="ProductDetail-footer-btn">
                 <button>구매하기</button>
