@@ -20,35 +20,50 @@ function Cart() {
   const [checkProduct, setCheckProduct] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (user !== undefined) {
-      if (user.cart !== undefined) {
-        if (user.cart.length === 0) {
-          setLoading(false);
-          return;
-        }
-        setCartData(user.cart); //user redux에서 장바구니 id를 받아옴
-      }
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user !== undefined) {
+  //     if (user.cart !== undefined) {
+  //       if (user.cart.length === 0) {
+  //         setLoading(false);
+  //         return;
+  //       }
+  //       setCartData(user.cart); //user redux에서 장바구니 id를 받아옴
+  //     }
+  //   }
+  // }, [user]);
+
+  // useEffect(() => {
+  //   if (cartData.length > 0) {
+  //     const option = [];
+  //     if (cartData !== undefined && cartData.length > 0) {
+  //       cartData.forEach((data) => option.push(data.id));
+  //       getProduct(option); //cartData에서 id만 배열로 묶음
+  //     }
+  //   }
+  // }, [cartData]);
 
   useEffect(() => {
-    if (cartData.length > 0) {
-      const option = [];
-      if (cartData !== undefined && cartData.length > 0) {
-        cartData.forEach((data) => option.push(data.id));
-        getProduct(option); //cartData에서 id만 배열로 묶음
-      }
-    }
-  }, [cartData]);
+    getCart();
+  }, []);
 
   useEffect(() => {
     setCheckProduct([]);
   }, [product]);
 
   const getProduct = async (option) => {
+    //redux에서 유저정보의 cart의 id를 가져옴
+    //가져온 id로 DB에서 데이터를 가져옴
+    //상품목록에서 특정 상품만 추출
     const res = await axios.post("/api/product/cart", option);
-    setProduct(res.data.productInfo); //cartData의 id를 사용하여 해당 id의 상품을 받아옴
+    setProduct(res.data.productInfo);
+    //cartData의 id를 사용하여 해당 id의 상품을 받아옴
+    setLoading(false);
+  };
+
+  const getCart = async () => {
+    //로그인 유저의 id를 찾고 해당 데이터의 cart를 가져옴
+    const res = await axios.post("/api/user/getCart");
+    setProduct(res.data.cart);
     setLoading(false);
   };
 
@@ -70,8 +85,8 @@ function Cart() {
   };
 
   const onCheckProduct = (data) => {
-    if (checkProduct.find((item) => item._id === data._id) !== undefined) {
-      setCheckProduct(checkProduct.filter((item) => item._id !== data._id));
+    if (checkProduct.find((item) => item.id === data.id) !== undefined) {
+      setCheckProduct(checkProduct.filter((item) => item.id !== data.id));
     } else {
       setCheckProduct([...checkProduct, data]);
     }
@@ -81,7 +96,7 @@ function Cart() {
     dispatch(removeCart(id));
     if (product.length > 0) {
       const data = [...product];
-      setProduct(data.filter((item) => item._id !== id));
+      setProduct(data.filter((item) => item.id !== id));
     }
   };
 
@@ -126,9 +141,8 @@ function Cart() {
                       <div
                         className={[
                           `cart-card-checkbox ${
-                            checkProduct.find(
-                              (item) => item._id === data._id
-                            ) !== undefined && "cart-card-checkbox-check"
+                            checkProduct.find((item) => item.id === data.id) !==
+                              undefined && "cart-card-checkbox-check"
                           }`,
                         ].join(" ")}
                         onClick={() => onCheckProduct(data)}
@@ -140,12 +154,12 @@ function Cart() {
                           backgroundImage: `url('${data.image[0].path}')`,
                         }}
                         className="cart-img"
-                        onClick={() => nav(`/product/${data._id}`)}
+                        onClick={() => nav(`/product/${data.id}`)}
                       />
 
                       <div
                         className="cart-card-title"
-                        onClick={() => nav(`/product/${data._id}`)}
+                        onClick={() => nav(`/product/${data.id}`)}
                       >
                         <div>
                           {data.title.length > 10
@@ -161,7 +175,7 @@ function Cart() {
 
                     <div
                       className="cart-card-delete"
-                      onClick={() => onCartDel(data._id)}
+                      onClick={() => onCartDel(data.id)}
                     >
                       <CloseOutlined />
                     </div>

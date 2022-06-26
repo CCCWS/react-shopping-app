@@ -76,7 +76,38 @@ function ProductDetail() {
   };
 
   const OnAddCart = () => {
+    //redux사용
     dispatch(addCart(product._id));
+  };
+
+  const onAddCartProduct = async () => {
+    //redux를 거치지않고 바로 서버와 연결
+    const option = {
+      id: product._id,
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      createdAt: product.createdAt,
+      views: product.views,
+    };
+
+    const res = await axios.post("/api/user/addCart", option);
+    console.log(res.data);
+    if (res.data.duplication) {
+      if (
+        window.confirm(
+          "장바구니에 이미 있는 상품입니다. 장바구니로 이동합니다."
+        )
+      ) {
+        nav("/cart");
+      }
+    }
+
+    if (res.data.duplication === false) {
+      if (window.confirm("장바구니에 추가되었습니다. 장바구니로 이동합니다.")) {
+        nav("/cart");
+      }
+    }
   };
 
   return (
@@ -145,7 +176,7 @@ function ProductDetail() {
                 {parseInt(product.price, 10).toLocaleString()}원
               </div>
               <div className="ProductDetail-footer-btn">
-                <button onClick={OnAddCart}>장바구니</button>
+                <button onClick={onAddCartProduct}>장바구니</button>
                 <button>구매하기</button>
               </div>
             </div>

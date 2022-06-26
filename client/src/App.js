@@ -17,9 +17,9 @@ function App() {
       <Header />
       <Routes>
         <Route path={`/`} element={Auth(Main, null)} />
-        <Route path={`/upload`} element={Auth(Upload, null)} />
+        <Route path={`/upload`} element={Auth(Upload, true)} />
         <Route path={`/product/:id`} element={Auth(ProductDetail, null)} />
-        <Route path={`/cart`} element={Auth(Cart, null)} />
+        <Route path={`/cart`} element={Auth(Cart, true)} />
         <Route path={`/test`} element={Auth(Test, null)} />
       </Routes>
     </BrowserRouter>

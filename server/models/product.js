@@ -3,6 +3,7 @@ const app = express.Router();
 const multer = require("multer");
 const fs = require("fs");
 const { ProductData } = require("./ProductData");
+const { User } = require("./User");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -114,5 +115,6 @@ app.post("/cart", (req, res) => {
       return res.status(200).json({ success: true, productInfo });
     });
 });
+
 
 module.exports = app;
