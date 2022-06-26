@@ -67,11 +67,14 @@ function Cart() {
     setLoading(false);
   };
 
-  const onCheckDel = () => {
+  const onCheckDel = async () => {
     if (checkProduct.length !== 0) {
       if (window.confirm(`${checkProduct.length}개 상품을 삭제합니다.`)) {
-        const item = [...product];
-        setProduct(item.filter((data) => !checkProduct.includes(data)));
+        const cartArr = [];
+        checkProduct.forEach((data) => cartArr.push(data.id));
+
+        const res = await axios.post("/api/user/removeCart", { cartArr });
+        setProduct([...res.data.cart]);
       }
     }
   };

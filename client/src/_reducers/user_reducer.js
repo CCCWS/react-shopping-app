@@ -40,8 +40,13 @@ export default function userData(state = {}, action) {
       }
 
     case REMOVE_CART:
-      console.log(action.payload);
-      return { ...state };
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          cart: action.payload,
+        },
+      };
       break;
 
     //payload에 모든 유저 정보가 들어감

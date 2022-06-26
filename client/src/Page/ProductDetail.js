@@ -92,7 +92,6 @@ function ProductDetail() {
     };
 
     const res = await axios.post("/api/user/addCart", option);
-    console.log(res.data);
     if (res.data.duplication) {
       if (
         window.confirm(

@@ -60,11 +60,11 @@ export const addCart = async (data) => {
 
 export const removeCart = async (data) => {
   const res = await axios.post("/api/user/removeCart", {
-    productId: data,
+    id: data,
   }); //서버에서 받은 데이터를 저장
   return {
     //request를 reducer에  > user_reducer.js
     type: REMOVE_CART,
-    payload: res.data.id,
+    payload: res.data.cart,
   };
 };
