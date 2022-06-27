@@ -21,7 +21,6 @@ function Cart() {
   const [checkProduct, setCheckProduct] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(true);
-
   // useEffect(() => {
   //   if (user !== undefined) {
   //     if (user.cart !== undefined) {
@@ -111,6 +110,12 @@ function Cart() {
     }
   };
 
+  const goCheckOut = () => {
+    nav("/checkOut", {
+      state: { product: checkProduct, totalPrice: totalPrice },
+    });
+  };
+
   return (
     <>
       {loading ? (
@@ -119,7 +124,6 @@ function Cart() {
         </div>
       ) : (
         <div className="page">
-          <PaymentBtn price={totalPrice} />
           <div>{`장바구니 ${product.length}개`}</div>
 
           <div className="cart-card-checkbox-all">
@@ -206,7 +210,16 @@ function Cart() {
                 }개 상품 ∙ ${totalPrice.toLocaleString()}원`}
               </div>
               <div className="ProductDetail-footer-btn">
-                <button>구매하기</button>
+                <button
+                  className={
+                    checkProduct.length > 0
+                      ? "cart-purchase-btn-activate"
+                      : "cart-purchase-btn-disabled"
+                  }
+                  onClick={goCheckOut}
+                >
+                  구매하기
+                </button>
               </div>
             </div>
           </div>

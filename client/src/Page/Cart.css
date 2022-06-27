@@ -122,6 +122,28 @@
   background-color: rgb(255, 118, 118);
 }
 
+.cart-purchase-btn-activate {
+  margin-right: 10px;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: rgb(255, 48, 48);
+  color: white;
+  cursor: pointer;
+}
+
+.cart-purchase-btn-disabled {
+  margin-right: 10px;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: rgb(145, 145, 145);
+  color: white;
+  cursor: pointer;
+}
+
 @media (max-width: 800px) {
   .cart-card-box {
     justify-content: center;

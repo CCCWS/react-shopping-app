@@ -6,6 +6,7 @@ import Main from "./Page/Main";
 import Upload from "./Page/Upload";
 import ProductDetail from "./Page/ProductDetail";
 import Cart from "./Page/Cart";
+import CheckOut from "./Page/CheckOut";
 
 import Test from "./Page/Test";
 
@@ -20,6 +21,7 @@ function App() {
         <Route path={`/upload`} element={Auth(Upload, true)} />
         <Route path={`/product/:id`} element={Auth(ProductDetail, null)} />
         <Route path={`/cart`} element={Auth(Cart, true)} />
+        <Route path={`/checkOut`} element={Auth(CheckOut, true)} />
         <Route path={`/test`} element={Auth(Test, null)} />
       </Routes>
     </BrowserRouter>

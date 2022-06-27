@@ -95,7 +95,7 @@ function ProductDetail() {
     if (res.data.duplication) {
       if (
         window.confirm(
-          "장바구니에 이미 있는 상품입니다. 장바구니로 이동합니다."
+          "장바구니에 이미 있는 상품입니다.\n장바구니로 이동합니다."
         )
       ) {
         nav("/cart");
@@ -103,10 +103,18 @@ function ProductDetail() {
     }
 
     if (res.data.duplication === false) {
-      if (window.confirm("장바구니에 추가되었습니다. 장바구니로 이동합니다.")) {
+      if (
+        window.confirm("장바구니에 추가되었습니다.\n장바구니로 이동합니다.")
+      ) {
         nav("/cart");
       }
     }
+  };
+
+  const goCheckOut = () => {
+    nav("/checkOut", {
+      state: { product: product, totalPrice: product.price },
+    });
   };
 
   return (
@@ -175,8 +183,18 @@ function ProductDetail() {
                 {parseInt(product.price, 10).toLocaleString()}원
               </div>
               <div className="ProductDetail-footer-btn">
-                <button onClick={onAddCartProduct}>장바구니</button>
-                <button>구매하기</button>
+                <button
+                  onClick={onAddCartProduct}
+                  className="ProductDetail-cart"
+                >
+                  장바구니
+                </button>
+                <button
+                  className="ProductDetail-purchase-btn"
+                  onClick={goCheckOut}
+                >
+                  구매하기
+                </button>
               </div>
             </div>
           </div>
