@@ -113,7 +113,7 @@ function ProductDetail() {
 
   const goCheckOut = () => {
     nav("/checkOut", {
-      state: { product: product, totalPrice: product.price },
+      state: { product: [product], totalPrice: product.price, detail: true },
     });
   };
 

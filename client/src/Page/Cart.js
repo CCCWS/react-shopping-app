@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeCart } from "../_action/user_action";
-import PaymentBtn from "../Components/PaymentBtn";
 import {
   LoadingOutlined,
   CheckOutlined,
@@ -82,6 +81,7 @@ function Cart() {
 
         const res = await axios.post("/api/user/removeCart", { cartArr });
         setProduct([...res.data.cart]);
+        console.log(res);
       }
     }
   };
@@ -112,7 +112,7 @@ function Cart() {
 
   const goCheckOut = () => {
     nav("/checkOut", {
-      state: { product: checkProduct, totalPrice: totalPrice },
+      state: { product: checkProduct, totalPrice: totalPrice, cart: true },
     });
   };
 
@@ -124,8 +124,9 @@ function Cart() {
         </div>
       ) : (
         <div className="page">
-          <div>{`장바구니 ${product.length}개`}</div>
-
+          <div className="purchase-procedure">
+            <strong>장바구니</strong> &gt; 주문서 &gt; 결제완료
+          </div>
           <div className="cart-card-checkbox-all">
             <div>전체선택</div>
             <div

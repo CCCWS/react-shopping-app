@@ -1,9 +1,12 @@
 import React from "react";
+import axios from "axios";
 import PaypalExpressBtn from "react-paypal-express-checkout";
 
-function PaymentBtn({ price }) {
-  const onSuccess = (payment) => {
+function PaymentBtn({ price, paymentSeccess }) {
+  const onSuccess = async (payment) => {
     console.log("The payment was succeeded!", payment);
+
+    paymentSeccess(payment);
   };
 
   const onCancel = (data) => {
@@ -24,20 +27,22 @@ function PaymentBtn({ price }) {
     production: "YOUR-PRODUCTION-APP-ID",
   };
   return (
-    <PaypalExpressBtn
-      env={env}
-      client={client}
-      currency={currency}
-      total={total}
-      onError={onError}
-      onSuccess={onSuccess}
-      onCancel={onCancel}
-      style={{
-        size: "responsive",
-        color: "white",
-        shape: "rect",
-      }}
-    />
+    <div style={{ position: "relative", zIndex: "1" }}>
+      <PaypalExpressBtn
+        env={env}
+        client={client}
+        currency={currency}
+        total={total}
+        onError={onError}
+        onSuccess={onSuccess}
+        onCancel={onCancel}
+        style={{
+          color: "white",
+          shape: "rect",
+          size: "large",
+        }}
+      />
+    </div>
   );
 }
 

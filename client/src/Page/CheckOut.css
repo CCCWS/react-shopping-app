@@ -1,0 +1,70 @@
+.checkOut-section {
+  margin-bottom: 30px;
+}
+
+.checkOut-section > :first-child {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px;
+}
+
+.purchase-card-box {
+  display: flex;
+  flex-wrap: wrap;
+
+  padding: 10px;
+}
+
+.purchase-card {
+  box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
+  width: 100%;
+  height: 100px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.purchase-card > :first-child {
+  display: flex;
+}
+
+.purchase-img {
+  min-width: 100px;
+  height: 100%;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.purchase-card-title {
+  font-weight: 600;
+  font-size: 16px;
+  white-space: normal;
+}
+
+.purchase-card-price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 80px;
+  font-size: 16px;
+}
+
+.purchase-card-title > :first-child {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.checkOut-totalPrice {
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 700;
+}

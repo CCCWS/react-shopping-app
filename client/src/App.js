@@ -7,6 +7,8 @@ import Upload from "./Page/Upload";
 import ProductDetail from "./Page/ProductDetail";
 import Cart from "./Page/Cart";
 import CheckOut from "./Page/CheckOut";
+import PaymentResult from "./Page/PaymentResult";
+import PurchaseHistory from "./Page/PurchaseHistory";
 
 import Test from "./Page/Test";
 
@@ -22,6 +24,11 @@ function App() {
         <Route path={`/product/:id`} element={Auth(ProductDetail, null)} />
         <Route path={`/cart`} element={Auth(Cart, true)} />
         <Route path={`/checkOut`} element={Auth(CheckOut, true)} />
+        <Route path={`/paymentResult`} element={Auth(PaymentResult, true)} />
+        <Route
+          path={`/purchaseHistory`}
+          element={Auth(PurchaseHistory, true)}
+        />
         <Route path={`/test`} element={Auth(Test, null)} />
       </Routes>
     </BrowserRouter>

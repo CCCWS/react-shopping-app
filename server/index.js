@@ -146,7 +146,7 @@ app.post("/api/user/addCart", auth, (req, res) => {
         { _id: req.user._id },
         {
           $push: {
-            //push > 데이터를 가져옴
+            //push > 데이터를 넣어줌
             // cart: {
             //   id: req.body.productId, //카트에 들어갈 정보
             //   date: Date.now(),
@@ -206,6 +206,34 @@ app.post("/api/user/getCart", auth, (req, res) => {
       cart: userInfo.cart,
     });
   });
+});
+
+app.post("/api/user/successBuy", auth, (req, res) => {
+  console.log(req.body);
+
+  User.findOneAndUpdate(
+    { _id: req.user._id },
+    {
+      $push: {
+        purchase: {
+          shippingInfo: req.body.shippingInfo,
+          product: req.body.product,
+          payment: req.body.payment,
+          price: req.body.price,
+          date: req.body.date,
+        },
+      },
+    },
+    { new: true }, //업데이트된 정보를 받음
+
+    (err, userInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).send({
+        success: true,
+        data: userInfo,
+      });
+    }
+  );
 });
 
 app.listen(port, () => console.log(`port : ${port}`));
