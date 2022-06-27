@@ -77,6 +77,7 @@ function CheckOut() {
       <div className="purchase-procedure">
         장바구니 &gt; <strong>주문서</strong> &gt; 결제완료
       </div>
+
       <div className="checkOut-section">
         <div>주문상품 {state.product.length}개</div>
         <hr />

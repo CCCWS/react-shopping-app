@@ -1,0 +1,15 @@
+.paymentResult-goBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.paymentResult-goBtn > button {
+  padding: 10px;
+  border: 2px solid gainsboro;
+  width: 200px;
+  font-size: 16px;
+  margin-right: 20px;
+
+  cursor: pointer;
+}
