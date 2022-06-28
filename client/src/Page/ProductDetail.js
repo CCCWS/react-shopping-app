@@ -21,6 +21,37 @@ function ProductDetail({ user }) {
   const [modalImg, setModalImg] = useState([]);
   const { id } = useParams();
 
+  const get = JSON.parse(localStorage.getItem("productHistory"));
+  const setLocalData = () => {
+    const filterGet = get.filter((data) => data._id !== product._id);
+    localStorage.setItem(
+      "productHistory",
+      JSON.stringify([{ ...product }, ...filterGet])
+    );
+  };
+
+  useEffect(() => {
+    if (loading === false) {
+      if (get === null) {
+        localStorage.setItem(
+          "productHistory",
+          JSON.stringify([{ ...product }])
+        );
+      } else {
+        if (get.length === 6) {
+          if (get.filter((data) => data._id === product._id).length === 1) {
+            setLocalData();
+          } else {
+            get.pop();
+            setLocalData();
+          }
+        } else {
+          setLocalData();
+        }
+      }
+    }
+  }, [loading]);
+
   useEffect(() => {
     getProduct();
     window.scroll(0, 0);
@@ -53,7 +84,6 @@ function ProductDetail({ user }) {
       setLoading(false);
     } catch (err) {
       console.log("데이터 조회 실패");
-      getOtherProduct();
     }
   };
 

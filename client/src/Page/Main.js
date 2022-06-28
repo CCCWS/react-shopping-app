@@ -5,6 +5,7 @@ import {
   BarsOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { categoryList } from "../data/CatecoryList";
 import { priceList } from "../data/CatecoryList";
 import ProductCard from "../Components/ProductCard";
@@ -13,6 +14,7 @@ import SelectBoxPrice from "../Components/SelecBoxPrice";
 import "./Main.css";
 
 function Main() {
+  const nav = useNavigate();
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [click, setClick] = useState(true);
@@ -25,6 +27,15 @@ function Main() {
 
   const [skip, setSkip] = useState(0); //현재 가져온 데이터 갯수
   const limit = 20; //한번에 불러올 데이터 갯수
+
+  const [histoty, setHistory] = useState([]);
+  const get = JSON.parse(localStorage.getItem("productHistory"));
+
+  useEffect(() => {
+    if (get !== null) {
+      setHistory(get);
+    }
+  }, []);
 
   useEffect(() => {
     const option = {
@@ -86,6 +97,7 @@ function Main() {
     setSearchValue(e.target.value);
   };
 
+  console.log(histoty);
   return (
     <div className="page">
       <div className="main-option">
@@ -129,10 +141,43 @@ function Main() {
             <LoadingOutlined />
           </div>
         ) : (
-          <ProductCard data={productList} click={click} />
+          <>
+            <ProductCard data={productList} click={click} />
+            <div className="main-view-histoty">
+              <div>
+                <div className="main-view-histoty-div">최근본상품</div>
+                {histoty.length === 0 ? (
+                  <div className="main-view-histoty-not">
+                    최근본상품이 없습니다.
+                  </div>
+                ) : (
+                  <>
+                    {histoty.map((data) => (
+                      <div key={data._id}>
+                        <div
+                          style={{
+                            backgroundImage: `url('${data.image[0].path}')`,
+                          }}
+                          onClick={() => nav(`/product/${data._id}`)}
+                          className="main-view-histoty-img"
+                        />
+                      </div>
+                    ))}
+                  </>
+                )}
+
+                <div
+                  className="main-view-histoty-div"
+                  onClick={() => window.scroll(0, 0)}
+                >
+                  맨위로
+                </div>
+              </div>
+            </div>
+          </>
         )}
       </div>
-      <button onClick={readMore}>더보기</button>
+      <button onClick={readMore}></button>
     </div>
   );
 }

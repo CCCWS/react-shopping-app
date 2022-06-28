@@ -3,6 +3,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  position: relative;
   /* border-top: 1px solid rgb(223, 223, 223); */
   /* box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507); */
 }
@@ -56,6 +57,50 @@
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 10px;
+}
+
+.main-view-histoty {
+  width: 100px;
+  position: absolute;
+  right: -100px;
+  top: 10px;
+}
+
+.main-view-histoty > :first-child {
+  position: fixed;
+  width: 100px;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-view-histoty-div {
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  border: 2px solid gray;
+}
+
+.main-view-histoty-not {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  padding: 10px;
+  white-space: pre-line;
+}
+
+.main-view-histoty-img {
+  width: 100%;
+  height: 100px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+
+  cursor: pointer;
 }
 
 @media (max-width: 450px) {
