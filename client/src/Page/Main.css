@@ -43,6 +43,21 @@
   flex-direction: row;
 }
 
+.main-searchBar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.main-searchBar > :first-child {
+  border: 3px solid orange;
+  width: 300px;
+  height: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
 @media (max-width: 450px) {
   .main-option {
     height: 80px;

@@ -7,7 +7,6 @@ import "./PaymentResult.css";
 function PaymentResult() {
   const nav = useNavigate();
   const { state } = useLocation();
-  console.log(state);
 
   useEffect(() => {
     if (state === null) {

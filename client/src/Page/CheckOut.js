@@ -57,7 +57,7 @@ function CheckOut() {
       product: state.product,
       payment: payment,
       price: state.totalPrice,
-      date: new Date(),
+      date: new Date().getTime(),
     });
 
     nav("/paymentResult", {
@@ -66,12 +66,11 @@ function CheckOut() {
         product: state.product,
         payment: payment,
         price: state.totalPrice,
-        date: new Date(),
+        date: new Date().getTime(),
       },
     });
   };
 
-  console.log(ShippingInfo);
   return (
     <div className="page">
       <div className="purchase-procedure">

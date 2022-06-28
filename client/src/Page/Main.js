@@ -114,7 +114,15 @@ function Main() {
           </button>
         </div>
       </div>
-      <input value={searchValue} onChange={onSearchValue}></input>
+
+      <div className="main-searchBar">
+        <input
+          value={searchValue}
+          onChange={onSearchValue}
+          placeholder="검색어를 입력해주세요."
+        />
+      </div>
+
       <div className={click ? "main-productList" : "main-productList-list"}>
         {loading ? (
           <div className="loading">
