@@ -125,6 +125,7 @@ function CheckOut() {
         <section className="Upload-section">
           <div>전화번호</div>
           <input
+            type="tel"
             className="Upload-price"
             value={state.phone}
             onChange={saveData}

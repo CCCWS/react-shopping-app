@@ -11,10 +11,10 @@ import {
 } from "@ant-design/icons";
 import "./Cart.css";
 
-function Cart() {
+function Cart({ user }) {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const user = useSelector((state) => state.user.userData);
+  // const user = useSelector((state) => state.user.userData);
   const [cartData, setCartData] = useState([]);
   const [product, setProduct] = useState([]);
   const [checkProduct, setCheckProduct] = useState([]);
@@ -81,7 +81,6 @@ function Cart() {
 
         const res = await axios.post("/api/user/removeCart", { cartArr });
         setProduct([...res.data.cart]);
-        console.log(res);
       }
     }
   };
@@ -111,6 +110,9 @@ function Cart() {
   };
 
   const goCheckOut = () => {
+    if (checkProduct.length === 0) {
+      return;
+    }
     nav("/checkOut", {
       state: { product: checkProduct, totalPrice: totalPrice, cart: true },
     });

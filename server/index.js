@@ -209,18 +209,21 @@ app.post("/api/user/getCart", auth, (req, res) => {
 });
 
 app.post("/api/user/successBuy", auth, (req, res) => {
-  console.log(req.body);
-
   User.findOneAndUpdate(
     { _id: req.user._id },
     {
       $push: {
         purchase: {
-          shippingInfo: req.body.shippingInfo,
-          product: req.body.product,
-          payment: req.body.payment,
-          price: req.body.price,
-          date: req.body.date,
+          $each: [
+            {
+              shippingInfo: req.body.shippingInfo,
+              product: req.body.product,
+              payment: req.body.payment,
+              price: req.body.price,
+              date: req.body.date,
+            },
+          ],
+          $position: 0,
         },
       },
     },
@@ -234,6 +237,17 @@ app.post("/api/user/successBuy", auth, (req, res) => {
       });
     }
   );
+});
+
+app.post("/api/user/purchaseHistory", auth, (req, res) => {
+  //redux를 거치지않고 db에 직접접근
+  User.findOne({ _id: req.user._id }, (err, userInfo) => {
+    if (err) return res.status(400).json({ success: false, err });
+    res.status(200).send({
+      success: true,
+      purchaseHistory: userInfo.purchase,
+    });
+  });
 });
 
 app.listen(port, () => console.log(`port : ${port}`));

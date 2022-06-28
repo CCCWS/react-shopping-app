@@ -11,7 +11,7 @@ import Modal from "../Components/Modal";
 
 import "./ProductDetail.css";
 
-function ProductDetail() {
+function ProductDetail({ user }) {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -81,6 +81,10 @@ function ProductDetail() {
   };
 
   const onAddCartProduct = async () => {
+    if (user.userData.isAuth === false) {
+      return alert("로그인이 필요합니다.");
+    }
+
     //redux를 거치지않고 바로 서버와 연결
     const option = {
       id: product._id,
@@ -112,6 +116,9 @@ function ProductDetail() {
   };
 
   const goCheckOut = () => {
+    if (user.userData.isAuth === false) {
+      return alert("로그인이 필요합니다.");
+    }
     nav("/checkOut", {
       state: { product: [product], totalPrice: product.price, detail: true },
     });

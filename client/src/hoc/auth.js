@@ -9,7 +9,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
   //ture 로그인 유저만 출입 가능
   //false 로그인 유저는 출입 불가
 
-  function AuthCheck(props) {
+  function AuthCheck() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
@@ -20,8 +20,8 @@ export default function (SpecificComponent, option, adminRoute = null) {
 
         if (!response.payload.isAuth) {
           if (option) {
-            navigate("/"); // 로그인 안한 유저가 로그인한 유저만 출입 가능한곳에 들어가려할때
-            alert("로그인이 필요합니다.");
+            // navigate("/"); // 로그인 안한 유저가 로그인한 유저만 출입 가능한곳에 들어가려할때
+            // alert("로그인이 필요합니다.");
           }
         } else {
           if (adminRoute && !response.payload.isAdmin) {
