@@ -19,7 +19,7 @@
 .purchaseHistory-product-date {
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: 250px;
   font-size: 16px;
   padding: 10px;
 }

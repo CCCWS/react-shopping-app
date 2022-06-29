@@ -53,8 +53,8 @@ function ProductCard({ data, click, ProductDetail }) {
             <div>
               {click ? (
                 <>
-                  {data.title.length > 10
-                    ? `${data.title.slice(0, 10)}...`
+                  {data.title.length > 13
+                    ? `${data.title.slice(0, 13)}...`
                     : `${data.title}`}
                 </>
               ) : (
@@ -66,6 +66,9 @@ function ProductCard({ data, click, ProductDetail }) {
               <div>{`${parseInt(data.price, 10).toLocaleString()}원`}</div>
               <div>{getTime(data.createdAt)}</div>
             </div>
+            <div className="productCard-count">{`남은 수량 ${
+              data.count - data.sold
+            }개`}</div>
           </div>
         </div>
       ))}

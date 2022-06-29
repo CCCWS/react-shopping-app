@@ -18,6 +18,7 @@ function Upload({ user }) {
   const [state, setState] = useState({
     title: "",
     price: "",
+    count: 1,
     description: "",
     category: "카테고리 선택",
     image: [],
@@ -31,6 +32,10 @@ function Upload({ user }) {
 
       case "price":
         setState({ ...state, price: e.target.value });
+        break;
+
+      case "count":
+        setState({ ...state, count: e.target.value });
         break;
 
       case "category":
@@ -47,8 +52,16 @@ function Upload({ user }) {
   };
 
   function maxLengthCheck(e) {
-    if (e.target.value.length > e.target.maxLength) {
-      e.target.value = e.target.value.slice(0, e.target.maxLength);
+    if (e.target.id === "price") {
+      if (e.target.value.length > e.target.maxLength) {
+        return (e.target.value = e.target.value.slice(0, e.target.maxLength));
+      }
+    }
+
+    if (e.target.id === "count") {
+      if (e.target.value.length > e.target.maxLength) {
+        return (e.target.value = e.target.value.slice(0, e.target.maxLength));
+      }
     }
   }
 
@@ -59,6 +72,7 @@ function Upload({ user }) {
   const titleRef = useRef();
   const priceRef = useRef();
   const descriptionRef = useRef();
+  const countRef = useRef();
 
   const onWrite = (e) => {
     e.preventDefault();
@@ -74,6 +88,11 @@ function Upload({ user }) {
     if (state.price.length < 1) {
       priceRef.current.focus();
       return alert("가격을 입력해주세요.");
+    }
+
+    if (state.count.length < 1) {
+      countRef.current.focus();
+      return alert("수량을 입력해주세요.");
     }
 
     if (state.category === "카테고리 선택") {
@@ -98,7 +117,7 @@ function Upload({ user }) {
       description: state.description,
       image: state.image,
       sold: 0,
-      count: 1,
+      count: state.count,
     };
 
     try {
@@ -157,6 +176,47 @@ function Upload({ user }) {
           onInput={maxLengthCheck}
         />
         <label>원</label>
+      </section>
+
+      <hr />
+
+      <section className="Upload-section">
+        <div>상품 개수</div>
+        <div>
+          <button
+            onClick={() => {
+              if (state.count === 1) {
+                return;
+              }
+              setState({ ...state, count: parseInt(state.count) - 1 });
+            }}
+            className="Upload-count-btn"
+          >
+            -
+          </button>
+          <input
+            type="number"
+            className="Upload-count"
+            value={state.count}
+            onChange={saveData}
+            id="count"
+            ref={countRef}
+            maxLength="3"
+            onInput={maxLengthCheck}
+          />
+          <button
+            onClick={() => {
+              if (state.count === 999) {
+                return;
+              }
+
+              setState({ ...state, count: parseInt(state.count) + 1 });
+            }}
+            className="Upload-count-btn"
+          >
+            +
+          </button>
+        </div>
       </section>
 
       <hr />

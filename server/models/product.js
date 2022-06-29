@@ -117,11 +117,12 @@ app.post("/cart", (req, res) => {
 });
 
 app.post("/successBuy", (req, res) => {
+  console.log(req.body);
   ProductData.findOneAndUpdate(
     { _id: req.body.id },
     {
       $set: {
-        sold: parseInt(req.body.sold, 10) + 1,
+        sold: parseInt(req.body.sold, 10) + req.body.purchasesCount,
       },
     },
     { new: true },

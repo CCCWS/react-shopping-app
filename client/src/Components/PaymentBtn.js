@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import PaypalExpressBtn from "react-paypal-express-checkout";
 
 function PaymentBtn({ price, paymentSeccess, productsold }) {
@@ -24,7 +23,7 @@ function PaymentBtn({ price, paymentSeccess, productsold }) {
 
   const client = {
     sandbox:
-      "ATNb7MRGXfHYXNpiOfnrzEcyj0hJRekxGJqEekXgWLHuNJidcx8RoEmra4GmcpkOB7QWcWBYop_J8wXG",
+      "AaZRLPXefnQWxNQ4hIXSgEm4sj1q6kGNgNghuOHrs41defpTZMLwJhUU4Z6Hm7ju00f7w1GS2_jF038B",
     production: "YOUR-PRODUCTION-APP-ID",
   };
   return (

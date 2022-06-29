@@ -162,9 +162,6 @@ function ProductDetail({ user }) {
     });
   };
 
-  console.log(product.sold);
-  console.log(product.count);
-
   return (
     <div className="page">
       <Modal

@@ -1,7 +1,7 @@
 /* card-style */
 .productCard {
   width: 23%;
-  height: 280px;
+  height: 300px;
   margin: 10px 5px 10px 5px;
   border-radius: 5px;
   box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
@@ -108,6 +108,13 @@
 }
 
 .price-time-list > :nth-child(2) {
+  color: rgb(165, 165, 165);
+}
+
+.productCard-count {
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 3px;
   color: rgb(165, 165, 165);
 }
 

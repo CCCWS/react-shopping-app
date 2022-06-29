@@ -9,6 +9,7 @@ import "./CheckOut.css";
 function CheckOut() {
   const nav = useNavigate();
   const { state } = useLocation();
+  const [purchasesCount, setPurchasesCount] = useState(1);
   const [ShippingInfo, setShippingInfo] = useState({
     name: "",
     phone: "",
@@ -38,7 +39,6 @@ function CheckOut() {
         break;
     }
   };
-
   useEffect(() => {
     if (state === null) {
       nav("/");
@@ -55,8 +55,11 @@ function CheckOut() {
     const res = await axios.post("/api/user/successBuy", {
       shippingInfo: ShippingInfo,
       product: state.product,
-      payment: payment,
-      price: state.totalPrice,
+      // payment: payment,
+      purchasesCount: purchasesCount,
+      price: state.detail
+        ? parseInt(state.totalPrice, 10) * purchasesCount
+        : parseInt(state.totalPrice, 10),
       date: new Date().getTime(),
     });
 
@@ -64,8 +67,10 @@ function CheckOut() {
       state: {
         shippingInfo: ShippingInfo,
         product: state.product,
-        payment: payment,
-        price: state.totalPrice,
+        // payment: payment,
+        price: state.detail
+          ? parseInt(state.totalPrice, 10) * purchasesCount
+          : parseInt(state.totalPrice, 10),
         date: new Date().getTime(),
       },
     });
@@ -75,7 +80,13 @@ function CheckOut() {
     const res = await axios.post("/api/product/successBuy", {
       id: state.product[0]._id,
       sold: state.product[0].sold,
+      purchasesCount: purchasesCount,
     });
+  };
+
+  const onPayment = () => {
+    productsold();
+    paymentSeccess();
   };
   return (
     <div className="page">
@@ -100,6 +111,40 @@ function CheckOut() {
                   {data.title.length > 20
                     ? `${data.title.slice(0, 20)}...`
                     : `${data.title}`}
+
+                  <section className="Upload-section">
+                    <div>상품 개수</div>
+                    <div>
+                      <button
+                        className="Upload-count-btn"
+                        onClick={() => {
+                          if (purchasesCount === 1) {
+                            return;
+                          }
+                          setPurchasesCount(purchasesCount - 1);
+                        }}
+                      >
+                        -
+                      </button>
+                      <input
+                        type="number"
+                        className="Upload-count"
+                        value={purchasesCount}
+                        id="count"
+                      />
+                      <button
+                        className="Upload-count-btn"
+                        onClick={() => {
+                          if (purchasesCount === data.count) {
+                            return;
+                          }
+                          setPurchasesCount(purchasesCount + 1);
+                        }}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </section>
                 </div>
               </div>
 
@@ -165,15 +210,17 @@ function CheckOut() {
       <div className="checkOut-section">
         <div>결제수단</div>
         <hr />
-        <div className="checkOut-totalPrice">{`총 결제금액 ${parseInt(
-          state.totalPrice,
-          10
-        ).toLocaleString()}원`}</div>
+        <div className="checkOut-totalPrice">{`총 결제금액 ${
+          state.detail
+            ? (parseInt(state.totalPrice, 10) * purchasesCount).toLocaleString()
+            : parseInt(state.totalPrice, 10).toLocaleString()
+        }원`}</div>
         <PaymentBtn
           price={state.totalPrice}
           paymentSeccess={paymentSeccess}
           productsold={productsold}
         />
+        <button onClick={onPayment}>결제하기</button>
       </div>
     </div>
   );

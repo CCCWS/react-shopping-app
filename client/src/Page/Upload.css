@@ -67,6 +67,31 @@
   border-bottom: 2px solid rgba(248, 104, 104, 0.671);
 }
 
+.Upload-count {
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+  margin-left: 5px;
+  border: 1px solid black;
+}
+
+.Upload-count::-webkit-outer-spin-button,
+.Upload-count::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.Upload-count:focus {
+  outline: none;
+  border: 1px solid rgba(248, 104, 104, 0.671);
+}
+
+.Upload-count-btn {
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 .Upload-submit-btn {
   background-color: rgb(223, 223, 223);
   border-top: 2px solid rgb(173, 173, 173);
