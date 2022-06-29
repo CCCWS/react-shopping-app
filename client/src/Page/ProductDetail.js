@@ -22,6 +22,7 @@ function ProductDetail({ user }) {
   const { id } = useParams();
 
   const get = JSON.parse(localStorage.getItem("productHistory"));
+  
   const setLocalData = () => {
     const filterGet = get.filter((data) => data._id !== product._id);
     localStorage.setItem(

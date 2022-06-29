@@ -17,7 +17,7 @@ function Main() {
   const nav = useNavigate();
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [click, setClick] = useState(true);
+  const [click, setClick] = useState();
   const [selectCategory, setSelectCategort] = useState("전체");
   const [searchValue, setSearchValue] = useState("");
   const [price, setPrice] = useState({
@@ -29,11 +29,17 @@ function Main() {
   const limit = 20; //한번에 불러올 데이터 갯수
 
   const [histoty, setHistory] = useState([]);
-  const get = JSON.parse(localStorage.getItem("productHistory"));
+  const getProductHistory = JSON.parse(localStorage.getItem("productHistory"));
+  const getMainView = JSON.parse(localStorage.getItem("mainView"));
+
 
   useEffect(() => {
-    if (get !== null) {
-      setHistory(get);
+    if (getProductHistory !== null) {
+      setHistory(getProductHistory);
+    }
+
+    if (getMainView !== null) {
+      setClick(getMainView);
     }
   }, []);
 
@@ -65,7 +71,6 @@ function Main() {
       setLoading(false);
     } catch (err) {
       console.log("데이터 조회 실패");
-      // getProductList(data);
     }
   };
 
@@ -85,10 +90,12 @@ function Main() {
 
   const view = (e) => {
     if (e === "card") {
+      localStorage.setItem("mainView", true);
       setClick(true);
     }
 
     if (e === "list") {
+      localStorage.setItem("mainView", false);
       setClick(false);
     }
   };
@@ -97,7 +104,6 @@ function Main() {
     setSearchValue(e.target.value);
   };
 
-  console.log(histoty);
   return (
     <div className="page">
       <div className="main-option">

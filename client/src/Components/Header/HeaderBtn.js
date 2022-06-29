@@ -1,8 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export function HeaderBtn({ onSideMenu, setMenuClick }) {
   const nav = useNavigate();
+  const user = useSelector((state) => state.user.userData);
+
   const btn = [
     {
       id: "",
@@ -23,6 +26,15 @@ export function HeaderBtn({ onSideMenu, setMenuClick }) {
   ];
 
   const goPage = (event) => {
+    if (
+      event.target.id === "upload" ||
+      event.target.id === "cart" ||
+      event.target.id === "purchaseHistory"
+    ) {
+      if (user.isAuth === false) {
+        return alert("로그인이 필요합니다.");
+      }
+    }
     nav(`/${event.target.id}`);
     if (onSideMenu) {
       setMenuClick(false);

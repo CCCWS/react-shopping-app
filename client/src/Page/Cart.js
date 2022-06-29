@@ -11,7 +11,7 @@ import {
 } from "@ant-design/icons";
 import "./Cart.css";
 
-function Cart({ user }) {
+function Cart() {
   const dispatch = useDispatch();
   const nav = useNavigate();
   // const user = useSelector((state) => state.user.userData);

@@ -37,6 +37,11 @@ const ProductDataSchema = mongoose.Schema(
       defalut: 0,
     },
 
+    count: {
+      type: Number,
+      defalut: 0,
+    },
+
     views: {
       type: Number,
       default: 0,

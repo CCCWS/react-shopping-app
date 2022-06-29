@@ -5,7 +5,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 
 import "./PurchaseHistory.css";
 
-function PurchaseHistory({ user }) {
+function PurchaseHistory() {
   const nav = useNavigate();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,7 +31,7 @@ function PurchaseHistory({ user }) {
     const month = new Date(data.date).getMinutes();
     return `${year}시 ${month}분 `;
   };
-  console.log(product);
+
   return (
     <div className="page">
       {loading ? (

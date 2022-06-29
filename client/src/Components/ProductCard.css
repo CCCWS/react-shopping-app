@@ -60,11 +60,14 @@
 .productCard-list {
   display: flex;
   flex-direction: row;
-  height: 300px;
+  height: 250px;
   padding: 10px;
+  width: 95%;
   box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
   border-bottom: 1px solid rgb(223, 223, 223);
   border-top: 1px solid rgb(223, 223, 223);
+  margin-bottom: 20px;
+  border-radius: 5px;
 }
 
 .productCard-list:hover {
