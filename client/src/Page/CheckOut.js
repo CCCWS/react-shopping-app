@@ -71,6 +71,12 @@ function CheckOut() {
     });
   };
 
+  const productsold = async () => {
+    const res = await axios.post("/api/product/successBuy", {
+      id: state.product[0]._id,
+      sold: state.product[0].sold,
+    });
+  };
   return (
     <div className="page">
       <div className="purchase-procedure">
@@ -163,7 +169,11 @@ function CheckOut() {
           state.totalPrice,
           10
         ).toLocaleString()}원`}</div>
-        <PaymentBtn price={state.totalPrice} paymentSeccess={paymentSeccess} />
+        <PaymentBtn
+          price={state.totalPrice}
+          paymentSeccess={paymentSeccess}
+          productsold={productsold}
+        />
       </div>
     </div>
   );

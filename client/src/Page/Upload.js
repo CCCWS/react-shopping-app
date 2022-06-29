@@ -97,6 +97,8 @@ function Upload({ user }) {
       category: state.category,
       description: state.description,
       image: state.image,
+      sold: 0,
+      count: 1,
     };
 
     try {

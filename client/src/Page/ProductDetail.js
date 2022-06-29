@@ -22,7 +22,7 @@ function ProductDetail({ user }) {
   const { id } = useParams();
 
   const get = JSON.parse(localStorage.getItem("productHistory"));
-  
+
   const setLocalData = () => {
     const filterGet = get.filter((data) => data._id !== product._id);
     localStorage.setItem(
@@ -30,7 +30,6 @@ function ProductDetail({ user }) {
       JSON.stringify([{ ...product }, ...filterGet])
     );
   };
-
   useEffect(() => {
     if (loading === false) {
       if (get === null) {
@@ -112,6 +111,10 @@ function ProductDetail({ user }) {
   };
 
   const onAddCartProduct = async () => {
+    if (product.sold === product.count) {
+      return alert("품절입니다.");
+    }
+
     if (user.userData.isAuth === false) {
       return alert("로그인이 필요합니다.");
     }
@@ -147,6 +150,10 @@ function ProductDetail({ user }) {
   };
 
   const goCheckOut = () => {
+    if (product.sold === product.count) {
+      return alert("품절입니다.");
+    }
+
     if (user.userData.isAuth === false) {
       return alert("로그인이 필요합니다.");
     }
@@ -154,6 +161,9 @@ function ProductDetail({ user }) {
       state: { product: [product], totalPrice: product.price, detail: true },
     });
   };
+
+  console.log(product.sold);
+  console.log(product.count);
 
   return (
     <div className="page">
@@ -172,6 +182,9 @@ function ProductDetail({ user }) {
         </div>
       ) : (
         <div className="ProductDetail-info">
+          {product.sold === product.count ? (
+            <div className="soldOut">판매완료된 상품입니다.</div>
+          ) : null}
           <ImgCarousel
             data={product.image}
             setModalOpen={setModalOpen}

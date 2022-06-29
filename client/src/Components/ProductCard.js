@@ -22,7 +22,7 @@ function ProductCard({ data, click, ProductDetail }) {
       return `${Math.floor(second / 60 / 60 / 24)}일 전`;
     }
   };
-
+  console.log(data);
   return (
     <>
       {data.map((data, index) => (
@@ -42,7 +42,11 @@ function ProductCard({ data, click, ProductDetail }) {
               backgroundImage: `url('${data.image[0].path}')`,
             }}
             className={click ? "productCard-img" : "productCard-img-list"}
-          />
+          >
+            {data.sold === data.count ? (
+              <div className="productCard-soldOut">판매완료된 상품입니다.</div>
+            ) : null}
+          </div>
           <div
             className={click ? "productCard-title" : "productCard-title-list"}
           >

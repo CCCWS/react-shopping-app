@@ -27,6 +27,7 @@ body {
   min-height: 94vh;
   margin: auto;
   background-color: rgb(255, 255, 255);
+  position: relative;
 }
 
 @media (max-width: 900px) {

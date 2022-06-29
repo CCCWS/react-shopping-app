@@ -116,5 +116,24 @@ app.post("/cart", (req, res) => {
     });
 });
 
+app.post("/successBuy", (req, res) => {
+  ProductData.findOneAndUpdate(
+    { _id: req.body.id },
+    {
+      $set: {
+        sold: parseInt(req.body.sold, 10) + 1,
+      },
+    },
+    { new: true },
+
+    (err, productInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).send({
+        success: true,
+        productInfo,
+      });
+    }
+  );
+});
 
 module.exports = app;
