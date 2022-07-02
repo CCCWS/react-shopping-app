@@ -55,7 +55,7 @@ function CheckOut() {
     const res = await axios.post("/api/user/successBuy", {
       shippingInfo: ShippingInfo,
       product: state.product,
-      payment: payment,
+      // payment: payment,
       purchasesCount: purchasesCount,
       price: state.detail
         ? parseInt(state.totalPrice, 10) * purchasesCount
