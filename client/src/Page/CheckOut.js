@@ -54,7 +54,7 @@ function CheckOut() {
 
     const res = await axios.post("/api/user/successBuy", {
       shippingInfo: ShippingInfo,
-      // product: state.product,
+      product: state.product,
       payment: payment,
       purchasesCount: purchasesCount,
       price: state.detail
