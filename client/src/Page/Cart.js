@@ -42,6 +42,7 @@ function Cart() {
   //   }
   // }, [cartData]);
 
+  console.log(product);
   useEffect(() => {
     getCart();
   }, []);
@@ -189,6 +190,7 @@ function Cart() {
                           data.price,
                           10
                         ).toLocaleString()}원`}</div>
+                        <div>{data.purchasesCount}개</div>
                       </div>
                     </div>
 

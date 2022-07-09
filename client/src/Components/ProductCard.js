@@ -22,7 +22,6 @@ function ProductCard({ data, click, ProductDetail }) {
       return `${Math.floor(second / 60 / 60 / 24)}일 전`;
     }
   };
-  console.log(data);
   return (
     <>
       {data.map((data, index) => (

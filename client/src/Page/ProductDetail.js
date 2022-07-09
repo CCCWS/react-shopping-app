@@ -19,7 +19,10 @@ function ProductDetail({ user }) {
   const [otherProduct, setOtherProduct] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalImg, setModalImg] = useState([]);
+  const [purchasesCount, setPurchasesCount] = useState(1);
   const { id } = useParams();
+
+  console.log(product);
 
   const get = JSON.parse(localStorage.getItem("productHistory"));
 
@@ -127,6 +130,7 @@ function ProductDetail({ user }) {
       image: product.image,
       createdAt: product.createdAt,
       views: product.views,
+      purchasesCount: purchasesCount,
     };
 
     const res = await axios.post("/api/user/addCart", option);
@@ -158,7 +162,12 @@ function ProductDetail({ user }) {
       return alert("로그인이 필요합니다.");
     }
     nav("/checkOut", {
-      state: { product: [product], totalPrice: product.price, detail: true },
+      state: {
+        product: [product],
+        totalPrice: product.price,
+        detail: true,
+        purchasesCount: purchasesCount,
+      },
     });
   };
 
@@ -206,7 +215,9 @@ function ProductDetail({ user }) {
                 <div>{product.title}</div>
                 <div>{`${product.category} ∙ ${getTime(
                   product.createdAt
-                )} ∙ 조회수 ${product.views} `}</div>
+                )} ∙ 남은수량 ${product.count}개 ∙ 조회수 ${
+                  product.views
+                } `}</div>
               </div>
 
               <div className="ProductDetail-description">
@@ -228,7 +239,10 @@ function ProductDetail({ user }) {
           <div className="ProductDetail-footer">
             <div>
               <div className="ProductDetail-footer-price">
-                {parseInt(product.price, 10).toLocaleString()}원
+                {`${purchasesCount}개 ∙ ${parseInt(
+                  product.price,
+                  10
+                ).toLocaleString()}원`}
               </div>
               <div className="ProductDetail-footer-btn">
                 <button
