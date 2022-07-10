@@ -88,6 +88,8 @@
   margin-left: 10px;
   font-size: 25px;
   font-weight: 700;
+  display: flex;
+  align-items: center;
 }
 
 .ProductDetail-cart {
@@ -95,7 +97,7 @@
   font-size: 20px;
   border: none;
   border-radius: 5px;
-  padding: 10px;
+  padding: 5px;
   background-color: rgb(248, 206, 89);
   color: white;
   cursor: pointer;
@@ -106,7 +108,7 @@
   font-size: 20px;
   border: none;
   border-radius: 5px;
-  padding: 10px;
+  padding: 5px;
   background-color: rgb(255, 48, 48);
   color: white;
   cursor: pointer;

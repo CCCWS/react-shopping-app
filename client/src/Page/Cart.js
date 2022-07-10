@@ -42,7 +42,6 @@ function Cart() {
   //   }
   // }, [cartData]);
 
-  console.log(product);
   useEffect(() => {
     getCart();
   }, []);
@@ -53,7 +52,7 @@ function Cart() {
 
   useEffect(() => {
     setTotalPrice(
-      parseInt(checkProduct.reduce((prev, current) => prev + current.price, 0))
+      parseInt(checkProduct.reduce((prev, current) => prev + current.totalPrice, 0))
     );
   }, [checkProduct]);
 
@@ -187,7 +186,7 @@ function Cart() {
                             : `${data.title}`}
                         </div>
                         <div>{`${parseInt(
-                          data.price,
+                          data.price * data.purchasesCount,
                           10
                         ).toLocaleString()}원`}</div>
                         <div>{data.purchasesCount}개</div>

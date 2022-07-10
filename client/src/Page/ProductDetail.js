@@ -8,6 +8,7 @@ import { addCart } from "../_action/user_action";
 import ImgCarousel from "../Components/ImgCarousel";
 import ProductCard from "../Components/ProductCard";
 import Modal from "../Components/Modal";
+import PurchasesCountBtn from "../Components/PurchasesCountBtn";
 
 import "./ProductDetail.css";
 
@@ -131,6 +132,7 @@ function ProductDetail({ user }) {
       createdAt: product.createdAt,
       views: product.views,
       purchasesCount: purchasesCount,
+      totalPrice: product.price * purchasesCount,
     };
 
     const res = await axios.post("/api/user/addCart", option);
@@ -164,7 +166,7 @@ function ProductDetail({ user }) {
     nav("/checkOut", {
       state: {
         product: [product],
-        totalPrice: product.price,
+        totalPrice: product.price * purchasesCount,
         detail: true,
         purchasesCount: purchasesCount,
       },
@@ -215,7 +217,7 @@ function ProductDetail({ user }) {
                 <div>{product.title}</div>
                 <div>{`${product.category} ∙ ${getTime(
                   product.createdAt
-                )} ∙ 남은수량 ${product.count}개 ∙ 조회수 ${
+                )} ∙ 남은수량 ${product.count - product.sold}개 ∙ 조회수 ${
                   product.views
                 } `}</div>
               </div>
@@ -239,11 +241,20 @@ function ProductDetail({ user }) {
           <div className="ProductDetail-footer">
             <div>
               <div className="ProductDetail-footer-price">
-                {`${purchasesCount}개 ∙ ${parseInt(
-                  product.price,
-                  10
-                ).toLocaleString()}원`}
+                <div>
+                  {`${parseInt(
+                    product.price * purchasesCount,
+                    10
+                  ).toLocaleString()}원`}
+                </div>
+
+                <PurchasesCountBtn
+                  purchasesCount={purchasesCount}
+                  setPurchasesCount={setPurchasesCount}
+                  productCount={product.count}
+                />
               </div>
+
               <div className="ProductDetail-footer-btn">
                 <button
                   onClick={onAddCartProduct}

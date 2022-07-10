@@ -16,7 +16,7 @@ function CheckOut() {
     adress: "",
     req: "",
   });
-
+  console.log(state);
   const saveData = (e) => {
     switch (e.target.id) {
       case "name":
@@ -111,47 +111,12 @@ function CheckOut() {
                   {data.title.length > 20
                     ? `${data.title.slice(0, 20)}...`
                     : `${data.title}`}
-
-                  <section className="Upload-section">
-                    <div>상품 개수</div>
-                    <div>
-                      <button
-                        className="Upload-count-btn"
-                        onClick={() => {
-                          if (purchasesCount === 1) {
-                            return;
-                          }
-                          setPurchasesCount(purchasesCount - 1);
-                        }}
-                      >
-                        -
-                      </button>
-                      <input
-                        type="number"
-                        className="Upload-count"
-                        value={purchasesCount}
-                        id="count"
-                      />
-                      <button
-                        className="Upload-count-btn"
-                        onClick={() => {
-                          if (purchasesCount === data.count) {
-                            return;
-                          }
-                          setPurchasesCount(purchasesCount + 1);
-                        }}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </section>
                 </div>
               </div>
 
-              <div className="purchase-card-price">{`${parseInt(
-                data.price,
-                10
-              ).toLocaleString()}원`}</div>
+              <div className="purchase-card-price">{`${data.purchasesCount}개 
+               ∙ 
+              ${parseInt(data.totalPrice, 10).toLocaleString()}원`}</div>
             </div>
           ))}
         </div>
