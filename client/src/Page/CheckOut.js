@@ -9,15 +9,12 @@ import "./CheckOut.css";
 function CheckOut() {
   const nav = useNavigate();
   const { state } = useLocation();
-  const [purchasesCount, setPurchasesCount] = useState(1);
   const [ShippingInfo, setShippingInfo] = useState({
     name: "",
     phone: "",
     adress: "",
     req: "",
   });
-
-  console.log(state);
 
   const saveData = (e) => {
     switch (e.target.id) {
@@ -75,19 +72,38 @@ function CheckOut() {
   };
 
   const productsold = async () => {
-    const res = await axios.post("/api/product/successBuy", {
-      id: state.product[0]._id,
-      sold: state.product[0].sold,
-      purchasesCount: state.product[0].purchasesCount,
-    });
+    const option = [];
+
+    if (state.cart === true) {
+      state.product.forEach((data) =>
+        option.push({
+          id: data.id,
+          purchasesCount: data.purchasesCount,
+          sold: data.sold,
+        })
+      );
+    } //카트 페이지에서 구매시
+
+    if (state.detail === true) {
+      state.product.forEach((data) =>
+        option.push({
+          id: data._id,
+          purchasesCount: data.purchasesCount,
+          sold: data.sold,
+        })
+      );
+    } //상세 페이지에서 구매시
+
+    for (let i = 0; i < option.length; i++) {
+      console.log(option[i]);
+      const res = await axios.post("/api/product/successBuy", option[i]);
+    }
   };
 
   const onPayment = () => {
     productsold();
     paymentSeccess();
   };
-
-  console.log(state);
 
   return (
     <div className="page">

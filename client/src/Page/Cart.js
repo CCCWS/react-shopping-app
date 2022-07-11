@@ -120,8 +120,6 @@ function Cart() {
     });
   };
 
-  console.log(checkProduct);
-
   return (
     <>
       {loading ? (

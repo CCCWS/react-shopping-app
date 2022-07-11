@@ -23,8 +23,6 @@ function ProductDetail({ user }) {
   const [purchasesCount, setPurchasesCount] = useState(1);
   const { id } = useParams();
 
-  console.log(product);
-
   const get = JSON.parse(localStorage.getItem("productHistory"));
 
   const setLocalData = () => {
@@ -133,6 +131,7 @@ function ProductDetail({ user }) {
       views: product.views,
       purchasesCount: purchasesCount,
       totalPrice: product.price * purchasesCount,
+      sold: product.sold,
     };
 
     const res = await axios.post("/api/user/addCart", option);

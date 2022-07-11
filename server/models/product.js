@@ -117,12 +117,12 @@ app.post("/cart", (req, res) => {
 });
 
 app.post("/successBuy", (req, res) => {
-  console.log(req.body);
   ProductData.findOneAndUpdate(
     { _id: req.body.id },
     {
       $set: {
-        sold: parseInt(req.body.sold, 10) + req.body.purchasesCount,
+        sold:
+          parseInt(req.body.sold, 10) + parseInt(req.body.purchasesCount, 10),
       },
     },
     { new: true },
@@ -131,7 +131,7 @@ app.post("/successBuy", (req, res) => {
       if (err) return res.status(400).json({ success: false, err });
       res.status(200).send({
         success: true,
-        productInfo,
+        productInfo: productInfo,
       });
     }
   );
