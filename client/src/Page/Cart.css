@@ -86,7 +86,7 @@
 }
 
 .cart-img {
-  width: 150px;
+  width: 100px;
   height: 100%;
 
   background-size: cover;
@@ -94,8 +94,8 @@
   background-repeat: no-repeat;
 
   border-radius: 5px;
-  margin-right: 10px;
-
+  margin-right: 15px;
+  
   cursor: pointer;
 }
 
@@ -107,6 +107,11 @@
 .cart-card-title > :first-child {
   font-weight: 600;
   margin-bottom: 10px;
+}
+
+.cart-card-title > :nth-child(2) {
+  color: rgba(255, 0, 0, 0.644);
+  font-weight: 600;
 }
 
 .cart-card-delete {

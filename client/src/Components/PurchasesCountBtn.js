@@ -2,9 +2,11 @@ import React from "react";
 import "./PurchasesCountBtn.css";
 
 function PurchasesCountBtn({
+  productSold,
   purchasesCount,
   setPurchasesCount,
   productCount,
+  soldOut,
 }) {
   return (
     <section className="PurchasesCountBtn-section">
@@ -29,7 +31,11 @@ function PurchasesCountBtn({
         <button
           className="PurchasesCountBtn-count-btn"
           onClick={() => {
-            if (purchasesCount === productCount) {
+            if (soldOut === true) {
+              return;
+            }
+
+            if (purchasesCount === productCount - productSold) {
               return;
             }
             setPurchasesCount(purchasesCount + 1);

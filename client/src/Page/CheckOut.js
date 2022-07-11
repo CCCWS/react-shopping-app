@@ -16,7 +16,9 @@ function CheckOut() {
     adress: "",
     req: "",
   });
+
   console.log(state);
+
   const saveData = (e) => {
     switch (e.target.id) {
       case "name":
@@ -50,16 +52,14 @@ function CheckOut() {
       const cartArr = [];
       state.product.forEach((data) => cartArr.push(data.id));
       const res = await axios.post("/api/user/removeCart", { cartArr });
-    }
+    } //만약 카트 페이지에서 들어왔다면 카트의 목록 제거
 
     const res = await axios.post("/api/user/successBuy", {
       shippingInfo: ShippingInfo,
-      // product: state.product,
+      product: state.product,
       payment: payment,
-      purchasesCount: purchasesCount,
-      price: state.detail
-        ? parseInt(state.totalPrice, 10) * purchasesCount
-        : parseInt(state.totalPrice, 10),
+      // purchasesCount: purchasesCount,
+      price: state.totalPrice,
       date: new Date().getTime(),
     });
 
@@ -68,9 +68,7 @@ function CheckOut() {
         shippingInfo: ShippingInfo,
         product: state.product,
         // payment: payment,
-        price: state.detail
-          ? parseInt(state.totalPrice, 10) * purchasesCount
-          : parseInt(state.totalPrice, 10),
+        price: state.totalPrice,
         date: new Date().getTime(),
       },
     });
@@ -80,7 +78,7 @@ function CheckOut() {
     const res = await axios.post("/api/product/successBuy", {
       id: state.product[0]._id,
       sold: state.product[0].sold,
-      purchasesCount: purchasesCount,
+      purchasesCount: state.product[0].purchasesCount,
     });
   };
 
@@ -88,6 +86,9 @@ function CheckOut() {
     productsold();
     paymentSeccess();
   };
+
+  console.log(state);
+
   return (
     <div className="page">
       <div className="purchase-procedure">
@@ -175,11 +176,7 @@ function CheckOut() {
       <div className="checkOut-section">
         <div>결제수단</div>
         <hr />
-        <div className="checkOut-totalPrice">{`총 결제금액 ${
-          state.detail
-            ? (parseInt(state.totalPrice, 10) * purchasesCount).toLocaleString()
-            : parseInt(state.totalPrice, 10).toLocaleString()
-        }원`}</div>
+        <div className="checkOut-totalPrice">{`총 결제금액 ${state.totalPrice.toLocaleString()}원`}</div>
         <PaymentBtn
           price={state.totalPrice}
           paymentSeccess={paymentSeccess}

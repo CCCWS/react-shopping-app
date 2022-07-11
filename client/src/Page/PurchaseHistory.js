@@ -10,6 +10,8 @@ function PurchaseHistory() {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  console.log(product);
+
   useEffect(() => {
     getPurchaseHistory();
   }, []);
@@ -67,8 +69,10 @@ function PurchaseHistory() {
                         </div>
                       </div>
 
-                      <div className="purchaseHistory-purchase-card-price">{`${parseInt(
-                        data.price,
+                      <div className="purchaseHistory-purchase-card-price">{`${
+                        data.purchasesCount
+                      }개 ∙  ${parseInt(
+                        data.totalPrice,
                         10
                       ).toLocaleString()}원`}</div>
                     </div>

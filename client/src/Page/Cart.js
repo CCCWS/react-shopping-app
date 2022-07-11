@@ -52,7 +52,9 @@ function Cart() {
 
   useEffect(() => {
     setTotalPrice(
-      parseInt(checkProduct.reduce((prev, current) => prev + current.totalPrice, 0))
+      parseInt(
+        checkProduct.reduce((prev, current) => prev + current.totalPrice, 0)
+      )
     );
   }, [checkProduct]);
 
@@ -118,6 +120,8 @@ function Cart() {
     });
   };
 
+  console.log(checkProduct);
+
   return (
     <>
       {loading ? (
@@ -181,8 +185,8 @@ function Cart() {
                         onClick={() => nav(`/product/${data.id}`)}
                       >
                         <div>
-                          {data.title.length > 10
-                            ? `${data.title.slice(0, 10)}...`
+                          {data.title.length > 15
+                            ? `${data.title.slice(0, 15)}...`
                             : `${data.title}`}
                         </div>
                         <div>{`${parseInt(

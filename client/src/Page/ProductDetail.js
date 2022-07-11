@@ -163,12 +163,18 @@ function ProductDetail({ user }) {
     if (user.userData.isAuth === false) {
       return alert("로그인이 필요합니다.");
     }
+
     nav("/checkOut", {
       state: {
-        product: [product],
-        totalPrice: product.price * purchasesCount,
+        product: [
+          {
+            ...product,
+            purchasesCount: purchasesCount,
+            totalPrice: product.price * purchasesCount,
+          },
+        ],
         detail: true,
-        purchasesCount: purchasesCount,
+        totalPrice: product.price * purchasesCount,
       },
     });
   };
@@ -252,6 +258,8 @@ function ProductDetail({ user }) {
                   purchasesCount={purchasesCount}
                   setPurchasesCount={setPurchasesCount}
                   productCount={product.count}
+                  productSold={product.sold}
+                  soldOut={product.sold === product.count && true}
                 />
               </div>
 
