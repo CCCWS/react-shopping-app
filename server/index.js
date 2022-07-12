@@ -11,7 +11,11 @@ const { auth } = require("./middleware/auth");
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // json파일을 분석해서 가져옴
-app.use(bodyParser.json());
+app.use(
+  bodyParser.json({
+    limit: "50mb",
+  })
+);
 app.use(cookieParser());
 
 /////

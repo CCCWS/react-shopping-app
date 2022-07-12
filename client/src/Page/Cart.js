@@ -110,8 +110,6 @@ function Cart() {
     setLoading(false);
   };
 
-  console.log(checkProduct);
-
   const onCheckDel = async () => {
     if (checkProduct.length !== 0) {
       if (window.confirm(`${checkProduct.length}개 상품을 삭제합니다.`)) {
