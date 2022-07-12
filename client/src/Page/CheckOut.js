@@ -16,6 +16,8 @@ function CheckOut() {
     req: "",
   });
 
+  console.log(state);
+
   const saveData = (e) => {
     switch (e.target.id) {
       case "name":

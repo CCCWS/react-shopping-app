@@ -124,14 +124,7 @@ function ProductDetail({ user }) {
     //redux를 거치지않고 바로 서버와 연결
     const option = {
       id: product._id,
-      title: product.title,
-      price: product.price,
-      image: product.image,
-      createdAt: product.createdAt,
-      views: product.views,
       purchasesCount: purchasesCount,
-      totalPrice: product.price * purchasesCount,
-      sold: product.sold,
     };
 
     const res = await axios.post("/api/user/addCart", option);
