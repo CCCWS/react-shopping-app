@@ -93,7 +93,15 @@ app.post("/productList", (req, res) => {
 });
 
 app.post("/productDetail", (req, res) => {
-  ProductData.find({ _id: req.body.id })
+  ProductData.findOneAndUpdate(
+    { _id: req.body.id },
+    {
+      $inc: {
+        views: 1,
+      },
+    },
+    { new: true }
+  )
     .populate("writer")
     .exec((err, productInfo) => {
       if (err) {

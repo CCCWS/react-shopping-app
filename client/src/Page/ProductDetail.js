@@ -27,8 +27,6 @@ function ProductDetail({ user }) {
 
   const get = JSON.parse(localStorage.getItem("productHistory"));
 
-  console.log(product);
-
   const setLocalData = () => {
     const filterGet = get.filter((data) => data.id !== product._id);
     localStorage.setItem(
@@ -74,13 +72,10 @@ function ProductDetail({ user }) {
   }, [product]);
 
   const getProduct = async () => {
-    try {
-      const res = await axios.post("/api/product/productDetail", { id });
-      setProduct(...res.data.productInfo);
-      setLoading(false);
-    } catch (err) {
-      console.log("데이터 조회 실패");
-    }
+    const res = await axios.post("/api/product/productDetail", { id });
+    console.log(res.data.productInfo);
+    setProduct(res.data.productInfo);
+    setLoading(false);
   };
 
   const getOtherProduct = async () => {
