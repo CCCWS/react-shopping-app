@@ -68,11 +68,11 @@
 }
 
 .Upload-count {
-  width: 40px;
+  border: none;
+  border-bottom: 2px solid rgba(36, 36, 36, 0.315);
+  width: 80px;
   height: 40px;
-  margin-right: 5px;
-  margin-left: 5px;
-  border: 1px solid black;
+  margin-right: 10px;
 }
 
 .Upload-count::-webkit-outer-spin-button,
@@ -82,14 +82,7 @@
 
 .Upload-count:focus {
   outline: none;
-  border: 1px solid rgba(248, 104, 104, 0.671);
-}
-
-.Upload-count-btn {
-  width: 40px;
-  height: 40px;
-  font-size: 16px;
-  cursor: pointer;
+  border-bottom: 2px solid rgba(248, 104, 104, 0.671);
 }
 
 .Upload-submit-btn {

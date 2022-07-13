@@ -17,12 +17,14 @@ function PurchasesCountBtn({
             if (purchasesCount === 1) {
               return;
             }
-            setPurchasesCount(purchasesCount - 1);
+
+            setPurchasesCount(parseInt(purchasesCount, 10) - 1);
           }}
         >
           -
         </button>
         <input
+          readOnly
           type="number"
           className="PurchasesCountBtn-count"
           value={purchasesCount}
@@ -38,7 +40,8 @@ function PurchasesCountBtn({
             if (purchasesCount === productCount - productSold) {
               return;
             }
-            setPurchasesCount(purchasesCount + 1);
+
+            setPurchasesCount(parseInt(purchasesCount, 10) + 1);
           }}
         >
           +

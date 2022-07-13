@@ -9,6 +9,7 @@ import ImgCarousel from "../Components/ImgCarousel";
 import ProductCard from "../Components/ProductCard";
 import Modal from "../Components/Modal";
 import PurchasesCountBtn from "../Components/PurchasesCountBtn";
+import RecentView from "../Components/RecentView";
 
 import "./ProductDetail.css";
 
@@ -16,6 +17,7 @@ function ProductDetail({ user }) {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [loadingOther, setLoadingOther] = useState(true);
   const [product, setProduct] = useState([]);
   const [otherProduct, setOtherProduct] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -25,23 +27,29 @@ function ProductDetail({ user }) {
 
   const get = JSON.parse(localStorage.getItem("productHistory"));
 
+  console.log(product);
+
   const setLocalData = () => {
-    const filterGet = get.filter((data) => data._id !== product._id);
+    const filterGet = get.filter((data) => data.id !== product._id);
     localStorage.setItem(
       "productHistory",
-      JSON.stringify([{ ...product }, ...filterGet])
+      JSON.stringify([
+        { id: product._id, image: product.image[0].path },
+        ...filterGet,
+      ])
     );
   };
+
   useEffect(() => {
     if (loading === false) {
       if (get === null) {
         localStorage.setItem(
           "productHistory",
-          JSON.stringify([{ ...product }])
+          JSON.stringify([{ id: product._id, image: product.image[0].path }])
         );
       } else {
         if (get.length === 6) {
-          if (get.filter((data) => data._id === product._id).length === 1) {
+          if (get.filter((data) => data.id === product._id).length === 1) {
             setLocalData();
           } else {
             get.pop();
@@ -69,6 +77,7 @@ function ProductDetail({ user }) {
     try {
       const res = await axios.post("/api/product/productDetail", { id });
       setProduct(...res.data.productInfo);
+      setLoading(false);
     } catch (err) {
       console.log("데이터 조회 실패");
     }
@@ -83,7 +92,6 @@ function ProductDetail({ user }) {
     try {
       const res = await axios.post("/api/product/productList", option);
       setOtherProduct(res.data.productInfo.filter((data) => data._id !== id));
-      setLoading(false);
     } catch (err) {
       console.log("데이터 조회 실패");
     }
@@ -173,6 +181,7 @@ function ProductDetail({ user }) {
 
   return (
     <div className="page">
+      <RecentView detail={true} />
       <Modal
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
@@ -225,14 +234,19 @@ function ProductDetail({ user }) {
               </div>
             </div>
             <hr />
-            <div className="ProductDetail-other">관련 상품</div>
-            <div className="main-productList ProductDetail-productCard">
-              <ProductCard
-                data={otherProduct}
-                click={true}
-                ProductDetail={true}
-              />
-            </div>
+
+            {otherProduct.length > 0 && (
+              <div>
+                <div className="ProductDetail-other">관련 상품</div>
+                <div className="main-productList ProductDetail-productCard">
+                  <ProductCard
+                    data={otherProduct}
+                    click={true}
+                    ProductDetail={true}
+                  />
+                </div>
+              </div>
+            )}
             <hr />
           </div>
 
@@ -252,6 +266,7 @@ function ProductDetail({ user }) {
                   productCount={product.count}
                   productSold={product.sold}
                   soldOut={product.sold === product.count && true}
+                  detail={true}
                 />
               </div>
 

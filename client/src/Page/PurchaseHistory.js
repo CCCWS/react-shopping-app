@@ -10,8 +10,6 @@ function PurchaseHistory() {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log(product);
-
   useEffect(() => {
     getPurchaseHistory();
   }, []);

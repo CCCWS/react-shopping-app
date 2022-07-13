@@ -5,7 +5,6 @@ import { categoryList } from "../data/CatecoryList";
 import Modal from "../Components/Modal";
 import ImgUpload from "../Components/ImgUpload";
 import SelectBox from "../Components/SelectBox";
-
 import "./Upload.css";
 import axios from "axios";
 
@@ -18,7 +17,7 @@ function Upload({ user }) {
   const [state, setState] = useState({
     title: "",
     price: "",
-    count: 1,
+    count: "",
     description: "",
     category: "카테고리 선택",
     image: [],
@@ -73,6 +72,7 @@ function Upload({ user }) {
   const priceRef = useRef();
   const descriptionRef = useRef();
   const countRef = useRef();
+
 
   const onWrite = (e) => {
     e.preventDefault();
@@ -182,41 +182,18 @@ function Upload({ user }) {
 
       <section className="Upload-section">
         <div>상품 개수</div>
-        <div>
-          <button
-            onClick={() => {
-              if (state.count === 1) {
-                return;
-              }
-              setState({ ...state, count: parseInt(state.count) - 1 });
-            }}
-            className="Upload-count-btn"
-          >
-            -
-          </button>
-          <input
-            type="number"
-            className="Upload-count"
-            value={state.count}
-            onChange={saveData}
-            id="count"
-            ref={countRef}
-            maxLength="3"
-            onInput={maxLengthCheck}
-          />
-          <button
-            onClick={() => {
-              if (state.count === 999) {
-                return;
-              }
-
-              setState({ ...state, count: parseInt(state.count) + 1 });
-            }}
-            className="Upload-count-btn"
-          >
-            +
-          </button>
-        </div>
+        <input
+          type="number"
+          className="Upload-count"
+          value={state.count}
+          onChange={saveData}
+          id="count"
+          placeholder="최대 99개"
+          ref={countRef}
+          maxLength="2"
+          onInput={maxLengthCheck}
+        />
+        <label>개</label>
       </section>
 
       <hr />

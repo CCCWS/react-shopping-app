@@ -5,10 +5,13 @@
   margin: 10px 5px 10px 5px;
   border-radius: 5px;
   box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
+  border: 3px solid transparent;
 }
 
 .productCard:hover {
   cursor: pointer;
+  border: 3px solid orange;
+  transition: all ease 0.5s;
 }
 
 .productCard-img {
@@ -70,10 +73,13 @@
   border-top: 1px solid rgb(223, 223, 223);
   margin-bottom: 20px;
   border-radius: 5px;
+  border: 3px solid transparent;
 }
 
 .productCard-list:hover {
   cursor: pointer;
+  border: 3px solid orange;
+  transition: all ease 0.5s;
 }
 
 .productCard-img-list {

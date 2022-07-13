@@ -5,16 +5,15 @@ import {
   BarsOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { categoryList } from "../data/CatecoryList";
 import { priceList } from "../data/CatecoryList";
 import ProductCard from "../Components/ProductCard";
 import SelectBox from "../Components/SelectBox";
 import SelectBoxPrice from "../Components/SelecBoxPrice";
 import "./Main.css";
+import RecentView from "../Components/RecentView";
 
 function Main() {
-  const nav = useNavigate();
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [click, setClick] = useState();
@@ -28,16 +27,9 @@ function Main() {
   const [skip, setSkip] = useState(0); //현재 가져온 데이터 갯수
   const limit = 20; //한번에 불러올 데이터 갯수
 
-  const [histoty, setHistory] = useState([]);
-  const getProductHistory = JSON.parse(localStorage.getItem("productHistory"));
   const getMainView = JSON.parse(localStorage.getItem("mainView"));
 
-
   useEffect(() => {
-    if (getProductHistory !== null) {
-      setHistory(getProductHistory);
-    }
-
     if (getMainView !== null) {
       setClick(getMainView);
     }
@@ -53,7 +45,7 @@ function Main() {
     };
     getProductList(option);
     setSkip(0);
-  }, [selectCategory, price, searchValue]);
+  }, [selectCategory, price]);
 
   const getProductList = async (data) => {
     if (data.readMore === undefined) {
@@ -104,6 +96,20 @@ function Main() {
     setSearchValue(e.target.value);
   };
 
+  const onSearch = (e) => {
+    e.preventDefault();
+
+    const option = {
+      skip: 0,
+      limit: limit,
+      category: selectCategory,
+      price: price.priceRange,
+      searchValue: searchValue,
+    };
+    getProductList(option);
+    setSkip(0);
+  };
+
   return (
     <div className="page">
       <div className="main-option">
@@ -133,13 +139,14 @@ function Main() {
         </div>
       </div>
 
-      <div className="main-searchBar">
+      <form onSubmit={onSearch} className="main-searchBar">
         <input
           value={searchValue}
           onChange={onSearchValue}
+          onSubmit={onSearch}
           placeholder="검색어를 입력해주세요."
         />
-      </div>
+      </form>
 
       <div className={click ? "main-productList" : "main-productList-list"}>
         {loading ? (
@@ -149,37 +156,7 @@ function Main() {
         ) : (
           <>
             <ProductCard data={productList} click={click} />
-            <div className="main-view-histoty">
-              <div>
-                <div className="main-view-histoty-div">최근본상품</div>
-                {histoty.length === 0 ? (
-                  <div className="main-view-histoty-not">
-                    최근본상품이 없습니다.
-                  </div>
-                ) : (
-                  <>
-                    {histoty.map((data) => (
-                      <div key={data._id}>
-                        <div
-                          style={{
-                            backgroundImage: `url('${data.image[0].path}')`,
-                          }}
-                          onClick={() => nav(`/product/${data._id}`)}
-                          className="main-view-histoty-img"
-                        />
-                      </div>
-                    ))}
-                  </>
-                )}
-
-                <div
-                  className="main-view-histoty-div"
-                  onClick={() => window.scroll(0, 0)}
-                >
-                  맨위로
-                </div>
-              </div>
-            </div>
+            <RecentView />
           </>
         )}
       </div>
