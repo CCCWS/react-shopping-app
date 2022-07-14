@@ -23,13 +23,18 @@ export function HeaderBtn({ onSideMenu, setMenuClick }) {
       id: "purchaseHistory", //이동할 주소 입력
       value: "구매내역",
     },
+    {
+      id: "productManagement",
+      value: "상품관리",
+    },
   ];
 
   const goPage = (event) => {
     if (
       event.target.id === "upload" ||
       event.target.id === "cart" ||
-      event.target.id === "purchaseHistory"
+      event.target.id === "purchaseHistory" ||
+      event.target.id === "productManagement"
     ) {
       if (user.isAuth === false) {
         return alert("로그인이 필요합니다.");

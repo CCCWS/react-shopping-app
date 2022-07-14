@@ -10,6 +10,7 @@ import Cart from "./Page/Cart";
 import CheckOut from "./Page/CheckOut";
 import PaymentResult from "./Page/PaymentResult";
 import PurchaseHistory from "./Page/PurchaseHistory";
+import ProductManagement from "./Page/ProductManagement";
 
 import Test from "./Page/Test";
 
@@ -26,6 +27,10 @@ function App() {
         <Route path={`/cart`} element={Auth(Cart, true)} />
         <Route path={`/checkOut`} element={Auth(CheckOut, true)} />
         <Route path={`/paymentResult`} element={Auth(PaymentResult, true)} />
+        <Route
+          path={`/productManagement`}
+          element={Auth(ProductManagement, true)}
+        />
         <Route
           path={`/purchaseHistory`}
           element={Auth(PurchaseHistory, true)}

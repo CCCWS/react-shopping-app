@@ -4,6 +4,7 @@ const multer = require("multer");
 const fs = require("fs");
 const { ProductData } = require("./ProductData");
 const { User } = require("./User");
+const { auth } = require("../middleware/auth");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -134,6 +135,22 @@ app.post("/successBuy", (req, res) => {
       },
     },
     { new: true },
+
+    (err, productInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).send({
+        success: true,
+        productInfo: productInfo,
+      });
+    }
+  );
+});
+
+app.post("/test", auth, (req, res) => {
+  ProductData.find(
+    {
+      writer: { $in: req.user._id },
+    },
 
     (err, productInfo) => {
       if (err) return res.status(400).json({ success: false, err });
