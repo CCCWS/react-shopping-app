@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./ProductCard.css";
 
-function ProductCard({ data, click, ProductDetail }) {
+function ProductCard({ data, click }) {
   const nav = useNavigate();
   const getTime = (time) => {
     const second = Math.floor(

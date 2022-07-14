@@ -147,19 +147,17 @@ app.post("/successBuy", (req, res) => {
 });
 
 app.post("/test", auth, (req, res) => {
-  ProductData.find(
-    {
-      writer: { $in: req.user._id },
-    },
-
-    (err, productInfo) => {
+  ProductData.find({
+    writer: { $in: req.user._id },
+  })
+    .sort({ createdAt: -1 })
+    .exec((err, productInfo) => {
       if (err) return res.status(400).json({ success: false, err });
       res.status(200).send({
         success: true,
         productInfo: productInfo,
       });
-    }
-  );
+    });
 });
 
 module.exports = app;

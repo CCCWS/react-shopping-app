@@ -91,14 +91,11 @@
   .purchaseHistory-product-card {
     flex-direction: column;
     padding: 0;
+    width: 100%;
+    margin: 0 0 10px 0;
   }
 
   .purchaseHistory-product-list {
     padding: 0;
-  }
-
-  .purchaseHistory-purchase-card {
-    width: 100%;
-    margin: 0 0 10px 0;
   }
 }
