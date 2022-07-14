@@ -63,7 +63,7 @@ function ProductDetail({ user }) {
   useEffect(() => {
     getProduct();
     window.scroll(0, 0);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (product.category) {
@@ -72,10 +72,10 @@ function ProductDetail({ user }) {
   }, [product]);
 
   const getProduct = async () => {
+    setLoading(true);
     const res = await axios.post("/api/product/productDetail", { id });
     console.log(res.data.productInfo);
     setProduct(res.data.productInfo);
-    setLoading(false);
   };
 
   const getOtherProduct = async () => {
@@ -87,6 +87,7 @@ function ProductDetail({ user }) {
     try {
       const res = await axios.post("/api/product/productList", option);
       setOtherProduct(res.data.productInfo.filter((data) => data._id !== id));
+      setLoading(false);
     } catch (err) {
       console.log("데이터 조회 실패");
     }

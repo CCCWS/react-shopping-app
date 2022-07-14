@@ -22,6 +22,7 @@ function ProductCard({ data, click, ProductDetail }) {
       return `${Math.floor(second / 60 / 60 / 24)}일 전`;
     }
   };
+
   return (
     <>
       {data.map((data, index) => (
@@ -31,9 +32,6 @@ function ProductCard({ data, click, ProductDetail }) {
           id={data._id}
           onClick={() => {
             nav(`/product/${data._id}`);
-            {
-              ProductDetail && window.location.reload();
-            }
           }}
         >
           <div

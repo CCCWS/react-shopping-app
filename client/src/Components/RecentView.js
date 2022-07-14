@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./RecentView.css";
 
 function RecentView({ detail }) {
+  const { id } = useParams();
   const nav = useNavigate();
   const [histoty, setHistory] = useState([]);
   const getProductHistory = JSON.parse(localStorage.getItem("productHistory"));
@@ -11,7 +12,7 @@ function RecentView({ detail }) {
     if (getProductHistory !== null) {
       setHistory(getProductHistory);
     }
-  }, []);
+  }, [id]);
 
   return (
     <div className="RecentView">
@@ -29,9 +30,6 @@ function RecentView({ detail }) {
                   }}
                   onClick={() => {
                     nav(`/product/${data.id}`);
-                    {
-                      detail && window.location.reload();
-                    }
                   }}
                   className="RecentView-img"
                 />
