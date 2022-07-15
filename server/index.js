@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const port = process.env.PORT || 3001;
 const mongoose = require("mongoose");
 const { User } = require("./models/User");
@@ -30,10 +31,10 @@ app.use("/api/product", require("./models/product")); //해당 경로로 이동�
 
 if (process.env.NODE_ENV === "production") {
   // Set static folder
-  app.use(express.static("./client/build"));
+  app.use(express.static("client/build"));
 
-  app.get("*", (request, response) => {
-    response.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
 
