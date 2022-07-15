@@ -10,6 +10,12 @@ const { auth } = require("./middleware/auth");
 //bodyParser > 클라이언트에서 오는 정보를 서버에서 분석해서 가죠올수 있게해줌
 app.use(bodyParser.urlencoded({ extended: true }));
 
+process.env.NODE_ENV =
+  process.env.NODE_ENV &&
+  process.env.NODE_ENV.trim().toLowerCase() == "production"
+    ? "production"
+    : "development";
+
 // json파일을 분석해서 가져옴
 app.use(
   bodyParser.json({
@@ -46,7 +52,9 @@ mongoose
   //   useFindAndModify: false,
   // } 몽고DB 버전 6.0이상에선 자동처리
 
-  .then(() => console.log("DB Connected"))
+  .then(() => {
+    console.log("DB Connected");
+  })
   .catch((err) => console.log(err));
 
 ////////////////////////////////////////////////
