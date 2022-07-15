@@ -22,6 +22,13 @@ app.use(cookieParser());
 app.use("/uploads", express.static("uploads")); //nodejs에서 정적파일을 제공
 app.use("/api/product", require("./models/product")); //해당 경로로 이동하여 처리
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
+  });
+}
+
 mongoose
   .connect(config.mongoURI)
   // {
@@ -33,12 +40,6 @@ mongoose
 
   .then(() => console.log("DB Connected"))
   .catch((err) => console.log(err));
-
-app.get("/", (req, res) => res.send("TEST"));
-
-app.get("/api/test", (req, res) => {
-  res.send("hello");
-});
 
 ////////////////////////////////////////////////
 app.post("/api/user/register", (req, res) => {
