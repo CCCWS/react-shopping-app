@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const ProductDataSchema = mongoose.Schema(
+const productDataSchema = mongoose.Schema(
   {
     writer: {
       type: String,
@@ -54,6 +54,6 @@ const ProductDataSchema = mongoose.Schema(
 //   title: "text",
 // });
 
-const ProductData = mongoose.model("ProductData", ProductDataSchema);
+const ProductData = mongoose.model("ProductData", productDataSchema);
 
 module.exports = { ProductData };

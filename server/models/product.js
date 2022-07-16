@@ -2,7 +2,7 @@ const express = require("express");
 const app = express.Router();
 const multer = require("multer");
 const fs = require("fs");
-const { ProductData } = require("./ProductData");
+const { ProductData } = require("./productData");
 const { User } = require("./User");
 const { auth } = require("../middleware/auth");
 
