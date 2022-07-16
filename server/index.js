@@ -11,11 +11,11 @@ const { auth } = require("./middleware/auth");
 //bodyParser > 클라이언트에서 오는 정보를 서버에서 분석해서 가죠올수 있게해줌
 app.use(bodyParser.urlencoded({ extended: true }));
 
-process.env.NODE_ENV =
-  process.env.NODE_ENV &&
-  process.env.NODE_ENV.trim().toLowerCase() == "production"
-    ? "production"
-    : "development";
+// process.env.NODE_ENV =
+//   process.env.NODE_ENV &&
+//   process.env.NODE_ENV.trim().toLowerCase() == "production"
+//     ? "production"
+//     : "development";
 
 // json파일을 분석해서 가져옴
 app.use(
@@ -31,10 +31,9 @@ app.use("/api/product", require("./models/product")); //해당 경로로 이동�
 
 if (process.env.NODE_ENV === "production") {
   // Set static folder
-  app.use(express.static("client/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  app.use(express.static("app/client/build"));
+  app.get("*", function (req, res) {
+    res.sendFile(path.resolve(__dirname, "app/client/build", "index.html"));
   });
 }
 
