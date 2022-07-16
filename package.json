@@ -8,8 +8,8 @@
     "npm": "8.5.5"
   },
   "scripts": {
-    "start": "node ./server/index.js",
-    "nodemon": "nodemon ./server/index.js",
+    "start": "node server/index.js",
+    "nodemon": "nodemon server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "react": "concurrently \"npm run nodemon\"  \"npm start --prefix client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd client && npm install && npm install && npm run build"
