@@ -31,10 +31,10 @@ app.use("/api/product", require("./models/product")); //해당 경로로 이동�
 
 if (process.env.NODE_ENV === "production") {
   // Set static folder
-  app.use(express.static("client/build"));
+  app.use(express.static("app/client/build"));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "app/client/build", "index.html"));
   });
 }
 
