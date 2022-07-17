@@ -19,12 +19,7 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: true,
-    credentials: true,
-  })
-);
+app.use(cors());
 
 /////
 app.use("/uploads", express.static("uploads")); //nodejs에서 정적파일을 제공
@@ -97,11 +92,7 @@ app.post("/api/user/login", (req, res) => {
 
         //토큰을 쿠키에 저장,  로컬스토리지 등에도 저장가능
         res
-          .cookie("userCookie", user.token, user.tokenExp, {
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-          })
+          .cookie("userCookie", user.token)
           .status(200) //400 = 실패, 200 = 성공
           .json({ loginSuccess: true, userId: user._id });
       });
