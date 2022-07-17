@@ -12,7 +12,7 @@
     "nodemon": "nodemon server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "react": "concurrently \"npm run nodemon\"  \"npm start --prefix client\"",
-    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "cws",
   "license": "ISC",
