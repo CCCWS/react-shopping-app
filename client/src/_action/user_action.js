@@ -9,7 +9,7 @@ import {
 
 const postUrl =
   process.env.NODE_ENV === "production"
-    ? "https://cws-shopping.herokuapp.com"
+    ? "https://blooming-castle-32175.herokuapp.com"
     : "http://localhost:3000";
 
 console.log(process.env.NODE_ENV);
