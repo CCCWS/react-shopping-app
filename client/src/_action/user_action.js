@@ -7,10 +7,15 @@ import {
   REMOVE_CART,
 } from "./types";
 
+const postUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://cws-shopping.herokuapp.com"
+    : "http://localhost:3000";
+
 export function loginInfo(data) {
   //submit로 발생한 값을 받아줌
   const request = axios
-    .post("/api/user/login", data) //서버에서 받은 데이터를 저장
+    .post(`${postUrl}/api/user/login`, data) //서버에서 받은 데이터를 저장
     .then((response) => response.data);
 
   return {
@@ -23,7 +28,7 @@ export function loginInfo(data) {
 export function registerInfo(data) {
   //submit로 발생한 값을 받아줌
   const request = axios
-    .post("/api/user/register", data) //서버에서 받은 데이터를 저장
+    .post(`${postUrl}/api/user/register`, data) //서버에서 받은 데이터를 저장
     .then((response) => response.data);
 
   return {
@@ -36,7 +41,7 @@ export function registerInfo(data) {
 export function auth() {
   //submit로 발생한 값을 받아줌
   const request = axios
-    .get("/api/user/auth") //서버에서 받은 데이터를 저장
+    .get(`${postUrl}/api/user/auth`) //서버에서 받은 데이터를 저장
     .then((response) => response.data);
 
   return {
@@ -47,7 +52,7 @@ export function auth() {
 }
 
 export const addCart = async (data) => {
-  const res = await axios.post("/api/user/addCart", {
+  const res = await axios.post(`${postUrl}/api/user/addCart`, {
     productId: data,
   }); //서버에서 받은 데이터를 저장
 
@@ -59,7 +64,7 @@ export const addCart = async (data) => {
 };
 
 export const removeCart = async (data) => {
-  const res = await axios.post("/api/user/removeCart", {
+  const res = await axios.post(`${postUrl}/api/user/removeCart`, {
     id: data,
   }); //서버에서 받은 데이터를 저장
   return {
