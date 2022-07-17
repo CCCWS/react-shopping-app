@@ -4,7 +4,7 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 module.exports = function (app) {
   app.use(
     createProxyMiddleware("/api", {
-      target: "https://blooming-castle-32175.herokuapp.com",
+      target: "http://localhost:5000",
       changeOrigin: true,
     })
   );
