@@ -46,6 +46,7 @@ export function auth() {
     .get(`${postUrl}/api/user/auth`) //서버에서 받은 데이터를 저장
     .then((response) => response.data);
 
+  console.log(request);
   return {
     //request를 reducer에  > user_reducer.js
     type: AUTH_INFO,
