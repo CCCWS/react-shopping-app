@@ -12,6 +12,8 @@ const postUrl =
     ? "https://cws-shopping.herokuapp.com"
     : "http://localhost:3000";
 
+console.log(process.env.NODE_ENV);
+
 export function loginInfo(data) {
   //submit로 발생한 값을 받아줌
   const request = axios

@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const path = require("path");
 const port = process.env.PORT || 3001;
 const mongoose = require("mongoose");
@@ -24,6 +25,7 @@ app.use(
   })
 );
 app.use(cookieParser());
+app.use(cors());
 
 /////
 app.use("/uploads", express.static("uploads")); //nodejs에서 정적파일을 제공
