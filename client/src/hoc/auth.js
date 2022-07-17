@@ -16,8 +16,6 @@ export default function (SpecificComponent, option, adminRoute = null) {
 
     useEffect(() => {
       dispatch(auth()).then((response) => {
-        console.log(response);
-
         if (!response.payload.isAuth) {
           if (option) {
             // navigate("/"); // 로그인 안한 유저가 로그인한 유저만 출입 가능한곳에 들어가려할때

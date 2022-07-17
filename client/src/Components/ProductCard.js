@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 import "./ProductCard.css";
 
 function ProductCard({ data, click }) {
+  const postUrl =
+    process.env.NODE_ENV === "production"
+      ? "https://cws-shopping.herokuapp.com"
+      : "http://localhost:3000";
   const nav = useNavigate();
   const getTime = (time) => {
     const second = Math.floor(
