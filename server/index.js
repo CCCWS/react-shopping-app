@@ -32,21 +32,11 @@ app.use("/uploads", express.static("uploads")); //nodejs에서 정적파일을 �
 app.use("/api/product", require("./models/product")); //해당 경로로 이동하여 처리
 
 if (process.env.NODE_ENV === "production") {
-  // Set static folder
   app.use(express.static("client/build"));
-
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
-
-// app.listen(process.env.PORT || 3001, function () {
-//   console.log(
-//     "Express server listening on port %d in %s mode",
-//     this.address().port,
-//     app.settings.env
-//   );
-// });
 
 mongoose
   .connect(config.mongoURI)
