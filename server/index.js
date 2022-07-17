@@ -9,14 +9,8 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const config = require("./config/key");
 const { auth } = require("./middleware/auth");
-//bodyParser > 클라이언트에서 오는 정보를 서버에서 분석해서 가죠올수 있게해줌
+//bodyParser > 클라이언트에서 오는 정보를 서버에서 분석해서 가져올 수 있게해줌
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// process.env.NODE_ENV =
-//   process.env.NODE_ENV &&
-//   process.env.NODE_ENV.trim().toLowerCase() == "production"
-//     ? "production"
-//     : "development";
 
 // json파일을 분석해서 가져옴
 app.use(
