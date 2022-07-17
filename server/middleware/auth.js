@@ -3,7 +3,7 @@ const { User } = require("../models/User");
 const auth = (req, res, next) => {
   //인증 처리 하는곳
   //클라이언트 쿠키에서 토큰을 가져옴
-  const token = req.cookies.w_auth;
+  const token = req.cookies.userCookie;
   //지정한 쿠키 이름
 
   //토큰을 복화하하여 유저 탐색

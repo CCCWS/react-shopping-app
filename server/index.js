@@ -19,7 +19,12 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 /////
 app.use("/uploads", express.static("uploads")); //nodejs에서 정적파일을 제공
@@ -28,7 +33,7 @@ app.use("/api/product", require("./models/product")); //해당 경로로 이동�
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
 
@@ -92,7 +97,11 @@ app.post("/api/user/login", (req, res) => {
 
         //토큰을 쿠키에 저장,  로컬스토리지 등에도 저장가능
         res
-          .cookie("userCookie", user.token)
+          .cookie("userCookie", user.token, user.tokenExp, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+          })
           .status(200) //400 = 실패, 200 = 성공
           .json({ loginSuccess: true, userId: user._id });
       });
