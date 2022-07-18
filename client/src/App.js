@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Auth from "./hoc/Auth";
+import Auth from "./hoc/auth";
 import Header from "./Components/Header/Header";
 import Main from "./Page/Main";
 import Upload from "./Page/Upload";
