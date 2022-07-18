@@ -6,6 +6,7 @@ import axios from "axios";
 
 import PaymentBtn from "../Components/PaymentBtn";
 import "./CheckOut.css";
+import { postUrl } from "../PostUrl";
 
 function CheckOut() {
   const nav = useNavigate();
@@ -113,7 +114,7 @@ function CheckOut() {
               <div>
                 <div
                   style={{
-                    backgroundImage: `url('${data.image[0].path}')`,
+                    backgroundImage: `url('${postUrl}${data.image[0].name}')`,
                   }}
                   className="purchase-img"
                 />
