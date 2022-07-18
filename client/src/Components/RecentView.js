@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./RecentView.css";
+import { postUrl } from "../PostUrl";
 
-function RecentView({ detail }) {
+function RecentView() {
   const { id } = useParams();
   const nav = useNavigate();
   const [histoty, setHistory] = useState([]);
@@ -26,7 +27,7 @@ function RecentView({ detail }) {
               <div key={data.id}>
                 <div
                   style={{
-                    backgroundImage: `url('${data.image}')`,
+                    backgroundImage: `url('${postUrl}${data.image}')`,
                   }}
                   onClick={() => {
                     nav(`/product/${data.id}`);

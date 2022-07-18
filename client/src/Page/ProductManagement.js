@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoadingOutlined } from "@ant-design/icons";
 import "./ProductManagement.css";
 import { postUrl } from "../PostUrl";
 
 function ProductManagement() {
+  const nav = useNavigate();
   const [product, setProduct] = useState([]);
   const [totalSold, setTotalSold] = useState();
   const [totalPrice, setTotalPrice] = useState();
@@ -54,58 +56,73 @@ function ProductManagement() {
     if (arr.length > 0) {
       setTotalPrice(arr.reduce((prev, current) => prev + current));
     }
-    console.log(arr);
   };
 
   return (
-    <>
+    <div className="page">
       {loading ? (
         <div className="loading">
           <LoadingOutlined />
         </div>
       ) : (
-        <div className="page">
-          <div>
-            <div>{`등록물품 ${
-              product.length
-            }개 - 총 판매개수 ${totalSold}개 - 전체 판매금액 ${totalPrice.toLocaleString()}원`}</div>
+        <>
+          <div className="ProductManagement-info">
+            <div className="ProductManagement-info-value">
+              <div>등록물품</div>
+              <div>{product.length}개</div>
+            </div>
 
-            <div className="ProductManagement-product-list">
-              {product.map((data, index) => (
-                <div key={index} className="ProductManagement-purchase-card">
-                  <div>
-                    <div
-                      style={{
-                        backgroundImage: `url('${postUrl}${data.image[0].name}')`,
-                      }}
-                      className="ProductManagement-purchase-img"
-                    />
-                    <div className="ProductManagement-purchase-card-title">
-                      <div>
-                        {data.title.length > 25
-                          ? `${data.title.slice(0, 25)}...`
-                          : `${data.title}`}
-                      </div>
-                      <div>{`등록일 ${new Date(
-                        data.createdAt
-                      ).getFullYear()}년 ${
-                        new Date(data.createdAt).getMonth() + 1
-                      }월 ${new Date(data.createdAt).getDay()}일`}</div>
-                      <div>{`가격 ${data.price.toLocaleString()}원`}</div>
-                      <div>{`판매수 ${data.sold}`}</div>
-                      <div className="ProductManagement-purchase-card-price">{`총 판매금액 ${parseInt(
-                        data.price * data.sold,
-                        10
-                      ).toLocaleString()}원`}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <div className="ProductManagement-info-value">
+              <div>판매개수</div>
+              <div>{totalSold}개</div>
+            </div>
+
+            <div className="ProductManagement-info-value">
+              <div>판매금액</div>
+              <div>{totalPrice.toLocaleString()}원</div>
             </div>
           </div>
-        </div>
+
+          <div className="ProductManagement-product-list">
+            {product.map((data, index) => (
+              <div
+                key={index}
+                className="ProductManagement-purchase-card"
+                onClick={() => nav(`/product/${data._id}`)}
+              >
+                <div>
+                  <div
+                    style={{
+                      backgroundImage: `url('${postUrl}${data.image[0].name}')`,
+                    }}
+                    className="ProductManagement-purchase-img"
+                  />
+                  <div className="ProductManagement-purchase-card-title">
+                    <div>
+                      {data.title.length > 25
+                        ? `${data.title.slice(0, 25)}...`
+                        : `${data.title}`}
+                    </div>
+
+                    <ul>
+                      <li>{`등록일 ${new Date(data.createdAt).getFullYear()}. ${
+                        new Date(data.createdAt).getMonth() + 1
+                      }. ${new Date(data.createdAt).getDay()}`}</li>
+                      <li>{`가격 ${data.price.toLocaleString()}원`}</li>
+                      <li>{`판매수 ${data.sold}`}개</li>
+                      <li>{`판매금액 ${parseInt(
+                        data.price * data.sold,
+                        10
+                      ).toLocaleString()}원`}</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
-    </>
+    </div>
   );
 }
 

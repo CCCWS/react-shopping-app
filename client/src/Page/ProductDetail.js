@@ -17,7 +17,6 @@ function ProductDetail({ user }) {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [loadingOther, setLoadingOther] = useState(true);
   const [product, setProduct] = useState([]);
   const [otherProduct, setOtherProduct] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -32,7 +31,7 @@ function ProductDetail({ user }) {
     localStorage.setItem(
       "productHistory",
       JSON.stringify([
-        { id: product._id, image: product.image[0].path },
+        { id: product._id, image: product.image[0].name },
         ...filterGet,
       ])
     );
@@ -43,7 +42,7 @@ function ProductDetail({ user }) {
       if (get === null) {
         localStorage.setItem(
           "productHistory",
-          JSON.stringify([{ id: product._id, image: product.image[0].path }])
+          JSON.stringify([{ id: product._id, image: product.image[0].name }])
         );
       } else {
         if (get.length === 6) {
@@ -74,7 +73,6 @@ function ProductDetail({ user }) {
   const getProduct = async () => {
     setLoading(true);
     const res = await axios.post("/api/product/productDetail", { id });
-    console.log(res.data.productInfo);
     setProduct(res.data.productInfo);
   };
 
@@ -232,18 +230,20 @@ function ProductDetail({ user }) {
             <hr />
 
             {otherProduct.length > 0 && (
-              <div>
-                <div className="ProductDetail-other">관련 상품</div>
-                <div className="main-productList ProductDetail-productCard">
-                  <ProductCard
-                    data={otherProduct}
-                    click={true}
-                    ProductDetail={true}
-                  />
+              <>
+                <div>
+                  <div className="ProductDetail-other">관련 상품</div>
+                  <div className="main-productList ProductDetail-productCard">
+                    <ProductCard
+                      data={otherProduct}
+                      click={true}
+                      ProductDetail={true}
+                    />
+                  </div>
                 </div>
-              </div>
+                <hr />
+              </>
             )}
-            <hr />
           </div>
 
           <div className="ProductDetail-footer">

@@ -40,7 +40,7 @@
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 20px;
-  border: 2px solid black;
+  border: 2px solid rgb(253, 253, 253);
 }
 
 .RecentView-img:hover {

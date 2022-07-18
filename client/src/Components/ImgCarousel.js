@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Carousel } from "antd";
 import "./ImgCarousel.css";
+import { postUrl } from "../PostUrl";
 
 function ImgCarousel({ data, setModalImg, setModalOpen }) {
   return (
@@ -11,7 +12,7 @@ function ImgCarousel({ data, setModalImg, setModalOpen }) {
             <div
               className="ImgCarousel-img"
               style={{
-                backgroundImage: `url('${item.path}')`,
+                backgroundImage: `url('${postUrl}${item.name}')`,
               }}
               onClick={() => {
                 setModalImg(item);
