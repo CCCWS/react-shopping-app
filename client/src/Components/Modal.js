@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { postUrl } from "../PostUrl";
 import "./Modal.css";
 
 function Modal({ setModalOpen, modalOpen, data, setState }) {
@@ -35,7 +36,7 @@ function Modal({ setModalOpen, modalOpen, data, setState }) {
           </button>
 
           <img
-            src={`http://localhost:3001/uploads/${data.name}`}
+            src={`${postUrl}${data.name}`}
             alt="img"
             id="modalImg"
             className={
