@@ -8,8 +8,11 @@ const auth = (req, res, next) => {
 
   //토큰을 복화하하여 유저 탐색
   User.findByToken(token, (err, user) => {
+    console.log(user);
     if (err) throw err;
-    if (!user) return res.json({ isAuth: false, error: true });
+    if (user === null) {
+      return res.json({ isAuth: false, error: true, test: "test" });
+    }
 
     req.token = token;
     req.user = user; //req에 넘어줌으로써 사용할 수 있게 해줌

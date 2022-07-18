@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../_action/user_action";
 import { useNavigate } from "react-router-dom";
 
-export default function (SpecificComponent, option, adminRoute = null) {
+export default function Auth(SpecificComponent, option, adminRoute = null) {
   //option에 올 수있는 값
   //null 아무나 출입가능
   //ture 로그인 유저만 출입 가능
