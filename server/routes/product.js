@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const ext = file.mimetype.split("/")[1];
     if (["png", "jpg", "jpeg", "gif"].includes(ext)) {
-      cb(null, `${Date.now()}`);
+      cb(null, `${Date.now()}.${ext}`);
     } else {
       cb(new Error("이미지만 업로드 가능"));
     }

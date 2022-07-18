@@ -16,7 +16,7 @@ import RecentView from "../Components/RecentView";
 function Main() {
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [click, setClick] = useState();
+  const [click, setClick] = useState(true);
   const [selectCategory, setSelectCategort] = useState("전체");
   const [searchValue, setSearchValue] = useState("");
   const [price, setPrice] = useState({

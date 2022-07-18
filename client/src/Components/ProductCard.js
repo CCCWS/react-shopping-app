@@ -1,14 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { postUrl } from "../PostUrl";
 
 import "./ProductCard.css";
 
 function ProductCard({ data, click }) {
-  const postUrl =
-    process.env.NODE_ENV === "production"
-      ? "https://blooming-castle-32175.herokuapp.com/uploads/"
-      : "http://localhost:3001/uploads/";
-
   const nav = useNavigate();
   const getTime = (time) => {
     const second = Math.floor(

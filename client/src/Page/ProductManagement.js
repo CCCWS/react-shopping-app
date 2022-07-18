@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { LoadingOutlined } from "@ant-design/icons";
 import "./ProductManagement.css";
+import { postUrl } from "../PostUrl";
 
 function ProductManagement() {
   const [product, setProduct] = useState([]);
@@ -75,7 +76,7 @@ function ProductManagement() {
                   <div>
                     <div
                       style={{
-                        backgroundImage: `url('${data.image[0].path}')`,
+                        backgroundImage: `url('${postUrl}${data.image[0].name}')`,
                       }}
                       className="ProductManagement-purchase-img"
                     />
@@ -90,8 +91,8 @@ function ProductManagement() {
                       ).getFullYear()}년 ${
                         new Date(data.createdAt).getMonth() + 1
                       }월 ${new Date(data.createdAt).getDay()}일`}</div>
-                      <div>{`판매수 ${data.sold}`}</div>
                       <div>{`가격 ${data.price.toLocaleString()}원`}</div>
+                      <div>{`판매수 ${data.sold}`}</div>
                       <div className="ProductManagement-purchase-card-price">{`총 판매금액 ${parseInt(
                         data.price * data.sold,
                         10

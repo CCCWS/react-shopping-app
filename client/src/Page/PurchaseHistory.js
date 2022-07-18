@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoadingOutlined } from "@ant-design/icons";
+import { postUrl } from "../PostUrl";
 
 import "./PurchaseHistory.css";
 
@@ -56,7 +57,7 @@ function PurchaseHistory() {
                       <div>
                         <div
                           style={{
-                            backgroundImage: `url('${data.image[0].path}')`,
+                            backgroundImage: `url('${postUrl}${data.image[0].name}')`,
                           }}
                           className="purchaseHistory-purchase-img"
                         />

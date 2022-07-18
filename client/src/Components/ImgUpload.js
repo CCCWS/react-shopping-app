@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import axios from "axios";
+import { postUrl } from "../PostUrl";
 import "./ImgUpload.css";
 import {
   CameraOutlined,
@@ -26,6 +27,7 @@ function ImgUpload({ setModalOpen, setImgData, setState }) {
 
     axios.post("/api/product/img", formData, config).then((res) => {
       if (res.data.success) {
+        console.log(res);
         const getImg = new Image();
         getImg.onload = function () {
           setImg([
@@ -34,11 +36,11 @@ function ImgUpload({ setModalOpen, setImgData, setState }) {
               name: res.data.file.filename,
               width: this.width,
               height: this.height,
-              path: `http://localhost:3001/uploads/${res.data.file.filename}`,
+              // path: `http://localhost:3001/uploads/${res.data.file.filename}`,
             },
           ]);
         };
-        getImg.src = `http://localhost:3001/${res.data.file.path}`;
+        getImg.src = `${postUrl}${res.data.file.filename}`;
       }
     });
   };
@@ -100,7 +102,7 @@ function ImgUpload({ setModalOpen, setImgData, setState }) {
           {img.map((data, index) => (
             <div
               style={{
-                backgroundImage: `url('${data.path}')`,
+                backgroundImage: `url('${postUrl}${data.name}')`,
               }}
               key={index}
               alt="img"

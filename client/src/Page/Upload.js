@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { categoryList } from "../data/CatecoryList";
@@ -72,7 +72,6 @@ function Upload({ user }) {
   const priceRef = useRef();
   const descriptionRef = useRef();
   const countRef = useRef();
-
 
   const onWrite = (e) => {
     e.preventDefault();

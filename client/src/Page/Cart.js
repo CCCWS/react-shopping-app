@@ -9,13 +9,12 @@ import {
   CloseOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
+import { postUrl, PostUrl } from "../PostUrl";
 import "./Cart.css";
 
 function Cart() {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  // const user = useSelector((state) => state.user.userData);
-  const [cartData, setCartData] = useState([]);
   const [product, setProduct] = useState([]);
   const [checkProduct, setCheckProduct] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -160,13 +159,13 @@ function Cart() {
   };
 
   return (
-    <>
+    <div className="page">
       {loading ? (
         <div className="loading">
           <LoadingOutlined />
         </div>
       ) : (
-        <div className="page">
+        <>
           <div className="purchase-procedure">
             <strong>장바구니</strong> &gt; 주문서 &gt; 결제완료
           </div>
@@ -212,7 +211,7 @@ function Cart() {
                       </div>
                       <div
                         style={{
-                          backgroundImage: `url('${data.image[0].path}')`,
+                          backgroundImage: `url('${postUrl}${data.image[0].name}')`,
                         }}
                         className="cart-img"
                         onClick={() => nav(`/product/${data._id}`)}
@@ -269,9 +268,9 @@ function Cart() {
               </div>
             </div>
           </div>
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 }
 

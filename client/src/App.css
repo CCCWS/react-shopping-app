@@ -7,6 +7,7 @@
 
 body {
   overflow: overlay;
+  background-color: rgba(221, 155, 31, 0.24);
 }
 
 ::-webkit-scrollbar {
@@ -24,7 +25,7 @@ body {
 
 .page {
   width: 900px;
-  min-height: 94vh;
+  min-height: 100vh;
   margin: auto;
   background-color: rgb(255, 255, 255);
   position: relative;
@@ -49,18 +50,18 @@ body {
 .btn::before {
   content: "";
   position: absolute;
-  background-color: rgb(255, 111, 111);
+  background-color: orange;
   left: 0;
-  top: 15%;
-  height: 80%;
+  top: 0;
+  height: 100%;
   width: 3px;
-  border-radius: 0px 10px 10px 0px;
   transition: all ease 0.3s;
   z-index: -1;
 }
 
 .btn:hover::before {
   width: 100%;
+  border-radius: 0px 5px 5px 0px;
 }
 
 .loading {
