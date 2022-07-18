@@ -10,7 +10,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
   //false 로그인 유저는 출입 불가
 
   function AuthCheck() {
-    const navigate = useNavigate();
+    const nav = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
 
@@ -24,11 +24,11 @@ export default function (SpecificComponent, option, adminRoute = null) {
         } else {
           if (adminRoute && !response.payload.isAdmin) {
             //로그인 했으나 관리자 페이지에 들어가려할때
-            navigate("/");
+            nav("/");
           } else {
             if (option === false)
               //로그인한 유저는 출입 불가능한 경우, 로그인페이지, 가입페이지
-              navigate("/");
+              nav("/");
           }
         }
       });
