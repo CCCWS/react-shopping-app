@@ -6,8 +6,9 @@ import "./ProductCard.css";
 function ProductCard({ data, click }) {
   const postUrl =
     process.env.NODE_ENV === "production"
-      ? "https://cws-shopping.herokuapp.com"
-      : "http://localhost:3000";
+      ? "https://cws-shopping.herokuapp.com/uploads/"
+      : "http://localhost:3001/uploads/";
+
   const nav = useNavigate();
   const getTime = (time) => {
     const second = Math.floor(
@@ -40,7 +41,7 @@ function ProductCard({ data, click }) {
         >
           <div
             style={{
-              backgroundImage: `url('${data.image[0].path}')`,
+              backgroundImage: `url('${postUrl}${data.image[0].name}')`,
             }}
             className={click ? "productCard-img" : "productCard-img-list"}
           >
