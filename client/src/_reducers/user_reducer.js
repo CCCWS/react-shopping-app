@@ -19,7 +19,8 @@ export default function userData(state = {}, action) {
       break;
 
     case AUTH_INFO:
-      return { ...state, userData: action.payload };
+      console.log(action);
+      return { ...state, userData: "???????????" };
       break;
 
     case ADD_CART:

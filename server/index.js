@@ -106,17 +106,16 @@ app.post("/api/user/login", (req, res) => {
 app.get("/api/user/auth", auth, (req, res) => {
   //미들웨어가 통과됐다면 인증이 true
   res.status(200).json({
-    // _id: req.user._id, //넘겨줄 인자 입력, auth에서 req에 담아줬기때문에 사용가능
-    // isAdmin: req.user.role === 0 ? false : true, //role 0이면 사용자, 0이 아니면 관리자
-    // isAuth: true,
-    // email: req.user.email,
-    // name: req.user.name,
-    // lastname: req.user.lastname,
-    // role: req.user.role,
-    // image: req.user.image,
-    // cart: req.user.cart,
-    // history: req.user.history,
-    test: "test",
+    _id: req.user._id, //넘겨줄 인자 입력, auth에서 req에 담아줬기때문에 사용가능
+    isAdmin: req.user.role === 0 ? false : true, //role 0이면 사용자, 0이 아니면 관리자
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    lastname: req.user.lastname,
+    role: req.user.role,
+    image: req.user.image,
+    cart: req.user.cart,
+    history: req.user.history,
     //해당 정보를 줌으로써 페이지에서 어떤 정보를 필요하는지 확인가능
   });
 }); //auth > 미들웨어 중간에서 작업을 해줌 auth.js

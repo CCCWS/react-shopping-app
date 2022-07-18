@@ -43,7 +43,7 @@ export function registerInfo(data) {
 export function auth() {
   //submit로 발생한 값을 받아줌
   const request = axios
-    .get(`${postUrl}/api/user/auth`, { withCredentials: true }) //서버에서 받은 데이터를 저장
+    .get(`${postUrl}/api/user/auth`) //서버에서 받은 데이터를 저장
     .then((response) => response.data);
 
   console.log(request);
