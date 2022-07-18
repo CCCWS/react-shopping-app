@@ -3,6 +3,7 @@ import {
   LoadingOutlined,
   AppstoreOutlined,
   BarsOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
 import { categoryList } from "../data/CatecoryList";
@@ -113,7 +114,7 @@ function Main() {
   return (
     <div className="page">
       <div className="main-option">
-        <div>
+        <div className="main-option-selectBox">
           <SelectBox
             data={categoryList}
             value={selectCategory}
@@ -146,6 +147,9 @@ function Main() {
           onSubmit={onSearch}
           placeholder="검색어를 입력해주세요."
         />
+        <div>
+          <SearchOutlined onClick={onSearch} />
+        </div>
       </form>
 
       <div className={click ? "main-productList" : "main-productList-list"}>
