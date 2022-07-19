@@ -51,7 +51,7 @@
 
 /* sideMenu */
 .RecentView-sideMenu {
-  width: 100%;
+  width: 250px;
   padding: 10px;
   display: flex;
   flex-direction: row;
@@ -61,7 +61,7 @@
 }
 
 .RecentView-img-sideMenu {
-  width: 45%;
+  width: 100px;
   height: 100px;
   margin-top: 5px;
   margin-bottom: 5px;
