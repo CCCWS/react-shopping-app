@@ -153,6 +153,7 @@ function Main() {
       </form>
 
       <div className={click ? "main-productList" : "main-productList-list"}>
+        <RecentView />
         {loading ? (
           <div className="loading">
             <LoadingOutlined />
@@ -160,7 +161,6 @@ function Main() {
         ) : (
           <>
             <ProductCard data={productList} click={click} />
-            <RecentView />
           </>
         )}
       </div>

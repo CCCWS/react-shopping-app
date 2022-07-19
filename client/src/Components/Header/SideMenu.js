@@ -4,6 +4,7 @@ import { HeaderBtn, HeaderLogInBtn } from "./HeaderBtn";
 import { MenuOutlined } from "@ant-design/icons";
 
 import "./SideMenu.css";
+import RecentView from "../RecentView";
 
 function SideMenu({ menuClick, setMenuClick, setModalOpen, userAuth, logOut }) {
   const openMenu = () => {
@@ -39,6 +40,8 @@ function SideMenu({ menuClick, setMenuClick, setModalOpen, userAuth, logOut }) {
       >
         <div className={menuClick ? "side-menu-open2" : "side-menu-close2"}>
           <div className="side-menu-item">
+            <RecentView SideMenu={true} />
+
             <HeaderLogInBtn
               onSideMenu={true}
               setModalOpen={setModalOpen}

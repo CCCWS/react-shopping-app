@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./RecentView.css";
 import { postUrl } from "../PostUrl";
 
-function RecentView() {
+function RecentView({ SideMenu }) {
   const { id } = useParams();
   const nav = useNavigate();
   const [histoty, setHistory] = useState([]);
@@ -15,35 +15,65 @@ function RecentView() {
     }
   }, [id]);
 
-  return (
-    <div className="RecentView">
-      <div>
-        <div className="RecentView-div">최근본상품</div>
-        {histoty.length === 0 ? (
-          <div className="RecentView-not">최근본상품이 없습니다.</div>
-        ) : (
-          <>
-            {histoty.map((data) => (
-              <div key={data.id}>
-                <div
-                  style={{
-                    backgroundImage: `url('${postUrl}${data.image}')`,
-                  }}
-                  onClick={() => {
-                    nav(`/product/${data.id}`);
-                  }}
-                  className="RecentView-img"
-                />
-              </div>
-            ))}
-          </>
-        )}
+  console.log(histoty);
 
-        <div className="RecentView-div" onClick={() => window.scroll(0, 0)}>
-          맨위로
+  return (
+    <>
+      {SideMenu ? (
+        <>
+          <div className="RecentView-div">최근본상품</div>
+          <div className="RecentView-sideMenu">
+            {histoty.length === 0 ? (
+              <div className="RecentView-not">최근본상품이 없습니다.</div>
+            ) : (
+              <>
+                {histoty.map((data) => (
+                  <div key={data.id} className="RecentView-img-sideMenu">
+                    <div
+                      style={{
+                        backgroundImage: `url('${postUrl}${data.image}')`,
+                      }}
+                      onClick={() => {
+                        nav(`/product/${data.id}`);
+                      }}
+                    />
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+        </>
+      ) : (
+        <div className="RecentView">
+          <div>
+            <div className="RecentView-div">최근본상품</div>
+            {histoty.length === 0 ? (
+              <div className="RecentView-not">최근본상품이 없습니다.</div>
+            ) : (
+              <>
+                {histoty.map((data) => (
+                  <div key={data.id}>
+                    <div
+                      style={{
+                        backgroundImage: `url('${postUrl}${data.image}')`,
+                      }}
+                      onClick={() => {
+                        nav(`/product/${data.id}`);
+                      }}
+                      className="RecentView-img"
+                    />
+                  </div>
+                ))}
+              </>
+            )}
+
+            <div className="RecentView-div" onClick={() => window.scroll(0, 0)}>
+              맨위로
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 
