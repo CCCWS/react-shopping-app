@@ -40,7 +40,11 @@ function SideMenu({ menuClick, setMenuClick, setModalOpen, userAuth, logOut }) {
       >
         <div className={menuClick ? "side-menu-open2" : "side-menu-close2"}>
           <div className="side-menu-item">
-            <RecentView SideMenu={true} />
+            <RecentView
+              SideMenu={true}
+              closeMenu={() => setMenuClick(false)}
+              menuClick={menuClick}
+            />
 
             <HeaderLogInBtn
               onSideMenu={true}
@@ -56,4 +60,4 @@ function SideMenu({ menuClick, setMenuClick, setModalOpen, userAuth, logOut }) {
   );
 }
 
-export default SideMenu;
+export default React.memo(SideMenu);

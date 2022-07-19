@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./RecentView.css";
 import { postUrl } from "../PostUrl";
 
-function RecentView({ SideMenu }) {
+function RecentView({ SideMenu, closeMenu, menuClick }) {
   const { id } = useParams();
   const nav = useNavigate();
   const [histoty, setHistory] = useState([]);
@@ -13,9 +13,7 @@ function RecentView({ SideMenu }) {
     if (getProductHistory !== null) {
       setHistory(getProductHistory);
     }
-  }, [id]);
-
-  console.log(histoty);
+  }, [id, menuClick]);
 
   return (
     <>
@@ -35,6 +33,7 @@ function RecentView({ SideMenu }) {
                       }}
                       onClick={() => {
                         nav(`/product/${data.id}`);
+                        closeMenu();
                       }}
                     />
                   </div>
@@ -77,4 +76,4 @@ function RecentView({ SideMenu }) {
   );
 }
 
-export default RecentView;
+export default React.memo(RecentView);
