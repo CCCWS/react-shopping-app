@@ -24,6 +24,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post("/img", upload.single("file"), (req, res) => {
+  //서버에 이미지파일 업로드
   return res.json({
     success: true,
     file: res.req.file,
@@ -31,6 +32,7 @@ app.post("/img", upload.single("file"), (req, res) => {
 });
 
 app.post("/write", (req, res) => {
+  //새로운 상품 등록
   //받은 정보를 DB에 저장
   const productData = new ProductData(req.body);
   productData.save((err) => {
@@ -42,6 +44,7 @@ app.post("/write", (req, res) => {
 });
 
 app.post("/delImg", async (req, res) => {
+  //상품 등록 페이지에서 업로드 이미지 삭제
   if (fs.existsSync(`uploads/${req.body.image}`)) {
     // 파일이 존재한다면 true 그렇지 않은 경우 false 반환
     try {
@@ -58,6 +61,7 @@ app.post("/delImg", async (req, res) => {
 });
 
 app.post("/productList", (req, res) => {
+  //상품목록 가져오기
   const arg = {};
 
   if (req.body.price) {
@@ -94,6 +98,7 @@ app.post("/productList", (req, res) => {
 });
 
 app.post("/productDetail", (req, res) => {
+  //특정 상품 상세정보
   ProductData.findOneAndUpdate(
     { _id: req.body.id },
     {
@@ -113,6 +118,7 @@ app.post("/productDetail", (req, res) => {
 });
 
 app.post("/cart", (req, res) => {
+  //사용자의 카트에 등록된 상품 목록
   ProductData.find({
     _id: { $in: req.body },
   })
@@ -126,6 +132,7 @@ app.post("/cart", (req, res) => {
 });
 
 app.post("/successBuy", (req, res) => {
+  //구매 성공시 처리
   ProductData.findOneAndUpdate(
     { _id: req.body.id },
     {
@@ -146,7 +153,8 @@ app.post("/successBuy", (req, res) => {
   );
 });
 
-app.post("/test", auth, (req, res) => {
+app.post("/myProduct", auth, (req, res) => {
+  //사용자가 등록한 상품 목록
   ProductData.find({
     writer: { $in: req.user._id },
   })
@@ -157,6 +165,31 @@ app.post("/test", auth, (req, res) => {
         success: true,
         productInfo: productInfo,
       });
+    });
+});
+
+app.post("/viewSort", (req, res) => {
+  ProductData.find()
+    .sort({ views: -1 })
+    .limit(3)
+    .exec((err, productInfo) => {
+      if (err) {
+        return res.status(400).json({ success: false, err });
+      }
+      return res.status(200).json({ success: true, productInfo });
+    });
+});
+
+
+app.post("/soldSort", (req, res) => {
+  ProductData.find()
+    .sort({ sold: -1 })
+    .limit(3)
+    .exec((err, productInfo) => {
+      if (err) {
+        return res.status(400).json({ success: false, err });
+      }
+      return res.status(200).json({ success: true, productInfo });
     });
 });
 

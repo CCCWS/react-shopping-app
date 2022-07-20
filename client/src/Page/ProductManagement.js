@@ -17,7 +17,7 @@ function ProductManagement() {
   }, []);
 
   const getProduct = async () => {
-    const res = await axios.post("/api/product/test");
+    const res = await axios.post("/api/product/myProduct");
 
     if (res.data.success) {
       setProduct(res.data.productInfo);
@@ -107,7 +107,7 @@ function ProductManagement() {
                     <ul>
                       <li>{`등록일 ${new Date(data.createdAt).getFullYear()}. ${
                         new Date(data.createdAt).getMonth() + 1
-                      }. ${new Date(data.createdAt).getDay()}`}</li>
+                      }. ${new Date(data.createdAt).getDate()}`}</li>
                       <li>{`가격 ${data.price.toLocaleString()}원`}</li>
                       <li>{`판매수 ${data.sold}`}개</li>
                       <li>{`판매금액 ${parseInt(

@@ -13,6 +13,7 @@ import SelectBox from "../Components/SelectBox";
 import SelectBoxPrice from "../Components/SelecBoxPrice";
 import "./Main.css";
 import RecentView from "../Components/RecentView";
+import ProductRank from "../Components/ProductRank";
 
 function Main() {
   const [productList, setProductList] = useState([]);
@@ -151,6 +152,8 @@ function Main() {
           <SearchOutlined onClick={onSearch} />
         </div>
       </form>
+
+      <ProductRank />
 
       <div className={click ? "main-productList" : "main-productList-list"}>
         <RecentView />
