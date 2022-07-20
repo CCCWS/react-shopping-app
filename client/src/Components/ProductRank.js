@@ -24,7 +24,6 @@ function ProductRank() {
       console.log(err, "조회실패");
     }
   };
-  console.log(views);
 
   return (
     <div className="ProductRank">

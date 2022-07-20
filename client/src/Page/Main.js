@@ -47,7 +47,7 @@ function Main() {
     };
     getProductList(option);
     setSkip(0);
-  }, [selectCategory, price]);
+  }, [selectCategory, price, searchValue]);
 
   const getProductList = async (data) => {
     if (data.readMore === undefined) {
@@ -153,10 +153,11 @@ function Main() {
         </div>
       </form>
 
-      <ProductRank />
+      {searchValue.length > 0 ? null : <ProductRank />}
 
       <div className={click ? "main-productList" : "main-productList-list"}>
         <RecentView />
+
         {loading ? (
           <div className="loading">
             <LoadingOutlined />
