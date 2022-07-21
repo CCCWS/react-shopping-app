@@ -22,9 +22,12 @@ function ProductDetail({ user }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalImg, setModalImg] = useState([]);
   const [purchasesCount, setPurchasesCount] = useState(1);
+  const [writer, setWriter] = useState(false);
   const { id } = useParams();
 
   const get = JSON.parse(localStorage.getItem("productHistory"));
+
+  useEffect(() => {}, [loading]);
 
   const setLocalData = () => {
     const filterGet = get.filter((data) => data.id !== product._id);
@@ -85,6 +88,13 @@ function ProductDetail({ user }) {
     try {
       const res = await axios.post("/api/product/productList", option);
       setOtherProduct(res.data.productInfo.filter((data) => data._id !== id));
+
+      if (user.userData.isAuth) {
+        if (product.writer._id === user.userData._id) {
+          setWriter(true);
+        }
+      }
+
       setLoading(false);
     } catch (err) {
       console.log("데이터 조회 실패");
@@ -171,6 +181,10 @@ function ProductDetail({ user }) {
         totalPrice: product.price * purchasesCount,
       },
     });
+  };
+
+  const onEdit = () => {
+    nav(`/upload`);
   };
 
   return (
@@ -267,18 +281,26 @@ function ProductDetail({ user }) {
               </div>
 
               <div className="ProductDetail-footer-btn">
-                <button
-                  onClick={onAddCartProduct}
-                  className="ProductDetail-cart"
-                >
-                  장바구니
-                </button>
-                <button
-                  className="ProductDetail-purchase-btn"
-                  onClick={goCheckOut}
-                >
-                  구매하기
-                </button>
+                {writer ? (
+                  <button onClick={onEdit} className="ProductDetail-cart">
+                    수정하기
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      onClick={onAddCartProduct}
+                      className="ProductDetail-cart"
+                    >
+                      장바구니
+                    </button>
+                    <button
+                      className="ProductDetail-purchase-btn"
+                      onClick={goCheckOut}
+                    >
+                      구매하기
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>

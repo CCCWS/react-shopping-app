@@ -15,8 +15,8 @@ function ProductRank() {
 
   const getData = async () => {
     try {
-      const getSold = await axios.post("api/product/viewSort");
-      const getViews = await axios.post("api/product/soldSort");
+      const getSold = await axios.post("api/product/soldSort");
+      const getViews = await axios.post("api/product/viewSort");
 
       setSold(getSold.data.productInfo);
       setViews(getViews.data.productInfo);
@@ -37,7 +37,7 @@ function ProductRank() {
 
         <div className="ProductRank-section">
           <div>
-            <strong>판매량</strong>이 높은 상품
+            <strong>판매량</strong>이 많은 상품
           </div>
           <ProductSection items={sold} />
         </div>
