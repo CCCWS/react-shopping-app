@@ -125,7 +125,7 @@ function ProductDetail({ user }) {
   };
 
   const onAddCartProduct = async () => {
-    if (product.sold === product.count) {
+    if (product.count === 0) {
       return alert("품절입니다.");
     }
 
@@ -160,7 +160,7 @@ function ProductDetail({ user }) {
   };
 
   const goCheckOut = () => {
-    if (product.sold === product.count) {
+    if (product.count === 0) {
       return alert("품절입니다.");
     }
 
@@ -205,7 +205,7 @@ function ProductDetail({ user }) {
         </div>
       ) : (
         <div className="ProductDetail-info">
-          {product.sold === product.count ? (
+          {product.count === 0 ? (
             <div className="soldOut">판매완료된 상품입니다.</div>
           ) : null}
           <ImgCarousel
@@ -232,7 +232,7 @@ function ProductDetail({ user }) {
                 <div>{product.title}</div>
                 <div>{`${product.category} ∙ ${getTime(
                   product.createdAt
-                )} ∙ 남은수량 ${product.count - product.sold}개 ∙ 조회수 ${
+                )} ∙ 남은수량 ${product.count}개 ∙ 조회수 ${
                   product.views
                 } `}</div>
               </div>
@@ -274,8 +274,6 @@ function ProductDetail({ user }) {
                   purchasesCount={purchasesCount}
                   setPurchasesCount={setPurchasesCount}
                   productCount={product.count}
-                  productSold={product.sold}
-                  soldOut={product.sold === product.count && true}
                   detail={true}
                 />
               </div>

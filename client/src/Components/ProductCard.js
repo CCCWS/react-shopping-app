@@ -41,7 +41,7 @@ function ProductCard({ data, click }) {
             }}
             className={click ? "productCard-img" : "productCard-img-list"}
           >
-            {data.sold === data.count ? (
+            {data.count === 0 ? (
               <div className="productCard-soldOut">판매완료된 상품입니다.</div>
             ) : null}
           </div>
@@ -64,9 +64,7 @@ function ProductCard({ data, click }) {
               <div>{`${parseInt(data.price, 10).toLocaleString()}원`}</div>
               <div>{getTime(data.createdAt)}</div>
             </div>
-            <div className="productCard-count">{`남은 수량 ${
-              data.count - data.sold
-            }개`}</div>
+            <div className="productCard-count">{`남은 수량 ${data.count}개`}</div>
           </div>
         </div>
       ))}

@@ -85,7 +85,6 @@ function CheckOut() {
       option.push({
         id: data._id,
         purchasesCount: data.purchasesCount,
-        sold: data.sold,
       })
     );
 

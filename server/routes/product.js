@@ -136,9 +136,9 @@ app.post("/successBuy", (req, res) => {
   ProductData.findOneAndUpdate(
     { _id: req.body.id },
     {
-      $set: {
-        sold:
-          parseInt(req.body.sold, 10) + parseInt(req.body.purchasesCount, 10),
+      $inc: {
+        sold: req.body.purchasesCount,
+        count: -req.body.purchasesCount,
       },
     },
     { new: true },
@@ -179,7 +179,6 @@ app.post("/viewSort", (req, res) => {
       return res.status(200).json({ success: true, productInfo });
     });
 });
-
 
 app.post("/soldSort", (req, res) => {
   ProductData.find()
