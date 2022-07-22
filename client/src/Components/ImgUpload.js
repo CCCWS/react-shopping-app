@@ -9,8 +9,14 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 
-function ImgUpload({ setModalOpen, setImgData, setState }) {
+function ImgUpload({ setModalOpen, setImgData, setState, edit, editImg }) {
   const [img, setImg] = useState([]);
+
+  useEffect(() => {
+    if (edit) {
+      setImg(editImg.image);
+    }
+  }, []);
   //////////////////////////////////
   const dropItem = (files) => {
     if (img.length === 12) {
@@ -64,7 +70,7 @@ function ImgUpload({ setModalOpen, setImgData, setState }) {
     };
     axios.post("/api/product/delImg", body).then((res) => {
       if (res.data.success) {
-        alert("삭제 완료");
+        // alert("삭제 완료");
       }
 
       if (res.data.success === false) {

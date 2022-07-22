@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router";
 import Loading from "../Components/Loading";
+import UploadForm from "../Components/UploadForm";
 
 function Edit() {
   const { state } = useLocation();
@@ -20,9 +21,11 @@ function Edit() {
     setLoading(false);
   };
 
-  console.log(product);
-
-  return <div className="page">{loading ? <Loading /> : <div>test</div>}</div>;
+  return (
+    <div className="page">
+      {loading ? <Loading /> : <UploadForm edit={true} editData={product} />}
+    </div>
+  );
 }
 
 export default Edit;
