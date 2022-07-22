@@ -6,7 +6,6 @@ function PurchasesCountBtn({
   setPurchasesCount,
   productCount,
 }) {
-  console.log(productCount);
   return (
     <section className="PurchasesCountBtn-section">
       <div>

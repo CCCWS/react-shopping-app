@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { LoadingOutlined, LeftOutlined, HomeOutlined } from "@ant-design/icons";
+import { LeftOutlined, HomeOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { addCart } from "../_action/user_action";
 
@@ -12,6 +12,7 @@ import PurchasesCountBtn from "../Components/PurchasesCountBtn";
 import RecentView from "../Components/RecentView";
 
 import "./ProductDetail.css";
+import Loading from "../Components/Loading";
 
 function ProductDetail({ user }) {
   const dispatch = useDispatch();
@@ -183,10 +184,6 @@ function ProductDetail({ user }) {
     });
   };
 
-  const onEdit = () => {
-    nav(`/upload`);
-  };
-
   return (
     <div className="page">
       <RecentView detail={true} />
@@ -200,9 +197,7 @@ function ProductDetail({ user }) {
         <HomeOutlined />
       </div>
       {loading ? (
-        <div className="loading">
-          <LoadingOutlined />
-        </div>
+        <Loading />
       ) : (
         <div className="ProductDetail-info">
           {product.count === 0 ? (
@@ -280,7 +275,14 @@ function ProductDetail({ user }) {
 
               <div className="ProductDetail-footer-btn">
                 {writer ? (
-                  <button onClick={onEdit} className="ProductDetail-cart">
+                  <button
+                    onClick={() =>
+                      nav(`/edit/${product._id}`, {
+                        state: { id: product._id },
+                      })
+                    }
+                    className="ProductDetail-cart"
+                  >
                     수정하기
                   </button>
                 ) : (

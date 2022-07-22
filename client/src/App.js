@@ -11,6 +11,7 @@ import CheckOut from "./Page/CheckOut";
 import PaymentResult from "./Page/PaymentResult";
 import PurchaseHistory from "./Page/PurchaseHistory";
 import ProductManagement from "./Page/ProductManagement";
+import Edit from "./Page/Edit";
 
 import Test from "./Page/Test";
 
@@ -35,6 +36,7 @@ function App() {
           path={`/purchaseHistory`}
           element={Auth(PurchaseHistory, true)}
         />
+        <Route path={`/edit/:id`} element={Auth(Edit, true)} />
         <Route path={`/test`} element={Auth(Test, null)} />
       </Routes>
     </BrowserRouter>
