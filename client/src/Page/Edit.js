@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import Loading from "../Components/Loading";
 import UploadForm from "../Components/UploadForm";
 
-function Edit() {
+function Edit({ user }) {
   const { state } = useLocation();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState([]);
@@ -23,7 +23,11 @@ function Edit() {
 
   return (
     <div className="page">
-      {loading ? <Loading /> : <UploadForm edit={true} editData={product} />}
+      {loading ? (
+        <Loading />
+      ) : (
+        <UploadForm user={user} edit={true} editData={product} id={state.id} />
+      )}
     </div>
   );
 }

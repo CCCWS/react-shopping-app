@@ -8,12 +8,13 @@ import SelectBox from "./SelectBox";
 import "./UploadForm.css";
 import axios from "axios";
 
-function UploadForm({ user, edit, editData }) {
+function UploadForm({ user, edit, editData, id }) {
   //auth.js에서 받은 user props
   //모든 페이지에 방문할때마다 로그인 체크를 수행.
   const nav = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [imgData, setImgData] = useState([]);
+  const [imgDelete, setImgDelete] = useState([]); //edit페이지일때 삭제할 이미지 임시저장
   const [state, setState] = useState({
     title: "",
     price: "",
@@ -133,13 +134,25 @@ function UploadForm({ user, edit, editData }) {
     };
 
     try {
-      await axios.post("/api/product/write", data);
-      alert("등록 완료");
+      if (edit) {
+        if (imgDelete.length > 0) {
+          await axios.post("/api/product/delImgEditPage", imgDelete);
+        }
+        await axios.post("/api/product/edit", { ...data, id: id });
+        alert("수정 완료");
+      }
+
+      if (edit === undefined) {
+        await axios.post("/api/product/write", data);
+        alert("등록 완료");
+      }
+
       nav("/");
     } catch (err) {
       alert("등록 실패");
     }
   };
+
   return (
     <div className="page">
       <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} data={imgData} />
@@ -153,6 +166,8 @@ function UploadForm({ user, edit, editData }) {
           setModalOpen={setModalOpen}
           setImgData={setImgData}
           setState={saveImg}
+          imgDelete={imgDelete}
+          setImgDelete={setImgDelete}
           edit={edit}
           editImg={editData}
         />

@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const ext = file.mimetype.split("/")[1];
     if (["png", "jpg", "jpeg", "gif"].includes(ext)) {
-      cb(null, `${Date.now()}.${ext}`);
+      cb(null, `test+${Date.now()}.${ext}`);
     } else {
       cb(new Error("이미지만 업로드 가능"));
     }
@@ -43,20 +43,55 @@ app.post("/write", (req, res) => {
   });
 });
 
+app.post("/edit", (req, res) => {
+  ProductData.findOneAndUpdate(
+    { _id: req.body.id },
+    {
+      $set: {
+        title: req.body.title,
+        price: req.body.price,
+        description: req.body.description,
+        category: req.body.category,
+        image: req.body.image,
+        count: req.body.count,
+      },
+    },
+    { new: true }
+  ).exec((err, productInfo) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+    return res.status(200).json({ success: true, productInfo });
+  });
+});
+
 app.post("/delImg", async (req, res) => {
   //상품 등록 페이지에서 업로드 이미지 삭제
-  if (fs.existsSync(`uploads/${req.body.image}`)) {
-    // 파일이 존재한다면 true 그렇지 않은 경우 false 반환
-    try {
-      fs.unlinkSync(`uploads/${req.body.image}`);
-      return res.json({
-        success: true,
-      });
-    } catch (error) {
-      return res.json({
-        success: false,
-      });
-    }
+
+  // if (fs.existsSync(`uploads/${req.body.image}`)) {
+  // 파일이 존재한다면 true 그렇지 않은 경우 false 반환
+  try {
+    fs.unlinkSync(`uploads/${req.body.image}`);
+    return res.json({
+      success: true,
+    });
+  } catch (error) {
+    return res.json({
+      success: false,
+    });
+  }
+});
+
+app.post("/delImgEditPage", async (req, res) => {
+  try {
+    req.body.forEach((data) => fs.unlinkSync(`uploads/${data}`));
+    return res.json({
+      success: true,
+    });
+  } catch (error) {
+    return res.json({
+      success: false,
+    });
   }
 });
 

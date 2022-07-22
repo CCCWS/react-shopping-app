@@ -9,7 +9,15 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 
-function ImgUpload({ setModalOpen, setImgData, setState, edit, editImg }) {
+function ImgUpload({
+  setModalOpen,
+  setImgData,
+  setState,
+  imgDelete,
+  setImgDelete,
+  edit,
+  editImg,
+}) {
   const [img, setImg] = useState([]);
 
   useEffect(() => {
@@ -33,7 +41,6 @@ function ImgUpload({ setModalOpen, setImgData, setState, edit, editImg }) {
 
     axios.post("/api/product/img", formData, config).then((res) => {
       if (res.data.success) {
-        console.log(res);
         const getImg = new Image();
         getImg.onload = function () {
           setImg([
@@ -61,14 +68,17 @@ function ImgUpload({ setModalOpen, setImgData, setState, edit, editImg }) {
     setModalOpen(true);
   };
 
-  const delImg = (e) => {
+  const delImg = async (e) => {
     const copyImg = [...img];
     setImg(copyImg.filter((data) => data !== e));
 
-    const body = {
-      image: e.name,
-    };
-    axios.post("/api/product/delImg", body).then((res) => {
+    if (edit) {
+      const data = [...imgDelete];
+      setImgDelete([...data, e.name]);
+    }
+
+    if (edit === undefined) {
+      const res = await axios.post("/api/product/delImg", { image: e.name });
       if (res.data.success) {
         // alert("삭제 완료");
       }
@@ -76,7 +86,7 @@ function ImgUpload({ setModalOpen, setImgData, setState, edit, editImg }) {
       if (res.data.success === false) {
         alert("삭제 실패");
       }
-    });
+    }
   };
 
   return (
