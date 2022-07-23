@@ -27,7 +27,7 @@ function ProductRank() {
 
   return (
     <div className="ProductRank">
-      <Carousel effect="fade">
+      <Carousel effect="fade" autoplay>
         <div className="ProductRank-section">
           <div>
             <strong>조회수</strong>가 높은 상품

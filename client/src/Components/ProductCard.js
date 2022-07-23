@@ -51,8 +51,8 @@ function ProductCard({ data, click }) {
             <div>
               {click ? (
                 <>
-                  {data.title.length > 13
-                    ? `${data.title.slice(0, 13)}...`
+                  {data.title.length > 11
+                    ? `${data.title.slice(0, 11)}...`
                     : `${data.title}`}
                 </>
               ) : (
