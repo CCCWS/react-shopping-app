@@ -50,7 +50,7 @@
   box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
   height: 100px;
   width: 90%;
-  padding: 10px;
+  padding: 5px;
   border-radius: 5px;
   margin: auto auto 10px auto;
   display: flex;
@@ -62,7 +62,7 @@
 }
 
 .purchaseHistory-purchase-img {
-  min-width: 100px;
+  min-width: 90px;
   height: 100%;
 
   background-size: cover;
@@ -83,12 +83,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
 
-  min-width: 150px;
-  font-size: 16px;
+  min-width: 100px;
+  font-size: 14px;
 }
 
-.purchaseHistory-purchase-card-title > :first-child {
+.purchaseHistory-purchase-card-title {
+  font-size: 16px;
   font-weight: 600;
   margin-bottom: 10px;
 }

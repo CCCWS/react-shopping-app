@@ -81,18 +81,20 @@ function PurchaseHistory() {
                           className="purchaseHistory-purchase-img"
                         />
                         <div className="purchaseHistory-purchase-card-title">
-                          {data.title.length > 20
-                            ? `${data.title.slice(0, 20)}...`
+                          {data.title.length > 15
+                            ? `${data.title.slice(0, 15)}...`
                             : `${data.title}`}
                         </div>
                       </div>
 
-                      <div className="purchaseHistory-purchase-card-price">{`${
-                        data.purchasesCount
-                      }개 ∙  ${parseInt(
-                        data.totalPrice,
-                        10
-                      ).toLocaleString()}원`}</div>
+                      <div className="purchaseHistory-purchase-card-price">
+                        <>
+                          <div>{data.purchasesCount}개</div>
+                          <div>
+                            {parseInt(data.totalPrice, 10).toLocaleString()}원
+                          </div>
+                        </>
+                      </div>
                     </div>
                   ))}
                 </div>
