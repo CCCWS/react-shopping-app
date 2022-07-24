@@ -14,14 +14,19 @@
   transition: all ease 0.5s;
 }
 
+.productCard:hover > .productCard-img {
+  transition: all ease 0.5s;
+  background-size: 160%;
+}
+
 .productCard-img {
   width: 100%;
   height: 70%;
   border-radius: 5px 5px 0px 0px;
-  background-size: cover;
+  background-size: 150%;
   background-position: center;
   background-repeat: no-repeat;
-
+  transition: all ease 0.5s;
   position: relative;
 }
 

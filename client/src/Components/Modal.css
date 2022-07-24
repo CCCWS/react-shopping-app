@@ -64,12 +64,29 @@
   width: 50vh;
 }
 
-@media (max-width: 450px) {
+.modal-PurchaseHistory {
+  width: 50%;
+  height: 50%;
+  border-radius: 20px;
+  background-color: rgba(136, 135, 135, 0.582);
+  font-size: 20px;
+  padding: 20px;
+}
+
+.modal-PurchaseHistory > div {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 500px) {
   .longer-width {
     width: 100%;
   }
 
   .longer-height {
     width: 100%;
+  }
+
+  .modal-PurchaseHistory {
+    width: 80%;
   }
 }

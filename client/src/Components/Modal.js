@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { postUrl } from "../PostUrl";
 import "./Modal.css";
 
-function Modal({ setModalOpen, modalOpen, data, setState }) {
+function Modal({ setModalOpen, modalOpen, data, setState, PurchaseHistory }) {
   useEffect(() => {
     if (modalOpen) {
       document.querySelector("body").classList.add("not-scroll");
@@ -24,6 +24,8 @@ function Modal({ setModalOpen, modalOpen, data, setState }) {
     setModalOpen(false);
   };
 
+  console.log(data);
+
   return (
     <div
       className={[`modal ${modalOpen ? "modal-open" : null}`].join(" ")}
@@ -35,14 +37,34 @@ function Modal({ setModalOpen, modalOpen, data, setState }) {
             X
           </button>
 
-          <img
-            src={`${postUrl}${data.name}`}
-            alt="img"
-            id="modalImg"
-            className={
-              data.width > data.height ? "longer-width" : "longer-height"
-            }
-          />
+          {PurchaseHistory ? (
+            <div className="modal-PurchaseHistory">
+              <div>
+                <strong>이름</strong> : {data.name}
+              </div>
+
+              <div>
+                <strong>전화번호</strong> : {data.phone}
+              </div>
+
+              <div>
+                <strong>주소</strong> : {data.adress}
+              </div>
+
+              <div>
+                <strong>요청사항</strong> : {data.req}
+              </div>
+            </div>
+          ) : (
+            <img
+              src={`${postUrl}${data.name}`}
+              alt="img"
+              id="modalImg"
+              className={
+                data.width > data.height ? "longer-width" : "longer-height"
+              }
+            />
+          )}
         </>
       )}
     </div>

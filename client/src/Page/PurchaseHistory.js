@@ -4,13 +4,15 @@ import axios from "axios";
 import { LoadingOutlined } from "@ant-design/icons";
 import { postUrl } from "../PostUrl";
 
+import Modal from "../Components/Modal";
 import "./PurchaseHistory.css";
 
 function PurchaseHistory() {
   const nav = useNavigate();
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalShippingInfo, setModalShippingInfo] = useState();
   useEffect(() => {
     getPurchaseHistory();
   }, []);
@@ -41,14 +43,31 @@ function PurchaseHistory() {
         </div>
       ) : (
         <>
+          <Modal
+            setModalOpen={setModalOpen}
+            modalOpen={modalOpen}
+            PurchaseHistory={true}
+            data={modalShippingInfo}
+          />
           <div className="purchaseHistory-length">{`전체 주문내역 ${product.length}개`}</div>
           <div className="purchaseHistory-product-card-box">
             {product.map((data, index) => (
               <div key={index} className="purchaseHistory-product-card">
-                <div className="purchaseHistory-product-date">
-                  <div>{productDate(data)}</div>
-                  <div>{productTime(data)}</div>
-                  <div>{`결제금액 ${data.price.toLocaleString()}원`}</div>
+                <div className="purchaseHistory-product-info">
+                  <div className="purchaseHistory-product-info-value">
+                    <div>{productDate(data)}</div>
+                    <div>{productTime(data)}</div>
+                    <div>{`결제금액 ${data.price.toLocaleString()}원`}</div>
+                  </div>
+
+                  <div
+                    onClick={() => {
+                      setModalOpen(true);
+                      setModalShippingInfo(data.shippingInfo);
+                    }}
+                  >
+                    배송정보
+                  </div>
                 </div>
 
                 <div className="purchaseHistory-product-list">

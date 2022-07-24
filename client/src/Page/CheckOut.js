@@ -178,7 +178,9 @@ function CheckOut() {
             onChange={saveData}
             id="req"
             placeholder="요청사항을 입력해 주세요."
+            maxLength={40}
           />
+          <span>{`${ShippingInfo.req.length} / 40`}</span>
         </section>
       </div>
 

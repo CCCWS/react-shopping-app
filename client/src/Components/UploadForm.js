@@ -246,10 +246,10 @@ function UploadForm({ user, edit, editData, id }) {
           onChange={saveData}
           id="description"
           placeholder="10글자 이상 입력해주세요."
-          maxLength={2000}
+          maxLength={500}
           ref={descriptionRef}
         />
-        <span>{`${state.description.length} / 2000`}</span>
+        <span>{`${state.description.length} / 500`}</span>
       </section>
 
       <div className="Upload-submit-btn">
