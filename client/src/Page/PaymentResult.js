@@ -44,7 +44,7 @@ function PaymentResult() {
           </div>
           <div className="Upload-section">
             <div>주소</div>
-            <div>{state.shippingInfo.adress}</div>
+            <div>{`${state.shippingInfo.searchAddress} ${state.shippingInfo.address}`}</div>
           </div>
           <div className="Upload-section">
             <div>요구사항</div>

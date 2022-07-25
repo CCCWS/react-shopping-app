@@ -3,8 +3,10 @@ import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
+import DaumPostCode from "react-daum-postcode";
 
 import PaymentBtn from "../Components/PaymentBtn";
+import Modal from "../Components/Modal";
 import "./CheckOut.css";
 import { postUrl } from "../PostUrl";
 
@@ -12,10 +14,12 @@ function CheckOut() {
   const nav = useNavigate();
   const { state } = useLocation();
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [ShippingInfo, setShippingInfo] = useState({
     name: "",
     phone: "",
-    adress: "",
+    searchAddress: "",
+    address: "",
     req: "",
   });
 
@@ -29,8 +33,8 @@ function CheckOut() {
         setShippingInfo({ ...ShippingInfo, phone: e.target.value });
         break;
 
-      case "adress":
-        setShippingInfo({ ...ShippingInfo, adress: e.target.value });
+      case "address":
+        setShippingInfo({ ...ShippingInfo, address: e.target.value });
         break;
 
       case "req":
@@ -98,8 +102,33 @@ function CheckOut() {
     paymentSeccess();
   };
 
+  const onAddress = (data) => {
+    setModalOpen(false);
+
+    let fullAddress = data.address;
+    let extraAddress = "";
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+    setShippingInfo({ ...ShippingInfo, searchAddress: fullAddress });
+  };
+
   return (
     <div className="page">
+      <Modal
+        setModalOpen={setModalOpen}
+        modalOpen={modalOpen}
+        CheckOut={true}
+        setState={onAddress}
+      />
+
       <div className="purchase-procedure">
         장바구니 &gt; <strong>주문서</strong> &gt; 결제완료
       </div>
@@ -161,13 +190,20 @@ function CheckOut() {
 
         <section className="Upload-section">
           <div>주소</div>
-          <input
-            className="Upload-title"
-            value={state.adress}
-            onChange={saveData}
-            id="adress"
-            placeholder="주소를 입력해 주세요."
-          />
+          <div  className="Upload-section-address">
+            <div onClick={() => setModalOpen(true)}>
+              {ShippingInfo.searchAddress.length > 0
+                ? ShippingInfo.searchAddress
+                : "주소 검색"}
+            </div>
+            <input
+              className="Upload-title"
+              value={state.address}
+              onChange={saveData}
+              id="address"
+              placeholder="추가 주소를 입력해 주세요."
+            />
+          </div>
         </section>
 
         <section className="Upload-section">
@@ -188,11 +224,11 @@ function CheckOut() {
         <div>결제수단</div>
         <hr />
         <div className="checkOut-totalPrice">{`총 결제금액 ${state.totalPrice.toLocaleString()}원`}</div>
-        <PaymentBtn
+        {/* <PaymentBtn
           price={state.totalPrice}
           paymentSeccess={paymentSeccess}
           productsold={productsold}
-        />
+        /> */}
         <button onClick={onPayment}>결제하기</button>
       </div>
 

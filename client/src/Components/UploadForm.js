@@ -155,7 +155,12 @@ function UploadForm({ user, edit, editData, id }) {
 
   return (
     <div className="page">
-      <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} data={imgData} />
+      <Modal
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        data={imgData}
+        img={true}
+      />
 
       <section className="Upload-section">
         <div>

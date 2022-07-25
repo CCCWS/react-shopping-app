@@ -1,8 +1,18 @@
 import React, { useEffect } from "react";
+import DaumPostCode from "react-daum-postcode";
 import { postUrl } from "../PostUrl";
+
 import "./Modal.css";
 
-function Modal({ setModalOpen, modalOpen, data, setState, PurchaseHistory }) {
+function Modal({
+  setModalOpen,
+  modalOpen,
+  data,
+  setState,
+  PurchaseHistory,
+  CheckOut,
+  img,
+}) {
   useEffect(() => {
     if (modalOpen) {
       document.querySelector("body").classList.add("not-scroll");
@@ -24,8 +34,6 @@ function Modal({ setModalOpen, modalOpen, data, setState, PurchaseHistory }) {
     setModalOpen(false);
   };
 
-  console.log(data);
-
   return (
     <div
       className={[`modal ${modalOpen ? "modal-open" : null}`].join(" ")}
@@ -34,10 +42,16 @@ function Modal({ setModalOpen, modalOpen, data, setState, PurchaseHistory }) {
       {modalOpen && (
         <>
           <button onClick={modalCloseBtn} className="modal-close-btn">
-            X
+            창닫기
           </button>
 
-          {PurchaseHistory ? (
+          {CheckOut && (
+            <div>
+              <DaumPostCode onComplete={setState} className="post-code" />
+            </div>
+          )}
+
+          {PurchaseHistory && (
             <div className="modal-PurchaseHistory">
               <div>
                 <strong>이름</strong> : {data.name}
@@ -48,14 +62,16 @@ function Modal({ setModalOpen, modalOpen, data, setState, PurchaseHistory }) {
               </div>
 
               <div>
-                <strong>주소</strong> : {data.adress}
+                <strong>주소</strong> : {data.searchAddress} {data.address}
               </div>
 
               <div>
                 <strong>요청사항</strong> : {data.req}
               </div>
             </div>
-          ) : (
+          )}
+
+          {img && (
             <img
               src={`${postUrl}${data.name}`}
               alt="img"

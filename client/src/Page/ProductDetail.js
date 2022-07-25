@@ -191,6 +191,7 @@ function ProductDetail({ user }) {
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         data={modalImg}
+        img={true}
       />
       <div className="ProductDetail-backBtn" onClick={() => nav("/")}>
         <LeftOutlined />
