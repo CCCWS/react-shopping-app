@@ -143,7 +143,7 @@ app.post("/productDetail", (req, res) => {
     },
     { new: true }
   )
-    .populate("writer")
+    // .populate("writer")
     .exec((err, productInfo) => {
       if (err) {
         return res.status(400).json({ success: false, err });
