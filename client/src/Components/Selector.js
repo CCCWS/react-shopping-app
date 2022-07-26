@@ -1,22 +1,29 @@
 import React, { useState } from "react";
+import PaymentBtn from "./PaymentBtn";
 import "./Selector.css";
 
-function Selector() {
+function Selector({ price, paymentSeccess, productsold, onPayment }) {
   const [currArr, setCurrArr] = useState(0);
 
-  const test1 = () => {
-    return <div onClick={() => alert("test1")}>test1</div>;
+  const PurchaseBtnNormal = () => {
+    return (
+      <button className="Selector-PurchaseBtnNormal" onClick={onPayment}>
+        결제하기
+      </button>
+    );
   };
 
-  const test2 = () => {
-    return <div onClick={() => alert("test2")}>test2</div>;
+  const PurchaseBtnPayPal = () => {
+    return (
+      <PaymentBtn
+        price={price}
+        paymentSeccess={paymentSeccess}
+        productsold={productsold}
+      />
+    );
   };
 
-  const test3 = () => {
-    return <div onClick={() => alert("test3")}>test3</div>;
-  };
-
-  const arr = [test1(), test2(), test3()];
+  const arr = [PurchaseBtnNormal(), PurchaseBtnPayPal()];
 
   const minus = () => {
     if (currArr === 0) {

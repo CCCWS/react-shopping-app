@@ -39,7 +39,7 @@ function PaymentBtn({ price, paymentSeccess, productsold }) {
         style={{
           color: "white",
           shape: "rect",
-          size: "large",
+          size: "medium",
         }}
       />
     </div>

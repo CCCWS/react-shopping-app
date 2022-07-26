@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
 
-import PaymentBtn from "../Components/PaymentBtn";
 import Modal from "../Components/Modal";
 import Selector from "../Components/Selector";
 import "./CheckOut.css";
@@ -64,7 +63,6 @@ function CheckOut() {
       shippingInfo: ShippingInfo,
       product: state.product,
       payment: payment,
-      // purchasesCount: purchasesCount,
       price: state.totalPrice,
       date: new Date().getTime(),
     });
@@ -73,7 +71,6 @@ function CheckOut() {
       state: {
         shippingInfo: ShippingInfo,
         product: state.product,
-        // payment: payment,
         price: state.totalPrice,
         date: new Date().getTime(),
       },
@@ -98,8 +95,8 @@ function CheckOut() {
   };
 
   const onPayment = () => {
-    productsold();
     paymentSeccess();
+    productsold();
   };
 
   const onAddress = (data) => {
@@ -223,14 +220,13 @@ function CheckOut() {
       <div className="checkOut-section">
         <div>결제수단</div>
         <hr />
-        <Selector />
-        <button onClick={onPayment}>결제하기</button>
-        <div className="checkOut-totalPrice">{`총 결제금액 ${state.totalPrice.toLocaleString()}원`}</div>
-        {/* <PaymentBtn
+        <Selector
           price={state.totalPrice}
           paymentSeccess={paymentSeccess}
           productsold={productsold}
-        /> */}
+          onPayment={onPayment}
+        />
+        <div className="checkOut-totalPrice">{`총 결제금액 ${state.totalPrice.toLocaleString()}원`}</div>
       </div>
 
       {loading === true ? (
