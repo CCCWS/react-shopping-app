@@ -1,29 +1,9 @@
 import React, { useState } from "react";
-import PaymentBtn from "./PaymentBtn";
+import { postUrl } from "../PostUrl";
 import "./Selector.css";
 
-function Selector({ price, paymentSeccess, productsold, onPayment }) {
+function Selector({ CheckOut, arr, ProductDetail, setModalImg, setModalOpen }) {
   const [currArr, setCurrArr] = useState(0);
-
-  const PurchaseBtnNormal = () => {
-    return (
-      <button className="Selector-PurchaseBtnNormal" onClick={onPayment}>
-        결제하기
-      </button>
-    );
-  };
-
-  const PurchaseBtnPayPal = () => {
-    return (
-      <PaymentBtn
-        price={price}
-        paymentSeccess={paymentSeccess}
-        productsold={productsold}
-      />
-    );
-  };
-
-  const arr = [PurchaseBtnNormal(), PurchaseBtnPayPal()];
 
   const minus = () => {
     if (currArr === 0) {
@@ -42,10 +22,54 @@ function Selector({ price, paymentSeccess, productsold, onPayment }) {
   };
 
   return (
-    <div className="Selector-box">
-      <button onClick={minus}>&lt;</button>
-      <div>{arr[currArr]}</div>
-      <button onClick={plus}>&gt;</button>
+    <div
+      className={[
+        `Selector-box 
+        ${CheckOut && "Selector-box-CheckOut"} 
+        ${ProductDetail && "Selector-box-ProductDetail"}`,
+      ].join(" ")}
+    >
+      {arr.length > 1 && (
+        <button className="Selector-box-leftBtn" onClick={minus}>
+          &lt;
+        </button>
+      )}
+
+      {CheckOut && <div>{arr[currArr]}</div>}
+
+      {ProductDetail && (
+        <div
+          className="Selector-box-img"
+          style={{
+            backgroundImage: `url('${postUrl}${arr[currArr].name}')`,
+          }}
+          onClick={() => {
+            setModalImg(arr[currArr]);
+            setModalOpen(true);
+          }}
+        />
+      )}
+
+      {arr.length > 1 && (
+        <button className="Selector-box-rightBtn" onClick={plus}>
+          &gt;
+        </button>
+      )}
+
+      <div className="Selector-box-point">
+        {arr.map((data, index) => (
+          <div
+            key={index}
+            className={[
+              `Selector-box-point-item ${
+                arr.indexOf(data) === currArr
+                  ? "Selector-box-point-item-on"
+                  : null
+              }`,
+            ].join(" ")}
+          ></div>
+        ))}
+      </div>
     </div>
   );
 }

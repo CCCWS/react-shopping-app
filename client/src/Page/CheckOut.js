@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
 
+import PaymentBtn from "../Components/PaymentBtn";
 import Modal from "../Components/Modal";
 import Selector from "../Components/Selector";
 import "./CheckOut.css";
@@ -117,6 +118,26 @@ function CheckOut() {
     setShippingInfo({ ...ShippingInfo, searchAddress: fullAddress });
   };
 
+  const PurchaseBtnNormal = () => {
+    return (
+      <button className="Selector-PurchaseBtnNormal" onClick={onPayment}>
+        결제하기
+      </button>
+    );
+  };
+
+  const PurchaseBtnPayPal = () => {
+    return (
+      <PaymentBtn
+        price={state.price}
+        paymentSeccess={paymentSeccess}
+        productsold={productsold}
+      />
+    );
+  };
+
+  const arr = [PurchaseBtnNormal(), PurchaseBtnPayPal()];
+
   return (
     <div className="page">
       <Modal
@@ -220,12 +241,7 @@ function CheckOut() {
       <div className="checkOut-section">
         <div>결제수단</div>
         <hr />
-        <Selector
-          price={state.totalPrice}
-          paymentSeccess={paymentSeccess}
-          productsold={productsold}
-          onPayment={onPayment}
-        />
+        <Selector arr={arr} CheckOut={true} />
         <div className="checkOut-totalPrice">{`총 결제금액 ${state.totalPrice.toLocaleString()}원`}</div>
       </div>
 

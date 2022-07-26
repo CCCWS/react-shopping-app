@@ -10,6 +10,7 @@ import ProductCard from "../Components/ProductCard";
 import Modal from "../Components/Modal";
 import PurchasesCountBtn from "../Components/PurchasesCountBtn";
 import RecentView from "../Components/RecentView";
+import Selector from "../Components/Selector";
 
 import "./ProductDetail.css";
 import Loading from "../Components/Loading";
@@ -204,11 +205,18 @@ function ProductDetail({ user }) {
           {product.count === 0 ? (
             <div className="soldOut">판매완료된 상품입니다.</div>
           ) : null}
-          <ImgCarousel
+          {/* <ImgCarousel
             data={product.image}
             setModalOpen={setModalOpen}
             setModalImg={setModalImg}
+          /> */}
+          <Selector
+            ProductDetail={true}
+            arr={product.image}
+            setModalOpen={setModalOpen}
+            setModalImg={setModalImg}
           />
+
           <div>
             <div className="ProductDetail-writer">
               {product.writer === undefined ? (

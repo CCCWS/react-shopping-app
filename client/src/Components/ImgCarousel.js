@@ -19,6 +19,7 @@ function ImgCarousel({ data, setModalImg, setModalOpen }) {
                 setModalOpen(true);
               }}
             />
+            {data.indexOf(item)}
           </div>
         ))}
       </Carousel>
