@@ -3,10 +3,10 @@ import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
-import DaumPostCode from "react-daum-postcode";
 
 import PaymentBtn from "../Components/PaymentBtn";
 import Modal from "../Components/Modal";
+import Selector from "../Components/Selector";
 import "./CheckOut.css";
 import { postUrl } from "../PostUrl";
 
@@ -190,7 +190,7 @@ function CheckOut() {
 
         <section className="Upload-section">
           <div>주소</div>
-          <div  className="Upload-section-address">
+          <div className="Upload-section-address">
             <div onClick={() => setModalOpen(true)}>
               {ShippingInfo.searchAddress.length > 0
                 ? ShippingInfo.searchAddress
@@ -223,13 +223,14 @@ function CheckOut() {
       <div className="checkOut-section">
         <div>결제수단</div>
         <hr />
+        <Selector />
+        <button onClick={onPayment}>결제하기</button>
         <div className="checkOut-totalPrice">{`총 결제금액 ${state.totalPrice.toLocaleString()}원`}</div>
         {/* <PaymentBtn
           price={state.totalPrice}
           paymentSeccess={paymentSeccess}
           productsold={productsold}
         /> */}
-        <button onClick={onPayment}>결제하기</button>
       </div>
 
       {loading === true ? (

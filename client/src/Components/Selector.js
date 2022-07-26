@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import "./Selector.css";
 
-function Test() {
+function Selector() {
   const [currArr, setCurrArr] = useState(0);
 
   const test1 = () => {
@@ -34,12 +35,12 @@ function Test() {
   };
 
   return (
-    <>
+    <div className="Selector-box">
       <button onClick={minus}>&lt;</button>
       <div>{arr[currArr]}</div>
       <button onClick={plus}>&gt;</button>
-    </>
+    </div>
   );
 }
 
-export default Test;
+export default Selector;
