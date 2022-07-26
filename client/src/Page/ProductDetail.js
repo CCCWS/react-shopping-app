@@ -218,7 +218,7 @@ function ProductDetail({ user }) {
           />
 
           <div>
-            {/* <div className="ProductDetail-writer">
+            <div className="ProductDetail-writer">
               {product.writer === undefined ? (
                 "익명"
               ) : (
@@ -227,7 +227,7 @@ function ProductDetail({ user }) {
                   <div>{product.writer.email}</div>
                 </>
               )}
-            </div> */}
+            </div>
 
             <hr />
 
