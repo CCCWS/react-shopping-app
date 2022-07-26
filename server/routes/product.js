@@ -121,7 +121,7 @@ app.post("/productList", (req, res) => {
   //등록한 상품 리스트를 가져옴
   ProductData.find(arg)
     .sort({ createdAt: -1 }) //mongoDb의 ProductData의 리스트를 조건없이 가져옴 필터기능 구현시 괄호안에 조건 입력
-    .populate("writer") //현재 저장된 id에는 암호회 되어있음. 해당 id에 대한 정보를 모두 가져옴
+    // .populate("writer") //현재 저장된 id에는 암호회 되어있음. 해당 id에 대한 정보를 모두 가져옴
     .skip(parseInt(req.body.skip, 10))
     .limit(parseInt(req.body.limit, 10))
     .exec((err, productInfo) => {
