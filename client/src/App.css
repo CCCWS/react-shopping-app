@@ -7,7 +7,8 @@
 
 body {
   overflow: overlay;
-  background-color: rgba(221, 155, 31, 0.24);
+  /* background-color: rgba(221, 155, 31, 0.24); */
+  background-color: white;
 }
 
 ::-webkit-scrollbar {

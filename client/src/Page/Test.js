@@ -1,30 +1,87 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
+import {
+  AppstoreOutlined,
+  SearchOutlined,
+  AudioOutlined,
+  TableOutlined,
+} from "@ant-design/icons";
+import "./Test.css";
 
 function Test() {
-  const [hideElement, setHideElement] = useState(false);
-  const scrollRef = useRef(null);
+  const [searchValue, setSearchValue] = useState("");
+  const [onFocusInput, setOnFocusInput] = useState(false);
 
-  useEffect(() => {
-    if (!scrollRef.current) return;
-    window.addEventListener("scroll", yScrollEvent);
-    return () => {
-      window.removeEventListener("scroll", yScrollEvent);
-    };
-  }, [scrollRef.current]);
-
-  const yScrollEvent = () => {
-    const scroll = scrollRef.current.getBoundingClientRect();
-    console.log(scroll);
-    setHideElement(scroll.top <= -1000);
+  const goPage = (e) => {
+    e.preventDefault();
+    window.location.href = `http://www.google.com/search?q=${searchValue}`;
   };
 
   return (
-    <div style={{ height: "300vh", background: "#eee" }} ref={scrollRef}>
-      {!hideElement && (
-        <div style={{ position: "fixed", background: "#fff" }}>
-          <span>스크롤을 일정 수치만큼 내리면 이 영역은 사라집니다!</span>
+    <div>
+      <div className="test-header">
+        <div className="header-left">
+          <div>Google 정보</div>
+          <div>스토어</div>
         </div>
-      )}
+
+        <div className="header-right">
+          <div>Gmail</div>
+          <div>이미지</div>
+          <div>
+            <AppstoreOutlined />
+          </div>
+
+          <button className="heaer-login">로그인</button>
+        </div>
+      </div>
+
+      <div className="test-main">
+        <div className="test-logo">
+          <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" />
+        </div>
+
+        <div
+          className={[
+            `test-search-bar ${onFocusInput && "test-search-bar-input-focus"}`,
+          ].join(" ")}
+        >
+          <SearchOutlined />
+          <form onSubmit={goPage}>
+            <input
+              className="test-search-bar-input"
+              onFocus={() => setOnFocusInput(true)}
+              onBlur={() => setOnFocusInput(false)}
+              onChange={(e) => setSearchValue(e.target.value)}
+              value={searchValue}
+              onSubmit={goPage}
+            ></input>
+          </form>
+          <TableOutlined />
+          <AudioOutlined />
+        </div>
+
+        <div className="test-otherBtn">
+          <div>Google 검색</div>
+          <div>I`m Feeling Lucky</div>
+        </div>
+      </div>
+
+      <div className="test-footer">
+        <div className="test-footer-up">대한민국</div>
+        <div className="test-footer-down">
+          <div className="test-footer-item">
+            <div>광고</div>
+            <div>비즈니스</div>
+            <div>검색의 원리</div>
+          </div>
+
+          <div className="test-footer-item">
+            <div>개인정보처리방침</div>
+            <div>약관</div>
+            <div>설정</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
