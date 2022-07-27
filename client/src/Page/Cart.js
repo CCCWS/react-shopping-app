@@ -9,7 +9,7 @@ import {
   CloseOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
-import { postUrl, PostUrl } from "../PostUrl";
+import { postUrl } from "../PostUrl";
 import "./Cart.css";
 
 function Cart() {

@@ -67,6 +67,7 @@ function Selector({ CheckOut, arr, ProductDetail, setModalImg, setModalOpen }) {
                   : null
               }`,
             ].join(" ")}
+            onClick={() => setCurrArr(arr.indexOf(data))}
           ></div>
         ))}
       </div>

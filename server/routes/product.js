@@ -134,6 +134,7 @@ app.post("/productList", (req, res) => {
 
 app.post("/productDetail", (req, res) => {
   //특정 상품 상세정보
+  console.log("test");
   ProductData.findOneAndUpdate(
     { _id: req.body.id },
     {
@@ -154,16 +155,15 @@ app.post("/productDetail", (req, res) => {
 
 app.post("/cart", (req, res) => {
   //사용자의 카트에 등록된 상품 목록
+  console.log("test");
   ProductData.find({
     _id: { $in: req.body },
-  })
-    .populate("writer")
-    .exec((err, productInfo) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
-      return res.status(200).json({ success: true, productInfo });
-    });
+  }).exec((err, productInfo) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+    return res.status(200).json({ success: true, productInfo });
+  });
 });
 
 app.post("/successBuy", (req, res) => {
