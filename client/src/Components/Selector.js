@@ -46,7 +46,7 @@ function Selector({
         intervalCallBack = true;
       }
     }
-  }, 1100);
+  }, 3000);
   //intervalCallBack으로 실행 여부를 구분하여 쌓여있는 함수의 실행을 방지
   // https://velog.io/@kyjun/javascript-setInterval-%EA%B3%A0%EC%B0%B0
 
@@ -86,8 +86,8 @@ function Selector({
       )}
 
       <div className="Selector-box-point">
-        <button 
-        className="Selector-box-playBtn"
+        <button
+          className="Selector-box-playBtn"
           onClick={() => {
             if (!pause) {
               setPause(true);
@@ -96,7 +96,7 @@ function Selector({
 
             if (pause) {
               setPause(false);
-              setInterval(play, 1000);
+              setInterval(play, 3000);
             }
           }}
         >

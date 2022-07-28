@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { postUrl } from "../PostUrl";
+import Fade from "react-reveal/Fade";
 
 import "./ProductCard.css";
 
@@ -27,46 +28,50 @@ function ProductCard({ data, click }) {
   return (
     <>
       {data.map((data, index) => (
-        <div
-          key={index}
-          className={click ? "productCard" : "productCard-list"}
-          id={data._id}
-          onClick={() => {
-            nav(`/product/${data._id}`);
-          }}
-        >
+        <Fade left>
           <div
-            style={{
-              backgroundImage: `url('${postUrl}${data.image[0].name}')`,
+            key={index}
+            className={click ? "productCard" : "productCard-list"}
+            id={data._id}
+            onClick={() => {
+              nav(`/product/${data._id}`);
             }}
-            className={click ? "productCard-img" : "productCard-img-list"}
           >
-            {data.count === 0 ? (
-              <div className="productCard-soldOut">판매완료된 상품입니다.</div>
-            ) : null}
-          </div>
-          <div
-            className={click ? "productCard-title" : "productCard-title-list"}
-          >
-            <div>
-              {click ? (
-                <>
-                  {data.title.length > 11
-                    ? `${data.title.slice(0, 11)}...`
-                    : `${data.title}`}
-                </>
-              ) : (
-                `${data.title}`
-              )}
+            <div
+              style={{
+                backgroundImage: `url('${postUrl}${data.image[0].name}')`,
+              }}
+              className={click ? "productCard-img" : "productCard-img-list"}
+            >
+              {data.count === 0 ? (
+                <div className="productCard-soldOut">
+                  판매완료된 상품입니다.
+                </div>
+              ) : null}
             </div>
+            <div
+              className={click ? "productCard-title" : "productCard-title-list"}
+            >
+              <div>
+                {click ? (
+                  <>
+                    {data.title.length > 11
+                      ? `${data.title.slice(0, 11)}...`
+                      : `${data.title}`}
+                  </>
+                ) : (
+                  `${data.title}`
+                )}
+              </div>
 
-            <div className={click ? "price-time" : "price-time-list"}>
-              <div>{`${parseInt(data.price, 10).toLocaleString()}원`}</div>
-              <div>{getTime(data.createdAt)}</div>
+              <div className={click ? "price-time" : "price-time-list"}>
+                <div>{`${parseInt(data.price, 10).toLocaleString()}원`}</div>
+                <div>{getTime(data.createdAt)}</div>
+              </div>
+              <div className="productCard-count">{`남은 수량 ${data.count}개`}</div>
             </div>
-            <div className="productCard-count">{`남은 수량 ${data.count}개`}</div>
           </div>
-        </div>
+        </Fade>
       ))}
     </>
   );
