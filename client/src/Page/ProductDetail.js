@@ -4,6 +4,7 @@ import axios from "axios";
 import { LeftOutlined, HomeOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { addCart } from "../_action/user_action";
+import Fade from "react-reveal/Fade";
 
 import ImgCarousel from "../Components/ImgCarousel";
 import ProductCard from "../Components/ProductCard";
@@ -201,120 +202,122 @@ function ProductDetail({ user }) {
       {loading ? (
         <Loading />
       ) : (
-        <div className="ProductDetail-info">
-          {product.count === 0 ? (
-            <div className="soldOut">판매완료된 상품입니다.</div>
-          ) : null}
-          {/* <ImgCarousel
+        <Fade bottom>
+          <div className="ProductDetail-info">
+            {product.count === 0 ? (
+              <div className="soldOut">판매완료된 상품입니다.</div>
+            ) : null}
+            {/* <ImgCarousel
             data={product.image}
             setModalOpen={setModalOpen}
             setModalImg={setModalImg}
           /> */}
-          <Selector
-            ProductDetail={true}
-            arr={product.image}
-            modalOpen={modalOpen}
-            setModalOpen={setModalOpen}
-            setModalImg={setModalImg}
-          />
+            <Selector
+              ProductDetail={true}
+              arr={product.image}
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+              setModalImg={setModalImg}
+            />
 
-          <div>
-            <div className="ProductDetail-writer">
-              {product.writer === undefined ? (
-                "익명"
-              ) : (
+            <div>
+              <div className="ProductDetail-writer">
+                {product.writer === undefined ? (
+                  "익명"
+                ) : (
+                  <>
+                    <div>{product.writer.name}</div>
+                    <div>{product.writer.email}</div>
+                  </>
+                )}
+              </div>
+
+              <hr />
+
+              <div>
+                <div className="ProductDetail-title">
+                  <div>{product.title}</div>
+                  <div>{`${product.category} ∙ ${getTime(
+                    product.createdAt
+                  )} ∙ 남은수량 ${product.count}개 ∙ 조회수 ${
+                    product.views
+                  } `}</div>
+                </div>
+
+                <div className="ProductDetail-description">
+                  {product.description}
+                </div>
+              </div>
+              <hr />
+
+              {otherProduct.length > 0 && (
                 <>
-                  <div>{product.writer.name}</div>
-                  <div>{product.writer.email}</div>
+                  <div>
+                    <div className="ProductDetail-other">관련 상품</div>
+                    <div className="main-productList ProductDetail-productCard">
+                      <ProductCard
+                        data={otherProduct}
+                        click={true}
+                        ProductDetail={true}
+                      />
+                    </div>
+                  </div>
+                  <hr />
                 </>
               )}
             </div>
 
-            <hr />
-
-            <div>
-              <div className="ProductDetail-title">
-                <div>{product.title}</div>
-                <div>{`${product.category} ∙ ${getTime(
-                  product.createdAt
-                )} ∙ 남은수량 ${product.count}개 ∙ 조회수 ${
-                  product.views
-                } `}</div>
-              </div>
-
-              <div className="ProductDetail-description">
-                {product.description}
-              </div>
-            </div>
-            <hr />
-
-            {otherProduct.length > 0 && (
-              <>
-                <div>
-                  <div className="ProductDetail-other">관련 상품</div>
-                  <div className="main-productList ProductDetail-productCard">
-                    <ProductCard
-                      data={otherProduct}
-                      click={true}
-                      ProductDetail={true}
-                    />
+            <div className="ProductDetail-footer">
+              <div>
+                <div className="ProductDetail-footer-price">
+                  <div>
+                    {`${parseInt(
+                      product.price * purchasesCount,
+                      10
+                    ).toLocaleString()}원`}
                   </div>
-                </div>
-                <hr />
-              </>
-            )}
-          </div>
 
-          <div className="ProductDetail-footer">
-            <div>
-              <div className="ProductDetail-footer-price">
-                <div>
-                  {`${parseInt(
-                    product.price * purchasesCount,
-                    10
-                  ).toLocaleString()}원`}
+                  <PurchasesCountBtn
+                    purchasesCount={purchasesCount}
+                    setPurchasesCount={setPurchasesCount}
+                    productCount={product.count}
+                    detail={true}
+                  />
                 </div>
 
-                <PurchasesCountBtn
-                  purchasesCount={purchasesCount}
-                  setPurchasesCount={setPurchasesCount}
-                  productCount={product.count}
-                  detail={true}
-                />
-              </div>
-
-              <div className="ProductDetail-footer-btn">
-                {writer ? (
-                  <button
-                    onClick={() =>
-                      nav(`/edit/${product._id}`, {
-                        state: { id: product._id },
-                      })
-                    }
-                    className="ProductDetail-cart"
-                  >
-                    수정하기
-                  </button>
-                ) : (
-                  <>
+                <div className="ProductDetail-footer-btn">
+                  {writer ? (
                     <button
-                      onClick={onAddCartProduct}
+                      onClick={() =>
+                        nav(`/edit/${product._id}`, {
+                          state: { id: product._id },
+                        })
+                      }
                       className="ProductDetail-cart"
                     >
-                      장바구니
+                      수정하기
                     </button>
-                    <button
-                      className="ProductDetail-purchase-btn"
-                      onClick={goCheckOut}
-                    >
-                      구매하기
-                    </button>
-                  </>
-                )}
+                  ) : (
+                    <>
+                      <button
+                        onClick={onAddCartProduct}
+                        className="ProductDetail-cart"
+                      >
+                        장바구니
+                      </button>
+                      <button
+                        className="ProductDetail-purchase-btn"
+                        onClick={goCheckOut}
+                      >
+                        구매하기
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </Fade>
       )}
     </div>
   );
