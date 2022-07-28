@@ -8,36 +8,36 @@
   align-items: center;
 }
 
-.header-left > div:hover {
+.test-header-left > div:hover {
   cursor: pointer;
   text-decoration: underline;
 }
 
-.header-right > div:hover {
+.test-header-right > div:hover {
   cursor: pointer;
   text-decoration: underline;
 }
 
-.header-left > :first-child {
+.test-header-left > :first-child {
   margin-left: 15px;
   margin-right: 5px;
   padding: 5px;
 }
 
-.header-left > :nth-child(2) {
+.test-header-left > :nth-child(2) {
   margin-left: 5px;
   margin-right: 5px;
   padding: 5px;
 }
 
-.header-right {
+.test-header-right {
   width: 280px;
   height: 100%;
   display: flex;
   justify-content: space-evenly;
 }
 
-.header-right > :nth-child(3) {
+.test-header-right > :nth-child(3) {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,11 +49,11 @@
   border-radius: 30px;
 }
 
-.header-right > :nth-child(3):hover {
+.test-header-right > :nth-child(3):hover {
   background-color: rgba(128, 128, 128, 0.212);
 }
 
-.heaer-login {
+.test-heaer-login {
   border: 1px solid #4285f4;
   border-radius: 5px;
 
@@ -63,7 +63,7 @@
   background-color: #4285f4;
   color: white;
 }
-.heaer-login:hover {
+.test-heaer-login:hover {
   cursor: pointer;
   box-shadow: 1px 1px 10px 1px rgba(128, 128, 128, 0.507);
 }

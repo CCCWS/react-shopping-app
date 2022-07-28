@@ -19,19 +19,19 @@ function Test() {
   return (
     <div>
       <div className="test-header">
-        <div className="header-left">
+        <div className="test-header-left">
           <div>Google 정보</div>
           <div>스토어</div>
         </div>
 
-        <div className="header-right">
+        <div className="test-header-right">
           <div>Gmail</div>
           <div>이미지</div>
           <div>
             <AppstoreOutlined />
           </div>
 
-          <button className="heaer-login">로그인</button>
+          <button className="test-heaer-login">로그인</button>
         </div>
       </div>
 

@@ -20,7 +20,7 @@ import "./App.css";
 function App() {
   return (
     <BrowserRouter>
-      {/* <Header /> */}
+      <Header />
       <Routes>
         <Route path={`/`} element={Auth(Main, null)} />
         <Route path={`/upload`} element={Auth(Upload, true)} />

@@ -213,6 +213,7 @@ function ProductDetail({ user }) {
           <Selector
             ProductDetail={true}
             arr={product.image}
+            modalOpen={modalOpen}
             setModalOpen={setModalOpen}
             setModalImg={setModalImg}
           />
