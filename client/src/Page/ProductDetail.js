@@ -202,24 +202,24 @@ function ProductDetail({ user }) {
       {loading ? (
         <Loading />
       ) : (
-        <Fade bottom>
-          <div className="ProductDetail-info">
-            {product.count === 0 ? (
-              <div className="soldOut">판매완료된 상품입니다.</div>
-            ) : null}
-            {/* <ImgCarousel
+        <div className="ProductDetail-info">
+          {product.count === 0 ? (
+            <div className="soldOut">판매완료된 상품입니다.</div>
+          ) : null}
+          {/* <ImgCarousel
             data={product.image}
             setModalOpen={setModalOpen}
             setModalImg={setModalImg}
           /> */}
-            <Selector
-              ProductDetail={true}
-              arr={product.image}
-              modalOpen={modalOpen}
-              setModalOpen={setModalOpen}
-              setModalImg={setModalImg}
-            />
+          <Selector
+            ProductDetail={true}
+            arr={product.image}
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}
+            setModalImg={setModalImg}
+          />
 
+          <Fade bottom>
             <div>
               <div className="ProductDetail-writer">
                 {product.writer === undefined ? (
@@ -266,58 +266,57 @@ function ProductDetail({ user }) {
                 </>
               )}
             </div>
-
-            <div className="ProductDetail-footer">
-              <div>
-                <div className="ProductDetail-footer-price">
-                  <div>
-                    {`${parseInt(
-                      product.price * purchasesCount,
-                      10
-                    ).toLocaleString()}원`}
-                  </div>
-
-                  <PurchasesCountBtn
-                    purchasesCount={purchasesCount}
-                    setPurchasesCount={setPurchasesCount}
-                    productCount={product.count}
-                    detail={true}
-                  />
+          </Fade>
+          <div className="ProductDetail-footer">
+            <div>
+              <div className="ProductDetail-footer-price">
+                <div>
+                  {`${parseInt(
+                    product.price * purchasesCount,
+                    10
+                  ).toLocaleString()}원`}
                 </div>
 
-                <div className="ProductDetail-footer-btn">
-                  {writer ? (
+                <PurchasesCountBtn
+                  purchasesCount={purchasesCount}
+                  setPurchasesCount={setPurchasesCount}
+                  productCount={product.count}
+                  detail={true}
+                />
+              </div>
+
+              <div className="ProductDetail-footer-btn">
+                {writer ? (
+                  <button
+                    onClick={() =>
+                      nav(`/edit/${product._id}`, {
+                        state: { id: product._id },
+                      })
+                    }
+                    className="ProductDetail-cart"
+                  >
+                    수정하기
+                  </button>
+                ) : (
+                  <>
                     <button
-                      onClick={() =>
-                        nav(`/edit/${product._id}`, {
-                          state: { id: product._id },
-                        })
-                      }
+                      onClick={onAddCartProduct}
                       className="ProductDetail-cart"
                     >
-                      수정하기
+                      장바구니
                     </button>
-                  ) : (
-                    <>
-                      <button
-                        onClick={onAddCartProduct}
-                        className="ProductDetail-cart"
-                      >
-                        장바구니
-                      </button>
-                      <button
-                        className="ProductDetail-purchase-btn"
-                        onClick={goCheckOut}
-                      >
-                        구매하기
-                      </button>
-                    </>
-                  )}
-                </div>
+                    <button
+                      className="ProductDetail-purchase-btn"
+                      onClick={goCheckOut}
+                    >
+                      구매하기
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
-        </Fade>
+        </div>
       )}
     </div>
   );
