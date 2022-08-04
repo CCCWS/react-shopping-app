@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import {
   LoadingOutlined,
   AppstoreOutlined,
@@ -16,6 +17,7 @@ import RecentView from "../Components/RecentView";
 import ProductRank from "../Components/ProductRank";
 
 function Main() {
+  const [readMore, setReadMore] = useInView();
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [click, setClick] = useState(true);
@@ -68,20 +70,6 @@ function Main() {
     }
   };
 
-  const readMore = () => {
-    const option = {
-      skip: skip + limit,
-      limit: limit,
-      category: selectCategory,
-      price: price.priceRange,
-      searchValue: searchValue,
-      readMore: true,
-    };
-
-    getProductList(option);
-    setSkip((prev) => prev + limit);
-  };
-
   const view = (e) => {
     if (e === "card") {
       localStorage.setItem("mainView", true);
@@ -111,6 +99,37 @@ function Main() {
     getProductList(option);
     setSkip(0);
   };
+
+  const readdMore = () => {
+    const option = {
+      skip: skip + limit,
+      limit: limit,
+      category: selectCategory,
+      price: price.priceRange,
+      searchValue: searchValue,
+      readMore: true,
+    };
+
+    getProductList(option);
+    setSkip((prev) => prev + limit);
+  };
+
+  useEffect(() => {
+    if (setReadMore) {
+      const option = {
+        skip: skip + limit,
+        limit: limit,
+        category: selectCategory,
+        price: price.priceRange,
+        searchValue: searchValue,
+        readMore: true,
+      };
+
+      getProductList(option);
+      setSkip((prev) => prev + limit);
+    }
+  }, [setReadMore]);
+  console.log(setReadMore);
 
   return (
     <div className="page">
@@ -168,7 +187,7 @@ function Main() {
           </>
         )}
       </div>
-      <button onClick={readMore}></button>
+      <button ref={readMore}></button>
     </div>
   );
 }

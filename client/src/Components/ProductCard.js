@@ -28,9 +28,8 @@ function ProductCard({ data, click }) {
   return (
     <>
       {data.map((data, index) => (
-        <Fade up>
+        <Fade up key={index}>
           <div
-            key={index}
             className={click ? "productCard" : "productCard-list"}
             id={data._id}
             onClick={() => {
