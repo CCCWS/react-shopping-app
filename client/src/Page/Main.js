@@ -187,7 +187,7 @@ function Main() {
           </>
         )}
       </div>
-      <button ref={readMore}></button>
+      <div ref={readMore}></div>
     </div>
   );
 }
