@@ -1,7 +1,9 @@
 /* eslint-disable */
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Auth from "./hoc/auth";
+import PageTop from "./Components/PageTop";
 import Header from "./Components/Header/Header";
 import Main from "./Page/Main";
 import Upload from "./Page/Upload";
@@ -18,9 +20,20 @@ import Test from "./Page/Test";
 import "./App.css";
 
 function App() {
+  // useEffect(() => {
+  //   window.onbeforeunload = function pushRefresh() {
+  //     window.scrollTo(0, 0);
+  //   };
+  // }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <BrowserRouter>
       <Header />
+      <PageTop />
       <Routes>
         <Route path={`/`} element={Auth(Main, null)} />
         <Route path={`/upload`} element={Auth(Upload, true)} />

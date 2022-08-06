@@ -39,6 +39,12 @@ function Main() {
     }
   }, []);
 
+  // useEffect(() => {
+  //   window.onbeforeunload = function pushRefresh() {
+  //     window.scrollTo(0, 0);
+  //   };
+  // }, []);
+
   useEffect(() => {
     const option = {
       skip: 0,
