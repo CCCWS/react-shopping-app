@@ -5,6 +5,7 @@ import {
   AppstoreOutlined,
   BarsOutlined,
   SearchOutlined,
+  RollbackOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
 import { categoryList } from "../data/CatecoryList";
@@ -17,12 +18,13 @@ import RecentView from "../Components/RecentView";
 import ProductRank from "../Components/ProductRank";
 
 function Main() {
-  const [readMore, setReadMore] = useInView();
+  const [readRef, setReadRef] = useInView();
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [click, setClick] = useState(true);
   const [selectCategory, setSelectCategort] = useState("전체");
   const [searchValue, setSearchValue] = useState("");
+  const [searchTrue, setSearchTrue] = useState(false);
   const [price, setPrice] = useState({
     priceName: "전체",
     priceRange: [0, 100000000],
@@ -55,7 +57,7 @@ function Main() {
     };
     getProductList(option);
     setSkip(0);
-  }, [selectCategory, price, searchValue]);
+  }, [selectCategory, price]);
 
   const getProductList = async (data) => {
     if (data.readMore === undefined) {
@@ -95,6 +97,10 @@ function Main() {
   const onSearch = (e) => {
     e.preventDefault();
 
+    if (searchValue.length === 0) {
+      return alert("한글자 이상 입력해주세요.");
+    }
+
     const option = {
       skip: 0,
       limit: limit,
@@ -102,11 +108,12 @@ function Main() {
       price: price.priceRange,
       searchValue: searchValue,
     };
+    setSearchTrue(true);
     getProductList(option);
     setSkip(0);
   };
 
-  const readdMore = () => {
+  const readMore = () => {
     const option = {
       skip: skip + limit,
       limit: limit,
@@ -121,21 +128,10 @@ function Main() {
   };
 
   useEffect(() => {
-    if (setReadMore) {
-      const option = {
-        skip: skip + limit,
-        limit: limit,
-        category: selectCategory,
-        price: price.priceRange,
-        searchValue: searchValue,
-        readMore: true,
-      };
-
-      getProductList(option);
-      setSkip((prev) => prev + limit);
+    if (setReadRef) {
+      readMore();
     }
-  }, [setReadMore]);
-  console.log(setReadMore);
+  }, [setReadRef]);
 
   return (
     <div className="page">
@@ -178,7 +174,19 @@ function Main() {
         </div>
       </form>
 
-      {searchValue.length > 0 ? null : <ProductRank />}
+      {searchTrue ? (
+        <div className="main-search-reset">
+          <div
+            onClick={() => {
+              setSearchValue("");
+            }}
+          >
+            <RollbackOutlined />
+          </div>
+        </div>
+      ) : (
+        <ProductRank />
+      )}
 
       <div className={click ? "main-productList" : "main-productList-list"}>
         <RecentView />
@@ -188,12 +196,10 @@ function Main() {
             <LoadingOutlined />
           </div>
         ) : (
-          <>
-            <ProductCard data={productList} click={click} />
-          </>
+          <ProductCard data={productList} click={click} />
         )}
       </div>
-      <div ref={readMore}></div>
+      <div ref={readRef}></div>
     </div>
   );
 }

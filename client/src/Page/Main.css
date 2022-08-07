@@ -68,6 +68,13 @@
   cursor: pointer;
 }
 
+.main-search-reset {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+}
+
 @media (max-width: 450px) {
   .main-option {
     height: 80px;
