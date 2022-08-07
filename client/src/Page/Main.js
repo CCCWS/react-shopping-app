@@ -48,16 +48,20 @@ function Main() {
   // }, []);
 
   useEffect(() => {
+    optionProduct();
+  }, [selectCategory, price]);
+
+  const optionProduct = () => {
     const option = {
       skip: 0,
       limit: limit,
       category: selectCategory,
       price: price.priceRange,
-      searchValue: searchValue,
+      searchValue: "",
     };
     getProductList(option);
     setSkip(0);
-  }, [selectCategory, price]);
+  };
 
   const getProductList = async (data) => {
     if (data.readMore === undefined) {
@@ -179,6 +183,8 @@ function Main() {
           <div
             onClick={() => {
               setSearchValue("");
+              setSearchTrue(false);
+              optionProduct();
             }}
           >
             <RollbackOutlined />
