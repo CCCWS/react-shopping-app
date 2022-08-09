@@ -30,36 +30,46 @@ function ProductDetail({ user }) {
 
   const get = JSON.parse(localStorage.getItem("productHistory"));
 
-  useEffect(() => {}, [loading]);
-
   const setLocalData = () => {
+    //LocalStorage에 해당 상품의 정보 저장
+
     const filterGet = get.filter((data) => data.id !== product._id);
+    //해당 정보가 이미 LocalStorage에 있다면 해당 정보를 제외한 데이터
+
     localStorage.setItem(
       "productHistory",
       JSON.stringify([
         { id: product._id, image: product.image[0].name },
         ...filterGet,
       ])
+      //이미있는 정보를 제외하고 새롭게 등록하여 데이터를 최상단으로 갱신시킴
     );
   };
 
   useEffect(() => {
     if (loading === false) {
+      console.log(get.filter((data) => data.id === product._id).length === 1);
       if (get === null) {
+        //LocalStorage가 비어있을 경우 데이터를 추가
         localStorage.setItem(
           "productHistory",
           JSON.stringify([{ id: product._id, image: product.image[0].name }])
         );
       } else {
+        ///LocalStorage에 데이터가 있을 경우
         if (get.length === 6) {
+          ///LocalStorage의 최대 저장길이는 6으로 지정
           if (get.filter((data) => data.id === product._id).length === 1) {
             setLocalData();
+            //중복 데이터가 이미 있는 경우
           } else {
             get.pop();
             setLocalData();
+            //새로운 데이터일 경우 하나를 삭제하고 등록
           }
         } else {
           setLocalData();
+          //LocalStorage의 데이터가 6미만일 경우
         }
       }
     }
@@ -305,6 +315,7 @@ function ProductDetail({ user }) {
                     >
                       장바구니
                     </button>
+
                     <button
                       className="ProductDetail-purchase-btn"
                       onClick={goCheckOut}

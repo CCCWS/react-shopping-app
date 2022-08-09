@@ -8,7 +8,7 @@
 .Selector-box-CheckOut {
   margin: auto;
   width: 80%;
-  height: 150px;
+  height: 100px;
 }
 
 .Selector-box-ProductDetail {
@@ -27,7 +27,7 @@
 
 .Selector-box > button {
   z-index: 1;
-  height: 25%;
+  height: 100%;
   width: 40px;
   font-size: 40px;
   border: none;

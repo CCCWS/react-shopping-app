@@ -12,14 +12,20 @@ function Selector({
   modalOpen,
 }) {
   const [currArr, setCurrArr] = useState(0);
-  const [pause, setPause] = useState(false);
+  const [pause, setPause] = useState(true);
 
-  useEffect(() => {
-    if (modalOpen) {
-      setPause(true);
-      clearInterval(play);
-    }
-  }, [modalOpen]);
+  // useEffect(() => {
+  //   if (ProductDetail) {
+  //     setPause(false);
+  //   }
+  // });
+
+  // useEffect(() => {
+  //   if (modalOpen) {
+  //     setPause(true);
+  //     clearInterval(play);
+  //   }
+  // }, [modalOpen]);
 
   const minus = () => {
     if (currArr === 0) {
@@ -36,17 +42,15 @@ function Selector({
     setCurrArr((prev) => prev + 1);
   };
 
-  console.log(currArr);
-
-  let intervalCallBack = false;
-  const play = setInterval(() => {
-    if (!pause) {
-      if (!intervalCallBack) {
-        plus();
-        intervalCallBack = true;
-      }
-    }
-  }, 3000);
+  // let intervalCallBack = false;
+  // const play = setInterval(() => {
+  //   if (!pause) {
+  //     if (!intervalCallBack) {
+  //       plus();
+  //       intervalCallBack = true;
+  //     }
+  //   }
+  // }, 3000);
   //intervalCallBack으로 실행 여부를 구분하여 쌓여있는 함수의 실행을 방지
   // https://velog.io/@kyjun/javascript-setInterval-%EA%B3%A0%EC%B0%B0
 
@@ -85,42 +89,44 @@ function Selector({
         </button>
       )}
 
-      <div className="Selector-box-point">
-        <button
-          className="Selector-box-playBtn"
-          onClick={() => {
-            if (!pause) {
-              setPause(true);
-              clearInterval(play);
-            }
-
-            if (pause) {
-              setPause(false);
-              setInterval(play, 3000);
-            }
-          }}
-        >
-          {pause ? <CaretRightOutlined /> : <PauseOutlined />}
-        </button>
-
-        {arr.map((data, index) => (
-          <div
-            key={index}
-            className={[
-              `Selector-box-point-item ${
-                arr.indexOf(data) === currArr
-                  ? "Selector-box-point-item-on"
-                  : null
-              }`,
-            ].join(" ")}
+      {ProductDetail && (
+        <div className="Selector-box-point">
+          {/* <button
+            className="Selector-box-playBtn"
             onClick={() => {
-              setPause(true);
-              clearInterval(play);
-              setCurrArr(arr.indexOf(data));
+              if (!pause) {
+                setPause(true);
+                clearInterval(play);
+              }
+
+              if (pause) {
+                setPause(false);
+                setInterval(play, 3000);
+              }
             }}
-          ></div>
-        ))}
-      </div>
+          >
+            {pause ? <CaretRightOutlined /> : <PauseOutlined />}
+          </button> */}
+
+          {arr.map((data, index) => (
+            <div
+              key={index}
+              className={[
+                `Selector-box-point-item ${
+                  arr.indexOf(data) === currArr
+                    ? "Selector-box-point-item-on"
+                    : null
+                }`,
+              ].join(" ")}
+              onClick={() => {
+                // setPause(true);
+                // clearInterval(play);
+                setCurrArr(arr.indexOf(data));
+              }}
+            ></div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
