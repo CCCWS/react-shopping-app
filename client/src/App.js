@@ -16,6 +16,7 @@ import ProductManagement from "./Page/ProductManagement";
 import Edit from "./Page/Edit";
 
 import Test from "./Page/Test";
+import Test2 from "./Page/Test2";
 
 import "./App.css";
 
@@ -51,6 +52,7 @@ function App() {
         />
         <Route path={`/edit/:id`} element={Auth(Edit, true)} />
         <Route path={`/test`} element={Auth(Test, null)} />
+        <Route path={`/test2`} element={Auth(Test2, null)} />
       </Routes>
     </BrowserRouter>
   );
