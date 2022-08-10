@@ -20,6 +20,7 @@ function ProductDetail({ user }) {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [otherLoading, setOtherLoading] = useState(true);
   const [product, setProduct] = useState([]);
   const [otherProduct, setOtherProduct] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -48,7 +49,6 @@ function ProductDetail({ user }) {
 
   useEffect(() => {
     if (loading === false) {
-      console.log(get.filter((data) => data.id === product._id).length === 1);
       if (get === null) {
         //LocalStorage가 비어있을 경우 데이터를 추가
         localStorage.setItem(
@@ -87,12 +87,15 @@ function ProductDetail({ user }) {
   }, [product]);
 
   const getProduct = async () => {
-    setLoading(true);
+    //제품의 정보를 가져옴
     const res = await axios.post("/api/product/productDetail", { id });
     setProduct(res.data.productInfo);
+
+    setLoading(false);
   };
 
   const getOtherProduct = async () => {
+    //제품의 정보를 가져온뒤 해당 제품의 카테고리의 다른 제품을 가져옴
     const option = {
       skip: 0,
       limit: 20,
@@ -101,16 +104,18 @@ function ProductDetail({ user }) {
     try {
       const res = await axios.post("/api/product/productList", option);
       setOtherProduct(res.data.productInfo.filter((data) => data._id !== id));
+      //현재 가져온 제품정보를 제외한 나머지 제품
 
       if (user.userData.isAuth) {
         if (product.writer._id === user.userData._id) {
+          //제품의 작성자와 로그인한 유저의 id가 같다면 작성자로 확인
           setWriter(true);
         }
       }
 
-      setLoading(false);
+      setOtherLoading(false);
     } catch (err) {
-      console.log("데이터 조회 실패");
+      console.log(err);
     }
   };
 
@@ -264,13 +269,17 @@ function ProductDetail({ user }) {
                 <>
                   <div>
                     <div className="ProductDetail-other">관련 상품</div>
-                    <div className="main-productList ProductDetail-productCard">
-                      <ProductCard
-                        data={otherProduct}
-                        click={true}
-                        ProductDetail={true}
-                      />
-                    </div>
+                    {otherLoading ? (
+                      <Loading />
+                    ) : (
+                      <div className="main-productList ProductDetail-productCard">
+                        <ProductCard
+                          data={otherProduct}
+                          click={true}
+                          ProductDetail={true}
+                        />
+                      </div>
+                    )}
                   </div>
                   <hr />
                 </>
