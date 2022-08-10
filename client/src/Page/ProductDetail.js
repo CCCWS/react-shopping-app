@@ -21,7 +21,9 @@ function ProductDetail({ user }) {
   const nav = useNavigate();
   const [loading, setLoading] = useState(true);
   const [otherLoading, setOtherLoading] = useState(true);
+  const [writerLoading, setWriterLoading] = useState(true);
   const [product, setProduct] = useState([]);
+  const [productWriter, setProductWriter] = useState([]);
   const [otherProduct, setOtherProduct] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalImg, setModalImg] = useState([]);
@@ -76,25 +78,53 @@ function ProductDetail({ user }) {
   }, [loading]);
 
   useEffect(() => {
-    getProduct();
     window.scroll(0, 0);
+    getProduct();
   }, [id]);
 
   useEffect(() => {
     if (product.category) {
+      getWriter();
       getOtherProduct();
     }
   }, [product]);
 
+  // useEffect(() => {
+  //   if (product) {
+  //     getWriter();
+  //   }
+  // }, [writer]);
+
+  useEffect(() => {
+    if (!loading) {
+      if (user.userData.isAuth) {
+        if (product.writer === user.userData._id) {
+          //제품의 작성자와 로그인한 유저의 id가 같다면 작성자로 확인
+          setWriter(true);
+        }
+      }
+    }
+  }, [user]);
+
   const getProduct = async () => {
     //제품의 정보를 가져옴
+    setLoading(true);
     const res = await axios.post("/api/product/productDetail", { id });
+    console.log(res.data.productInfo);
     setProduct(res.data.productInfo);
-
     setLoading(false);
   };
 
+  const getWriter = async () => {
+    setWriterLoading(true);
+    const res = await axios.post("/api/user/userInfo", { id: product.writer });
+    console.log(res.data.userInfo);
+    setProductWriter(res.data.userInfo);
+    setWriterLoading(false);
+  };
+
   const getOtherProduct = async () => {
+    setOtherLoading(true);
     //제품의 정보를 가져온뒤 해당 제품의 카테고리의 다른 제품을 가져옴
     const option = {
       skip: 0,
@@ -105,13 +135,6 @@ function ProductDetail({ user }) {
       const res = await axios.post("/api/product/productList", option);
       setOtherProduct(res.data.productInfo.filter((data) => data._id !== id));
       //현재 가져온 제품정보를 제외한 나머지 제품
-
-      if (user.userData.isAuth) {
-        if (product.writer._id === user.userData._id) {
-          //제품의 작성자와 로그인한 유저의 id가 같다면 작성자로 확인
-          setWriter(true);
-        }
-      }
 
       setOtherLoading(false);
     } catch (err) {
@@ -237,12 +260,12 @@ function ProductDetail({ user }) {
           <Fade bottom>
             <div>
               <div className="ProductDetail-writer">
-                {product.writer === undefined ? (
-                  "익명"
+                {writerLoading ? (
+                  <div>로딩중</div>
                 ) : (
                   <>
-                    <div>{product.writer.name}</div>
-                    <div>{product.writer.email}</div>
+                    <div>{productWriter.name}</div>
+                    <div>{productWriter.email}</div>
                   </>
                 )}
               </div>
@@ -305,32 +328,38 @@ function ProductDetail({ user }) {
               </div>
 
               <div className="ProductDetail-footer-btn">
-                {writer ? (
-                  <button
-                    onClick={() =>
-                      nav(`/edit/${product._id}`, {
-                        state: { id: product._id },
-                      })
-                    }
-                    className="ProductDetail-cart"
-                  >
-                    수정하기
-                  </button>
+                {writerLoading ? (
+                  <div>로딩중</div>
                 ) : (
                   <>
-                    <button
-                      onClick={onAddCartProduct}
-                      className="ProductDetail-cart"
-                    >
-                      장바구니
-                    </button>
+                    {writer ? (
+                      <button
+                        onClick={() =>
+                          nav(`/edit/${product._id}`, {
+                            state: { id: product._id },
+                          })
+                        }
+                        className="ProductDetail-cart"
+                      >
+                        수정하기
+                      </button>
+                    ) : (
+                      <>
+                        <button
+                          onClick={onAddCartProduct}
+                          className="ProductDetail-cart"
+                        >
+                          장바구니
+                        </button>
 
-                    <button
-                      className="ProductDetail-purchase-btn"
-                      onClick={goCheckOut}
-                    >
-                      구매하기
-                    </button>
+                        <button
+                          className="ProductDetail-purchase-btn"
+                          onClick={goCheckOut}
+                        >
+                          구매하기
+                        </button>
+                      </>
+                    )}
                   </>
                 )}
               </div>

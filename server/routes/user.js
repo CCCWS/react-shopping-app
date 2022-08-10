@@ -216,4 +216,14 @@ app.post("/purchaseHistory", auth, (req, res) => {
   });
 });
 
+app.post("/userInfo", (req, res) => {
+  User.findOne({ _id: req.body.id }, (err, userInfo) => {
+    if (err) return res.status(400).json({ success: false, err });
+    res.status(200).send({
+      success: true,
+      userInfo: userInfo,
+    });
+  });
+});
+
 module.exports = app;
