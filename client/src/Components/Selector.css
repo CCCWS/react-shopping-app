@@ -104,12 +104,12 @@
   padding: 3px;
   width: 250px;
 }
-/* 
+
 .Selector-PurchaseBtnNormal:hover {
   cursor: pointer;
   border: 2px solid orange;
   transition: all ease 0.1s;
-} */
+}
 
 @media (max-width: 450px) {
   .Selector-box {
