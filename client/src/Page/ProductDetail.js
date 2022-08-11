@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LeftOutlined, HomeOutlined } from "@ant-design/icons";
+import { Skeleton } from "antd";
 import { useDispatch } from "react-redux";
 import { addCart } from "../_action/user_action";
 import Fade from "react-reveal/Fade";
 
-import ImgCarousel from "../Components/ImgCarousel";
 import ProductCard from "../Components/ProductCard";
 import Modal from "../Components/Modal";
 import PurchasesCountBtn from "../Components/PurchasesCountBtn";
@@ -84,16 +84,14 @@ function ProductDetail({ user }) {
 
   useEffect(() => {
     if (product.category) {
-      getWriter();
-      getOtherProduct();
+      //제품 정보를 가져왔을때 실행
+      test();
     }
   }, [product]);
 
-  // useEffect(() => {
-  //   if (product) {
-  //     getWriter();
-  //   }
-  // }, [writer]);
+  const test = async () => {
+    const result = await Promise.all([getWriter(), getOtherProduct()]);
+  };
 
   useEffect(() => {
     if (!loading) {
@@ -110,16 +108,16 @@ function ProductDetail({ user }) {
     //제품의 정보를 가져옴
     setLoading(true);
     const res = await axios.post("/api/product/productDetail", { id });
-    console.log(res.data.productInfo);
     setProduct(res.data.productInfo);
     setLoading(false);
   };
 
   const getWriter = async () => {
     setWriterLoading(true);
+
     const res = await axios.post("/api/user/userInfo", { id: product.writer });
-    console.log(res.data.userInfo);
     setProductWriter(res.data.userInfo);
+
     setWriterLoading(false);
   };
 
@@ -131,15 +129,11 @@ function ProductDetail({ user }) {
       limit: 20,
       category: product.category,
     };
-    try {
-      const res = await axios.post("/api/product/productList", option);
-      setOtherProduct(res.data.productInfo.filter((data) => data._id !== id));
-      //현재 가져온 제품정보를 제외한 나머지 제품
 
-      setOtherLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
+    const res = await axios.post("/api/product/productList", option);
+    setOtherProduct(res.data.productInfo.filter((data) => data._id !== id));
+    //현재 가져온 제품정보를 제외한 나머지 제품
+    setOtherLoading(false);
   };
 
   const getTime = (time) => {
@@ -261,7 +255,7 @@ function ProductDetail({ user }) {
             <div>
               <div className="ProductDetail-writer">
                 {writerLoading ? (
-                  <div>로딩중</div>
+                  <Skeleton.Button />
                 ) : (
                   <>
                     <div>{productWriter.name}</div>
@@ -329,7 +323,7 @@ function ProductDetail({ user }) {
 
               <div className="ProductDetail-footer-btn">
                 {writerLoading ? (
-                  <div>로딩중</div>
+                  <Skeleton.Button />
                 ) : (
                   <>
                     {writer ? (

@@ -10,6 +10,7 @@ import {
   ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { postUrl } from "../PostUrl";
+import Loading from "../Components/Loading";
 import "./Cart.css";
 
 function Cart() {
@@ -161,9 +162,7 @@ function Cart() {
   return (
     <div className="page">
       {loading ? (
-        <div className="loading">
-          <LoadingOutlined />
-        </div>
+        <Loading />
       ) : (
         <>
           <div className="purchase-procedure">

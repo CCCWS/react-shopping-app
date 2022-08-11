@@ -4,6 +4,7 @@ import axios from "axios";
 import { LoadingOutlined } from "@ant-design/icons";
 import "./ProductManagement.css";
 import { postUrl } from "../PostUrl";
+import Loading from "../Components/Loading";
 
 function ProductManagement() {
   const nav = useNavigate();
@@ -61,9 +62,7 @@ function ProductManagement() {
   return (
     <div className="page">
       {loading ? (
-        <div className="loading">
-          <LoadingOutlined />
-        </div>
+        <Loading />
       ) : (
         <>
           <div className="ProductManagement-info">

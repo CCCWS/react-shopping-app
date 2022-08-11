@@ -4,6 +4,7 @@ import axios from "axios";
 import { LoadingOutlined } from "@ant-design/icons";
 import { postUrl } from "../PostUrl";
 
+import Loading from "../Components/Loading";
 import Modal from "../Components/Modal";
 import "./PurchaseHistory.css";
 
@@ -38,9 +39,7 @@ function PurchaseHistory() {
   return (
     <div className="page">
       {loading ? (
-        <div className="loading">
-          <LoadingOutlined />
-        </div>
+        <Loading />
       ) : (
         <>
           <Modal

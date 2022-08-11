@@ -1,11 +1,12 @@
 import React from "react";
-import axios from "axios";
+import { Spin } from "antd";
+
 import { LoadingOutlined } from "@ant-design/icons";
 
 function Loading() {
   return (
     <div className="loading">
-      <LoadingOutlined />
+      <Spin size="large" />
     </div>
   );
 }
