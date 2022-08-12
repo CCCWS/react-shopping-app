@@ -131,4 +131,4 @@ function Selector({
   );
 }
 
-export default Selector;
+export default React.memo(Selector);

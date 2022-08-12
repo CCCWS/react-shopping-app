@@ -22,6 +22,7 @@ function ProductDetail({ user }) {
   const [loading, setLoading] = useState(true);
   const [otherLoading, setOtherLoading] = useState(true);
   const [writerLoading, setWriterLoading] = useState(true);
+  const [footerBtnLoading, setFooterBtnLoading] = useState(true);
   const [product, setProduct] = useState([]);
   const [productWriter, setProductWriter] = useState([]);
   const [otherProduct, setOtherProduct] = useState([]);
@@ -78,7 +79,6 @@ function ProductDetail({ user }) {
   }, [loading]);
 
   useEffect(() => {
-    window.scroll(0, 0);
     getProduct();
   }, [id]);
 
@@ -91,18 +91,20 @@ function ProductDetail({ user }) {
     }
   }, [product]);
 
-  const getData = async () => {
-    const result = await Promise.all([getWriter(), getOtherProduct()]);
-    //작정자 정보와 다른 상품 정보는 상관관계가 없음
-    //상품의 정보를 받아오면 병렬처리
-  };
+  // const getData = async () => {
+  //   const result = await Promise.all([getWriter(), getOtherProduct()]);
+  //   //작정자 정보와 다른 상품 정보는 상관관계가 없음
+  //   //상품의 정보를 받아오면 병렬처리
+  // };
 
   useEffect(() => {
-    if (!loading) {
+    setFooterBtnLoading(true);
+    if (user.userData !== undefined) {
       if (user.userData.isAuth) {
         if (product.writer === user.userData._id) {
           //제품의 작성자와 로그인한 유저의 id가 같다면 작성자로 확인
           setWriter(true);
+          setFooterBtnLoading(false);
         }
       }
     }
@@ -255,7 +257,7 @@ function ProductDetail({ user }) {
             setModalImg={setModalImg}
           />
 
-          <Fade bottom>
+          <Fade left>
             <div>
               <div className="ProductDetail-writer">
                 {writerLoading ? (
@@ -326,7 +328,7 @@ function ProductDetail({ user }) {
               </div>
 
               <div className="ProductDetail-footer-btn">
-                {writerLoading ? (
+                {footerBtnLoading ? (
                   <Skeleton.Button />
                 ) : (
                   <>

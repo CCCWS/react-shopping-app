@@ -49,4 +49,4 @@ function PurchasesCountBtn({
   );
 }
 
-export default PurchasesCountBtn;
+export default React.memo(PurchasesCountBtn);
