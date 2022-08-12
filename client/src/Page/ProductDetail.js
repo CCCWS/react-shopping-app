@@ -85,12 +85,16 @@ function ProductDetail({ user }) {
   useEffect(() => {
     if (product.category) {
       //제품 정보를 가져왔을때 실행
-      test();
+      // getData();
+      getWriter();
+      getOtherProduct();
     }
   }, [product]);
 
-  const test = async () => {
+  const getData = async () => {
     const result = await Promise.all([getWriter(), getOtherProduct()]);
+    //작정자 정보와 다른 상품 정보는 상관관계가 없음
+    //상품의 정보를 받아오면 병렬처리
   };
 
   useEffect(() => {

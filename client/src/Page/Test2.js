@@ -2,23 +2,22 @@ import React, { useEffect } from "react";
 
 function Test2() {
   useEffect(() => {
-    main();
+    test1();
+    test2();
   }, []);
 
-  function handleTask(id) {
-    return new Promise((resolve) => {
-      console.log(`task${id} finished!`);
-      resolve();
-    });
-  }
+  const test1 = () => {
+    for (let i = 0; i <= 1000; i++) {
+      console.log("test");
+    }
+  };
 
-  async function main() {
-    const tasks = [1, 2, 3, 4, 5];
+  const test2 = () => {
+    console.time("Performance Time");
+    setTimeout(() => console.log("3초후"), 3000);
+    console.timeEnd("Performance Time");
+  };
 
-    const taskPromises = tasks.map((task) => handleTask(task));
-    const result = await Promise.all(taskPromises);
-    console.log(result);
-  }
   return <div>Test2</div>;
 }
 

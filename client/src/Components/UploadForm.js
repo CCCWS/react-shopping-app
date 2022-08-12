@@ -49,6 +49,7 @@ function UploadForm({ user, edit, editData, id }) {
 
       case "count":
         setState({ ...state, count: e.target.value });
+        console.log(typeof state.count);
         break;
 
       case "category":
