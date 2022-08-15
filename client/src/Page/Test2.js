@@ -1,24 +1,20 @@
 import React, { useEffect } from "react";
 
 function Test2() {
-  useEffect(() => {
-    test1();
-    test2();
-  }, []);
-
-  const test1 = () => {
-    for (let i = 0; i <= 1000; i++) {
-      console.log("test");
-    }
-  };
-
-  const test2 = () => {
-    console.time("Performance Time");
-    setTimeout(() => console.log("3초후"), 3000);
-    console.timeEnd("Performance Time");
-  };
-
-  return <div>Test2</div>;
+  return (
+    <div>
+      <label for="numbers">numbers</label>
+      <input type="text" list="list" id="numbers" />
+      <datalist id="list">
+        <option value="1" />
+        <option value="2" />
+        <option value="3" />
+        <option value="4" />
+        <option value="5" />
+        <option value="6" />
+      </datalist>
+    </div>
+  );
 }
 
 export default Test2;

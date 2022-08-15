@@ -98,13 +98,11 @@ function ProductDetail({ user }) {
   // };
 
   useEffect(() => {
-    setFooterBtnLoading(true);
     if (user.userData !== undefined) {
       if (user.userData.isAuth) {
         if (product.writer === user.userData._id) {
           //제품의 작성자와 로그인한 유저의 id가 같다면 작성자로 확인
           setWriter(true);
-          setFooterBtnLoading(false);
         }
       }
     }
@@ -328,7 +326,7 @@ function ProductDetail({ user }) {
               </div>
 
               <div className="ProductDetail-footer-btn">
-                {footerBtnLoading ? (
+                {writerLoading ? (
                   <Skeleton.Button />
                 ) : (
                   <>
