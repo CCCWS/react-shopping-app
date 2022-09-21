@@ -1,4 +1,5 @@
 export const categoryList = [
+  { id: 0, name: "전체" },
   {
     id: 1,
     name: "디지털기기",

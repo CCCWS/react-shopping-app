@@ -55,11 +55,11 @@ function SelectBox({ setValue, setSelectCategort, main }) {
         onChange={select}
         ref={selectRef2}
       >
-        {main === true && (
+        {/* {main === true && (
           <li onClick={select} className="select-value-list" id="category">
             전체
           </li>
-        )}
+        )} */}
         {categoryList.map((item) => (
           <li
             onClick={select}
