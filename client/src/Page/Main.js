@@ -65,13 +65,12 @@ function Main() {
     limit: limit,
     category: selectCategory,
     price: priceRange,
-    searchValue: "",
     readMore: false,
   };
 
   useEffect(() => {
     const onCategorySearch = () => {
-      const option = { ...searchOption };
+      const option = { ...searchOption, searchValue: searchValue };
       getProduct(option);
     };
     onCategorySearch();
@@ -81,8 +80,8 @@ function Main() {
     const readMore = () => {
       const option = {
         ...searchOption,
-        skip: skip + limit,
         searchValue: searchValue,
+        skip: skip + limit,
         readMore: true,
       };
 
@@ -149,7 +148,7 @@ function Main() {
             onClick={() => {
               setSearchValue("");
               setSearchTrue(false);
-              getProduct("api/product/productList");
+              getProduct(searchOption);
             }}
           >
             <RollbackOutlined />
