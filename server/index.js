@@ -4,6 +4,8 @@ const app = express();
 const path = require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+// 클라이언트에서 axios에 함께 보낸 파라미터를 받을수있음
+// 클라이언트 요청에 body값을 서버 내에서 해석 가능한 구문으로 파싱함과 동시에 req.body값에 할당해주는 역할을 하는 것이다.
 const cookieParser = require("cookie-parser");
 
 const mongoose = require("mongoose");

@@ -99,6 +99,8 @@ app.post("/productList", (req, res) => {
   //상품목록 가져오기
   const arg = {};
 
+  console.log(req.body);
+
   if (req.body.price) {
     arg.price = {
       $gte: parseInt(req.body.price[0], 10),

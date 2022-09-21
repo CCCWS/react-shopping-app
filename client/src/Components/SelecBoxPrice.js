@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CaretDownFilled, CaretUpFilled } from "@ant-design/icons";
+import { priceList } from "../data/CatecoryList";
 
 import "./SelectBox.css";
 
-function SelectBoxPrice({ data, price, setPrice }) {
+function SelectBoxPrice({ setPriceRange }) {
   const selectRef1 = useRef();
   const selectRef2 = useRef();
 
+  const [title, setTitle] = useState(priceList[0].name);
   const [click, setClick] = useState(false);
 
   const open = () => {
@@ -14,10 +16,8 @@ function SelectBoxPrice({ data, price, setPrice }) {
   };
 
   const select = (e) => {
-    setPrice({
-      priceName: e.target.innerText,
-      priceRange: e.target.id.split(","),
-    });
+    setTitle(e.target.innerText);
+    setPriceRange(e.target.id.split(","));
     setClick(!click);
   };
 
@@ -39,7 +39,7 @@ function SelectBoxPrice({ data, price, setPrice }) {
 
   return (
     <div className="SelectBox" onClick={open} ref={selectRef1}>
-      {price.priceName}
+      {title}
       <div className="caret-filled">
         {click ? <CaretUpFilled /> : <CaretDownFilled />}
       </div>
@@ -50,7 +50,7 @@ function SelectBoxPrice({ data, price, setPrice }) {
         onChange={select}
         ref={selectRef2}
       >
-        {data.map((item) => (
+        {priceList.map((item) => (
           <li
             onClick={select}
             key={item.id}

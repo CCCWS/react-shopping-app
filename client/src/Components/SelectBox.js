@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CaretDownFilled, CaretUpFilled } from "@ant-design/icons";
+import { categoryList } from "../data/CatecoryList";
 
 import "./SelectBox.css";
 
-function SelectBox({ data, value, setValue, setSelectCategort, main }) {
+function SelectBox({ setValue, setSelectCategort, main }) {
   const selectRef1 = useRef();
   const selectRef2 = useRef();
 
+  const [title, setTitle] = useState(categoryList[0].name);
   const [click, setClick] = useState(false);
 
   const open = () => {
@@ -15,6 +17,7 @@ function SelectBox({ data, value, setValue, setSelectCategort, main }) {
 
   const select = (e) => {
     if (main === true) {
+      setTitle(e.target.innerText);
       setSelectCategort(e.target.innerText);
     } else {
       setValue(e);
@@ -41,7 +44,7 @@ function SelectBox({ data, value, setValue, setSelectCategort, main }) {
 
   return (
     <div className="SelectBox" onClick={open} ref={selectRef1}>
-      {value}
+      {title}
       <div className="caret-filled">
         {click ? <CaretUpFilled /> : <CaretDownFilled />}
       </div>
@@ -53,15 +56,11 @@ function SelectBox({ data, value, setValue, setSelectCategort, main }) {
         ref={selectRef2}
       >
         {main === true && (
-          <li
-            onClick={select}
-            className="select-value-list"
-            id="category"
-          >
+          <li onClick={select} className="select-value-list" id="category">
             전체
           </li>
         )}
-        {data.map((item) => (
+        {categoryList.map((item) => (
           <li
             onClick={select}
             key={item.id}

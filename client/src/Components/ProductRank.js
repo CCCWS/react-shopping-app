@@ -74,4 +74,4 @@ const ProductSection = ({ items }) => {
   );
 };
 
-export default ProductRank;
+export default React.memo(ProductRank);
