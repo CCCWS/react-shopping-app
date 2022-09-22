@@ -30,10 +30,15 @@ const useAxios = (url) => {
   const postAxios = async (option) => {
     try {
       if (option === undefined) {
+        setLoading(true);
         const res = await axios.post(url);
+        setResData(res.data);
       } else {
+        setLoading(true);
         const res = await axios.post(url, option);
+        setResData(res.data);
       }
+      setLoading(false);
     } catch (err) {
       throw new Error(err);
     }

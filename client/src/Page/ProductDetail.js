@@ -13,24 +13,39 @@ import Selector from "../Components/Selector";
 import Loading from "../Components/Loading";
 import Modal from "../Components/Modal";
 
+import getTime from "../hooks/getTime";
+import useAxios from "../hooks/useAxios";
+
 import { addCart } from "../_action/user_action";
 import "./ProductDetail.css";
-import getTime from "../hooks/getTime";
 
 function ProductDetail({ user }) {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [otherLoading, setOtherLoading] = useState(true);
-  const [writerLoading, setWriterLoading] = useState(true);
-  const [product, setProduct] = useState([]);
-  const [productWriter, setProductWriter] = useState([]);
-  const [otherProduct, setOtherProduct] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalImg, setModalImg] = useState([]);
   const [purchasesCount, setPurchasesCount] = useState(1);
   const [writer, setWriter] = useState(false);
   const { id } = useParams();
+
+  const {
+    resData: product,
+    loading,
+    getProduct,
+  } = useAxios("/api/product/productDetail");
+
+  const {
+    resData: otherProduct,
+    loading: otherLoading,
+    getProduct: getOtherProduct,
+  } = useAxios("/api/product/productList");
+
+  const {
+    resData: productWriter,
+    loading: writerLoading,
+    postAxios: getWriter,
+  } = useAxios("/api/user/userInfo");
+
   const time = getTime(product.createdAt);
 
   useEffect(() => {
@@ -74,18 +89,21 @@ function ProductDetail({ user }) {
         }
       }
     }
-  }, [loading]);
+  }, [loading, product]);
 
   useEffect(() => {
-    getProduct();
+    getProduct({ id });
   }, [id]);
 
   useEffect(() => {
     if (product.category) {
       //제품 정보를 가져왔을때 실행
-      // getData();
-      getWriter();
-      getOtherProduct();
+      getWriter({ id: product.writer });
+      getOtherProduct({
+        skip: 0,
+        limit: 20,
+        category: product.category,
+      });
     }
   }, [product]);
 
@@ -99,38 +117,6 @@ function ProductDetail({ user }) {
       }
     }
   }, [user]);
-
-  const getProduct = async () => {
-    //제품의 정보를 가져옴
-    setLoading(true);
-    const res = await axios.post("/api/product/productDetail", { id });
-    setProduct(res.data.productInfo);
-    setLoading(false);
-  };
-
-  const getWriter = async () => {
-    setWriterLoading(true);
-
-    const res = await axios.post("/api/user/userInfo", { id: product.writer });
-    setProductWriter(res.data.userInfo);
-
-    setWriterLoading(false);
-  };
-
-  const getOtherProduct = async () => {
-    setOtherLoading(true);
-    //제품의 정보를 가져온뒤 해당 제품의 카테고리의 다른 제품을 가져옴
-    const option = {
-      skip: 0,
-      limit: 20,
-      category: product.category,
-    };
-
-    const res = await axios.post("/api/product/productList", option);
-    setOtherProduct(res.data.productInfo.filter((data) => data._id !== id));
-    //현재 가져온 제품정보를 제외한 나머지 제품
-    setOtherLoading(false);
-  };
 
   const onAddCartProduct = async () => {
     if (product.count === 0) {
@@ -236,8 +222,8 @@ function ProductDetail({ user }) {
                   <Skeleton.Button />
                 ) : (
                   <>
-                    <div>{productWriter.name}</div>
-                    <div>{productWriter.email}</div>
+                    <div>{productWriter.userInfo.name}</div>
+                    <div>{productWriter.userInfo.email}</div>
                   </>
                 )}
               </div>
