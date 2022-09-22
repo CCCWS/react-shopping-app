@@ -5,6 +5,7 @@ const fs = require("fs");
 const { ProductData } = require("../models/productData");
 const { User } = require("../models/User");
 const { auth } = require("../middleware/auth");
+const { Console } = require("console");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -14,7 +15,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const ext = file.mimetype.split("/")[1];
     if (["png", "jpg", "jpeg", "gif"].includes(ext)) {
-      cb(null, `test+${Date.now()}.${ext}`);
+      cb(null, `${Date.now()}.${ext}`);
     } else {
       cb(new Error("이미지만 업로드 가능"));
     }
@@ -99,12 +100,11 @@ app.post("/productList", (req, res) => {
   //상품목록 가져오기
   const arg = {};
 
-  console.log(req.body);
-
   if (req.body.price) {
+    const range = req.body.price.split(",");
     arg.price = {
-      $gte: parseInt(req.body.price[0], 10),
-      $lte: parseInt(req.body.price[1], 10),
+      $gte: parseInt(range[0], 10),
+      $lte: parseInt(range[1], 10),
     };
   }
 
@@ -136,7 +136,6 @@ app.post("/productList", (req, res) => {
 
 app.post("/productDetail", (req, res) => {
   //특정 상품 상세정보
-  console.log("test");
   ProductData.findOneAndUpdate(
     { _id: req.body.id },
     {

@@ -1,22 +1,24 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 const useAxios = (url) => {
-  const [productList, setProductList] = useState([]);
+  const [resData, setResData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const getProduct = async (option) => {
-    setLoading(true);
     try {
       if (option === undefined) {
+        setLoading(true);
         const res = await axios.post(url);
-        setProductList(res.data.productInfo);
+        setResData(res.data.productInfo);
       } else {
-        const res = await axios.post(url, option);
         if (option.readMore === true) {
-          setProductList((item) => [...item, ...res.data.productInfo]);
+          const res = await axios.post(url, option);
+          setResData((item) => [...item, ...res.data.productInfo]);
         } else {
-          setProductList(res.data.productInfo);
+          setLoading(true);
+          const res = await axios.post(url, option);
+          setResData(res.data.productInfo);
         }
       }
       setLoading(false);
@@ -25,11 +27,19 @@ const useAxios = (url) => {
     }
   };
 
-  useEffect(() => {
-    getProduct();
-  }, []);
+  const postAxios = async (option) => {
+    try {
+      if (option === undefined) {
+        const res = await axios.post(url);
+      } else {
+        const res = await axios.post(url, option);
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+  };
 
-  return { productList, loading, getProduct };
+  return { resData, loading, getProduct, postAxios };
 };
 
 export default useAxios;

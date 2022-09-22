@@ -8,12 +8,12 @@ import {
   ZoomInOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
+import useAxios from "../hooks/useAxios";
 
 function ImgUpload({
   setModalOpen,
   setImgData,
   setState,
-  imgDelete,
   setImgDelete,
   edit,
   editImg,
@@ -25,7 +25,11 @@ function ImgUpload({
       setImg(editImg.image);
     }
   }, []);
-  //////////////////////////////////
+
+  useEffect(() => {
+    setState([...img]);
+  }, [img]);
+
   const dropItem = (files) => {
     if (img.length === 12) {
       return alert("사진 첨부는 12개까지 가능합니다.");
@@ -39,44 +43,36 @@ function ImgUpload({
     formData.append("file", files[0]);
     //formData에 선택한 파일에 대한 정보를 담음
 
-    axios.post("/api/product/img", formData, config).then((res) => {
-      if (res.data.success) {
-        const getImg = new Image();
-        getImg.onload = function () {
-          setImg([
-            ...img,
-            {
-              name: res.data.file.filename,
-              width: this.width,
-              height: this.height,
-              // path: `http://localhost:3001/uploads/${res.data.file.filename}`,
-            },
-          ]);
-        };
-        getImg.src = `${postUrl}${res.data.file.filename}`;
-      }
-    });
+    sendServerImageData(formData, config);
   };
-  /////////////////////////////////
 
-  useEffect(() => {
-    setState(img);
-  }, [img]);
-
-  const openModal = (e) => {
-    setImgData(e);
-    setModalOpen(true);
+  const sendServerImageData = async (formData, config) => {
+    const res = await axios.post("/api/product/img", formData, config);
+    const getImg = new Image();
+    getImg.onload = function () {
+      setImg([
+        ...img,
+        {
+          name: res.data.file.filename,
+          width: this.width,
+          height: this.height,
+          // path: `http://localhost:3001/uploads/${res.data.file.filename}`,
+        },
+      ]);
+    };
+    getImg.src = `${postUrl}${res.data.file.filename}`;
   };
 
   const delImg = async (e) => {
     const copyImg = [...img];
     setImg(copyImg.filter((data) => data !== e));
 
+    //edit페이지일 경우 취소했을 경우도 있으니 바로 이미지를 지우면 안됨
     if (edit) {
-      const data = [...imgDelete];
-      setImgDelete([...data, e.name]);
+      setImgDelete((data) => [...data, e.name]);
     }
 
+    //등록페이지의 경우 이미지를 바로 삭제해도 무관함
     if (edit === undefined) {
       const res = await axios.post("/api/product/delImg", { image: e.name });
       if (res.data.success) {
@@ -87,6 +83,11 @@ function ImgUpload({
         alert("삭제 실패");
       }
     }
+  };
+
+  const openModal = (e) => {
+    setImgData(e);
+    setModalOpen(true);
   };
 
   return (

@@ -21,14 +21,10 @@ import Test2 from "./Page/Test2";
 import "./App.css";
 
 function App() {
-  // useEffect(() => {
-  //   window.onbeforeunload = function pushRefresh() {
-  //     window.scrollTo(0, 0);
-  //   };
-  // }, []);
-
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.onbeforeunload = function pushRefresh() {
+      window.scrollTo(0, 0);
+    };
   }, []);
 
   return (

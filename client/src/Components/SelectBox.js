@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CaretDownFilled, CaretUpFilled } from "@ant-design/icons";
-import { categoryList } from "../data/CatecoryList";
 
 import "./SelectBox.css";
 
-function SelectBox({ setValue, setSelectCategort, main }) {
+function SelectBox({ data, setData, edit, initData }) {
   const selectRef1 = useRef();
   const selectRef2 = useRef();
 
-  const [title, setTitle] = useState(categoryList[0].name);
+  const [title, setTitle] = useState(data[0].name);
   const [click, setClick] = useState(false);
 
   const open = () => {
@@ -16,26 +15,23 @@ function SelectBox({ setValue, setSelectCategort, main }) {
   };
 
   const select = (e) => {
-    if (main === true) {
-      setTitle(e.target.innerText);
-      setSelectCategort(e.target.innerText);
-    } else {
-      setValue(e);
-    }
-
+    setTitle(e.target.innerText);
+    setData(e.target.id);
     setClick(!click);
   };
 
-  const clickOutside = ({ target }) => {
-    if (
-      click &&
-      !selectRef1.current.contains(target) &&
-      !selectRef2.current.contains(target)
-    )
-      setClick(false);
-  };
-
   useEffect(() => {
+    if (edit) setTitle(initData);
+
+    const clickOutside = ({ target }) => {
+      if (
+        click &&
+        !selectRef1.current.contains(target) &&
+        !selectRef2.current.contains(target)
+      )
+        setClick(false);
+    };
+
     window.addEventListener("click", clickOutside);
     return () => {
       window.removeEventListener("click", clickOutside);
@@ -51,21 +47,17 @@ function SelectBox({ setValue, setSelectCategort, main }) {
       <ul
         className={[
           `select-value ${click ? "select-value-open" : "select-value-close"}`,
-        ].join(" ")}
+        ]}
         onChange={select}
         ref={selectRef2}
       >
-        {/* {main === true && (
-          <li onClick={select} className="select-value-list" id="category">
-            전체
-          </li>
-        )} */}
-        {categoryList.map((item) => (
+        {data.map((item) => (
           <li
             onClick={select}
             key={item.id}
             className="select-value-list"
-            id="category"
+            id={item.value}
+            test="test"
           >
             {item.name}
           </li>

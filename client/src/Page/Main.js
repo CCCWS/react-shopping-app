@@ -1,3 +1,4 @@
+//library
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import {
@@ -7,14 +8,18 @@ import {
   SearchOutlined,
   RollbackOutlined,
 } from "@ant-design/icons";
+
+//component
 import ProductCard from "../Components/ProductCard";
 import SelectBox from "../Components/SelectBox";
-import SelectBoxPrice from "../Components/SelecBoxPrice";
 import RecentView from "../Components/RecentView";
 import ProductRank from "../Components/ProductRank";
 
+//comstom hooks
 import useAxios from "../hooks/useAxios";
 
+//etc
+import { categoryList, priceList } from "../data/CatecoryList";
 import "./Main.css";
 
 function Main() {
@@ -23,7 +28,7 @@ function Main() {
   const [selectCategory, setSelectCategort] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [searchTrue, setSearchTrue] = useState(false);
-  const [priceRange, setPriceRange] = useState("");
+  const [priceRange, setPriceRange] = useState();
   const [skip, setSkip] = useState(0); //현재 가져온 데이터 갯수
   const limit = 8; //한번에 불러올 데이터 갯수
 
@@ -50,18 +55,13 @@ function Main() {
     setSearchValue(e.target.value);
   };
 
-  // useEffect(() => {
-  //   window.onbeforeunload = function pushRefresh() {
-  //     window.scrollTo(0, 0);
-  //   };
-  // }, []);
-
-  const { productList, loading, getProduct } = useAxios(
-    "api/product/productList"
-  );
+  const {
+    resData: productList,
+    loading,
+    getProduct,
+  } = useAxios("api/product/productList");
 
   const searchOption = {
-    skip: 0,
     limit: limit,
     category: selectCategory,
     price: priceRange,
@@ -69,8 +69,9 @@ function Main() {
   };
 
   useEffect(() => {
+    setSkip(0);
     const onCategorySearch = () => {
-      const option = { ...searchOption, searchValue: searchValue };
+      const option = { ...searchOption, skip: 0, searchValue: searchValue };
       getProduct(option);
     };
     onCategorySearch();
@@ -84,7 +85,6 @@ function Main() {
         skip: skip + limit,
         readMore: true,
       };
-
       getProduct(option);
       setSkip((prev) => prev + limit);
     };
@@ -102,6 +102,7 @@ function Main() {
     const option = {
       ...searchOption,
       searchValue: searchValue,
+      skip: 0,
     };
     setSearchTrue(true);
     getProduct(option);
@@ -112,9 +113,14 @@ function Main() {
     <div className="page">
       <div className="main-option">
         <div className="main-option-selectBox">
-          <SelectBox setSelectCategort={setSelectCategort} main={true} />
-          <SelectBoxPrice setPriceRange={setPriceRange} />
+          <SelectBox
+            data={categoryList}
+            setData={setSelectCategort}
+            main={true}
+          />
+          <SelectBox data={priceList} setData={setPriceRange} main={true} />
         </div>
+
         <div>
           <button
             onClick={() => view("card")}
