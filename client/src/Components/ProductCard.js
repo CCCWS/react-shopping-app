@@ -1,34 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { postUrl } from "../PostUrl";
 import Fade from "react-reveal/Fade";
 
+import { postUrl } from "../PostUrl";
 import "./ProductCard.css";
+import getTime from "../hooks/getTime";
 
 function ProductCard({ data, click }) {
   const nav = useNavigate();
-  const getTime = (time) => {
-    const second = Math.floor(
-      (new Date().getTime() - new Date(time).getTime()) / 1000
-    ); // 초
-
-    if (second <= 1200) {
-      return `${Math.floor(second / 60)}분 전`;
-    }
-
-    if (1200 < second && second <= 86400) {
-      return `${Math.floor(second / 60 / 60)}시간 전`;
-    }
-
-    if (86400 < second) {
-      return `${Math.floor(second / 60 / 60 / 24)}일 전`;
-    }
-  };
 
   return (
     <>
       {data.map((data, index) => (
-        <Fade left key={index}>
+        <Fade up key={index}>
           <div
             className={click ? "productCard" : "productCard-list"}
             id={data._id}

@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { LeftOutlined, HomeOutlined } from "@ant-design/icons";
 import { Skeleton } from "antd";
 import { useDispatch } from "react-redux";
-import { addCart } from "../_action/user_action";
+import axios from "axios";
 import Fade from "react-reveal/Fade";
 
-import ProductCard from "../Components/ProductCard";
-import Modal from "../Components/Modal";
 import PurchasesCountBtn from "../Components/PurchasesCountBtn";
+import ProductCard from "../Components/ProductCard";
 import RecentView from "../Components/RecentView";
 import Selector from "../Components/Selector";
-
-import "./ProductDetail.css";
 import Loading from "../Components/Loading";
+import Modal from "../Components/Modal";
+
+import { addCart } from "../_action/user_action";
+import "./ProductDetail.css";
+import getTime from "../hooks/getTime";
 
 function ProductDetail({ user }) {
   const dispatch = useDispatch();
@@ -22,7 +23,6 @@ function ProductDetail({ user }) {
   const [loading, setLoading] = useState(true);
   const [otherLoading, setOtherLoading] = useState(true);
   const [writerLoading, setWriterLoading] = useState(true);
-  const [footerBtnLoading, setFooterBtnLoading] = useState(true);
   const [product, setProduct] = useState([]);
   const [productWriter, setProductWriter] = useState([]);
   const [otherProduct, setOtherProduct] = useState([]);
@@ -31,26 +31,24 @@ function ProductDetail({ user }) {
   const [purchasesCount, setPurchasesCount] = useState(1);
   const [writer, setWriter] = useState(false);
   const { id } = useParams();
-
-  const get = JSON.parse(localStorage.getItem("productHistory"));
-
-  const setLocalData = () => {
-    //LocalStorage에 해당 상품의 정보 저장
-
-    const filterGet = get.filter((data) => data.id !== product._id);
-    //해당 정보가 이미 LocalStorage에 있다면 해당 정보를 제외한 데이터
-
-    localStorage.setItem(
-      "productHistory",
-      JSON.stringify([
-        { id: product._id, image: product.image[0].name },
-        ...filterGet,
-      ])
-      //이미있는 정보를 제외하고 새롭게 등록하여 데이터를 최상단으로 갱신시킴
-    );
-  };
+  const time = getTime(product.createdAt);
 
   useEffect(() => {
+    const get = JSON.parse(localStorage.getItem("productHistory"));
+    const setLocalData = () => {
+      //LocalStorage에 해당 상품의 정보 저장
+      const filterGet = get.filter((data) => data.id !== product._id);
+      //해당 정보가 이미 LocalStorage에 있다면 해당 정보를 제외한 데이터
+      localStorage.setItem(
+        "productHistory",
+        JSON.stringify([
+          { id: product._id, image: product.image[0].name },
+          ...filterGet,
+        ])
+        //이미있는 정보를 제외하고 새롭게 등록하여 데이터를 최상단으로 갱신시킴
+      );
+    };
+
     if (loading === false) {
       if (get === null) {
         //LocalStorage가 비어있을 경우 데이터를 추가
@@ -90,12 +88,6 @@ function ProductDetail({ user }) {
       getOtherProduct();
     }
   }, [product]);
-
-  // const getData = async () => {
-  //   const result = await Promise.all([getWriter(), getOtherProduct()]);
-  //   //작정자 정보와 다른 상품 정보는 상관관계가 없음
-  //   //상품의 정보를 받아오면 병렬처리
-  // };
 
   useEffect(() => {
     if (user.userData !== undefined) {
@@ -140,29 +132,6 @@ function ProductDetail({ user }) {
     setOtherLoading(false);
   };
 
-  const getTime = (time) => {
-    const second = Math.floor(
-      (new Date().getTime() - new Date(time).getTime()) / 1000
-    ); // 초
-
-    if (second <= 1200) {
-      return `${Math.floor(second / 60)}분 전`;
-    }
-
-    if (1200 < second && second <= 86400) {
-      return `${Math.floor(second / 60 / 60)}시간 전`;
-    }
-
-    if (86400 < second) {
-      return `${Math.floor(second / 60 / 60 / 24)}일 전`;
-    }
-  };
-
-  const OnAddCart = () => {
-    //redux사용
-    dispatch(addCart(product._id));
-  };
-
   const onAddCartProduct = async () => {
     if (product.count === 0) {
       return alert("품절입니다.");
@@ -196,6 +165,11 @@ function ProductDetail({ user }) {
         nav("/cart");
       }
     }
+  };
+
+  const OnAddCart = () => {
+    //redux사용
+    dispatch(addCart(product._id));
   };
 
   const goCheckOut = () => {
@@ -273,11 +247,7 @@ function ProductDetail({ user }) {
               <div>
                 <div className="ProductDetail-title">
                   <div>{product.title}</div>
-                  <div>{`${product.category} ∙ ${getTime(
-                    product.createdAt
-                  )} ∙ 남은수량 ${product.count}개 ∙ 조회수 ${
-                    product.views
-                  } `}</div>
+                  <div>{`${product.category} ∙ ${time} ∙ 남은수량 ${product.count}개 ∙ 조회수 ${product.views} `}</div>
                 </div>
 
                 <div className="ProductDetail-description">
