@@ -48,12 +48,10 @@ function ProductDetail({ user }) {
     connectServer: getWriter,
   } = useAxios("/api/user/userInfo");
 
-  console.log(productWriter);
-
   const { resData, connectServer } = useAxios("/api/user/addCart");
 
   //작성된 시간과 현재시간의 차이를 데이터로 받음
-  const time = getTime(product.createdAt);
+  const time = product && getTime(product.createdAt);
 
   //조회한 상품을 hitory에 등록
   useEffect(() => {
@@ -104,7 +102,7 @@ function ProductDetail({ user }) {
   }, [id]);
 
   useEffect(() => {
-    if (product.category) {
+    if (product) {
       //제품 정보를 가져왔을때 실행
       getWriter({ id: product.writer });
       getOtherProduct({
@@ -116,9 +114,9 @@ function ProductDetail({ user }) {
   }, [product]);
 
   useEffect(() => {
-    if (user.userData !== undefined) {
+    if (user.userData) {
       if (user.userData.isAuth) {
-        if (product.writer === user.userData._id) {
+        if (product && product.writer === user.userData._id) {
           //제품의 작성자와 로그인한 유저의 id가 같다면 작성자로 확인
           setWriter(true);
         }
@@ -127,7 +125,7 @@ function ProductDetail({ user }) {
   }, [user]);
 
   //장바구니 버튼 클릭시 실행
-  const onAddCartProduct = async () => {
+  const onAddCartProduct = () => {
     if (product.count === 0) {
       return alert("품절입니다.");
     }
@@ -146,7 +144,7 @@ function ProductDetail({ user }) {
 
   //장바구니 버튼 클릭시 실행
   useEffect(() => {
-    if (resData.duplication) {
+    if (resData && resData.duplication) {
       if (
         window.confirm(
           "장바구니에 이미 있는 상품입니다.\n장바구니로 이동합니다."
@@ -156,7 +154,7 @@ function ProductDetail({ user }) {
       }
     }
 
-    if (resData.duplication === false) {
+    if (resData && resData.duplication === false) {
       if (
         window.confirm("장바구니에 추가되었습니다.\n장바구니로 이동합니다.")
       ) {
@@ -257,7 +255,7 @@ function ProductDetail({ user }) {
               </div>
               <hr />
 
-              {otherProduct.length > 0 && (
+              {otherProduct && otherProduct.length > 0 && (
                 <div>
                   <div className="ProductDetail-other">관련 상품</div>
                   {otherLoading ? (

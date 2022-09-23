@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 const useAxios = (url) => {
-  const [resData, setResData] = useState([]);
+  const [resData, setResData] = useState();
   const [loading, setLoading] = useState(true);
 
   const connectServer = async (option) => {

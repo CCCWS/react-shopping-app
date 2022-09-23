@@ -135,31 +135,22 @@ app.post("/addCart", auth, (req, res) => {
 });
 
 app.post("/removeCart", auth, (req, res) => {
-  const option = req.body.cartArr ? { $in: req.body.cartArr } : req.body.id;
+  const option = req.body.option ? { $in: req.body.option } : req.body.id;
   //값을 전달받으면 다중삭제 그렇지 않다면 단일삭제
 
   // DB에서 user의 cart에서 항목을 삭제
   User.findOneAndUpdate(
-    { _id: req.user._id }, //auth 미들웨어가 있어서 로그인한 유저의 id를 받아올수있음
-
-    {
-      $pull: {
-        //pull > 데이터를 빼줌
-        cart: {
-          id: option,
-        },
-      },
-    },
-
-    { new: true },
-    (err, userInfo) => {
+    { _id: req.user._id },
+    { $pull: { cart: { id: option } } },
+    { new: true }
+  )
+    //pull > 데이터를 빼줌
+    //auth 미들웨어가 있어서 로그인한 유저의 id를 받아올수있음
+    .lean()
+    .exec((err, userInfo) => {
       if (err) return res.status(400).json({ success: false, err });
-      res.status(200).send({
-        success: true,
-        cart: userInfo.cart,
-      });
-    }
-  );
+      return res.status(200).json({ success: true, cart: userInfo.cart });
+    });
 });
 
 app.get("/getCart", auth, (req, res) => {

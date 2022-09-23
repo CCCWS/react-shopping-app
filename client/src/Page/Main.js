@@ -179,7 +179,9 @@ function Main() {
         )}
       </div>
 
-      {productList.length === limit && <div ref={readRef}></div>}
+      {loading === false && productList.length === limit && (
+        <div ref={readRef}></div>
+      )}
     </div>
   );
 }

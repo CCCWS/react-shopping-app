@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
@@ -19,7 +18,7 @@ import "./Cart.css";
 function Cart() {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const [product, setProduct] = useState([]);
+
   const [checkProduct, setCheckProduct] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -27,8 +26,19 @@ function Cart() {
   const { resData: userCartList, connectServer: getUserCartList } =
     useAxios("/api/user/getCart");
 
-  const { resData: productList, connectServer: getProductList } =
-    useAxios("/api/product/cart");
+  const {
+    resData: product,
+    setResData: setProduct,
+    connectServer: getProductList,
+  } = useAxios("/api/product/cart");
+
+  const { connectServer: removeCheckProduct } = useAxios(
+    "/api/user/removeCart"
+  );
+
+  const { connectServer: removeTargetProduct } = useAxios(
+    "/api/user/removeCart"
+  );
 
   //user데이터에서 cart에 들어있는 상품의 id를 가져옴
   useEffect(() => {
@@ -46,8 +56,8 @@ function Cart() {
 
   //가져온 상품을 user데이터에서 가져온 cart에 추가한 상품개수를 데이터로 넣어줌
   useEffect(() => {
-    if (productList.length !== 0) {
-      productList.forEach(
+    if (product && product.length > 0) {
+      product.forEach(
         (data, index) => (
           (data.totalPrice = data.price * userCartList[index].purchasesCount),
           (data.purchasesCount = userCartList[index].purchasesCount)
@@ -55,83 +65,31 @@ function Cart() {
       );
       setLoading(false);
     }
-  }, [productList]);
 
-  useEffect(() => {
-    setCheckProduct([]);
+    if (product && product.length === 0) {
+      setLoading(false);
+    }
   }, [product]);
 
+  //선택한 상품의 가격 계산
   useEffect(() => {
-    calcTotalPrice();
+    const calcTotalPrice = () => {
+      const arr = [];
+      checkProduct.forEach((data) => arr.push(data.totalPrice));
+      if (arr.length === 0) {
+        setTotalPrice(0);
+      }
+      if (arr.length > 0) {
+        setTotalPrice(arr.reduce((prev, current) => prev + current));
+      }
+    };
+
+    if (checkProduct.length > 0) {
+      calcTotalPrice();
+    }
   }, [checkProduct]);
 
-  const calcTotalPrice = () => {
-    const arr = [];
-    checkProduct.forEach((data) => arr.push(data.totalPrice));
-
-    if (arr.length === 0) {
-      setTotalPrice(0);
-    }
-
-    if (arr.length > 0) {
-      setTotalPrice(arr.reduce((prev, current) => prev + current));
-    }
-  };
-
-  // const getCart = async () => {
-  //   //로그인 유저의 id를 찾고 해당 데이터의 cart를 가져옴
-  //   const cartId = await axios.get("/api/user/getCart");
-  //   //user의 cart에 들어있는 상품의 Id를 가져옴
-
-  //   // const option = [];
-  //   // cartId.data.cart.forEach((data) => option.push(data.id));
-  //   //cartId에서 받는 데이터에는 상품의 id와 구매수량이 담겨있음
-  //   //Id만 뽑아서 새로운 배열 생성
-
-  //   // const productData = await axios.post("/api/product/cart", option);
-  //   //Id만 담음 배열로 해당 id의 상품정보를 가져옴
-
-  //   // console.log(productData.data.productInfo);
-
-  //   const arr = [];
-
-  //   // productData.data.productInfo.forEach((productDataFor) =>
-  //   //   cartId.data.cart.forEach(
-  //   //     (cartIdFor) =>
-  //   //       cartIdFor.id === productDataFor._id &&
-  //   //       arr.push({
-  //   //         ...productDataFor,
-  //   //         purchasesCount: cartIdFor.purchasesCount,
-  //   //         totalPrice: cartIdFor.purchasesCount * productDataFor.price,
-  //   //       })
-  //   //   )
-  //   // );
-
-  //   console.log(cartId.data);
-  //   // console.log(productData.data.productInfo);
-
-  //   // console.log(arr);
-
-  //   setProduct(arr);
-  //   setLoading(false);
-  // };
-
-  const onCheckDel = async () => {
-    if (checkProduct.length !== 0) {
-      if (window.confirm(`${checkProduct.length}개 상품을 삭제합니다.`)) {
-        const cartArr = [];
-        checkProduct.forEach((data) => cartArr.push(data._id));
-
-        const res = await axios.post("/api/user/removeCart", { cartArr });
-
-        if (res.data.success) {
-          const temp = [...product];
-          setProduct(temp.filter((data) => !checkProduct.includes(data)));
-        }
-      }
-    }
-  };
-
+  //전체 상품 체크
   const onCheckAll = () => {
     if (product.length === checkProduct.length) {
       setCheckProduct([]);
@@ -140,22 +98,48 @@ function Cart() {
     }
   };
 
+  //하나의 상품 체크
   const onCheckProduct = (data) => {
+    //체크목록에 선택한 항목이 있는지 확인
     if (checkProduct.find((item) => item._id === data._id) !== undefined) {
+      //이미 있는 항목이면 제외시킴
       setCheckProduct(checkProduct.filter((item) => item._id !== data._id));
     } else {
+      //없다면 항목에 추가
       setCheckProduct([...checkProduct, data]);
     }
   };
 
-  const onCartDel = (id) => {
-    dispatch(removeCart(id));
-    if (product.length > 0) {
-      const data = [...product];
-      setProduct(data.filter((item) => item._id !== id));
+  //선택한 상품 삭제
+  const onCheckDel = () => {
+    //선택한 상품이 있다면
+    if (checkProduct.length !== 0) {
+      if (window.confirm(`${checkProduct.length}개 상품을 삭제합니다.`)) {
+        //선택한 상품의 id만 모아서 option으로 사용
+        const option = [];
+        checkProduct.forEach((data) => option.push(data._id));
+
+        removeCheckProduct(option);
+
+        const temp = [...product];
+        setProduct(temp.filter((data) => !checkProduct.includes(data)));
+        setCheckProduct([]);
+      }
     }
   };
 
+  //하나의 상품 삭제
+  const onDelProduct = (id) => {
+    if (window.confirm(`상품을 삭제합니다.`)) {
+      // setRemoveProductId(id);
+      removeTargetProduct({ id: id });
+
+      const temp = [...product];
+      setProduct(temp.filter((data) => data._id !== id));
+    }
+  };
+
+  //주문서 작성 페이지로 이동
   const goCheckOut = () => {
     if (checkProduct.length === 0) {
       return;
@@ -167,39 +151,41 @@ function Cart() {
 
   return (
     <div className="page">
+      <div className="purchase-procedure">
+        <strong>장바구니</strong> &gt; 주문서 &gt; 결제완료
+      </div>
       {loading ? (
         <Loading />
       ) : (
         <>
-          <div className="purchase-procedure">
-            <strong>장바구니</strong> &gt; 주문서 &gt; 결제완료
-          </div>
-          <div className="cart-card-checkbox-all">
-            <div>전체선택</div>
-            <div
-              className={[
-                `cart-card-checkbox ${
-                  product.length === checkProduct.length &&
-                  checkProduct.length !== 0 &&
-                  "cart-card-checkbox-check"
-                }`,
-              ].join(" ")}
-              onClick={onCheckAll}
-            >
-              <CheckOutlined />
+          {product && product.length > 0 && (
+            <div className="cart-card-checkbox-all">
+              <div>전체선택</div>
+              <div
+                className={[
+                  `cart-card-checkbox ${
+                    product.length === checkProduct.length &&
+                    checkProduct.length !== 0 &&
+                    "cart-card-checkbox-check"
+                  }`,
+                ].join(" ")}
+                onClick={onCheckAll}
+              >
+                <CheckOutlined />
+              </div>
+              <button onClick={onCheckDel}>선택삭제</button>
             </div>
-            <button onClick={onCheckDel}>선택삭제</button>
-          </div>
+          )}
 
           <div className="cart-card-box">
-            {productList.length === 0 ? (
+            {product === undefined || product.length === 0 ? (
               <div className="cart-card-not-item">
                 <ShoppingCartOutlined />
                 장바구니에 상품을 추가해주세요.
               </div>
             ) : (
               <>
-                {productList.map((data, index) => (
+                {product.map((data, index) => (
                   <div key={index} className="cart-card">
                     <div>
                       <div
@@ -241,7 +227,7 @@ function Cart() {
 
                     <div
                       className="cart-card-delete"
-                      onClick={() => onCartDel(data._id)}
+                      onClick={() => onDelProduct(data._id)}
                     >
                       <CloseOutlined />
                     </div>
@@ -279,4 +265,4 @@ function Cart() {
   );
 }
 
-export default React.memo(Cart);
+export default Cart;
