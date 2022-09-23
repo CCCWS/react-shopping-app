@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { LeftOutlined, HomeOutlined } from "@ant-design/icons";
 import { Skeleton } from "antd";
 import { useDispatch } from "react-redux";
-import axios from "axios";
 import Fade from "react-reveal/Fade";
 
 import PurchasesCountBtn from "../Components/PurchasesCountBtn";
@@ -28,26 +27,35 @@ function ProductDetail({ user }) {
   const [writer, setWriter] = useState(false);
   const { id } = useParams();
 
+  //제품의 상세 정보 조회
   const {
     resData: product,
     loading,
-    getProduct,
+    connectServer: getProduct,
   } = useAxios("/api/product/productDetail");
 
+  //제품과 같은 카테고리의 상품 조회
   const {
     resData: otherProduct,
     loading: otherLoading,
-    getProduct: getOtherProduct,
+    connectServer: getOtherProduct,
   } = useAxios("/api/product/productList");
 
+  //작성자 정보 조회
   const {
     resData: productWriter,
     loading: writerLoading,
-    postAxios: getWriter,
+    connectServer: getWriter,
   } = useAxios("/api/user/userInfo");
 
+  console.log(productWriter);
+
+  const { resData, connectServer } = useAxios("/api/user/addCart");
+
+  //작성된 시간과 현재시간의 차이를 데이터로 받음
   const time = getTime(product.createdAt);
 
+  //조회한 상품을 hitory에 등록
   useEffect(() => {
     const get = JSON.parse(localStorage.getItem("productHistory"));
     const setLocalData = () => {
@@ -118,6 +126,7 @@ function ProductDetail({ user }) {
     }
   }, [user]);
 
+  //장바구니 버튼 클릭시 실행
   const onAddCartProduct = async () => {
     if (product.count === 0) {
       return alert("품절입니다.");
@@ -127,14 +136,17 @@ function ProductDetail({ user }) {
       return alert("로그인이 필요합니다.");
     }
 
-    //redux를 거치지않고 바로 서버와 연결
     const option = {
       id: product._id,
       purchasesCount: purchasesCount,
     };
 
-    const res = await axios.post("/api/user/addCart", option);
-    if (res.data.duplication) {
+    connectServer(option);
+  };
+
+  //장바구니 버튼 클릭시 실행
+  useEffect(() => {
+    if (resData.duplication) {
       if (
         window.confirm(
           "장바구니에 이미 있는 상품입니다.\n장바구니로 이동합니다."
@@ -144,19 +156,19 @@ function ProductDetail({ user }) {
       }
     }
 
-    if (res.data.duplication === false) {
+    if (resData.duplication === false) {
       if (
         window.confirm("장바구니에 추가되었습니다.\n장바구니로 이동합니다.")
       ) {
         nav("/cart");
       }
     }
-  };
+  }, [resData]);
 
-  const OnAddCart = () => {
-    //redux사용
-    dispatch(addCart(product._id));
-  };
+  // const OnAddCart = () => {
+  //   //redux사용
+  //   dispatch(addCart(product._id));
+  // };
 
   const goCheckOut = () => {
     if (product.count === 0) {
@@ -184,17 +196,20 @@ function ProductDetail({ user }) {
 
   return (
     <div className="page">
-      <RecentView detail={true} />
+      <RecentView />
+
       <Modal
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         data={modalImg}
         img={true}
       />
+
       <div className="ProductDetail-backBtn" onClick={() => nav("/")}>
         <LeftOutlined />
         <HomeOutlined />
       </div>
+
       {loading ? (
         <Loading />
       ) : (
@@ -222,8 +237,8 @@ function ProductDetail({ user }) {
                   <Skeleton.Button />
                 ) : (
                   <>
-                    <div>{productWriter.userInfo.name}</div>
-                    <div>{productWriter.userInfo.email}</div>
+                    <div>{productWriter.name}</div>
+                    <div>{productWriter.email}</div>
                   </>
                 )}
               </div>
@@ -243,26 +258,24 @@ function ProductDetail({ user }) {
               <hr />
 
               {otherProduct.length > 0 && (
-                <>
-                  <div>
-                    <div className="ProductDetail-other">관련 상품</div>
-                    {otherLoading ? (
-                      <Loading />
-                    ) : (
-                      <div className="main-productList ProductDetail-productCard">
-                        <ProductCard
-                          data={otherProduct}
-                          click={true}
-                          ProductDetail={true}
-                        />
-                      </div>
-                    )}
-                  </div>
-                  <hr />
-                </>
+                <div>
+                  <div className="ProductDetail-other">관련 상품</div>
+                  {otherLoading ? (
+                    <Loading />
+                  ) : (
+                    <div className="main-productList ProductDetail-productCard">
+                      <ProductCard
+                        data={otherProduct}
+                        click={true}
+                        ProductDetail={true}
+                      />
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </Fade>
+
           <div className="ProductDetail-footer">
             <div>
               <div className="ProductDetail-footer-price">

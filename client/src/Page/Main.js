@@ -58,7 +58,7 @@ function Main() {
   const {
     resData: productList,
     loading,
-    getProduct,
+    connectServer: getProduct,
   } = useAxios("api/product/productList");
 
   const searchOption = {
@@ -68,6 +68,7 @@ function Main() {
     readMore: false,
   };
 
+  //페이지 로딩시 or 카테고리, 가격 목록 선택시 데이터조회
   useEffect(() => {
     setSkip(0);
     const onCategorySearch = () => {
@@ -77,6 +78,7 @@ function Main() {
     onCategorySearch();
   }, [selectCategory, priceRange]);
 
+  //더보기 동작시 데이터 조회
   useEffect(() => {
     const readMore = () => {
       const option = {
@@ -94,6 +96,7 @@ function Main() {
     }
   }, [setReadRef]);
 
+  //검색시 데이터 조회
   const onKeywordSearch = (e) => {
     e.preventDefault();
     if (searchValue.length === 0) {

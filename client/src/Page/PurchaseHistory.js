@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { LoadingOutlined } from "@ant-design/icons";
-import { postUrl } from "../PostUrl";
 
 import Loading from "../Components/Loading";
 import Modal from "../Components/Modal";
+
+import useAxios from "../hooks/useAxios";
+
+import { postUrl } from "../PostUrl";
 import "./PurchaseHistory.css";
 
 function PurchaseHistory() {
@@ -30,6 +33,7 @@ function PurchaseHistory() {
     const date = new Date(data.date).getDate();
     return `${year}.${month + 1}.${date}`;
   };
+
   const productTime = (data) => {
     const year = new Date(data.date).getHours();
     const month = new Date(data.date).getMinutes();

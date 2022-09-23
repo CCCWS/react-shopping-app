@@ -160,18 +160,15 @@ app.post("/removeCart", auth, (req, res) => {
       });
     }
   );
-  // redux의 user의 cart에서 항목을 삭제
 });
 
-app.post("/getCart", auth, (req, res) => {
-  //redux를 거치지않고 db에 직접접근
-  User.findOne({ _id: req.user._id }, (err, userInfo) => {
-    if (err) return res.status(400).json({ success: false, err });
-    res.status(200).send({
-      success: true,
-      cart: userInfo.cart,
+app.get("/getCart", auth, (req, res) => {
+  User.findOne({ _id: req.user._id }, { cart: 1 })
+    .lean()
+    .exec((err, userInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json([...userInfo.cart]);
     });
-  });
 });
 
 app.post("/successBuy", auth, (req, res) => {
@@ -217,13 +214,12 @@ app.post("/purchaseHistory", auth, (req, res) => {
 });
 
 app.post("/userInfo", (req, res) => {
-  User.findOne({ _id: req.body.id }, (err, userInfo) => {
-    if (err) return res.status(400).json({ success: false, err });
-    res.status(200).send({
-      success: true,
-      userInfo: userInfo,
+  User.findOne({ _id: req.body.id }, { name: 1, email: 1 })
+    .lean()
+    .exec((err, userInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).json({ ...userInfo });
     });
-  });
 });
 
 module.exports = app;

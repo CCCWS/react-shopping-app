@@ -37,9 +37,7 @@ app.post("/write", (req, res) => {
   //받은 정보를 DB에 저장
   const productData = new ProductData(req.body);
   productData.save((err) => {
-    if (err) {
-      return res.status(400).json({ success: false, err });
-    }
+    if (err) return res.status(400).json({ success: false, err });
     return res.status(200).json({ success: true });
   });
 });
@@ -130,7 +128,7 @@ app.post("/productList", (req, res) => {
       if (err) {
         return res.status(400).json({ success: false, err });
       }
-      return res.status(200).json({ success: true, productInfo });
+      return res.status(200).json([...productInfo]);
     });
 });
 
@@ -151,21 +149,19 @@ app.post("/productDetail", (req, res) => {
       if (err) {
         return res.status(400).json({ success: false, err });
       }
-      return res.status(200).json({ success: true, productInfo });
+      return res.status(200).json({ ...productInfo });
     });
 });
 
 app.post("/cart", (req, res) => {
   //사용자의 카트에 등록된 상품 목록
-  console.log("test");
-  ProductData.find({
-    _id: { $in: req.body },
-  }).exec((err, productInfo) => {
-    if (err) {
-      return res.status(400).json({ success: false, err });
-    }
-    return res.status(200).json({ success: true, productInfo });
-  });
+  ProductData.find({ _id: { $in: req.body } })
+    .sort({ createdAt: -1 })
+    .lean()
+    .exec((err, productInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json([...productInfo]);
+    });
 });
 
 app.post("/successBuy", (req, res) => {

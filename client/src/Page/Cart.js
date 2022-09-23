@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { removeCart } from "../_action/user_action";
 import {
-  LoadingOutlined,
   CheckOutlined,
   CloseOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
-import { postUrl } from "../PostUrl";
+
 import Loading from "../Components/Loading";
+
+import useAxios from "../hooks/useAxios";
+
+import { removeCart } from "../_action/user_action";
+import { postUrl } from "../PostUrl";
 import "./Cart.css";
 
 function Cart() {
@@ -20,31 +23,39 @@ function Cart() {
   const [checkProduct, setCheckProduct] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(true);
-  // useEffect(() => {
-  //   if (user !== undefined) {
-  //     if (user.cart !== undefined) {
-  //       if (user.cart.length === 0) {
-  //         setLoading(false);
-  //         return;
-  //       }
-  //       setCartData(user.cart); //user redux에서 장바구니 id를 받아옴
-  //     }
-  //   }
-  // }, [user]);
 
-  // useEffect(() => {
-  //   if (cartData.length > 0) {
-  //     const option = [];
-  //     if (cartData !== undefined && cartData.length > 0) {
-  //       cartData.forEach((data) => option.push(data.id));
-  //       getProduct(option); //cartData에서 id만 배열로 묶음
-  //     }
-  //   }
-  // }, [cartData]);
+  const { resData: userCartList, connectServer: getUserCartList } =
+    useAxios("/api/user/getCart");
 
+  const { resData: productList, connectServer: getProductList } =
+    useAxios("/api/product/cart");
+
+  //user데이터에서 cart에 들어있는 상품의 id를 가져옴
   useEffect(() => {
-    getCart();
+    getUserCartList();
   }, []);
+
+  //상품 id를 가져왔다면 id를 옵션으로 해당 id와 일치하는 모든 상품 가져옴
+  useEffect(() => {
+    if (userCartList) {
+      const option = [];
+      userCartList.forEach((data) => option.push(data.id));
+      getProductList(option);
+    }
+  }, [userCartList]);
+
+  //가져온 상품을 user데이터에서 가져온 cart에 추가한 상품개수를 데이터로 넣어줌
+  useEffect(() => {
+    if (productList.length !== 0) {
+      productList.forEach(
+        (data, index) => (
+          (data.totalPrice = data.price * userCartList[index].purchasesCount),
+          (data.purchasesCount = userCartList[index].purchasesCount)
+        )
+      );
+      setLoading(false);
+    }
+  }, [productList]);
 
   useEffect(() => {
     setCheckProduct([]);
@@ -67,48 +78,43 @@ function Cart() {
     }
   };
 
-  const getProduct = async (option) => {
-    //redux에서 유저정보의 cart의 id를 가져옴
-    //가져온 id로 DB에서 데이터를 가져옴
-    //상품목록에서 특정 상품만 추출
-    const res = await axios.post("/api/product/cart", option);
-    setProduct(res.data.productInfo);
-    //cartData의 id를 사용하여 해당 id의 상품을 받아옴
-    setLoading(false);
-  };
+  // const getCart = async () => {
+  //   //로그인 유저의 id를 찾고 해당 데이터의 cart를 가져옴
+  //   const cartId = await axios.get("/api/user/getCart");
+  //   //user의 cart에 들어있는 상품의 Id를 가져옴
 
-  const getCart = async () => {
-    //로그인 유저의 id를 찾고 해당 데이터의 cart를 가져옴
-    const cartId = await axios.post("/api/user/getCart");
-    //user의 cart에 들어있는 상품의 Id를 가져옴
+  //   // const option = [];
+  //   // cartId.data.cart.forEach((data) => option.push(data.id));
+  //   //cartId에서 받는 데이터에는 상품의 id와 구매수량이 담겨있음
+  //   //Id만 뽑아서 새로운 배열 생성
 
-    const option = [];
-    cartId.data.cart.forEach((data) => option.push(data.id));
-    //cartId에서 받는 데이터에는 상품의 id와 구매수량이 담겨있음
-    //Id만 뽑아서 새로운 배열 생성
+  //   // const productData = await axios.post("/api/product/cart", option);
+  //   //Id만 담음 배열로 해당 id의 상품정보를 가져옴
 
-    const productData = await axios.post("/api/product/cart", option);
-    //Id만 담음 배열로 해당 id의 상품정보를 가져옴
+  //   // console.log(productData.data.productInfo);
 
-    // console.log(productData.data.productInfo);
+  //   const arr = [];
 
-    const arr = [];
+  //   // productData.data.productInfo.forEach((productDataFor) =>
+  //   //   cartId.data.cart.forEach(
+  //   //     (cartIdFor) =>
+  //   //       cartIdFor.id === productDataFor._id &&
+  //   //       arr.push({
+  //   //         ...productDataFor,
+  //   //         purchasesCount: cartIdFor.purchasesCount,
+  //   //         totalPrice: cartIdFor.purchasesCount * productDataFor.price,
+  //   //       })
+  //   //   )
+  //   // );
 
-    productData.data.productInfo.forEach((productDataFor) =>
-      cartId.data.cart.forEach(
-        (cartIdFor) =>
-          cartIdFor.id === productDataFor._id &&
-          arr.push({
-            ...productDataFor,
-            purchasesCount: cartIdFor.purchasesCount,
-            totalPrice: cartIdFor.purchasesCount * productDataFor.price,
-          })
-      )
-    );
+  //   console.log(cartId.data);
+  //   // console.log(productData.data.productInfo);
 
-    setProduct(arr);
-    setLoading(false);
-  };
+  //   // console.log(arr);
+
+  //   setProduct(arr);
+  //   setLoading(false);
+  // };
 
   const onCheckDel = async () => {
     if (checkProduct.length !== 0) {
@@ -186,14 +192,14 @@ function Cart() {
           </div>
 
           <div className="cart-card-box">
-            {product.length === 0 ? (
+            {productList.length === 0 ? (
               <div className="cart-card-not-item">
                 <ShoppingCartOutlined />
                 장바구니에 상품을 추가해주세요.
               </div>
             ) : (
               <>
-                {product.map((data, index) => (
+                {productList.map((data, index) => (
                   <div key={index} className="cart-card">
                     <div>
                       <div
