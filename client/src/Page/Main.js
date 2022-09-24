@@ -14,9 +14,11 @@ import ProductCard from "../Components/ProductCard";
 import SelectBox from "../Components/SelectBox";
 import RecentView from "../Components/RecentView";
 import ProductRank from "../Components/ProductRank";
+import ModalBase from "../Components/ModalBase";
 
 //comstom hooks
 import useAxios from "../hooks/useAxios";
+import useModal from "../hooks/useModal.js";
 
 //etc
 import { categoryList, priceList } from "../data/CatecoryList";
@@ -61,6 +63,8 @@ function Main() {
     connectServer: getProduct,
   } = useAxios("api/product/productList");
 
+  const { openModal, contents, setOpenModal, setContents } = useModal();
+
   const searchOption = {
     limit: limit,
     category: selectCategory,
@@ -100,20 +104,31 @@ function Main() {
   const onKeywordSearch = (e) => {
     e.preventDefault();
     if (searchValue.length === 0) {
-      return alert("한글자 이상 입력해주세요.");
+      setContents({
+        title: "상품 검색",
+        message: "검색어를 입력해주세요.",
+      });
+      setOpenModal(true);
+    } else {
+      const option = {
+        ...searchOption,
+        searchValue: searchValue,
+        skip: 0,
+      };
+      setSearchTrue(true);
+      getProduct(option);
+      setSkip(0);
     }
-    const option = {
-      ...searchOption,
-      searchValue: searchValue,
-      skip: 0,
-    };
-    setSearchTrue(true);
-    getProduct(option);
-    setSkip(0);
   };
 
   return (
     <div className="page">
+      <ModalBase
+        title={contents.title}
+        message={contents.message}
+        modalOpen={openModal}
+        setModalOpen={setOpenModal}
+      />
       <div className="main-option">
         <div className="main-option-selectBox">
           <SelectBox

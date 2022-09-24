@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Fade from "react-reveal/Fade";
+import Zoom from "react-reveal/Fade";
 
 import { postUrl } from "../PostUrl";
 import "./ProductCard.css";
@@ -12,7 +12,7 @@ function ProductCard({ data, click }) {
   return (
     <>
       {data.map((data, index) => (
-        <Fade up key={index}>
+        <Zoom key={index}>
           <div
             className={click ? "productCard" : "productCard-list"}
             id={data._id}
@@ -54,7 +54,7 @@ function ProductCard({ data, click }) {
               <div className="productCard-count">{`남은 수량 ${data.count}개`}</div>
             </div>
           </div>
-        </Fade>
+        </Zoom>
       ))}
     </>
   );
