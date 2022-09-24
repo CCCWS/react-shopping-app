@@ -124,8 +124,7 @@ function Main() {
   return (
     <div className="page">
       <ModalBase
-        title={contents.title}
-        message={contents.message}
+        contents={contents}
         modalOpen={openModal}
         setModalOpen={setOpenModal}
       />

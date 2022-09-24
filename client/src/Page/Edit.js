@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import { useLocation } from "react-router";
+
 import Loading from "../Components/Loading";
 import UploadForm from "../Components/UploadForm";
 
+import useAxios from "../hooks/useAxios";
+
 function Edit({ user }) {
   const { state } = useLocation();
-  const [loading, setLoading] = useState(true);
-  const [product, setProduct] = useState([]);
+
+  const {
+    resData: product,
+    loading,
+    connectServer,
+  } = useAxios("/api/product/productDetail");
 
   useEffect(() => {
-    getProduct();
-  }, []);
-
-  const getProduct = async () => {
-    const res = await axios.post("/api/product/productDetail", {
+    connectServer({
       id: state.id,
+      edit: true,
     });
-    setProduct(res.data.productInfo);
-    setLoading(false);
-  };
+  }, []);
 
   return (
     <div className="page">

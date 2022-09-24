@@ -28,9 +28,11 @@ function UploadForm({ user, edit, editData, id }) {
   const countRef = useRef();
   const descriptionRef = useRef();
 
-  const { postAxios: imageDelete } = useAxios("/api/product/delImgEditPage");
-  const { postAxios: editProduct } = useAxios("/api/product/edit");
-  const { postAxios: writeProduct } = useAxios("/api/product/write");
+  const { connectServer: imageDelete } = useAxios(
+    "/api/product/delImgEditPage"
+  );
+  const { connectServer: editProduct } = useAxios("/api/product/edit");
+  const { connectServer: writeProduct } = useAxios("/api/product/write");
 
   useEffect(() => {
     if (edit) {

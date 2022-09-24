@@ -1,8 +1,12 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import ReactDom from "react-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const Modal = ({ title, message, modalOpen, setModalOpen }) => {
+const Modal = ({ contents, modalOpen, setModalOpen }) => {
+  const nav = useNavigate();
+
   useEffect(() => {
     if (modalOpen === true) {
       const escapeCheck = (e) => {
@@ -26,15 +30,18 @@ const Modal = ({ title, message, modalOpen, setModalOpen }) => {
     >
       <div>
         <Header>
-          <div>{title}</div>
+          <div>{contents.title}</div>
         </Header>
 
         <Message>
-          <p>{message}</p>
+          <p>{contents.message}</p>
         </Message>
 
         <Footer>
-          <button onClick={() => setModalOpen(false)}>닫기</button>
+          {contents.cartBtn && (
+            <Button onClick={() => nav("/cart")}>장바구니 이동</Button>
+          )}
+          <Button onClick={() => setModalOpen(false)}>닫기</Button>
         </Footer>
       </div>
     </ModalDiv>,
@@ -61,7 +68,8 @@ const ModalDiv = styled.div`
   transition: all ease 0.3s;
 
   & > :first-child {
-    background-color: white;
+    background-color: wheat;
+    border: 3px solid white;
     width: 350px;
     height: 200px;
     border-radius: 15px;
@@ -69,12 +77,16 @@ const ModalDiv = styled.div`
     overflow: hidden;
     position: relative;
     font-size: 16px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 `;
 
 const Header = styled.header`
   background-color: rgba(255, 166, 0, 0.829);
-  padding: 1rem;
+  padding: 0.7rem;
   font-size: 20px;
 `;
 
@@ -83,9 +95,21 @@ const Message = styled.div`
 `;
 
 const Footer = styled.footer`
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
+  width: 100%;
+
+  display: flex;
 `;
 
-export default Modal;
+const Button = styled.button`
+  background-color: rgba(100, 100, 100, 0.5);
+  width: 100%;
+  height: 2.5rem;
+  border: none;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(100, 100, 100, 0.8);
+  }
+`;
+
+export default React.memo(Modal);

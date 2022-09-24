@@ -3,7 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { LeftOutlined, HomeOutlined } from "@ant-design/icons";
 import { Skeleton } from "antd";
 import { useDispatch } from "react-redux";
-import Fade from "react-reveal/Fade";
+import Zoom from "react-reveal/Fade";
+import styled from "styled-components";
 
 import PurchasesCountBtn from "../Components/PurchasesCountBtn";
 import ProductCard from "../Components/ProductCard";
@@ -11,9 +12,11 @@ import RecentView from "../Components/RecentView";
 import Selector from "../Components/Selector";
 import Loading from "../Components/Loading";
 import Modal from "../Components/Modal";
+import ModalBase from "../Components/ModalBase";
 
 import getTime from "../hooks/getTime";
 import useAxios from "../hooks/useAxios";
+import useModal from "../hooks/useModal";
 
 import { addCart } from "../_action/user_action";
 import "./ProductDetail.css";
@@ -25,6 +28,7 @@ function ProductDetail({ user }) {
   const [modalImg, setModalImg] = useState([]);
   const [purchasesCount, setPurchasesCount] = useState(1);
   const [writer, setWriter] = useState(false);
+  const [cartAddLoading, setCartAddLoading] = useState(false);
   const { id } = useParams();
 
   //제품의 상세 정보 조회
@@ -48,7 +52,10 @@ function ProductDetail({ user }) {
     connectServer: getWriter,
   } = useAxios("/api/user/userInfo");
 
-  const { resData, connectServer } = useAxios("/api/user/addCart");
+  const { resData: cartAddResponse, connectServer: addProductCart } =
+    useAxios("/api/user/addCart");
+
+  const { openModal, contents, setOpenModal, setContents } = useModal();
 
   //작성된 시간과 현재시간의 차이를 데이터로 받음
   const time = product && getTime(product.createdAt);
@@ -97,17 +104,17 @@ function ProductDetail({ user }) {
     }
   }, [loading, product]);
 
+  //상품의 정보를 받아옴
   useEffect(() => {
     getProduct({ id });
   }, [id]);
 
+  //제품 정보를 가져왔을때 실행, 작성자와 다른 상품의 정보를 받아옴
   useEffect(() => {
     if (product) {
-      //제품 정보를 가져왔을때 실행
       getWriter({ id: product.writer });
       getOtherProduct({
-        skip: 0,
-        limit: 20,
+        filterId: id,
         category: product.category,
       });
     }
@@ -124,57 +131,24 @@ function ProductDetail({ user }) {
     }
   }, [user]);
 
-  //장바구니 버튼 클릭시 실행
-  const onAddCartProduct = () => {
-    if (product.count === 0) {
-      return alert("품절입니다.");
-    }
-
-    if (user.userData.isAuth === false) {
-      return alert("로그인이 필요합니다.");
-    }
-
-    const option = {
-      id: product._id,
-      purchasesCount: purchasesCount,
-    };
-
-    connectServer(option);
-  };
-
-  //장바구니 버튼 클릭시 실행
-  useEffect(() => {
-    if (resData && resData.duplication) {
-      if (
-        window.confirm(
-          "장바구니에 이미 있는 상품입니다.\n장바구니로 이동합니다."
-        )
-      ) {
-        nav("/cart");
-      }
-    }
-
-    if (resData && resData.duplication === false) {
-      if (
-        window.confirm("장바구니에 추가되었습니다.\n장바구니로 이동합니다.")
-      ) {
-        nav("/cart");
-      }
-    }
-  }, [resData]);
-
-  // const OnAddCart = () => {
-  //   //redux사용
-  //   dispatch(addCart(product._id));
-  // };
-
+  //구매 버튼 클릭시 실행
   const goCheckOut = () => {
-    if (product.count === 0) {
-      return alert("품절입니다.");
+    if (user.userData.isAuth === false) {
+      setContents({
+        title: "사용자 확인 불가",
+        message: "로그인을 해주세요.",
+      });
+      setOpenModal(true);
+      return;
     }
 
-    if (user.userData.isAuth === false) {
-      return alert("로그인이 필요합니다.");
+    if (product.count === 0) {
+      setContents({
+        title: "품절",
+        message: "판매완료된 상품입니다.",
+      });
+      setOpenModal(true);
+      return;
     }
 
     nav("/checkOut", {
@@ -192,9 +166,90 @@ function ProductDetail({ user }) {
     });
   };
 
+  //장바구니 버튼 클릭시 실행
+  const onAddCartProduct = () => {
+    if (product.count === 0) {
+      setContents({
+        title: "상품 품절",
+        message: "판매완료된 상품입니다.",
+      });
+      setOpenModal(true);
+      return;
+    }
+
+    if (user.userData.isAuth === false) {
+      setContents({
+        title: "사용자 확인 불가",
+        message: "로그인을 해주세요.",
+      });
+      setOpenModal(true);
+      return;
+    }
+
+    setCartAddLoading(true);
+    const option = {
+      id: product._id,
+      purchasesCount: purchasesCount,
+    };
+
+    addProductCart(option);
+  };
+
+  //장바구니 버튼 클릭시 실행
+  useEffect(() => {
+    if (cartAddResponse && cartAddResponse.duplication) {
+      // if (
+      //   window.confirm(
+      //     "장바구니에 이미 있는 상품입니다.\n장바구니로 이동합니다."
+      //   )
+      // ) {
+      //   nav("/cart");
+      // }
+      setContents({
+        title: "장바구니",
+        message: "이미 장바구니에 있는 상품입니다.",
+        cartBtn: true,
+      });
+      setOpenModal(true);
+    }
+
+    if (cartAddResponse && cartAddResponse.duplication === false) {
+      // if (
+      //   window.confirm("장바구니에 추가되었습니다.\n장바구니로 이동합니다.")
+      // ) {
+      //   nav("/cart");
+      // }
+      setContents({
+        title: "장바구니",
+        message: "장바구니에 상품이 추가되었습니다.",
+        cartBtn: true,
+      });
+      setOpenModal(true);
+    }
+
+    setCartAddLoading(false);
+  }, [nav, setContents, setOpenModal, cartAddResponse]);
+
+  // const OnAddCart = () => {
+  //   //redux사용
+  //   dispatch(addCart(product._id));
+  // };
+
   return (
     <div className="page">
       <RecentView />
+
+      {cartAddLoading && (
+        <CartLoadingDiv>
+          <Loading />
+        </CartLoadingDiv>
+      )}
+
+      <ModalBase
+        contents={contents}
+        modalOpen={openModal}
+        setModalOpen={setOpenModal}
+      />
 
       <Modal
         modalOpen={modalOpen}
@@ -228,7 +283,7 @@ function ProductDetail({ user }) {
             setModalImg={setModalImg}
           />
 
-          <Fade left>
+          <Zoom>
             <div>
               <div className="ProductDetail-writer">
                 {writerLoading ? (
@@ -272,7 +327,7 @@ function ProductDetail({ user }) {
                 </div>
               )}
             </div>
-          </Fade>
+          </Zoom>
 
           <div className="ProductDetail-footer">
             <div>
@@ -335,5 +390,14 @@ function ProductDetail({ user }) {
     </div>
   );
 }
+
+const CartLoadingDiv = styled.div`
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  position: fixed;
+`;
 
 export default ProductDetail;

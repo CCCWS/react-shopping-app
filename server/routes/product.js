@@ -5,7 +5,6 @@ const fs = require("fs");
 const { ProductData } = require("../models/productData");
 const { User } = require("../models/User");
 const { auth } = require("../middleware/auth");
-const { Console } = require("console");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -98,6 +97,7 @@ app.post("/productList", (req, res) => {
   //상품목록 가져오기
   const arg = {};
 
+  //가격 범위에 따른 필터링
   if (req.body.price) {
     const range = req.body.price.split(",");
     arg.price = {
@@ -106,16 +106,23 @@ app.post("/productList", (req, res) => {
     };
   }
 
+  //카테고리에 따른 필터링
   if (req.body.category) {
     if (req.body.category !== "전체") {
       arg.category = req.body.category;
     }
   }
 
+  //검색어에 따른 필터링
   if (req.body.searchValue) {
     if (req.body.searchValue.length > 0) {
       arg.title = { $regex: req.body.searchValue, $options: "i" };
     }
+  }
+
+  //특정 id를 제외한 나머지
+  if (req.body.filterId) {
+    arg._id = { $ne: req.body.filterId };
   }
 
   //등록한 상품 리스트를 가져옴
@@ -125,9 +132,7 @@ app.post("/productList", (req, res) => {
     .skip(parseInt(req.body.skip, 10))
     .limit(parseInt(req.body.limit, 10))
     .exec((err, productInfo) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
+      if (err) return res.status(400).json({ success: false, err });
       return res.status(200).json([...productInfo]);
     });
 });
@@ -138,7 +143,8 @@ app.post("/productDetail", (req, res) => {
     { _id: req.body.id },
     {
       $inc: {
-        views: 1,
+        //edit페이지에서 상품을 불러올때는 조회수를 증가시키지 않음
+        views: req.body.edit ? 0 : 1,
       },
     },
     { new: true }
@@ -146,9 +152,7 @@ app.post("/productDetail", (req, res) => {
     .lean()
     // .populate("writer")
     .exec((err, productInfo) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
+      if (err) return res.status(400).json({ success: false, err });
       return res.status(200).json({ ...productInfo });
     });
 });

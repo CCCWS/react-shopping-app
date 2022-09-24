@@ -21,8 +21,6 @@ function SelectBox({ data, setData, edit, initData }) {
   };
 
   useEffect(() => {
-    if (edit) setTitle(initData);
-
     const clickOutside = ({ target }) => {
       if (
         click &&
@@ -37,6 +35,10 @@ function SelectBox({ data, setData, edit, initData }) {
       window.removeEventListener("click", clickOutside);
     };
   }, [click]);
+
+  useEffect(() => {
+    if (edit) setTitle(initData);
+  }, []);
 
   return (
     <div className="SelectBox" onClick={open} ref={selectRef1}>
