@@ -1,54 +1,14 @@
-import React, { useEffect, useState } from "react";
-
-import { useSelector } from "react-redux"; ////
-
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import styled from "styled-components";
 
 import SideMenu from "./SideMenu";
-import { HeaderBtn, HeaderLogInBtn } from "./HeaderBtn";
-
-import useAxios from "../../hooks/useAxios"; ////
-
-import "./Header.css";
+import HeaderBtns from "./HeaderBtn";
 
 function Header() {
-  const nav = useNavigate(); ////
-  const [userAuth, setUserAuth] = useState(false); 
-  const [userName, setUserName] = useState("");
-  const auth = useSelector((auth_user) => auth_user.user.userData); //redux에 담긴 데이터를 가져옴
-
-  const [menuClick, setMenuClick] = useState(false);
   const [checkSideMenu, setCheckSideMenu] = useState(
     window.innerWidth >= 800 ? false : true
   );
-
-  const { resData, connectServer } = useAxios("/api/user/logout");
-
-  //auth값이 있다면 > 로그인이 되어 있다면
-  useEffect(() => {
-    if (auth && auth.isAuth === true) {
-      setUserName(auth.name);
-      setUserAuth(auth.isAuth);
-    }
-  }, [auth]);
-
-  const logOut = () => {
-    connectServer();
-  };
-
-  useEffect(() => {
-    if (resData) {
-      if (resData.success) {
-        setUserAuth(false);
-        setUserName("");
-        localStorage.removeItem("userId");
-        nav("/");
-        window.location.reload();
-      } else {
-        alert("fail");
-      }
-    }
-  }, [nav, resData]);
+  const Btns = HeaderBtns();
 
   //화면의 크기를 감지하여 800이하일 경우 sideMenu를 표시함
   //화면크기가 변할때마다 그 수치를 state에 저장하면 매번 재랜더링이 발생하지만
@@ -61,37 +21,44 @@ function Header() {
     }
   };
 
-  console.log(checkSideMenu);
   return (
-    <>
-      <div className="header">
-        <div className="header-left">
-          <span className="logoImg">로고</span>
+    <HeaderDiv>
+      <HeaderSection>
+        <HeaderLogo>로고</HeaderLogo>
+        {!checkSideMenu && <Btns.HeaderBtn />}
+      </HeaderSection>
 
-          {!checkSideMenu && (
-            <HeaderBtn userAuth={userAuth} checkSideMenu={checkSideMenu} />
-          )}
-        </div>
-
-        <div className="header-right">
-          {checkSideMenu ? (
-            <>
-              <SideMenu
-                menuClick={menuClick}
-                setMenuClick={setMenuClick}
-                userAuth={userAuth}
-                logOut={logOut}
-              />
-            </>
-          ) : (
-            <>
-              <HeaderLogInBtn userAuth={userAuth} logOut={logOut} />
-            </>
-          )}
-        </div>
-      </div>
-    </>
+      <HeaderSection>
+        {checkSideMenu ? <SideMenu /> : <Btns.HeaderLogInBtn />}
+      </HeaderSection>
+    </HeaderDiv>
   );
 }
 
-export default React.memo(Header);
+const HeaderDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: sticky;
+  backdrop-filter: blur(20px);
+  padding: 1rem;
+  border-bottom: 2px solid orange;
+
+  top: 0;
+  width: 100%;
+  height: 50px;
+  z-index: 100;
+`;
+
+const HeaderLogo = styled.span`
+  padding-right: 10px;
+  font-size: 25px;
+`;
+
+const HeaderSection = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export default Header;

@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import styled, { css } from "styled-components";
 
 import ModalBase from "../ModalBase";
 
+import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
 
-export const HeaderBtn = React.memo(
-  ({ userAuth, onSideMenu, setMenuClick }) => {
-    const nav = useNavigate();
+const HeaderBtns = () => {
+  const nav = useNavigate();
+  const [userAuth, setUserAuth] = useState(false);
+  const [userName, setUserName] = useState("");
+  const auth = useSelector((auth_user) => auth_user.user.userData);
+
+  useEffect(() => {
+    if (auth && auth.isAuth === true) {
+      setUserName(auth.name);
+      setUserAuth(auth.isAuth);
+    }
+  }, [auth]);
+
+  const HeaderBtn = ({ onSideMenu, setMenuClick }) => {
     const btn = [
       {
         id: "",
@@ -47,6 +60,7 @@ export const HeaderBtn = React.memo(
       }
       nav(`/${e.target.id}`);
 
+      //사이드메뉴가 열려있으면 버튼클릭시 닫음
       if (onSideMenu) {
         setMenuClick(false);
       }
@@ -59,7 +73,6 @@ export const HeaderBtn = React.memo(
             sideMenu={onSideMenu}
             key={data.id}
             id={data.id}
-            className={onSideMenu ? "side-menu-btn" : "btn"}
             onClick={goPage}
           >
             {data.value}
@@ -67,52 +80,64 @@ export const HeaderBtn = React.memo(
         ))}
       </>
     );
-  }
-);
-
-export const HeaderLogInBtn = ({
-  onSideMenu,
-  setModalOpen,
-  userAuth,
-  logOut,
-}) => {
-  const { openModal, contents, setOpenModal, setContents } = useModal();
-
-  const onLogIn = () => {
-    setOpenModal(true);
-    setContents({ title: "test", message: "test" });
   };
-  return (
-    <>
-      <ModalBase
-        contents={contents}
-        modalOpen={openModal}
-        setModalOpen={setOpenModal}
-      />
-      {userAuth ? (
-        <>
-          <HeaderButton
-            sideMenu={onSideMenu}
-            className={onSideMenu ? "side-menu-btn" : "btn"}
-            onClick={logOut}
-          >
-            로그아웃
-          </HeaderButton>
-        </>
-      ) : (
-        <>
-          <HeaderButton
-            sideMenu={onSideMenu}
-            className={onSideMenu ? "side-menu-btn" : "btn"}
-            onClick={onLogIn}
-          >
-            로그인·가입
-          </HeaderButton>
-        </>
-      )}
-    </>
-  );
+
+  const HeaderLogInBtn = ({ onSideMenu }) => {
+    const { resData, connectServer } = useAxios("/api/user/logout");
+    const { openModal, contents, setOpenModal, setContents } = useModal();
+
+    const onLogin = () => {
+      setOpenModal(true);
+      setContents({ title: "test", message: "test" });
+    };
+
+    const logout = () => {
+      connectServer();
+    };
+
+    useEffect(() => {
+      if (resData) {
+        if (resData.success) {
+          setUserAuth(false);
+          setUserName("");
+          localStorage.removeItem("userId");
+          nav("/");
+          window.location.reload();
+        } else {
+          alert("fail");
+        }
+      }
+    }, [resData]);
+
+    return (
+      <>
+        <ModalBase
+          contents={contents}
+          modalOpen={openModal}
+          setModalOpen={setOpenModal}
+        />
+
+        {userAuth ? (
+          <>
+            <HeaderButton sideMenu={onSideMenu} onClick={logout}>
+              로그아웃
+            </HeaderButton>
+          </>
+        ) : (
+          <>
+            <HeaderButton sideMenu={onSideMenu} onClick={onLogin}>
+              로그인·가입
+            </HeaderButton>
+          </>
+        )}
+      </>
+    );
+  };
+
+  return { HeaderBtn: HeaderBtn, HeaderLogInBtn: HeaderLogInBtn };
 };
+
+export default HeaderBtns;
 
 const HeaderButton = styled.button`
   position: relative;
