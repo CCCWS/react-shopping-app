@@ -6,7 +6,7 @@ import { MenuOutlined } from "@ant-design/icons";
 import "./SideMenu.css";
 import RecentView from "../RecentView";
 
-function SideMenu({ menuClick, setMenuClick, setModalOpen, userAuth, logOut }) {
+function SideMenu({ menuClick, setMenuClick, userAuth, logOut }) {
   const openMenu = () => {
     setMenuClick(true);
   };
@@ -48,7 +48,6 @@ function SideMenu({ menuClick, setMenuClick, setModalOpen, userAuth, logOut }) {
 
             <HeaderLogInBtn
               onSideMenu={true}
-              setModalOpen={setModalOpen}
               userAuth={userAuth}
               logOut={logOut}
             />

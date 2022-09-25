@@ -1,35 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+
+import { useSelector } from "react-redux"; ////
+
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import SideMenu from "./SideMenu";
-import LoginModal from "./LoginModal/LoginModal";
 import { HeaderBtn, HeaderLogInBtn } from "./HeaderBtn";
+
+import useAxios from "../../hooks/useAxios"; ////
 
 import "./Header.css";
 
 function Header() {
-  const nav = useNavigate();
-  const [userAuth, setUserAuth] = useState(false);
+  const nav = useNavigate(); ////
+  const [userAuth, setUserAuth] = useState(false); 
   const [userName, setUserName] = useState("");
-  const state = useSelector((auth_user) => auth_user.user.userData); //redux에 담긴 데이터를 가져옴
+  const auth = useSelector((auth_user) => auth_user.user.userData); //redux에 담긴 데이터를 가져옴
 
   const [menuClick, setMenuClick] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [pageWidth, setPageWidth] = useState(window.innerWidth);
+  const [checkSideMenu, setCheckSideMenu] = useState(
+    window.innerWidth >= 800 ? false : true
+  );
 
+  const { resData, connectServer } = useAxios("/api/user/logout");
+
+  //auth값이 있다면 > 로그인이 되어 있다면
   useEffect(() => {
-    if (state !== undefined) {
-      setUserName(state.name);
-      setUserAuth(state.isAuth);
+    if (auth && auth.isAuth === true) {
+      setUserName(auth.name);
+      setUserAuth(auth.isAuth);
     }
-  }, [state]);
-
-  // console.log(userAuth);
+  }, [auth]);
 
   const logOut = () => {
-    axios.get("/api/user/logout").then((response) => {
-      if (response.data.success) {
+    connectServer();
+  };
+
+  useEffect(() => {
+    if (resData) {
+      if (resData.success) {
         setUserAuth(false);
         setUserName("");
         localStorage.removeItem("userId");
@@ -38,46 +47,45 @@ function Header() {
       } else {
         alert("fail");
       }
-    });
-  };
+    }
+  }, [nav, resData]);
 
+  //화면의 크기를 감지하여 800이하일 경우 sideMenu를 표시함
+  //화면크기가 변할때마다 그 수치를 state에 저장하면 매번 재랜더링이 발생하지만
+  //boolean타입으로 조건에 해당할때만 state를 변경시켜서 재랜더링 발생 빈도를 줄임
   window.onresize = () => {
-    setPageWidth(window.innerWidth);
+    if (window.innerWidth <= 800) {
+      setCheckSideMenu(true);
+    } else {
+      setCheckSideMenu(false);
+    }
   };
 
+  console.log(checkSideMenu);
   return (
     <>
-      <LoginModal
-        setModalOpen={setModalOpen}
-        modalOpen={modalOpen}
-        menuClick={menuClick}
-      />
-
-      <div className="header" id="1">
+      <div className="header">
         <div className="header-left">
           <span className="logoImg">로고</span>
 
-          {pageWidth >= 800 && <HeaderBtn />}
+          {!checkSideMenu && (
+            <HeaderBtn userAuth={userAuth} checkSideMenu={checkSideMenu} />
+          )}
         </div>
 
         <div className="header-right">
-          {pageWidth >= 800 ? (
+          {checkSideMenu ? (
             <>
-              <HeaderLogInBtn
-                setModalOpen={setModalOpen}
+              <SideMenu
+                menuClick={menuClick}
+                setMenuClick={setMenuClick}
                 userAuth={userAuth}
                 logOut={logOut}
               />
             </>
           ) : (
             <>
-              <SideMenu
-                menuClick={menuClick}
-                setMenuClick={setMenuClick}
-                setModalOpen={setModalOpen}
-                userAuth={userAuth}
-                logOut={logOut}
-              />
+              <HeaderLogInBtn userAuth={userAuth} logOut={logOut} />
             </>
           )}
         </div>

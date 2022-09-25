@@ -69,32 +69,11 @@
   overflow-y: scroll;
 }
 
-.side-menu-btn {
-  position: relative;
+/* .side-menu-btn {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   width: 200px;
   min-height: 50px;
-  background-color: transparent;
   margin-bottom: 20px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-
-.side-menu-btn span {
-  position: absolute;
-  bottom: 0px;
-  left: -10px;
-  width: 5px;
-  height: 100%;
-  background-color: orange;
-  border-radius: 5px;
-  z-index: -1;
-  transition: all ease 0.3s;
-}
-
-.side-menu-btn:hover span {
-  width: 100%;
-}
+} */
