@@ -23,6 +23,7 @@ const HeaderBtns = () => {
   }, [auth]);
 
   const HeaderBtn = ({ onSideMenu, setMenuClick }) => {
+    const { openModal, contents, setOpenModal, setContents } = useModal();
     const btn = [
       {
         id: "",
@@ -55,7 +56,9 @@ const HeaderBtns = () => {
         e.target.id === "productManagement"
       ) {
         if (!userAuth) {
-          return alert("로그인이 필요합니다.");
+          setOpenModal(true);
+          setContents({ title: "사용자 확인 불가", message: "회원전용 페이지입니다." });
+          return;
         }
       }
       nav(`/${e.target.id}`);
@@ -68,6 +71,12 @@ const HeaderBtns = () => {
 
     return (
       <>
+        <ModalBase
+          contents={contents}
+          modalOpen={openModal}
+          setModalOpen={setOpenModal}
+        />
+
         {btn.map((data) => (
           <HeaderButton
             sideMenu={onSideMenu}
@@ -83,8 +92,8 @@ const HeaderBtns = () => {
   };
 
   const HeaderLogInBtn = ({ onSideMenu }) => {
-    const { resData, connectServer } = useAxios("/api/user/logout");
     const { openModal, contents, setOpenModal, setContents } = useModal();
+    const { resData, connectServer } = useAxios("/api/user/logout");
 
     const onLogin = () => {
       setOpenModal(true);

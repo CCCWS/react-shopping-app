@@ -65,7 +65,7 @@ const ModalDiv = styled.div`
   justify-content: center;
   align-items: center;
 
-  transition: all ease 0.3s;
+  transition: all ease 0.5s;
 
   & > :first-child {
     background-color: wheat;
