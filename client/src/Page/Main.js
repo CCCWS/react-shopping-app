@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import {
-  LoadingOutlined,
   AppstoreOutlined,
   BarsOutlined,
   SearchOutlined,
   RollbackOutlined,
 } from "@ant-design/icons";
+import styled from "styled-components";
 
 //component
 import ProductCard from "../Components/ProductCard";
@@ -15,6 +15,7 @@ import SelectBox from "../Components/SelectBox";
 import RecentView from "../Components/RecentView";
 import ProductRank from "../Components/ProductRank";
 import ModalBase from "../Components/ModalBase";
+import Loading from "../Components/Loading";
 
 //comstom hooks
 import useAxios from "../hooks/useAxios";
@@ -22,7 +23,6 @@ import useModal from "../hooks/useModal.js";
 
 //etc
 import { categoryList, priceList } from "../data/CatecoryList";
-import "./Main.css";
 
 function Main() {
   const [readRef, setReadRef] = useInView();
@@ -123,13 +123,15 @@ function Main() {
 
   return (
     <div className="page">
+      <RecentView />
       <ModalBase
         contents={contents}
         modalOpen={openModal}
         setModalOpen={setOpenModal}
       />
-      <div className="main-option">
-        <div className="main-option-selectBox">
+
+      <MainOption>
+        <div>
           <SelectBox
             data={categoryList}
             setData={setSelectCategort}
@@ -139,22 +141,17 @@ function Main() {
         </div>
 
         <div>
-          <button
-            onClick={() => view("card")}
-            className={[`main-view-btn ${click ? "main-view-on" : null}`]}
-          >
+          <ViewBtn click={click} type={"card"} onClick={() => view("card")}>
             <AppstoreOutlined />
-          </button>
-          <button
-            onClick={() => view("list")}
-            className={[`main-view-btn ${click ? null : "main-view-on"}`]}
-          >
-            <BarsOutlined />
-          </button>
-        </div>
-      </div>
+          </ViewBtn>
 
-      <form onSubmit={onKeywordSearch} className="main-searchBar">
+          <ViewBtn click={click} type={"list"} onClick={() => view("list")}>
+            <BarsOutlined />
+          </ViewBtn>
+        </div>
+      </MainOption>
+
+      <MainSearchBar onSubmit={onKeywordSearch}>
         <input
           value={searchValue}
           onChange={onSearchValue}
@@ -163,10 +160,10 @@ function Main() {
         <div>
           <SearchOutlined onClick={onKeywordSearch} />
         </div>
-      </form>
+      </MainSearchBar>
 
       {searchTrue ? (
-        <div className="main-search-reset">
+        <SearchReset>
           <div
             onClick={() => {
               setSearchValue("");
@@ -176,22 +173,18 @@ function Main() {
           >
             <RollbackOutlined />
           </div>
-        </div>
+        </SearchReset>
       ) : (
         <ProductRank />
       )}
 
-      <div className={click ? "main-productList" : "main-productList-list"}>
-        <RecentView />
-
+      <MainProduct viewType={click}>
         {loading ? (
-          <div className="loading">
-            <LoadingOutlined />
-          </div>
+          <Loading />
         ) : (
           <ProductCard data={productList} click={click} />
         )}
-      </div>
+      </MainProduct>
 
       {loading === false && productList.length === limit && (
         <div ref={readRef}></div>
@@ -199,5 +192,75 @@ function Main() {
     </div>
   );
 }
+
+const MainOption = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & > :first-child {
+    display: flex;
+  }
+`;
+
+const ViewBtn = styled.button`
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 20px;
+  background-color: ${(props) =>
+    (props.type === "card") === props.click
+      ? "rgb(255, 120, 120)"
+      : "transparent"};
+  margin: 5px;
+  cursor: pointer;
+`;
+
+const MainSearchBar = styled.form`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  input {
+    background-color: rgba(200, 200, 200, 0.2);
+    border: 2px solid orange;
+    border-radius: 5px;
+    width: 300px;
+    margin: 1rem;
+    padding: 5px;
+    outline: none;
+  }
+
+  div {
+    font-size: 20px;
+    cursor: pointer;
+  }
+`;
+
+const SearchReset = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  div {
+    font-size: 2rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(255, 166, 0, 0.61);
+    }
+  }
+`;
+
+const MainProduct = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`;
 
 export default Main;

@@ -40,7 +40,7 @@ const Modal = ({ contents, modalOpen, setModalOpen }) => {
             </Header>
 
             <Message>
-              <p>{contents.message}</p>
+              <div>{contents.message}</div>
             </Message>
           </ModalContents>
         )}
@@ -48,6 +48,17 @@ const Modal = ({ contents, modalOpen, setModalOpen }) => {
         <Footer>
           {contents.cartBtn && (
             <Button onClick={() => nav("/cart")}>장바구니 이동</Button>
+          )}
+
+          {contents.cartPage && (
+            <Button
+              onClick={() => {
+                contents.delFunc();
+                setModalOpen(false);
+              }}
+            >
+              삭제
+            </Button>
           )}
           <Button onClick={() => setModalOpen(false)}>닫기</Button>
         </Footer>
@@ -137,11 +148,6 @@ const Button = styled.button`
   &:hover::before {
     height: 100%;
   }
-
-  /* &:hover {
-    cursor: pointer;
-    background-color: rgba(100, 100, 100, 0.8);
-  } */
 `;
 
 export default React.memo(Modal);
