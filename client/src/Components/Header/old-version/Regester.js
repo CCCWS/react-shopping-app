@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { registerInfo } from "../../../../_action/user_action";
+import { registerInfo } from "../../../_action/user_action";
 
 function Register({ setClick }) {
   const dispatch = useDispatch();
