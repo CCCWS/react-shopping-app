@@ -1,78 +1,58 @@
-import React, { useState, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { loginInfo } from "../../../_action/user_action";
+import React, { useState } from "react";
+import LoginComponent from "./LoginComponent";
+import styled from "styled-components";
 
 function Login() {
-  const dispatch = useDispatch();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const emailSave = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const passwordSave = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const login = (event) => {
-    event.preventDefault();
-    if (email.length < 1) {
-      emailRef.current.focus();
-      return;
-    }
-
-    if (password.length < 1) {
-      passwordRef.current.focus();
-      return;
-    }
-
-    let data = {
-      email: email,
-      password: password,
-    }; //입력한 메일과 비밀번호를 오브젝트로 저장
-
-    dispatch(loginInfo(data)) // user_action으로 전달
-      .then((response) => {
-        if (response.payload.loginSuccess) {
-          window.localStorage.setItem("userId", response.payload.userId);
-          setEmail("");
-          setPassword("");
-          window.location.reload();
-        } else {
-          alert("로그인 실패");
-        }
-      });
-  };
+  const [type, setType] = useState("login");
 
   return (
     <>
-      <form onSubmit={login} className="login-register-box">
-        <label>이메일</label>
-        <input
-          className="login-modal-input"
-          type="email"
-          value={email}
-          onChange={emailSave}
-          ref={emailRef}
-        />
+      <LoginTitle>{type === "login" ? "로그인" : "회원가입"}</LoginTitle>
 
-        <label>비밀번호</label>
-        <input
-          className="login-modal-input"
-          type="password"
-          value={password}
-          onChange={passwordSave}
-          ref={passwordRef}
-        />
-        <button type="submit" onSubmit={login} className="login-menu-btn">
-          로그인
-          <span />
-        </button>
-      </form>
+      <LoginComponent type={type} setType={setType} />
+
+      <div>
+        {type === "login" ? (
+          <LoginFooter>
+            아이디가 없으신가요?
+            <span onClick={() => setType("register")}> 회원가입</span>
+          </LoginFooter>
+        ) : (
+          <LoginFooter>
+            아이디가 있으신가요?
+            <span onClick={() => setType("login")}>로그인</span>
+          </LoginFooter>
+        )}
+      </div>
     </>
   );
 }
+
+const LoginTitle = styled.div`
+  padding: 1rem;
+  font-size: 1.3rem;
+  background-color: rgba(255, 166, 0, 0.7);
+  margin-bottom: 1rem;
+`;
+
+const LoginFooter = styled.div`
+  font-size: 0.8rem;
+  color: gray;
+  margin-bottom: 1rem;
+
+  display: flex;
+  justify-content: center;
+
+  span {
+    margin-left: 0.5rem;
+    border-bottom: 1px solid transparent;
+    color: red;
+    cursor: pointer;
+
+    &:hover {
+      border-bottom: 1px solid red;
+    }
+  }
+`;
 
 export default Login;

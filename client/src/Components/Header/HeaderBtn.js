@@ -57,7 +57,10 @@ const HeaderBtns = () => {
       ) {
         if (!userAuth) {
           setOpenModal(true);
-          setContents({ title: "사용자 확인 불가", message: "회원전용 페이지입니다." });
+          setContents({
+            title: "사용자 확인 불가",
+            message: "회원전용 페이지입니다.",
+          });
           return;
         }
       }
@@ -97,7 +100,7 @@ const HeaderBtns = () => {
 
     const onLogin = () => {
       setOpenModal(true);
-      setContents({ title: "test", message: "test" });
+      setContents({ title: "test", message: "test", login: true });
     };
 
     const logout = () => {
@@ -173,9 +176,9 @@ const HeaderButton = styled.button`
     position: absolute;
     background-color: orange;
     left: 0;
-    top: 0;
-    height: 100%;
-    width: 3px;
+    bottom: 0;
+    height: 10%;
+    width: 0px;
     transition: all ease 0.3s;
     z-index: -1;
   }

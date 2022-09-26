@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { CloseOutlined } from "@ant-design/icons";
-import Login from "./Login";
+import Login from "../Login";
 import Register from "./Regester";
 
 import "./LoginModal.css";

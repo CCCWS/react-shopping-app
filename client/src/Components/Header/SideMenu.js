@@ -92,16 +92,18 @@ const SideMenuDiv = styled.div`
   & > :first-child {
     position: absolute;
 
-    height: 100vh;
+    height: 100%;
     width: ${(props) => (props.menuClick ? "250px" : "0")};
     right: 0;
     top: 50%;
 
     transform: translate(0%, -50%);
-    background-color: rgb(114, 107, 107);
+    background-color: rgba(100, 100, 100);
     border-radius: 10px 0px 0px 10px;
-    overflow: hidden;
+    /* overflow: hidden; */
     transition: all ease 0.3s;
+
+    color: white;
   }
 `;
 

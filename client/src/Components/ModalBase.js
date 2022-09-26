@@ -4,6 +4,8 @@ import ReactDom from "react-dom";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import Login from "./Header/LoginModal/Login";
+
 const Modal = ({ contents, modalOpen, setModalOpen }) => {
   const nav = useNavigate();
 
@@ -29,13 +31,19 @@ const Modal = ({ contents, modalOpen, setModalOpen }) => {
       }}
     >
       <div>
-        <Header>
-          <div>{contents.title}</div>
-        </Header>
+        {contents.login ? (
+          <Login />
+        ) : (
+          <ModalContents>
+            <Header>
+              <div>{contents.title}</div>
+            </Header>
 
-        <Message>
-          <p>{contents.message}</p>
-        </Message>
+            <Message>
+              <p>{contents.message}</p>
+            </Message>
+          </ModalContents>
+        )}
 
         <Footer>
           {contents.cartBtn && (
@@ -56,7 +64,7 @@ const ModalDiv = styled.div`
   width: 100%;
   height: 100vh;
 
-  background-color: rgba(0, 0, 0, 0.445);
+  background-color: rgba(0, 0, 0, 0.5);
 
   display: flex;
   opacity: ${(props) => (props.modalOpen ? "1" : "0")};
@@ -65,23 +73,30 @@ const ModalDiv = styled.div`
   justify-content: center;
   align-items: center;
 
-  transition: all ease 0.5s;
+  transition: 0.3s;
 
   & > :first-child {
-    background-color: wheat;
+    background-color: rgba(245, 245, 245);
     border: 3px solid white;
-    width: 350px;
-    height: 200px;
+    width: 300px;
     border-radius: 15px;
     z-index: 100;
     overflow: hidden;
     position: relative;
-    font-size: 16px;
+    font-size: 1rem;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    @media (max-width: 350px) {
+      width: 90%;
+    }
   }
+`;
+
+const ModalContents = styled.div`
+  height: 8rem;
 `;
 
 const Header = styled.header`
@@ -96,20 +111,37 @@ const Message = styled.div`
 
 const Footer = styled.footer`
   width: 100%;
-
   display: flex;
 `;
 
 const Button = styled.button`
-  background-color: rgba(100, 100, 100, 0.5);
+  position: relative;
+  background-color: rgba(100, 100, 100, 0.3);
   width: 100%;
   height: 2.5rem;
   border: none;
+  cursor: pointer;
 
-  &:hover {
+  &::before {
+    content: "";
+    position: absolute;
+    background-color: rgba(255, 0, 0, 0.5);
+    left: 0;
+    bottom: 0;
+    height: 0;
+    width: 100%;
+    transition: all ease 0.2s;
+    z-index: -1;
+  }
+
+  &:hover::before {
+    height: 100%;
+  }
+
+  /* &:hover {
     cursor: pointer;
     background-color: rgba(100, 100, 100, 0.8);
-  }
+  } */
 `;
 
 export default React.memo(Modal);
