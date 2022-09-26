@@ -159,14 +159,14 @@ function Cart() {
 
   //주문서 작성 페이지로 이동
 
-  const goCheckOut = useCallback(() => {
+  const goCheckOut = () => {
     if (checkProduct.length === 0) {
       return;
     }
     nav("/checkOut", {
       state: { product: checkProduct, totalPrice: totalPrice, cart: true },
     });
-  }, []);
+  };
 
   return (
     <div className="page">
