@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import axios from "axios";
-import { postUrl } from "../PostUrl";
-import "./ImgUpload.css";
+import styled from "styled-components";
 import {
   CameraOutlined,
   ZoomInOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
-import useAxios from "../hooks/useAxios";
+
+import { postUrl } from "../../PostUrl";
 
 function ImgUpload({
   setModalOpen,
@@ -91,52 +91,149 @@ function ImgUpload({
   };
 
   return (
-    <div className="ImgUpload-page">
-      <div className="drop-box">
+    <Section>
+      <DropBox>
         <Dropzone onDrop={dropItem}>
           {({ getRootProps, getInputProps }) => (
             <div {...getRootProps()}>
               <input {...getInputProps()} />
-              <div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    fontSize: "40px",
-                  }}
-                >
+              <DropzoneIcon>
+                <div>
                   <CameraOutlined />
                 </div>
                 <div>이미지 등록</div>
-              </div>
+              </DropzoneIcon>
             </div>
           )}
         </Dropzone>
-      </div>
+      </DropBox>
 
       {img.length > 0 && (
         <>
           {img.map((data, index) => (
-            <div
-              style={{
-                backgroundImage: `url('${postUrl}${data.name}')`,
-              }}
+            <UploadImg
+              img={`url('${postUrl}${data.name}')`}
               key={index}
               alt="img"
-              className="upload-img"
             >
               <div onClick={() => openModal(data)}>
                 <ZoomInOutlined />
               </div>
-              <div className="ImgUpload-delBtn" onClick={() => delImg(data)}>
+
+              <UploadImgDel onClick={() => delImg(data)}>
                 <CloseOutlined />
-              </div>
-            </div>
+              </UploadImgDel>
+            </UploadImg>
           ))}
         </>
       )}
-    </div>
+    </Section>
   );
 }
+
+const Section = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-height: 20rem;
+  overflow-y: auto;
+`;
+
+const DropBox = styled.div`
+  background-color: white;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 5px;
+  border: 2px solid rgba(146, 146, 146, 0.3);
+  margin: 0.3rem;
+
+  & > :first-child {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    border-radius: 5px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(172, 172, 172);
+    }
+  }
+
+  @media (max-width: 550px) {
+    width: 6rem;
+    height: 6rem;
+  }
+`;
+
+const DropzoneIcon = styled.div`
+  & > :first-child {
+    display: flex;
+    justify-content: center;
+    font-size: 2.5rem;
+  }
+
+  & > :nth-child(2) {
+    font-size: 1rem;
+  }
+`;
+
+const UploadImg = styled.div`
+  background-image: ${(props) => props.img};
+  width: 10rem;
+  height: 10rem;
+  border: 2px solid rgba(146, 146, 146, 0.9);
+  border-radius: 5px;
+
+  margin: 0.3rem;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative;
+  cursor: pointer;
+
+  @media (max-width: 550px) {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  & > :first-child {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 2rem;
+    background-color: rgba(184, 184, 184, 0.445);
+    opacity: 0;
+    transition: all ease 0.3s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+`;
+
+const UploadImgDel = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  z-index: 10;
+  top: 5px;
+  right: 5px;
+
+  background-color: rgba(184, 184, 184, 0.5);
+  width: 1.8rem;
+  height: 1.8rem;
+  font-size: 1.5rem;
+  border-radius: 5px;
+`;
 
 export default React.memo(ImgUpload);

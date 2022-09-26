@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router";
 
 import Loading from "../Components/Loading";
-import UploadForm from "../Components/UploadForm";
+import UploadForm from "../Components/UploadForm/UploadForm";
 
 import useAxios from "../hooks/useAxios";
 

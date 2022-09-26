@@ -1,16 +1,18 @@
 //library
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styled, { css } from "styled-components";
 
 //component
-import Modal from "./Modal";
+import Modal from "../Modal";
+import SelectBox from "../SelectBox";
 import ImgUpload from "./ImgUpload";
-import SelectBox from "./SelectBox";
+
+//custom hooks
+import useAxios from "../../hooks/useAxios";
 
 //etc
-import { uploadCategoryList } from "../data/CatecoryList";
-import "./UploadForm.css";
-import useAxios from "../hooks/useAxios";
+import { uploadCategoryList } from "../../data/CatecoryList";
 
 function UploadForm({ user, edit, editData, id }) {
   //auth.js에서 받은 user props
@@ -35,6 +37,7 @@ function UploadForm({ user, edit, editData, id }) {
   const { connectServer: writeProduct } = useAxios("/api/product/write");
 
   useEffect(() => {
+    //edit페이지로 접근시 기본값을 상품의 정보로 지정
     if (edit) {
       setImage(editData.image);
       setCategory(editData.category);
@@ -47,6 +50,7 @@ function UploadForm({ user, edit, editData, id }) {
   }, []);
 
   const maxLengthCheck = (e) => {
+    //글자 길이 체크
     if (e.target.id === "price") {
       if (e.target.value.length > e.target.maxLength) {
         return (e.target.value = e.target.value.slice(0, e.target.maxLength));
@@ -135,7 +139,7 @@ function UploadForm({ user, edit, editData, id }) {
         img={true}
       />
 
-      <section className="Upload-section">
+      <Section>
         <div>
           상품이미지 <div>{`${image.length} / 12`}</div>
         </div>
@@ -148,28 +152,28 @@ function UploadForm({ user, edit, editData, id }) {
           edit={edit}
           editImg={editData}
         />
-      </section>
+      </Section>
 
       <hr />
-      <section className="Upload-section">
+      <Section>
         <div>제목</div>
-        <input
-          className="Upload-title"
+        <Input
+          inputType="title"
           id="title"
           placeholder="2글자 이상 입력해주세요."
           maxLength={40}
           ref={titleRef}
         />
         {/* <span>{`${} / 40`}</span> */}
-      </section>
+      </Section>
 
       <hr />
 
-      <section className="Upload-section">
+      <Section>
         <div>가격</div>
-        <input
+        <Input
+          inputType="price"
           type="number"
-          className="Upload-price"
           id="price"
           placeholder="숫자만 입력해주세요."
           ref={priceRef}
@@ -178,15 +182,15 @@ function UploadForm({ user, edit, editData, id }) {
           onInput={maxLengthCheck}
         />
         <label>원</label>
-      </section>
+      </Section>
 
       <hr />
 
-      <section className="Upload-section">
+      <Section>
         <div>상품 개수</div>
-        <input
+        <Input
+          inputType="count"
           type="number"
-          className="Upload-count"
           id="count"
           placeholder="최대 99개"
           ref={countRef}
@@ -194,11 +198,11 @@ function UploadForm({ user, edit, editData, id }) {
           onInput={maxLengthCheck}
         />
         <label>개</label>
-      </section>
+      </Section>
 
       <hr />
 
-      <section className="Upload-section">
+      <Section>
         <div>카테고리</div>
         <SelectBox
           data={uploadCategoryList}
@@ -206,27 +210,126 @@ function UploadForm({ user, edit, editData, id }) {
           edit={edit}
           initData={edit && editData.category}
         />
-      </section>
+      </Section>
 
       <hr />
 
-      <section className="Upload-section">
+      <Section>
         <div>설명</div>
-        <textarea
-          className="Upload-description"
+        <Textarea
           id="description"
           placeholder="10글자 이상 입력해주세요."
           maxLength={500}
           ref={descriptionRef}
         />
         {/* <span>{`${} / 500`}</span> */}
-      </section>
+      </Section>
 
-      <div className="Upload-submit-btn">
+      <Hr />
+
+      <SubmitBtn>
         <button onClick={onWrite}> {edit ? "수정하기" : "등록하기"} </button>
-      </div>
+      </SubmitBtn>
     </div>
   );
 }
+
+const Section = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  margin: auto;
+  padding: 1.5rem;
+  font-size: 1rem;
+
+  & > :first-child {
+    min-width: 8rem;
+    padding: 0.5rem;
+    font-weight: 700;
+
+    @media (max-width: 550px) {
+      min-width: 100px;
+    }
+  }
+`;
+
+const Input = styled.input`
+  border: 2px solid transparent;
+  background-color: rgba(0, 0, 0, 0.1);
+
+  width: ${(props) =>
+    (props.inputType === "title" && "70%") ||
+    (props.inputType === "price" && "200px") ||
+    (props.inputType === "count" && "100px")};
+  height: 3rem;
+  margin-right: 10px;
+  padding: 0.5rem;
+  border-radius: 5px;
+  outline: none;
+
+  &:focus {
+    border: 2px solid rgba(248, 104, 104, 0.671);
+  }
+
+  ${(props) =>
+    (props.inputType === "price" || props.inputType === "count") &&
+    css`
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
+    `}
+`;
+
+const Textarea = styled.textarea`
+  border: 2px solid transparent;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  width: 100%;
+  height: 150px;
+  padding: 0.5rem;
+  outline: none;
+  resize: none;
+  overflow-y: scroll;
+
+  &:focus {
+    border: 2px solid rgba(248, 104, 104, 0.671);
+  }
+`;
+
+const SubmitBtn = styled.div`
+  background-color: rgba(221, 155, 31, 0.24);
+  border-top: 2px solid orange;
+  width: 100%;
+  height: 5rem;
+  position: fixed;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  bottom: 0;
+  right: 0;
+
+  button {
+    margin-right: 2rem;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem;
+    background-color: rgba(248, 104, 104, 0.6);
+    color: white;
+    transition: 0.5s;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(248, 104, 104, 1);
+    }
+  }
+`;
+
+const Hr = styled.hr`
+  margin-bottom: 5rem;
+`;
 
 export default React.memo(UploadForm);
