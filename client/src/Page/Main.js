@@ -1,5 +1,5 @@
 //library
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import {
   AppstoreOutlined,
@@ -16,6 +16,7 @@ import RecentView from "../Components/RecentView";
 import ProductRank from "../Components/ProductRank";
 import ModalBase from "../Components/ModalBase";
 import Loading from "../Components/Loading";
+import Switch from "../Components/Switch";
 
 //comstom hooks
 import useAxios from "../hooks/useAxios";
@@ -41,17 +42,17 @@ function Main() {
     }
   }, []);
 
-  const view = (e) => {
-    if (e === "card") {
+  const view = useCallback(() => {
+    if (!click) {
       localStorage.setItem("mainView", true);
       setClick(true);
     }
 
-    if (e === "list") {
+    if (click) {
       localStorage.setItem("mainView", false);
       setClick(false);
     }
-  };
+  }, [click]);
 
   const onSearchValue = (e) => {
     setSearchValue(e.target.value);
@@ -141,13 +142,14 @@ function Main() {
         </div>
 
         <div>
-          <ViewBtn click={click} type={"card"} onClick={() => view("card")}>
+          <Switch viewType={click} onSetMode={view} />
+          {/* <ViewBtn click={click} type={"card"} onClick={view}>
             <AppstoreOutlined />
           </ViewBtn>
 
-          <ViewBtn click={click} type={"list"} onClick={() => view("list")}>
+          <ViewBtn click={click} type={"list"} onClick={view}>
             <BarsOutlined />
-          </ViewBtn>
+          </ViewBtn> */}
         </div>
       </MainOption>
 
@@ -178,7 +180,7 @@ function Main() {
         <ProductRank />
       )}
 
-      <MainProduct viewType={click}>
+      <MainProduct>
         {loading ? (
           <Loading />
         ) : (
@@ -211,7 +213,7 @@ const ViewBtn = styled.button`
   border-radius: 5px;
   font-size: 20px;
   background-color: ${(props) =>
-    (props.type === "card") === props.click
+    props.type === "card" && props.click
       ? "rgb(255, 120, 120)"
       : "transparent"};
   margin: 5px;

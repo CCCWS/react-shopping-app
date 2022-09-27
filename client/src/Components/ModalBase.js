@@ -79,7 +79,7 @@ const ModalDiv = styled.div`
 
   display: flex;
   opacity: ${(props) => (props.modalOpen ? "1" : "0")};
-  z-index: ${(props) => (props.modalOpen ? "100" : "-100")};
+  z-index: ${(props) => (props.modalOpen ? "1000" : "-10")};
 
   justify-content: center;
   align-items: center;
