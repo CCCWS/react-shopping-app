@@ -41,7 +41,8 @@ const HeaderDiv = styled.div`
   align-items: center;
 
   position: sticky;
-  backdrop-filter: blur(20px);
+  /* backdrop-filter: blur(20px); */
+  background-color: rgba(255, 255, 255, 0.3);
   padding: 1rem;
   border-bottom: 2px solid orange;
 
@@ -61,4 +62,4 @@ const HeaderSection = styled.div`
   align-items: center;
 `;
 
-export default Header;
+export default React.memo(Header);

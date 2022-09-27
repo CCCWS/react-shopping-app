@@ -6,20 +6,19 @@ import { useDispatch } from "react-redux";
 import Zoom from "react-reveal/Fade";
 import styled from "styled-components";
 
-import PurchasesCountBtn from "../Components/PurchasesCountBtn";
 import ProductCard from "../Components/ProductCard";
 import RecentView from "../Components/RecentView";
 import Selector from "../Components/Selector";
 import Loading from "../Components/Loading";
 import Modal from "../Components/Modal";
 import ModalBase from "../Components/ModalBase";
+import FooterDetailPage from "../Components/Footer/FooterDetailPage";
 
 import getTime from "../hooks/getTime";
 import useAxios from "../hooks/useAxios";
 import useModal from "../hooks/useModal";
 
 import { addCart } from "../_action/user_action";
-import "./ProductDetail.css";
 
 function ProductDetail({ user }) {
   const dispatch = useDispatch();
@@ -27,7 +26,6 @@ function ProductDetail({ user }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalImg, setModalImg] = useState([]);
   const [purchasesCount, setPurchasesCount] = useState(1);
-  const [writer, setWriter] = useState(false);
   const [cartAddLoading, setCartAddLoading] = useState(false);
   const { id } = useParams();
 
@@ -76,7 +74,6 @@ function ProductDetail({ user }) {
         //이미있는 정보를 제외하고 새롭게 등록하여 데이터를 최상단으로 갱신시킴
       );
     };
-
     if (loading === false) {
       if (get === null) {
         //LocalStorage가 비어있을 경우 데이터를 추가
@@ -104,12 +101,12 @@ function ProductDetail({ user }) {
     }
   }, [loading, product]);
 
-  //상품의 정보를 받아옴
+  // //상품의 정보를 받아옴
   useEffect(() => {
     getProduct({ id });
   }, [id]);
 
-  //제품 정보를 가져왔을때 실행, 작성자와 다른 상품의 정보를 받아옴
+  // //제품 정보를 가져왔을때 실행, 작성자와 다른 상품의 정보를 받아옴
   useEffect(() => {
     if (product) {
       getWriter({ id: product.writer });
@@ -119,17 +116,6 @@ function ProductDetail({ user }) {
       });
     }
   }, [product]);
-
-  useEffect(() => {
-    if (user.userData) {
-      if (user.userData.isAuth) {
-        if (product && product.writer === user.userData._id) {
-          //제품의 작성자와 로그인한 유저의 id가 같다면 작성자로 확인
-          setWriter(true);
-        }
-      }
-    }
-  }, [user]);
 
   //구매 버튼 클릭시 실행
   const goCheckOut = () => {
@@ -218,10 +204,10 @@ function ProductDetail({ user }) {
     setCartAddLoading(false);
   }, [nav, setContents, setOpenModal, cartAddResponse]);
 
-  // const OnAddCart = () => {
-  //   //redux사용
-  //   dispatch(addCart(product._id));
-  // };
+  const OnAddCart = () => {
+    //redux사용
+    dispatch(addCart(product._id));
+  };
 
   return (
     <div className="page">
@@ -246,23 +232,25 @@ function ProductDetail({ user }) {
         img={true}
       />
 
-      <div className="ProductDetail-backBtn" onClick={() => nav("/")}>
+      <BackBtn onClick={() => nav("/")}>
         <LeftOutlined />
         <HomeOutlined />
-      </div>
+      </BackBtn>
 
       {loading ? (
         <Loading />
       ) : (
-        <div className="ProductDetail-info">
+        <>
           {product.count === 0 ? (
-            <div className="soldOut">판매완료된 상품입니다.</div>
+            <SoldOut>판매완료된 상품입니다.</SoldOut>
           ) : null}
+
           {/* <ImgCarousel
-            data={product.image}
-            setModalOpen={setModalOpen}
-            setModalImg={setModalImg}
-          /> */}
+      data={product.image}
+      setModalOpen={setModalOpen}
+      setModalImg={setModalImg}
+    /> */}
+
           <Selector
             ProductDetail={true}
             arr={product.image}
@@ -273,7 +261,7 @@ function ProductDetail({ user }) {
 
           <Zoom>
             <div>
-              <div className="ProductDetail-writer">
+              <Writer>
                 {writerLoading ? (
                   <Skeleton.Button />
                 ) : (
@@ -282,98 +270,38 @@ function ProductDetail({ user }) {
                     <div>{productWriter.email}</div>
                   </>
                 )}
-              </div>
+              </Writer>
 
-              <hr />
-
-              <div>
-                <div className="ProductDetail-title">
-                  <div>{product.title}</div>
-                  <div>{`${product.category} ∙ ${time} ∙ 남은수량 ${product.count}개 ∙ 조회수 ${product.views} `}</div>
-                </div>
-
-                <div className="ProductDetail-description">
-                  {product.description}
-                </div>
-              </div>
-              <hr />
+              <Info>
+                <div>{product.title}</div>
+                <div>{`${product.category} ∙ ${time} ∙ 남은수량 ${product.count}개 ∙ 조회수 ${product.views} `}</div>
+                <hr />
+                <div>{product.description}</div>
+              </Info>
 
               {otherProduct && otherProduct.length > 0 && (
-                <div>
-                  <div className="ProductDetail-other">관련 상품</div>
+                <>
+                  <OtherProduct>관련 상품</OtherProduct>
                   {otherLoading ? (
                     <Loading />
                   ) : (
-                    <div className="main-productList ProductDetail-productCard">
-                      <ProductCard
-                        data={otherProduct}
-                        click={true}
-                        ProductDetail={true}
-                      />
-                    </div>
+                    <ProductCard data={otherProduct} viewType={true} />
                   )}
-                </div>
+                </>
               )}
             </div>
           </Zoom>
 
-          <div className="ProductDetail-footer">
-            <div>
-              <div className="ProductDetail-footer-price">
-                <div>
-                  {`${parseInt(
-                    product.price * purchasesCount,
-                    10
-                  ).toLocaleString()}원`}
-                </div>
-
-                <PurchasesCountBtn
-                  purchasesCount={purchasesCount}
-                  setPurchasesCount={setPurchasesCount}
-                  productCount={product.count}
-                  detail={true}
-                />
-              </div>
-
-              <div className="ProductDetail-footer-btn">
-                {writerLoading ? (
-                  <Skeleton.Button />
-                ) : (
-                  <>
-                    {writer ? (
-                      <button
-                        onClick={() =>
-                          nav(`/edit/${product._id}`, {
-                            state: { id: product._id },
-                          })
-                        }
-                        className="ProductDetail-cart"
-                      >
-                        수정하기
-                      </button>
-                    ) : (
-                      <>
-                        <button
-                          onClick={onAddCartProduct}
-                          className="ProductDetail-cart"
-                        >
-                          장바구니
-                        </button>
-
-                        <button
-                          className="ProductDetail-purchase-btn"
-                          onClick={goCheckOut}
-                        >
-                          구매하기
-                        </button>
-                      </>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+          <FooterDetailPage
+            product={product}
+            purchasesCount={purchasesCount}
+            setPurchasesCount={setPurchasesCount}
+            user={user}
+            productWriter={productWriter}
+            onAddCartProduct={onAddCartProduct}
+            goCheckOut={goCheckOut}
+          />
+        </>
       )}
     </div>
   );
@@ -386,6 +314,72 @@ const CartLoadingDiv = styled.div`
   top: 0;
   right: 0;
   position: fixed;
+`;
+
+const BackBtn = styled.div`
+  font-size: 20px;
+  width: 40px;
+  cursor: pointer;
+`;
+
+const SoldOut = styled.div`
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  overflow: hidden;
+  z-index: 10;
+
+  top: 40px;
+  left: 0;
+  width: 100%;
+  height: 500px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 1.5rem;
+  color: white;
+`;
+
+const Writer = styled.div`
+  font-size: 1.2rem;
+  padding: 0.8rem;
+
+  & > :nth-child(2) {
+    font-size: 1rem;
+    color: rgb(170, 170, 170);
+  }
+`;
+
+const Info = styled.div`
+  & > :first-child {
+    //제품명
+    padding: 0.8rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    background-color: rgb(255, 237, 179, 0.5);
+    border-radius: 5px;
+  }
+
+  & > :nth-child(2) {
+    //기타 정보
+    font-size: 0.8rem;
+    color: rgb(170, 170, 170);
+    padding: 0.8rem;
+  }
+
+  & > :last-child {
+    //제품 설명
+    padding: 0.8rem;
+    font-size: 1rem;
+    line-height: 2rem;
+    margin-bottom: 1rem;
+  }
+`;
+
+const OtherProduct = styled.div`
+  padding: 0.8rem;
+  font-size: 1.2rem;
 `;
 
 export default ProductDetail;

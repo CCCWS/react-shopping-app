@@ -43,7 +43,7 @@
 
 .ProductDetail-title > :nth-child(2) {
   font-size: 14px;
-  color: rgb(170, 170, 170);
+  color: rgb(255, 237, 179);
   padding: 0px 10px 10px 10px;
 }
 
@@ -96,7 +96,6 @@
 
 .ProductDetail-footer-btn {
   display: flex;
-  flex-direction: column;
 }
 
 .ProductDetail-cart {

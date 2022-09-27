@@ -180,13 +180,11 @@ function Main() {
         <ProductRank />
       )}
 
-      <MainProduct>
-        {loading ? (
-          <Loading />
-        ) : (
-          <ProductCard data={productList} click={click} />
-        )}
-      </MainProduct>
+      {loading ? (
+        <Loading />
+      ) : (
+        <ProductCard data={productList} viewType={click} />
+      )}
 
       {loading === false && productList.length === limit && (
         <div ref={readRef}></div>
@@ -203,6 +201,10 @@ const MainOption = styled.div`
 
   & > :first-child {
     display: flex;
+
+    @media (max-width: 380px) {
+      flex-direction: column;
+    }
   }
 `;
 
@@ -257,12 +259,6 @@ const SearchReset = styled.div`
       background-color: rgba(255, 166, 0, 0.61);
     }
   }
-`;
-
-const MainProduct = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
 `;
 
 export default Main;

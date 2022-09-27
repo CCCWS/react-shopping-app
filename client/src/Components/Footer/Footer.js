@@ -13,7 +13,7 @@ const Div = styled.div`
   background-color: rgb(255, 255, 255);
   border-top: 2px solid rgb(173, 173, 173);
   width: 100%;
-  height: 100px;
+  height: 60px;
   position: fixed;
   display: flex;
   justify-content: center;
@@ -27,6 +27,7 @@ const Div = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 
     @media (max-width: 900px) {
       width: 100%;
