@@ -16,7 +16,7 @@ function RecentView({ SideMenu, setMenuClick, menuClick }) {
     if (getProductHistory !== null) {
       setHistory(getProductHistory);
     }
-  }, [id, menuClick]);
+  }, [id]);
 
   return (
     <>
@@ -29,15 +29,16 @@ function RecentView({ SideMenu, setMenuClick, menuClick }) {
             ) : (
               <>
                 {histoty.map((data) => (
-                  <SideImg key={data.id}>
+                  <React.Fragment key={data.id}>
                     <Image
+                      SideMenu={true}
                       img={`url('${postUrl}${data.image}')`}
                       onClick={() => {
                         nav(`/product/${data.id}`);
                         setMenuClick(false);
                       }}
                     />
-                  </SideImg>
+                  </React.Fragment>
                 ))}
               </>
             )}
@@ -132,8 +133,9 @@ const Image = styled.div`
   background-position: center;
   background-repeat: no-repeat;
 
-  width: 100%;
+  width: ${(props) => (props.SideMenu ? "40%" : "100%")};
   height: 100px;
+  margin: 5px;
 
   border-radius: 10px;
   border: 3px solid rgb(253, 253, 253);
@@ -147,17 +149,11 @@ const Image = styled.div`
 
 const SideDiv = styled.div`
   width: 250px;
-
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 20px;
-`;
-
-const SideImg = styled.div`
-  width: 40%;
-  margin: 5px;
 `;
 
 export default React.memo(RecentView);

@@ -46,18 +46,15 @@ function SideMenu() {
           }
         }}
       >
-        <div>
-          <SideMenuItem>
-            <RecentView
-              SideMenu={true}
-              setMenuClick={setMenuClick}
-              menuClick={menuClick}
-            />
-
-            <Btns.HeaderLogInBtn onSideMenu={true} />
-            <Btns.HeaderBtn onSideMenu={true} setMenuClick={setMenuClick} />
-          </SideMenuItem>
-        </div>
+        <SideMenuItem>
+          {menuClick && (
+            <>
+              <RecentView SideMenu={true} setMenuClick={setMenuClick} />
+              <Btns.HeaderLogInBtn onSideMenu={true} />
+              <Btns.HeaderBtn onSideMenu={true} setMenuClick={setMenuClick} />
+            </>
+          )}
+        </SideMenuItem>
       </SideMenuDiv>
     </>
   );
@@ -110,11 +107,12 @@ const SideMenuDiv = styled.div`
 const SideMenuItem = styled.div`
   width: 100%;
   height: 100%;
-  margin-top: 20px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
+  overflow: hidden;
 `;
 
 export default React.memo(SideMenu);
