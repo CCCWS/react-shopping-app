@@ -5,31 +5,27 @@ import styled from "styled-components";
 function Login() {
   const [type, setType] = useState("login");
 
-  const Component = () => {
-    return (
-      <>
-        <LoginTitle>{type === "login" ? "로그인" : "회원가입"}</LoginTitle>
+  return (
+    <>
+      <LoginTitle>{type === "login" ? "로그인" : "회원가입"}</LoginTitle>
 
-        <LoginComponent type={type} setType={setType} />
+      <LoginComponent type={type} setType={setType} />
 
-        <div>
-          {type === "login" ? (
-            <LoginFooter>
-              아이디가 없으신가요?
-              <span onClick={() => setType("register")}> 회원가입</span>
-            </LoginFooter>
-          ) : (
-            <LoginFooter>
-              아이디가 있으신가요?
-              <span onClick={() => setType("login")}>로그인</span>
-            </LoginFooter>
-          )}
-        </div>
-      </>
-    );
-  };
-
-  return { Component: Component };
+      <div>
+        {type === "login" ? (
+          <LoginFooter>
+            아이디가 없으신가요?
+            <span onClick={() => setType("register")}> 회원가입</span>
+          </LoginFooter>
+        ) : (
+          <LoginFooter>
+            아이디가 있으신가요?
+            <span onClick={() => setType("login")}>로그인</span>
+          </LoginFooter>
+        )}
+      </div>
+    </>
+  );
 }
 
 const LoginTitle = styled.div`

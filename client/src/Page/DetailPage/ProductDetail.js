@@ -7,7 +7,7 @@ import styled from "styled-components";
 import RecentView from "../../Components/RecentView";
 import Selector from "../../Components/Selector";
 import Loading from "../../Components/Loading";
-import ModalBase from "../../Components/ModalBase";
+import ModalBase from "../../Components/Modal/ModalBase";
 import FooterDetailPage from "../../Components/Footer/FooterDetailPage";
 
 import getTime from "../../hooks/getTime";
@@ -207,7 +207,7 @@ function ProductDetail({ user }) {
 
   return (
     <div className="page">
-      <RecentView />
+      <RecentView body={true} />
 
       {cartAddLoading && (
         <CartLoadingDiv>

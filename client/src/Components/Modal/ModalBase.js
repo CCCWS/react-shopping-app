@@ -8,7 +8,9 @@ const Modal = ({ PropComponent, contents, modalOpen, setModalOpen }) => {
   //PropComponent > 기본 템플릿을 쓰지않고 다른 형태로 사용하려할때
   //                모달창을 열고자하는 스크립트에서 필요한 컴포넌트를 전달하고
   //                전달받은 컴포넌트를 랜더링함.
+
   const nav = useNavigate();
+
   useEffect(() => {
     if (modalOpen === true) {
       const escapeCheck = (e) => {
@@ -34,7 +36,7 @@ const Modal = ({ PropComponent, contents, modalOpen, setModalOpen }) => {
         {modalOpen && (
           <div>
             {PropComponent ? (
-              <PropComponent.Component />
+              <PropComponent />
             ) : (
               <ModalContents>
                 <Header>
@@ -94,7 +96,7 @@ const ModalDiv = styled.div`
   & > :first-child {
     background-color: rgba(245, 245, 245);
     border: 3px solid white;
-    width: 300px;
+    min-width: 300px;
     border-radius: 15px;
     z-index: 100;
     overflow: hidden;

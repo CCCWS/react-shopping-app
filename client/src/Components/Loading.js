@@ -1,14 +1,22 @@
 import React from "react";
 import { Spin } from "antd";
-
-import { LoadingOutlined } from "@ant-design/icons";
+import styled from "styled-components";
 
 function Loading() {
   return (
-    <div className="loading">
+    <Div>
       <Spin size="large" />
-    </div>
+    </Div>
   );
 }
+
+const Div = styled.div`
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+`;
 
 export default Loading;

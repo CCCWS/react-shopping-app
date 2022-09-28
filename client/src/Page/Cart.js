@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
@@ -9,7 +9,7 @@ import {
 import styled from "styled-components";
 
 import Loading from "../Components/Loading";
-import ModalBase from "../Components/ModalBase";
+import ModalBase from "../Components/Modal/ModalBase";
 
 import useModal from "../hooks/useModal";
 import useAxios from "../hooks/useAxios";

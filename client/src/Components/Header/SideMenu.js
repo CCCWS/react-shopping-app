@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { MenuOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
@@ -50,7 +50,7 @@ function SideMenu() {
           <SideMenuItem>
             <RecentView
               SideMenu={true}
-              closeMenu={() => setMenuClick(false)}
+              setMenuClick={setMenuClick}
               menuClick={menuClick}
             />
 
@@ -117,4 +117,4 @@ const SideMenuItem = styled.div`
   overflow-y: scroll;
 `;
 
-export default SideMenu;
+export default React.memo(SideMenu);

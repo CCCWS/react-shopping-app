@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./RecentView.css";
+import styled, { css } from "styled-components";
+
 import { postUrl } from "../PostUrl";
 
-function RecentView({ SideMenu, closeMenu, menuClick }) {
+function RecentView({ SideMenu, setMenuClick, menuClick }) {
   const { id } = useParams();
   const nav = useNavigate();
   const [histoty, setHistory] = useState([]);
-  const getProductHistory = JSON.parse(localStorage.getItem("productHistory"));
 
   useEffect(() => {
+    const getProductHistory = JSON.parse(
+      localStorage.getItem("productHistory")
+    );
     if (getProductHistory !== null) {
       setHistory(getProductHistory);
     }
@@ -19,61 +22,142 @@ function RecentView({ SideMenu, closeMenu, menuClick }) {
     <>
       {SideMenu ? (
         <>
-          <div className="RecentView-div">최근본상품</div>
-          <div className="RecentView-sideMenu">
+          <Div>최근본상품</Div>
+          <SideDiv>
             {histoty.length === 0 ? (
-              <div className="RecentView-not">최근본상품이 없습니다.</div>
+              <Div empty={true}>최근본상품이 없습니다.</Div>
             ) : (
               <>
                 {histoty.map((data) => (
-                  <div key={data.id} className="RecentView-img-sideMenu">
-                    <div
-                      style={{
-                        backgroundImage: `url('${postUrl}${data.image}')`,
-                      }}
+                  <SideImg key={data.id}>
+                    <Image
+                      img={`url('${postUrl}${data.image}')`}
                       onClick={() => {
                         nav(`/product/${data.id}`);
-                        closeMenu();
+                        setMenuClick(false);
                       }}
                     />
-                  </div>
+                  </SideImg>
                 ))}
               </>
             )}
-          </div>
+          </SideDiv>
         </>
       ) : (
-        <div className="RecentView">
+        <RecentViewBox>
           <div>
-            <div className="RecentView-div">최근본상품</div>
+            <Div>최근본상품</Div>
             {histoty.length === 0 ? (
-              <div className="RecentView-not">최근본상품이 없습니다.</div>
+              <Div empty={true}>최근본상품이 없습니다.</Div>
             ) : (
               <>
                 {histoty.map((data) => (
-                  <div key={data.id}>
-                    <div
-                      style={{
-                        backgroundImage: `url('${postUrl}${data.image}')`,
-                      }}
+                  <React.Fragment key={data.id}>
+                    <Image
+                      img={`url('${postUrl}${data.image}')`}
                       onClick={() => {
                         nav(`/product/${data.id}`);
                       }}
-                      className="RecentView-img"
                     />
-                  </div>
+                  </React.Fragment>
                 ))}
               </>
             )}
 
-            <div className="RecentView-div" onClick={() => window.scroll(0, 0)}>
+            <Div goTop={true} onClick={() => window.scroll(0, 0)}>
               맨위로
-            </div>
+            </Div>
           </div>
-        </div>
+        </RecentViewBox>
       )}
     </>
   );
 }
+
+const RecentViewBox = styled.div`
+  background-color: red;
+  position: absolute;
+  right: -50px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & > :first-child {
+    top: 60px;
+    width: 100px;
+    position: fixed;
+  }
+
+  @media (max-width: 1100px) {
+    display: none;
+  }
+`;
+
+const Div = styled.div`
+  display: flex;
+  justify-content: center;
+
+  width: ${(props) => (props.empty ? "100%" : "6rem")};
+  font-size: ${(props) => (props.empty ? "0.8rem" : "1rem")};
+  border-radius: 5px;
+  padding: 0.5rem;
+
+  color: black;
+  background-color: ${(props) =>
+    props.empty ? "rgba(200, 200, 200, 0.5)" : "rgba(200, 200, 200, 0.9)"};
+
+  ${(props) =>
+    props.empty &&
+    css`
+      margin-top: 0.7em;
+      margin-bottom: 0.7rem;
+      white-space: pre-line;
+      align-items: center;
+    `}
+
+  ${(props) =>
+    props.goTop &&
+    css`
+      &:hover {
+        cursor: pointer;
+      }
+    `}
+`;
+
+const Image = styled.div`
+  background-image: ${(props) => props.img};
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  width: 100%;
+  height: 100px;
+
+  border-radius: 10px;
+  border: 3px solid rgb(253, 253, 253);
+
+  &:hover {
+    cursor: pointer;
+    border: 3px solid orange;
+    transition: all ease 0.5s;
+  }
+`;
+
+const SideDiv = styled.div`
+  width: 250px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+`;
+
+const SideImg = styled.div`
+  width: 40%;
+  margin: 5px;
+`;
 
 export default React.memo(RecentView);

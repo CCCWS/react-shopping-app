@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import styled, { css } from "styled-components";
 
-import ModalBase from "../ModalBase";
+import ModalBase from "../Modal/ModalBase";
 import Login from "./LoginModal/Login";
 
 import useAxios from "../../hooks/useAxios";
@@ -99,11 +99,10 @@ const HeaderBtns = () => {
   const HeaderLogInBtn = ({ onSideMenu }) => {
     const { openModal, contents, setOpenModal, setContents } = useModal();
     const { resData, connectServer } = useAxios("/api/user/logout");
-    const PropComponent = Login();
 
     const onLogin = () => {
       setOpenModal(true);
-      setContents({ title: "test", message: "test", login: true });
+      setContents({ login: true });
     };
 
     const logout = () => {
@@ -130,7 +129,7 @@ const HeaderBtns = () => {
           contents={contents}
           modalOpen={openModal}
           setModalOpen={setOpenModal}
-          PropComponent={PropComponent}
+          PropComponent={Login}
         />
 
         {userAuth ? (

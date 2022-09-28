@@ -9,7 +9,7 @@ import ProductCard from "../Components/ProductCard";
 import SelectBox from "../Components/SelectBox";
 import RecentView from "../Components/RecentView";
 import ProductRank from "../Components/ProductRank";
-import ModalBase from "../Components/ModalBase";
+import ModalBase from "../Components/Modal/ModalBase";
 import Loading from "../Components/Loading";
 import Switch from "../Components/Switch";
 
@@ -119,7 +119,8 @@ function Main() {
 
   return (
     <div className="page">
-      <RecentView />
+      <RecentView body={true} />
+
       <ModalBase
         contents={contents}
         modalOpen={openModal}
@@ -136,16 +137,7 @@ function Main() {
           <SelectBox data={priceList} setData={setPriceRange} main={true} />
         </div>
 
-        <div>
-          <Switch viewType={click} onSetMode={view} />
-          {/* <ViewBtn click={click} type={"card"} onClick={view}>
-            <AppstoreOutlined />
-          </ViewBtn>
-
-          <ViewBtn click={click} type={"list"} onClick={view}>
-            <BarsOutlined />
-          </ViewBtn> */}
-        </div>
+        <Switch viewType={click} onSetMode={view} />
       </MainOption>
 
       <MainSearchBar onSubmit={onKeywordSearch}>
