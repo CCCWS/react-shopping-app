@@ -1,12 +1,7 @@
 //library
 import React, { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import {
-  AppstoreOutlined,
-  BarsOutlined,
-  SearchOutlined,
-  RollbackOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined, RollbackOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 //component
@@ -261,4 +256,4 @@ const SearchReset = styled.div`
   }
 `;
 
-export default Main;
+export default React.memo(Main);

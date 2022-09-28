@@ -85,9 +85,10 @@ const ButtonBox = styled.div`
 
   @media (max-width: 550px) {
     position: fixed;
-    bottom: 50px;
+    bottom: 0px;
     right: 0;
     z-index: 0;
+    flex-direction: column;
   }
 `;
 

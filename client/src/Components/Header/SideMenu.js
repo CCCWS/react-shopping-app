@@ -117,4 +117,4 @@ const SideMenuItem = styled.div`
   overflow-y: scroll;
 `;
 
-export default React.memo(SideMenu);
+export default SideMenu;

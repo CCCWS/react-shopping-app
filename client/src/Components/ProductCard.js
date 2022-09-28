@@ -32,9 +32,10 @@ function ProductCard({ data, viewType }) {
               <div>
                 {viewType ? (
                   <>
-                    {data.title.length > 11
+                    {/* {data.title.length > 11
                       ? `${data.title.slice(0, 11)}...`
-                      : `${data.title}`}
+                      : `${data.title}`} */}
+                    {data.title}
                   </>
                 ) : (
                   `${data.title}`
@@ -58,7 +59,6 @@ const ProductCardDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin-bottom: 100px;
 `;
 
 const CardDiv = styled.div`
@@ -82,16 +82,17 @@ const Card = withReveal(
   styled.div`
     //상품 카드의 크기
     margin: auto;
-    width: 95%;
+    margin-bottom: 6rem;
+    width: ${(props) => (props.viewType ? "90%" : "100%")};
     height: ${(props) => (props.viewType ? "25rem" : "15rem")};
     border-radius: 5px;
-    box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
-    border: 3px solid transparent;
+    /* box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
+    border: 3px solid transparent; */
 
     &:hover {
       cursor: pointer;
-      border: 3px solid orange;
-      transition: all ease 0.5s;
+      /* border: 3px solid orange;
+      transition: all ease 0.5s; */
     }
 
     //이미지
@@ -100,7 +101,7 @@ const Card = withReveal(
       width: ${(props) => (props.viewType ? "100%" : "40%")};
       height: ${(props) => (props.viewType ? "70%" : "100%")};
       border-radius: 5px;
-      background-size: 150%;
+      background-size: ${(props) => (props.viewType ? "120%" : "90%")};
       background-position: center;
       background-repeat: no-repeat;
       transition: all ease 0.5s;
@@ -108,7 +109,7 @@ const Card = withReveal(
     }
 
     &:hover > :first-child {
-      background-size: 160%;
+      background-size: ${(props) => (props.viewType ? "130%" : "100%")};
     }
 
     //viewType가 list일 경우 적용
@@ -116,6 +117,7 @@ const Card = withReveal(
       !props.viewType &&
       css`
         display: flex;
+        justify-content: center;
         flex-direction: row;
       `}
   `,
@@ -149,6 +151,8 @@ const Info = styled.div`
 
   //상품명
   & > :first-child {
+    border-bottom: 2px solid black;
+    padding-bottom: 1px;
     font-size: 1.1rem;
     margin-bottom: 5px;
     white-space: normal;
@@ -163,6 +167,7 @@ const TimeAndPrice = styled.div`
 
   //등록 시간
   & > :nth-child(2) {
+    font-size: 0.9rem;
     color: rgb(165, 165, 165);
   }
 

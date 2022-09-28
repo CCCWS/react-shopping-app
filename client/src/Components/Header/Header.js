@@ -62,4 +62,4 @@ const HeaderSection = styled.div`
   align-items: center;
 `;
 
-export default React.memo(Header);
+export default Header;

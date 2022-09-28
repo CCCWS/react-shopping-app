@@ -2,12 +2,12 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Auth from "./hoc/auth";
+
 import PageTop from "./Components/PageTop";
 import Header from "./Components/Header/Header";
 import Main from "./Page/Main";
 import Upload from "./Page/Upload";
-import ProductDetail from "./Page/ProductDetail";
+import ProductDetail from "./Page/DetailPage/ProductDetail";
 import Cart from "./Page/Cart";
 import CheckOut from "./Page/CheckOut";
 import PaymentResult from "./Page/PaymentResult";
@@ -18,6 +18,7 @@ import Edit from "./Page/Edit";
 import Test from "./Page/Test";
 import Test2 from "./Page/Test2";
 
+import Auth from "./hoc/auth";
 import "./App.css";
 
 function App() {
