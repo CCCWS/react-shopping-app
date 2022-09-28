@@ -1,37 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { postUrl } from "../PostUrl";
-import { PauseOutlined, CaretRightOutlined } from "@ant-design/icons";
+
+import ModalBase from "./ModalBase";
+
+import useModal from "../hooks/useModal";
+
 import "./Selector.css";
 
-function Selector({
-  CheckOut,
-  arr,
-  ProductDetail,
-  setModalImg,
-  setModalOpen,
-  modalOpen,
-}) {
+function Selector({ CheckOut, arr, ProductDetail }) {
+  const { openModal, contents, setOpenModal, setContents } = useModal();
   const [currArr, setCurrArr] = useState(0);
-  const [pause, setPause] = useState(true);
-
-  // useEffect(() => {
-  //   if (ProductDetail) {
-  //     setPause(false);
-  //   }
-  // });
-
-  // useEffect(() => {
-  //   if (modalOpen) {
-  //     setPause(true);
-  //     clearInterval(play);
-  //   }
-  // }, [modalOpen]);
 
   const minus = () => {
     if (currArr === 0) {
       return setCurrArr(arr.length - 1);
     }
-
     setCurrArr((prev) => prev - 1);
   };
 
@@ -42,17 +25,13 @@ function Selector({
     setCurrArr((prev) => prev + 1);
   };
 
-  // let intervalCallBack = false;
-  // const play = setInterval(() => {
-  //   if (!pause) {
-  //     if (!intervalCallBack) {
-  //       plus();
-  //       intervalCallBack = true;
-  //     }
-  //   }
-  // }, 3000);
-  //intervalCallBack으로 실행 여부를 구분하여 쌓여있는 함수의 실행을 방지
-  // https://velog.io/@kyjun/javascript-setInterval-%EA%B3%A0%EC%B0%B0
+  const onModalImage = (image) => {
+    setContents({
+      image: true,
+      imageInfo: image,
+    });
+    setOpenModal(true);
+  };
 
   return (
     <div
@@ -60,8 +39,14 @@ function Selector({
         `Selector-box 
         ${CheckOut && "Selector-box-CheckOut"} 
         ${ProductDetail && "Selector-box-ProductDetail"}`,
-      ].join(" ")}
+      ]}
     >
+      <ModalBase
+        contents={contents}
+        modalOpen={openModal}
+        setModalOpen={setOpenModal}
+      />
+
       {arr.length > 1 && (
         <button className="Selector-box-leftBtn" onClick={minus}>
           &lt;
@@ -77,8 +62,9 @@ function Selector({
             backgroundImage: `url('${postUrl}${arr[currArr].name}')`,
           }}
           onClick={() => {
-            setModalImg(arr[currArr]);
-            setModalOpen(true);
+            // setModalImg(arr[currArr]);
+            // setModalOpen(true);
+            onModalImage(arr[currArr]);
           }}
         />
       )}
@@ -89,44 +75,23 @@ function Selector({
         </button>
       )}
 
-      {ProductDetail && (
-        <div className="Selector-box-point">
-          {/* <button
-            className="Selector-box-playBtn"
+      <div className="Selector-box-point">
+        {arr.map((data, index) => (
+          <div
+            key={index}
+            className={[
+              `Selector-box-point-item ${
+                arr.indexOf(data) === currArr
+                  ? "Selector-box-point-item-on"
+                  : null
+              }`,
+            ]}
             onClick={() => {
-              if (!pause) {
-                setPause(true);
-                clearInterval(play);
-              }
-
-              if (pause) {
-                setPause(false);
-                setInterval(play, 3000);
-              }
+              setCurrArr(arr.indexOf(data));
             }}
-          >
-            {pause ? <CaretRightOutlined /> : <PauseOutlined />}
-          </button> */}
-
-          {arr.map((data, index) => (
-            <div
-              key={index}
-              className={[
-                `Selector-box-point-item ${
-                  arr.indexOf(data) === currArr
-                    ? "Selector-box-point-item-on"
-                    : null
-                }`,
-              ].join(" ")}
-              onClick={() => {
-                // setPause(true);
-                // clearInterval(play);
-                setCurrArr(arr.indexOf(data));
-              }}
-            ></div>
-          ))}
-        </div>
-      )}
+          />
+        ))}
+      </div>
     </div>
   );
 }

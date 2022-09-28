@@ -82,7 +82,7 @@ const Card = withReveal(
   styled.div`
     //상품 카드의 크기
     margin: auto;
-    margin-bottom: 6rem;
+    margin-bottom: ${(props) => (props.viewType ? "6rem" : "1rem")};
     width: ${(props) => (props.viewType ? "90%" : "100%")};
     height: ${(props) => (props.viewType ? "25rem" : "15rem")};
     border-radius: 5px;
@@ -104,7 +104,7 @@ const Card = withReveal(
       background-size: ${(props) => (props.viewType ? "120%" : "90%")};
       background-position: center;
       background-repeat: no-repeat;
-      transition: all ease 0.5s;
+      transition: 0.2s;
       position: relative;
     }
 

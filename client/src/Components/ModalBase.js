@@ -4,11 +4,11 @@ import ReactDom from "react-dom";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import Login from "./Header/LoginModal/Login";
-
-const Modal = ({ contents, modalOpen, setModalOpen }) => {
+const Modal = ({ PropComponent, contents, modalOpen, setModalOpen }) => {
+  //PropComponent > 기본 템플릿을 쓰지않고 다른 형태로 사용하려할때
+  //                모달창을 열고자하는 스크립트에서 필요한 컴포넌트를 전달하고
+  //                전달받은 컴포넌트를 랜더링함.
   const nav = useNavigate();
-
   useEffect(() => {
     if (modalOpen === true) {
       const escapeCheck = (e) => {
@@ -22,48 +22,53 @@ const Modal = ({ contents, modalOpen, setModalOpen }) => {
   }, [modalOpen, setModalOpen]);
 
   return ReactDom.createPortal(
-    <ModalDiv
-      modalOpen={modalOpen}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          setModalOpen(false);
-        }
-      }}
-    >
-      <div>
-        {contents.login ? (
-          <Login />
-        ) : (
-          <ModalContents>
-            <Header>
-              <div>{contents.title}</div>
-            </Header>
+    <>
+      <ModalDiv
+        modalOpen={modalOpen}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            setModalOpen(false);
+          }
+        }}
+      >
+        {modalOpen && (
+          <div>
+            {PropComponent ? (
+              <PropComponent.Component />
+            ) : (
+              <ModalContents>
+                <Header>
+                  <div>{contents.title}</div>
+                </Header>
 
-            <Message>
-              <div>{contents.message}</div>
-            </Message>
-          </ModalContents>
+                <Message>
+                  <div>{contents.message}</div>
+                </Message>
+              </ModalContents>
+            )}
+
+            <Footer>
+              {contents.cartBtn && (
+                <Button onClick={() => nav("/cart")}>장바구니 이동</Button>
+              )}
+
+              {contents.cartPage && (
+                <Button
+                  onClick={() => {
+                    contents.delFunc();
+                    setModalOpen(false);
+                  }}
+                >
+                  삭제
+                </Button>
+              )}
+
+              <Button onClick={() => setModalOpen(false)}>닫기</Button>
+            </Footer>
+          </div>
         )}
-
-        <Footer>
-          {contents.cartBtn && (
-            <Button onClick={() => nav("/cart")}>장바구니 이동</Button>
-          )}
-
-          {contents.cartPage && (
-            <Button
-              onClick={() => {
-                contents.delFunc();
-                setModalOpen(false);
-              }}
-            >
-              삭제
-            </Button>
-          )}
-          <Button onClick={() => setModalOpen(false)}>닫기</Button>
-        </Footer>
-      </div>
-    </ModalDiv>,
+      </ModalDiv>
+    </>,
     document.querySelector("#modal-portal")
   );
 };

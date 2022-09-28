@@ -7,7 +7,6 @@ import styled from "styled-components";
 import RecentView from "../../Components/RecentView";
 import Selector from "../../Components/Selector";
 import Loading from "../../Components/Loading";
-import Modal from "../../Components/Modal";
 import ModalBase from "../../Components/ModalBase";
 import FooterDetailPage from "../../Components/Footer/FooterDetailPage";
 
@@ -21,8 +20,7 @@ import ProductInfo from "./ProductInfo";
 function ProductDetail({ user }) {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalImg, setModalImg] = useState([]);
+
   const [purchasesCount, setPurchasesCount] = useState(1);
   const [cartAddLoading, setCartAddLoading] = useState(false);
   const { id } = useParams();
@@ -223,13 +221,6 @@ function ProductDetail({ user }) {
         setModalOpen={setOpenModal}
       />
 
-      <Modal
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-        data={modalImg}
-        img={true}
-      />
-
       <BackBtn onClick={() => nav("/")}>
         <LeftOutlined />
         <HomeOutlined />
@@ -249,13 +240,7 @@ function ProductDetail({ user }) {
       setModalImg={setModalImg}
     /> */}
 
-          <Selector
-            ProductDetail={true}
-            arr={product.image}
-            modalOpen={modalOpen}
-            setModalOpen={setModalOpen}
-            setModalImg={setModalImg}
-          />
+          <Selector ProductDetail={true} arr={product.image} />
 
           <ProductInfo
             writerLoading={writerLoading}

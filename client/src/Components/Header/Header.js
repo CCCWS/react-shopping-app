@@ -10,6 +10,7 @@ function Header() {
   );
   const Btns = HeaderBtns();
 
+
   //화면의 크기를 감지하여 800이하일 경우 sideMenu를 표시함
   //화면크기가 변할때마다 그 수치를 state에 저장하면 매번 재랜더링이 발생하지만
   //boolean타입으로 조건에 해당할때만 state를 변경시켜서 재랜더링 발생 빈도를 줄임

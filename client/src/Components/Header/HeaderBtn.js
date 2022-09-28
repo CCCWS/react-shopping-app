@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import styled, { css } from "styled-components";
 
 import ModalBase from "../ModalBase";
+import Login from "./LoginModal/Login";
 
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
@@ -13,7 +14,7 @@ const HeaderBtns = () => {
   const nav = useNavigate();
   const [userAuth, setUserAuth] = useState(false);
   const [userName, setUserName] = useState("");
-  const { openModal, contents, setOpenModal, setContents } = useModal();
+
   const auth = useSelector((auth_user) => auth_user.user.userData);
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const HeaderBtns = () => {
   }, [auth]);
 
   const HeaderBtn = ({ onSideMenu, setMenuClick }) => {
+    const { openModal, contents, setOpenModal, setContents } = useModal();
     const btn = [
       {
         id: "",
@@ -95,7 +97,9 @@ const HeaderBtns = () => {
   };
 
   const HeaderLogInBtn = ({ onSideMenu }) => {
+    const { openModal, contents, setOpenModal, setContents } = useModal();
     const { resData, connectServer } = useAxios("/api/user/logout");
+    const PropComponent = Login();
 
     const onLogin = () => {
       setOpenModal(true);
@@ -126,6 +130,7 @@ const HeaderBtns = () => {
           contents={contents}
           modalOpen={openModal}
           setModalOpen={setOpenModal}
+          PropComponent={PropComponent}
         />
 
         {userAuth ? (
