@@ -45,3 +45,15 @@ body {
     width: 100%;
   }
 }
+
+.slick-dots-bottom {
+  bottom: 0 !important;
+}
+
+.slick-dots > li {
+  background-color: orange !important;
+}
+
+.slick-active > button {
+  background-color: transparent !important;
+}

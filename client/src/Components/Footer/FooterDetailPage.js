@@ -4,7 +4,7 @@ import { Skeleton } from "antd";
 import styled from "styled-components";
 
 import Footer from "./Footer";
-import PurchasesCountBtn from "../PurchasesCountBtn";
+import ProductCountBtn from "../ProductCountBtn";
 
 const FooterDetailPage = ({
   product,
@@ -27,7 +27,7 @@ const FooterDetailPage = ({
             ).toLocaleString()}원`}
           </div>
 
-          <PurchasesCountBtn
+          <ProductCountBtn
             purchasesCount={purchasesCount}
             setPurchasesCount={setPurchasesCount}
             productCount={product.count}

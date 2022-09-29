@@ -81,10 +81,11 @@ const CardDiv = styled.div`
 const Card = withReveal(
   styled.div`
     //상품 카드의 크기
+    /* background-color: red; */
     margin: auto;
     margin-bottom: ${(props) => (props.viewType ? "6rem" : "1rem")};
     width: ${(props) => (props.viewType ? "90%" : "100%")};
-    height: ${(props) => (props.viewType ? "25rem" : "15rem")};
+    height: ${(props) => (props.viewType ? "20rem" : "15rem")};
     border-radius: 5px;
     /* box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
     border: 3px solid transparent; */

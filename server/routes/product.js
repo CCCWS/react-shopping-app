@@ -35,6 +35,7 @@ app.post("/write", (req, res) => {
   //새로운 상품 등록
   //받은 정보를 DB에 저장
   const productData = new ProductData(req.body);
+
   productData.save((err) => {
     if (err) return res.status(400).json({ success: false, err });
     return res.status(200).json({ success: true });
@@ -55,12 +56,14 @@ app.post("/edit", (req, res) => {
       },
     },
     { new: true }
-  ).exec((err, productInfo) => {
-    if (err) {
-      return res.status(400).json({ success: false, err });
-    }
-    return res.status(200).json({ success: true, productInfo });
-  });
+  )
+    .lean()
+    .exec((err, productInfo) => {
+      if (err) {
+        return res.status(400).json({ success: false, err });
+      }
+      return res.status(200).json({ success: true, productInfo });
+    });
 });
 
 app.post("/delImg", async (req, res) => {
@@ -131,6 +134,7 @@ app.post("/productList", (req, res) => {
     // .populate("writer") //현재 저장된 id에는 암호회 되어있음. 해당 id에 대한 정보를 모두 가져옴
     .skip(parseInt(req.body.skip, 10))
     .limit(parseInt(req.body.limit, 10))
+    .lean()
     .exec((err, productInfo) => {
       if (err) return res.status(400).json({ success: false, err });
       return res.status(200).json([...productInfo]);
@@ -196,36 +200,28 @@ app.post("/myProduct", auth, (req, res) => {
     writer: { $in: req.user._id },
   })
     .sort({ createdAt: -1 })
+    .lean()
     .exec((err, productInfo) => {
       if (err) return res.status(400).json({ success: false, err });
-      res.status(200).send({
+      res.status(200).json({
         success: true,
         productInfo: productInfo,
       });
     });
 });
 
-app.post("/viewSort", (req, res) => {
-  ProductData.find()
-    .sort({ views: -1 })
-    .limit(3)
-    .exec((err, productInfo) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
-      return res.status(200).json({ success: true, productInfo });
-    });
-});
+app.post("/productSort", (req, res) => {
+  let arg = {
+    [req.body.type]: -1,
+  };
 
-app.post("/soldSort", (req, res) => {
   ProductData.find()
-    .sort({ sold: -1 })
-    .limit(3)
+    .sort(arg)
+    .limit(req.body.count)
+    .lean()
     .exec((err, productInfo) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
-      return res.status(200).json({ success: true, productInfo });
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).json([...productInfo]);
     });
 });
 
