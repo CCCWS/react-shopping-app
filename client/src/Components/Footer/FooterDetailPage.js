@@ -14,6 +14,7 @@ const FooterDetailPage = ({
   productWriter,
   onAddCartProduct,
   goCheckOut,
+  writerLoading,
 }) => {
   const nav = useNavigate();
   const component = () => {
@@ -36,7 +37,7 @@ const FooterDetailPage = ({
         </Price>
 
         <ButtonBox>
-          {user && user.userData && productWriter ? (
+          {!writerLoading && user && user.userData && productWriter ? (
             <>
               {user.userData._id === productWriter._id ? (
                 <Button

@@ -185,7 +185,7 @@ app.post("/successBuy", auth, (req, res) => {
 
     (err, userInfo) => {
       if (err) return res.status(400).json({ success: false, err });
-      res.status(200).send({
+      res.status(200).json({
         success: true,
         data: userInfo,
       });
@@ -193,15 +193,13 @@ app.post("/successBuy", auth, (req, res) => {
   );
 });
 
-app.post("/purchaseHistory", auth, (req, res) => {
-  //redux를 거치지않고 db에 직접접근
-  User.findOne({ _id: req.user._id }, (err, userInfo) => {
-    if (err) return res.status(400).json({ success: false, err });
-    res.status(200).send({
-      success: true,
-      purchaseHistory: userInfo.purchase,
+app.get("/purchaseHistory", auth, (req, res) => {
+  User.findOne({ _id: req.user._id })
+    .lean()
+    .exec((err, userInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).json([...userInfo.purchase]);
     });
-  });
 });
 
 app.post("/userInfo", (req, res) => {

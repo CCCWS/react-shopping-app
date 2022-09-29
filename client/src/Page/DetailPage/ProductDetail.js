@@ -253,10 +253,11 @@ function ProductDetail({ user }) {
 
           <FooterDetailPage
             product={product}
-            purchasesCount={purchasesCount}
-            setPurchasesCount={setPurchasesCount}
             user={user}
+            purchasesCount={purchasesCount}
             productWriter={productWriter}
+            writerLoading={writerLoading}
+            setPurchasesCount={setPurchasesCount}
             onAddCartProduct={onAddCartProduct}
             goCheckOut={goCheckOut}
           />

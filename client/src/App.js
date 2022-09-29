@@ -11,7 +11,7 @@ import ProductDetail from "./Page/DetailPage/ProductDetail";
 import Cart from "./Page/Cart";
 import CheckOut from "./Page/CheckOut";
 import PaymentResult from "./Page/PaymentResult";
-import PurchaseHistory from "./Page/PurchaseHistory";
+import PurchaseHistory from "./Page/PurchaseHistory/PurchaseHistory";
 import ProductManagement from "./Page/ProductManagement";
 import Edit from "./Page/Edit";
 
