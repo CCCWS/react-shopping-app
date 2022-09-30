@@ -15,7 +15,7 @@ const HeaderBtns = () => {
   const [userAuth, setUserAuth] = useState(false);
   const [userName, setUserName] = useState("");
 
-  const auth = useSelector((auth_user) => auth_user.user.userData);
+  const auth = useSelector((state) => state.user);
 
   useEffect(() => {
     if (auth && auth.isAuth === true) {

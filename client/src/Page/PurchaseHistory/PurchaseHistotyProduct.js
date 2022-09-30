@@ -18,7 +18,7 @@ const PurchaseHistotyProduct = ({ product, onShippingInfo }) => {
   };
 
   return (
-    <>
+    <Test>
       {product.map((data) => (
         <Product key={data.date}>
           <Info>
@@ -40,22 +40,25 @@ const PurchaseHistotyProduct = ({ product, onShippingInfo }) => {
           <PurchaseHistotyProductList data={data} />
         </Product>
       ))}
-    </>
+    </Test>
   );
 };
+
+const Test = styled.div`
+  padding: 2vmin;
+`;
 
 const Product = styled.div`
   display: flex;
   background-color: rgba(205, 205, 205, 0.1);
   box-shadow: 0px 0px 10px 5px rgba(255, 207, 118, 0.3);
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
   border-radius: 5px;
   padding: 0.5rem;
 
   @media (max-width: 800px) {
     flex-direction: column;
     width: 100%;
-    margin-bottom: 50px;
   }
 `;
 

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 
@@ -10,7 +11,7 @@ import PurchaseHistotyProduct from "./PurchaseHistotyProduct";
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
 
-function PurchaseHistory() {
+function PurchaseHistory({ user }) {
   const [shippingInfo, setShippingInfo] = useState([]);
   const { openModal, contents, setOpenModal } = useModal();
   const {
@@ -20,7 +21,7 @@ function PurchaseHistory() {
   } = useAxios("/api/user/purchaseHistory");
 
   useEffect(() => {
-    connectServer();
+    connectServer({ id: user._id });
   }, []);
 
   const onShippingInfo = useCallback(

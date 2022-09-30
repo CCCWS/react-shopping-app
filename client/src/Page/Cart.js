@@ -18,7 +18,7 @@ import { removeCart } from "../_action/user_action";
 import { postUrl } from "../PostUrl";
 import FooterCartPage from "../Components/Footer/FooterCartPage";
 
-function Cart() {
+function Cart({ user }) {
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -47,7 +47,7 @@ function Cart() {
 
   //user데이터에서 cart에 들어있는 상품의 id를 가져옴
   useEffect(() => {
-    getUserCartList();
+    getUserCartList({ id: user._id });
   }, []);
 
   //상품 id를 가져왔다면 id를 옵션으로 해당 id와 일치하는 모든 상품 가져옴
@@ -117,8 +117,6 @@ function Cart() {
 
   //선택한 상품 삭제
   const onCheckDel = () => {
-    //선택한 상품이 있다면
-
     const delFunc = () => {
       const option = [];
       checkProduct.forEach((data) => option.push(data._id));
@@ -374,7 +372,7 @@ const ProductCheckBox = styled.div`
 
 const ProductImg = styled.div`
   background-image: ${(props) => props.image};
-  width: 100px;
+  min-width: 100px;
   height: 100%;
 
   background-size: cover;

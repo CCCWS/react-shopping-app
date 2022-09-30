@@ -20,7 +20,7 @@ import useModal from "../hooks/useModal.js";
 //etc
 import { categoryList, priceList } from "../data/CatecoryList";
 
-function Main() {
+function Main({ user }) {
   const [readRef, setReadRef] = useInView();
   const [click, setClick] = useState(true);
   const [selectCategory, setSelectCategort] = useState("");

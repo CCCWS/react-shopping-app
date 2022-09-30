@@ -39,7 +39,6 @@ export const registerInfo = async (data) => {
 export const auth = async () => {
   //submit로 발생한 값을 받아줌
   const res = await axios.get(`${postUrl}/api/user/auth`); //서버에서 받은 데이터를 저장
-
   return {
     //request를 reducer에  > user_reducer.js
     type: AUTH_INFO,

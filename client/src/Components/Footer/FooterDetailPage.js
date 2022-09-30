@@ -10,7 +10,7 @@ const FooterDetailPage = ({
   product,
   purchasesCount,
   setPurchasesCount,
-  user,
+  userId,
   productWriter,
   onAddCartProduct,
   goCheckOut,
@@ -37,9 +37,9 @@ const FooterDetailPage = ({
         </Price>
 
         <ButtonBox>
-          {!writerLoading && user && user.userData && productWriter ? (
+          {!writerLoading ? (
             <>
-              {user.userData._id === productWriter._id ? (
+              {userId === productWriter._id ? (
                 <Button
                   btnType="edit"
                   onClick={() =>

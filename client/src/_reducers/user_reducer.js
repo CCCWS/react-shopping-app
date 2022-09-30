@@ -18,7 +18,7 @@ export default function userData(state = {}, action) {
       return { ...state, register: action.payload };
 
     case AUTH_INFO:
-      return { ...state, userData: action.payload };
+      return { ...action.payload };
 
     case ADD_CART:
       if (action.payload) {

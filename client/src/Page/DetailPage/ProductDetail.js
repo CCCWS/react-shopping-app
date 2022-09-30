@@ -115,7 +115,7 @@ function ProductDetail({ user }) {
 
   //구매 버튼 클릭시 실행
   const goCheckOut = () => {
-    if (user.userData.isAuth === false) {
+    if (user.isAuth === false) {
       setContents({
         title: "사용자 확인 불가",
         message: "로그인을 해주세요.",
@@ -159,7 +159,7 @@ function ProductDetail({ user }) {
       return;
     }
 
-    if (user.userData.isAuth === false) {
+    if (user.isAuth === false) {
       setContents({
         title: "사용자 확인 불가",
         message: "로그인을 해주세요.",
@@ -170,7 +170,8 @@ function ProductDetail({ user }) {
 
     setCartAddLoading(true);
     const option = {
-      id: product._id,
+      productId: product._id,
+      userId: user._id,
       purchasesCount: purchasesCount,
     };
 
@@ -179,7 +180,7 @@ function ProductDetail({ user }) {
 
   //장바구니 버튼 클릭시 실행
   useEffect(() => {
-    if (cartAddResponse && cartAddResponse.duplication) {
+    if (cartAddResponse && cartAddResponse.duplicate) {
       setContents({
         title: "장바구니",
         message: "이미 장바구니에 있는 상품입니다.",
@@ -188,7 +189,7 @@ function ProductDetail({ user }) {
       setOpenModal(true);
     }
 
-    if (cartAddResponse && cartAddResponse.duplication === false) {
+    if (cartAddResponse && cartAddResponse.duplicate === false) {
       setContents({
         title: "장바구니",
         message: "장바구니에 상품이 추가되었습니다.",
@@ -253,7 +254,7 @@ function ProductDetail({ user }) {
 
           <FooterDetailPage
             product={product}
-            user={user}
+            userId={user._id}
             purchasesCount={purchasesCount}
             productWriter={productWriter}
             writerLoading={writerLoading}
