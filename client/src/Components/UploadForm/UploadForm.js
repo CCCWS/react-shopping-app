@@ -1,7 +1,8 @@
 //library
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
+import { Section, Input, Textarea } from "../style/InputStyled";
 
 //component
 import Modal from "../Modal";
@@ -50,6 +51,9 @@ function UploadForm({ user, edit, editData, id }) {
   }, []);
 
   const maxLengthCheck = (e) => {
+    //숫자 이외의 문자 입력 방지
+    e.target.value = e.target.value.replace(/[^0-9.]/g, "");
+
     //글자 길이 체크
     if (e.target.id === "price") {
       if (e.target.value.length > e.target.maxLength) {
@@ -233,70 +237,6 @@ function UploadForm({ user, edit, editData, id }) {
     </div>
   );
 }
-
-const Section = styled.div`
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 100%;
-  margin: auto;
-  padding: 1.5rem;
-  font-size: 1rem;
-
-  & > :first-child {
-    min-width: 8rem;
-    padding: 0.5rem;
-    font-weight: 700;
-
-    @media (max-width: 550px) {
-      min-width: 100px;
-    }
-  }
-`;
-
-const Input = styled.input`
-  border: 2px solid transparent;
-  background-color: rgba(0, 0, 0, 0.1);
-
-  width: ${(props) =>
-    (props.inputType === "title" && "70%") ||
-    (props.inputType === "price" && "200px") ||
-    (props.inputType === "count" && "100px")};
-  height: 3rem;
-  margin-right: 10px;
-  padding: 0.5rem;
-  border-radius: 5px;
-  outline: none;
-
-  &:focus {
-    border: 2px solid rgba(248, 104, 104, 0.671);
-  }
-
-  ${(props) =>
-    (props.inputType === "price" || props.inputType === "count") &&
-    css`
-      &::-webkit-outer-spin-button,
-      &::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-      }
-    `}
-`;
-
-const Textarea = styled.textarea`
-  border: 2px solid transparent;
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  width: 100%;
-  height: 150px;
-  padding: 0.5rem;
-  outline: none;
-  resize: none;
-  overflow-y: scroll;
-
-  &:focus {
-    border: 2px solid rgba(248, 104, 104, 0.671);
-  }
-`;
 
 const SubmitBtn = styled.div`
   background-color: rgba(221, 155, 31, 0.24);

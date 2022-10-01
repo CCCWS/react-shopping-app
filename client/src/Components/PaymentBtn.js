@@ -1,12 +1,10 @@
 import React from "react";
 import PaypalExpressBtn from "react-paypal-express-checkout";
 
-function PaymentBtn({ price, paymentSeccess, productsold }) {
+function PaymentBtn({ price, paymentSeccess }) {
   const onSuccess = async (payment) => {
     console.log("The payment was succeeded!", payment);
-
     paymentSeccess(payment);
-    productsold();
   };
 
   const onCancel = (data) => {

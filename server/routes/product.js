@@ -174,24 +174,26 @@ app.post("/cart", (req, res) => {
 
 app.post("/successBuy", (req, res) => {
   //구매 성공시 처리
-  ProductData.findOneAndUpdate(
-    { _id: req.body.id },
-    {
-      $inc: {
-        sold: req.body.purchasesCount,
-        count: -req.body.purchasesCount,
+  for (let i in req.body) {
+    ProductData.findOneAndUpdate(
+      { _id: req.body[i].id },
+      {
+        $inc: {
+          sold: req.body[i].purchasesCount,
+          count: -req.body[i].purchasesCount,
+        },
       },
-    },
-    { new: true },
-
-    (err, productInfo) => {
-      if (err) return res.status(400).json({ success: false, err });
-      res.status(200).send({
-        success: true,
-        productInfo: productInfo,
+      { new: true }
+    )
+      .lean()
+      .exec((err) => {
+        if (err) return res.status(400).json({ success: false, err });
       });
-    }
-  );
+  }
+  return res.status(200).json({ success: true });
+  //서버에서 클라이언트로 응답을 보낼때 둘 이상을 보내게 되면 에러가 발생함
+  //에러 발생시에는 즉시 리턴시켜서 for문을 종료시키고
+  //정상적으로 모두 처리가 되었을때만 성공 메세지를 전송
 });
 
 app.post("/myProduct", auth, (req, res) => {

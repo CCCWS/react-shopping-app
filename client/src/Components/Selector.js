@@ -137,6 +137,10 @@ const BoxImage = styled.div`
 `;
 
 const BoxCheckOut = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
   margin: auto;
 `;
 

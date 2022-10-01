@@ -125,7 +125,6 @@ app.post("/addCart", (req, res) => {
 });
 
 app.post("/removeCart", auth, (req, res) => {
-  console.log(req.body);
   const option = req.body.option ? { $in: req.body.option } : req.body.id;
   //값을 전달받으면 다중삭제 그렇지 않다면 단일삭제
 
@@ -153,6 +152,24 @@ app.post("/getCart", (req, res) => {
     });
 });
 
+app.post("/purchaseHistory", (req, res) => {
+  User.findOne({ _id: req.body.id }, { purchase: 1 })
+    .lean()
+    .exec((err, userInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json(userInfo.purchase);
+    });
+});
+
+app.post("/userInfo", (req, res) => {
+  User.findOne({ _id: req.body.id }, { name: 1, email: 1 })
+    .lean()
+    .exec((err, userInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json({ ...userInfo });
+    });
+});
+
 app.post("/successBuy", auth, (req, res) => {
   User.findOneAndUpdate(
     { _id: req.user._id },
@@ -172,33 +189,13 @@ app.post("/successBuy", auth, (req, res) => {
         },
       },
     },
-    { new: true }, //업데이트된 정보를 받음
-
-    (err, userInfo) => {
-      if (err) return res.status(400).json({ success: false, err });
-      res.status(200).json({
-        success: true,
-        data: userInfo,
-      });
-    }
-  );
-});
-
-app.post("/purchaseHistory", (req, res) => {
-  User.findOne({ _id: req.body.id }, { purchase: 1 })
+    //업데이트된 정보를 받음
+    { new: true }
+  )
     .lean()
-    .exec((err, userInfo) => {
+    .exec((err) => {
       if (err) return res.status(400).json({ success: false, err });
-      res.status(200).json(userInfo.purchase);
-    });
-});
-
-app.post("/userInfo", (req, res) => {
-  User.findOne({ _id: req.body.id }, { name: 1, email: 1 })
-    .lean()
-    .exec((err, userInfo) => {
-      if (err) return res.status(400).json({ success: false, err });
-      res.status(200).json({ ...userInfo });
+      res.status(200).json({ success: true });
     });
 });
 

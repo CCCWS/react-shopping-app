@@ -48,7 +48,7 @@ function PurchaseHistory({ user }) {
           <div>{`전화번호 : ${shippingInfo.phone}`}</div>
           <div>{`주소 : ${shippingInfo.address}`}</div>
           <div>{`요청사항 : ${
-            shippingInfo.request === undefined ? "없음" : shippingInfo.request
+            shippingInfo.request.length === 0 ? "없음" : shippingInfo.request
           }`}</div>
         </Message>
       </>

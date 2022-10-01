@@ -18,7 +18,7 @@ const PurchaseHistotyProduct = ({ product, onShippingInfo }) => {
   };
 
   return (
-    <Test>
+    <Div>
       {product.map((data) => (
         <Product key={data.date}>
           <Info>
@@ -40,12 +40,12 @@ const PurchaseHistotyProduct = ({ product, onShippingInfo }) => {
           <PurchaseHistotyProductList data={data} />
         </Product>
       ))}
-    </Test>
+    </Div>
   );
 };
 
-const Test = styled.div`
-  padding: 2vmin;
+const Div = styled.div`
+  padding: 0.5rem;
 `;
 
 const Product = styled.div`
