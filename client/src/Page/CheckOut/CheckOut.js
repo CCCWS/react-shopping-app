@@ -6,18 +6,12 @@ import styled from "styled-components";
 
 import PaymentBtn from "../../Components/PaymentBtn";
 import Selector from "../../Components/Selector";
-import { Section, Input } from "../../Components/style/InputStyled";
-import {
-  Card,
-  ImgAndTitle,
-  CountAndPrice,
-  List,
-} from "../../Components/style/ProductCard";
+
+import CheckOutProduct from "./CheckOutProduct";
 import AddressSearch from "./AddressSearch";
 
 import useAxios from "../../hooks/useAxios";
-
-import { postUrl } from "../../PostUrl";
+import CheckOutInput from "./CheckOutInput";
 
 function CheckOut() {
   const nav = useNavigate();
@@ -131,78 +125,22 @@ function CheckOut() {
       <Div>
         <Title>주문상품 {state.product.length}개</Title>
         <hr />
-        <List>
-          {state.product.map((data) => (
-            <Card key={data._id}>
-              <ImgAndTitle img={`url('${postUrl}${data.image[0].name}')`}>
-                <div />
-                <div>
-                  {/* {data.title.length > 20
-                  ? `${data.title.slice(0, 20)}...`
-                  : `${data.title}`} */}
-                  {data.title}
-                </div>
-              </ImgAndTitle>
-
-              <CountAndPrice>
-                <div>{data.purchasesCount}개</div>
-                <div>{parseInt(data.totalPrice, 10).toLocaleString()}원</div>
-              </CountAndPrice>
-            </Card>
-          ))}
-        </List>
+        <CheckOutProduct state={state} />
       </Div>
 
       <Div>
         <Title>주문정보</Title>
         <hr />
-
-        <Section>
-          <div>이름</div>
-          <Input
-            inputType="name"
-            placeholder="이름을 입력해 주세요."
-            ref={nameRef}
-          />
-        </Section>
-
-        <Section>
-          <div>전화번호</div>
-          <Input
-            inputType="phone"
-            onInput={(e) =>
-              (e.target.value = e.target.value.replace(/[^0-9-]/g, ""))
-            }
-            ref={phoneRef}
-            placeholder="전화번호를 입력해 주세요."
-          />
-        </Section>
-
-        <Section>
-          <div>주소</div>
-          <AddressBox>
-            <AddressSearch
-              searchAddress={searchAddress}
-              setSearchAddress={setSearchAddress}
-            />
-            <Input
-              inputType="address"
-              ref={addressRef}
-              placeholder="추가 주소를 입력해 주세요."
-            />
-          </AddressBox>
-        </Section>
-
-        <Section>
-          <div>요청사항</div>
-          <Input
-            ref={reqRef}
-            inputType="req"
-            placeholder="요청사항을 입력해 주세요."
-            maxLength={40}
-          />
-          {/* <span>{`${ShippingInfo.req.length} / 40`}</span> */}
-        </Section>
+        <CheckOutInput
+          ref={{
+            nameRef: nameRef,
+            phoneRef: phoneRef,
+            addressRef: addressRef,
+            reqRef: reqRef,
+          }}
+          searchAddress={searchAddress}
+          setSearchAddress={setSearchAddress}
+        />
       </Div>
 
       <Div>
@@ -231,12 +169,6 @@ const Title = styled.div`
 const Procedure = styled.div`
   font-size: 1rem;
   padding: 0.5rem;
-`;
-
-const AddressBox = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
 `;
 
 const PurchaseBtn = styled.div`
