@@ -1,7 +1,7 @@
 import React from "react";
 import { Carousel } from "antd";
 import "./ImgCarousel.css";
-import { postUrl } from "../PostUrl";
+import { postUrl } from "../../PostUrl";
 
 function ImgCarousel({ data, setModalImg, setModalOpen }) {
   return (

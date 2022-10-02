@@ -10,14 +10,7 @@ import {
 
 import { postUrl } from "../../PostUrl";
 
-function ImgUpload({
-  setModalOpen,
-  setImgData,
-  setState,
-  setImgDelete,
-  edit,
-  editImg,
-}) {
+function ImgUpload({ setState, setImgDelete, edit, editImg }) {
   const [img, setImg] = useState([]);
 
   useEffect(() => {
@@ -85,11 +78,6 @@ function ImgUpload({
     }
   };
 
-  const openModal = (e) => {
-    setImgData(e);
-    setModalOpen(true);
-  };
-
   return (
     <Section>
       <DropBox>
@@ -116,9 +104,9 @@ function ImgUpload({
               key={index}
               alt="img"
             >
-              <div onClick={() => openModal(data)}>
+              {/* <div>
                 <ZoomInOutlined />
-              </div>
+              </div> */}
 
               <UploadImgDel onClick={() => delImg(data)}>
                 <CloseOutlined />
@@ -194,14 +182,13 @@ const UploadImg = styled.div`
   background-repeat: no-repeat;
 
   position: relative;
-  cursor: pointer;
 
   @media (max-width: 550px) {
     width: 6rem;
     height: 6rem;
   }
 
-  & > :first-child {
+  /* & > :first-child {
     width: 100%;
     height: 100%;
     display: flex;
@@ -216,7 +203,7 @@ const UploadImg = styled.div`
     &:hover {
       opacity: 1;
     }
-  }
+  } */
 `;
 
 const UploadImgDel = styled.div`
@@ -234,6 +221,8 @@ const UploadImgDel = styled.div`
   height: 1.8rem;
   font-size: 1.5rem;
   border-radius: 5px;
+
+  cursor: pointer;
 `;
 
 export default React.memo(ImgUpload);

@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Section, Input, Textarea } from "../style/InputStyled";
 
 //component
-import Modal from "../Modal";
 import SelectBox from "../SelectBox";
 import ImgUpload from "./ImgUpload";
 
@@ -19,8 +18,6 @@ function UploadForm({ user, edit, editData, id }) {
   //auth.js에서 받은 user props
   //모든 페이지에 방문할때마다 로그인 체크를 수행.
   const nav = useNavigate();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [imgData, setImgData] = useState([]);
   const [imgDelete, setImgDelete] = useState([]); //edit페이지일때 삭제할 이미지 임시저장
 
   const [image, setImage] = useState([]);
@@ -136,21 +133,12 @@ function UploadForm({ user, edit, editData, id }) {
 
   return (
     <div className="page">
-      <Modal
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-        data={imgData}
-        img={true}
-      />
-
       <Section>
         <div>
           상품이미지 <div>{`${image.length} / 12`}</div>
         </div>
 
         <ImgUpload
-          setModalOpen={setModalOpen}
-          setImgData={setImgData}
           setState={setImage}
           setImgDelete={setImgDelete}
           edit={edit}
