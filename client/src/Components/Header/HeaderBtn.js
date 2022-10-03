@@ -51,21 +51,21 @@ const HeaderBtns = () => {
 
     const goPage = (e) => {
       //해당 페이지에 접근시 로그인하지 않으면 접근불가 처리
-      if (
-        e.target.id === "upload" ||
-        e.target.id === "cart" ||
-        e.target.id === "purchaseHistory" ||
-        e.target.id === "productManagement"
-      ) {
-        if (!userAuth) {
-          setOpenModal(true);
-          setContents({
-            title: "사용자 확인 불가",
-            message: "회원전용 페이지입니다.",
-          });
-          return;
-        }
-      }
+      // if (
+      //   e.target.id === "upload" ||
+      //   e.target.id === "cart" ||
+      //   e.target.id === "purchaseHistory" ||
+      //   e.target.id === "productManagement"
+      // ) {
+      //   if (!userAuth) {
+      //     setOpenModal(true);
+      //     setContents({
+      //       title: "사용자 확인 불가",
+      //       message: "회원전용 페이지입니다.",
+      //     });
+      //     return;
+      //   }
+      // }
       nav(`/${e.target.id}`);
 
       //사이드메뉴가 열려있으면 버튼클릭시 닫음

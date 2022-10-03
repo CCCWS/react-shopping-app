@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
@@ -12,6 +13,7 @@ import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
 
 function PurchaseHistory({ user }) {
+  const nav = useNavigate();
   const [shippingInfo, setShippingInfo] = useState([]);
   const { openModal, contents, setOpenModal } = useModal();
   const {
@@ -21,7 +23,12 @@ function PurchaseHistory({ user }) {
   } = useAxios("/api/user/purchaseHistory");
 
   useEffect(() => {
-    connectServer({ id: user._id });
+    if (user.isAuth === false) {
+      nav("/");
+    }
+    if (user.isAuth === true) {
+      connectServer({ id: user._id });
+    }
   }, []);
 
   const onShippingInfo = useCallback(

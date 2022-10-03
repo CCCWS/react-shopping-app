@@ -6,7 +6,7 @@ import "./ProductManagement.css";
 import { postUrl } from "../PostUrl";
 import Loading from "../Components/Loading";
 
-function ProductManagement() {
+function ProductManagement({ user }) {
   const nav = useNavigate();
   const [product, setProduct] = useState([]);
   const [totalSold, setTotalSold] = useState();
@@ -14,7 +14,12 @@ function ProductManagement() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProduct();
+    if (user.isAuth === false) {
+      nav("/");
+    }
+    if (user.isAuth === true) {
+      getProduct();
+    }
   }, []);
 
   const getProduct = async () => {

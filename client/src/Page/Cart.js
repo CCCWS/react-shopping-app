@@ -47,7 +47,12 @@ function Cart({ user }) {
 
   //user데이터에서 cart에 들어있는 상품의 id를 가져옴
   useEffect(() => {
-    getUserCartList({ id: user._id });
+    if (user.isAuth === false) {
+      nav("/");
+    }
+    if (user.isAuth === true) {
+      getUserCartList({ id: user._id });
+    }
   }, []);
 
   //상품 id를 가져왔다면 id를 옵션으로 해당 id와 일치하는 모든 상품 가져옴
