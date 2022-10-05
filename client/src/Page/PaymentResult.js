@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { Section } from "../Components/style/InputStyled";
 
-function PaymentResult() {
+function PaymentResult({ user }) {
   const nav = useNavigate();
   const { state } = useLocation();
 
@@ -13,7 +13,10 @@ function PaymentResult() {
     if (state === null) {
       nav("/");
     }
-  }, [nav, state]);
+    if (user.isAuth === false) {
+      nav("/");
+    }
+  }, [nav, state, user.isAuth]);
 
   return (
     <div className="page">

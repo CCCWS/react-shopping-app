@@ -13,7 +13,7 @@ import AddressSearch from "./AddressSearch";
 import useAxios from "../../hooks/useAxios";
 import CheckOutInput from "./CheckOutInput";
 
-function CheckOut() {
+function CheckOut({ user }) {
   const nav = useNavigate();
   const { state } = useLocation();
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,10 @@ function CheckOut() {
     if (state === null) {
       nav("/");
     }
-  }, [nav, state]);
+    if (user.isAuth === false) {
+      nav("/");
+    }
+  }, [nav, state, user.isAuth]);
 
   //구매 성공시
   const paymentSeccess = (e, payment) => {
