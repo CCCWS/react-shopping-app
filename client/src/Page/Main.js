@@ -22,14 +22,26 @@ import { categoryList, priceList } from "../data/CatecoryList";
 
 function Main() {
   const [readRef, setReadRef] = useInView();
-  const [click, setClick] = useState(true);
-  const [selectCategory, setSelectCategort] = useState("");
-  const [searchValue, setSearchValue] = useState("");
-  const [searchTrue, setSearchTrue] = useState(false);
-  const [priceRange, setPriceRange] = useState();
+
+  const [click, setClick] = useState(true); //메인화면 제품카드 카드형 or 리스트형
+  const [searchValue, setSearchValue] = useState(""); //검색어
+  const [searchTrue, setSearchTrue] = useState(false); //검색 여부
+  const [selectCategory, setSelectCategort] = useState(""); //카테고리 필터링
+  const [priceRange, setPriceRange] = useState(); //가격 범위 필터링
   const [skip, setSkip] = useState(0); //현재 가져온 데이터 갯수
   const limit = 8; //한번에 불러올 데이터 갯수
 
+  //제품 목록을 받아옴
+  const {
+    resData: productList,
+    loading,
+    connectServer: getProduct,
+  } = useAxios("api/product/productList");
+
+  //모달창
+  const { openModal, contents, setOpenModal, setContents } = useModal();
+
+  //로컬스토리지에 저장된 제품카드의 형태에 따라 페이지 로딩시 적용
   useEffect(() => {
     const getMainView = JSON.parse(localStorage.getItem("mainView"));
     if (getMainView !== null) {
@@ -37,6 +49,7 @@ function Main() {
     }
   }, []);
 
+  //제품카드의 형태를 로컬스토리지에 저장
   const view = useCallback(() => {
     if (!click) {
       localStorage.setItem("mainView", true);
@@ -49,18 +62,7 @@ function Main() {
     }
   }, [click]);
 
-  const onSearchValue = (e) => {
-    setSearchValue(e.target.value);
-  };
-
-  const {
-    resData: productList,
-    loading,
-    connectServer: getProduct,
-  } = useAxios("api/product/productList");
-
-  const { openModal, contents, setOpenModal, setContents } = useModal();
-
+  //제품 목록을 서버에서 받을때 추가 옵션
   const searchOption = {
     limit: limit,
     category: selectCategory,
@@ -115,6 +117,11 @@ function Main() {
       getProduct(option);
       setSkip(0);
     }
+  };
+
+  //검색어 인풋
+  const onSearchValue = (e) => {
+    setSearchValue(e.target.value);
   };
 
   return (
