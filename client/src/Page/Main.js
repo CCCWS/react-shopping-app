@@ -47,6 +47,9 @@ function Main() {
     if (getMainView !== null) {
       setClick(getMainView);
     }
+
+    const titleName = document.getElementsByTagName("title")[0];
+    titleName.innerHTML = `메인 페이지`;
   }, []);
 
   //제품카드의 형태를 로컬스토리지에 저장

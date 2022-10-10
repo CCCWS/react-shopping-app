@@ -110,7 +110,11 @@ function ProductDetail({ user }) {
         filterId: id,
         category: product.category,
       });
+      
+      const titleName = document.getElementsByTagName("title")[0];
+      titleName.innerHTML = product.title;
     }
+
   }, [product]);
 
   //구매 버튼 클릭시 실행

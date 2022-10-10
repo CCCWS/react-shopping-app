@@ -35,6 +35,8 @@ function UploadForm({ user, edit, editData, id }) {
   const { connectServer: writeProduct } = useAxios("/api/product/write");
 
   useEffect(() => {
+    const titleName = document.getElementsByTagName("title")[0];
+
     //edit페이지로 접근시 기본값을 상품의 정보로 지정
     if (edit) {
       setImage(editData.image);
@@ -44,6 +46,10 @@ function UploadForm({ user, edit, editData, id }) {
       priceRef.current.value = editData.price;
       countRef.current.value = editData.count;
       descriptionRef.current.value = editData.description;
+
+      titleName.innerHTML = `상품 수정`;
+    } else {
+      titleName.innerHTML = `상품 등록`;
     }
   }, []);
 

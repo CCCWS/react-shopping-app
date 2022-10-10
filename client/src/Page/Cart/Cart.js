@@ -54,6 +54,9 @@ function Cart({ user }) {
     if (user.isAuth === true) {
       getUserCartList({ id: user._id });
     }
+
+    const titleName = document.getElementsByTagName("title")[0];
+    titleName.innerHTML = `장바구니`;
   }, []);
 
   //상품 id를 가져왔다면 id를 옵션으로 해당 id와 일치하는 모든 상품 조회
@@ -118,16 +121,19 @@ function Cart({ user }) {
   };
 
   //하나의 상품 체크
-  const onCheckProduct = useCallback((data) => {
-    //체크목록에 선택한 항목이 있는지 확인
-    if (checkProduct.find((item) => item._id === data._id) !== undefined) {
-      //이미 있는 항목이면 제외시킴
-      setCheckProduct(checkProduct.filter((item) => item._id !== data._id));
-    } else {
-      //없다면 항목에 추가
-      setCheckProduct([...checkProduct, data]);
-    }
-  }, [checkProduct]);
+  const onCheckProduct = useCallback(
+    (data) => {
+      //체크목록에 선택한 항목이 있는지 확인
+      if (checkProduct.find((item) => item._id === data._id) !== undefined) {
+        //이미 있는 항목이면 제외시킴
+        setCheckProduct(checkProduct.filter((item) => item._id !== data._id));
+      } else {
+        //없다면 항목에 추가
+        setCheckProduct([...checkProduct, data]);
+      }
+    },
+    [checkProduct]
+  );
 
   //선택한 상품 삭제
   const onCheckDel = () => {

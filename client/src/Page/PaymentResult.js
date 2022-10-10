@@ -16,6 +16,9 @@ function PaymentResult({ user }) {
     if (user.isAuth === false) {
       nav("/");
     }
+
+    const titleName = document.getElementsByTagName("title")[0];
+    titleName.innerHTML = `구매성공`;
   }, [nav, state, user.isAuth]);
 
   return (

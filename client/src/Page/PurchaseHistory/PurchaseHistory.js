@@ -29,6 +29,9 @@ function PurchaseHistory({ user }) {
     if (user.isAuth === true) {
       connectServer({ id: user._id });
     }
+
+    const titleName = document.getElementsByTagName("title")[0];
+    titleName.innerHTML = `구매내역`;
   }, []);
 
   const onShippingInfo = useCallback(

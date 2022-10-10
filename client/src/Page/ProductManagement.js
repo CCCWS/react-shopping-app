@@ -20,6 +20,9 @@ function ProductManagement({ user }) {
     if (user.isAuth === true) {
       getProduct();
     }
+
+    const titleName = document.getElementsByTagName("title")[0];
+    titleName.innerHTML = `상품관리`;
   }, []);
 
   const getProduct = async () => {
