@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { auth } from "../_action/user_action";
+// import { auth } from "../_action/user_action";
+import { auth } from "../store/reducer/user/user-action";
 import { useNavigate } from "react-router-dom";
 
 //App.js에서 라우트의 요소로 호출하여 랜더링할 컴포넌트를 매개변수로 받음
@@ -44,7 +45,8 @@ function Auth(Component, option, adminRoute = null) {
       // });
     }, []);
 
-    if (Object.keys(user).length !== 0) return <Component user={user} />;
+    // if (Object.keys(user).length !== 0) return <Component user={user} />;
+    return <Component />;
   };
 
   return <AuthCheck />;

@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { loginInfo } from "../../../_action/user_action";
 import { registerInfo } from "../../../_action/user_action";
 
+import { login } from "../../../store/reducer/user/user-action";
+
 function LoginComponent({ type, setType }) {
   const Form = styled.form`
     width: 90%;
@@ -44,7 +46,7 @@ function LoginComponent({ type, setType }) {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-  const registerEmailRef = useRef("tests");
+  const registerEmailRef = useRef(null);
   const registerPasswordRef = useRef(null);
   const registerNameRef = useRef(null);
   const registerPasswordConfRef = useRef(null);
@@ -69,19 +71,21 @@ function LoginComponent({ type, setType }) {
       }
 
       dispatch(
-        loginInfo({
+        login({
           email: emailRef.current.value,
           password: passwordRef.current.value,
-        })
-      ) // user_action으로 전달
-        .then((res) => {
-          if (res.payload.loginSuccess) {
-            window.localStorage.setItem("userId", res.payload.userId);
-            window.location.reload();
-          } else {
-            alert("로그인 실패");
-          }
-        });
+        }) // user_action으로 전달
+      ).then((res) => {
+        console.log(res);
+      });
+      // .then((res) => {
+      //   if (res.payload.loginSuccess) {
+      //     window.localStorage.setItem("userId", res.payload.userId);
+      //     window.location.reload();
+      //   } else {
+      //     alert("로그인 실패");
+      //   }
+      // });
       return;
     }
 

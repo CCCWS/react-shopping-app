@@ -9,17 +9,13 @@ import Reducer from "./_reducers/index";
 import "antd/dist/antd.min.css";
 import App from "./App";
 
-const storeMiddleware = applyMiddleware(reduxPromisee, reduxThunk)(createStore);
+import store from "./store/store";
+
+// const storeMiddleware = applyMiddleware(reduxPromisee, reduxThunk)(createStore);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <Provider
-    store={storeMiddleware(
-      Reducer,
-      window.__REDUX_DEVTOOLS_EXTENSION__ &&
-        window.__REDUX_DEVTOOLS_EXTENSION__()
-    )}
-  >
+  <Provider store={store}>
     <App />
   </Provider>
 );
