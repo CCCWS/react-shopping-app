@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { LeftOutlined, HomeOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import RecentView from "../../Components/RecentView";
@@ -13,17 +12,17 @@ import FooterDetailPage from "../../Components/Footer/FooterDetailPage";
 import getTime from "../../hooks/getTime";
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
+import useAuth from "../../hooks/useAuth";
 
-import { addCart } from "../../_action/user_action";
 import ProductInfo from "./ProductInfo";
 
 function ProductDetail({ user }) {
-  const dispatch = useDispatch();
   const nav = useNavigate();
 
   const [purchasesCount, setPurchasesCount] = useState(1);
   const [cartAddLoading, setCartAddLoading] = useState(false);
   const { id } = useParams();
+  const { isAuth, userId } = useAuth();
 
   //제품의 상세 정보 조회
   const {
@@ -110,76 +109,68 @@ function ProductDetail({ user }) {
         filterId: id,
         category: product.category,
       });
-      
+
       const titleName = document.getElementsByTagName("title")[0];
       titleName.innerHTML = product.title;
     }
-
   }, [product]);
 
-  //구매 버튼 클릭시 실행
-  const goCheckOut = () => {
-    if (user.isAuth === false) {
+  //장바구니와 구매하기 버튼 클릭시 가능여부 확인
+  const btnCheck = () => {
+    let authCheck = true;
+
+    if (!isAuth) {
+      authCheck = false;
       setContents({
         title: "사용자 확인 불가",
         message: "로그인을 해주세요.",
       });
       setOpenModal(true);
-      return;
     }
 
     if (product.count === 0) {
+      authCheck = false;
       setContents({
         title: "품절",
         message: "판매완료된 상품입니다.",
       });
       setOpenModal(true);
-      return;
     }
 
-    nav("/checkOut", {
-      state: {
-        product: [
-          {
-            ...product,
-            purchasesCount: purchasesCount,
-            totalPrice: product.price * purchasesCount,
-          },
-        ],
-        detail: true,
-        totalPrice: product.price * purchasesCount,
-      },
-    });
+    return authCheck;
+  };
+
+  //구매 버튼 클릭시 실행
+  const goCheckOut = () => {
+    if (btnCheck()) {
+      nav("/checkOut", {
+        state: {
+          product: [
+            {
+              ...product,
+              purchasesCount: purchasesCount,
+              totalPrice: product.price * purchasesCount,
+            },
+          ],
+          detail: true,
+          totalPrice: product.price * purchasesCount,
+        },
+      });
+    }
   };
 
   //장바구니 버튼 클릭시 실행
   const onAddCartProduct = () => {
-    if (product.count === 0) {
-      setContents({
-        title: "상품 품절",
-        message: "판매완료된 상품입니다.",
-      });
-      setOpenModal(true);
-      return;
+    if (btnCheck()) {
+      setCartAddLoading(true);
+      const option = {
+        productId: product._id,
+        userId: userId,
+        purchasesCount: purchasesCount,
+      };
+
+      addProductCart(option);
     }
-
-    if (user.isAuth === false) {
-      setContents({
-        title: "사용자 확인 불가",
-        message: "로그인을 해주세요.",
-      });
-      setOpenModal(true);
-      return;
-    }
-
-    setCartAddLoading(true);
-    const option = {
-      productId: product._id,
-      userId: user._id,
-      purchasesCount: purchasesCount,
-    };
-
-    addProductCart(option);
   };
 
   //장바구니 버튼 클릭시 실행
@@ -201,14 +192,8 @@ function ProductDetail({ user }) {
       });
       setOpenModal(true);
     }
-
     setCartAddLoading(false);
   }, [nav, setContents, setOpenModal, cartAddResponse]);
-
-  const OnAddCart = () => {
-    //redux사용
-    dispatch(addCart(product._id));
-  };
 
   return (
     <div className="page">
@@ -258,7 +243,7 @@ function ProductDetail({ user }) {
 
           <FooterDetailPage
             product={product}
-            userId={user._id}
+            userId={userId}
             purchasesCount={purchasesCount}
             productWriter={productWriter}
             writerLoading={writerLoading}

@@ -14,12 +14,9 @@ import useAxios from "../../hooks/useAxios";
 //etc
 import { uploadCategoryList } from "../../data/CatecoryList";
 
-function UploadForm({ user, edit, editData, id }) {
-  //auth.js에서 받은 user props
-  //모든 페이지에 방문할때마다 로그인 체크를 수행.
+function UploadForm({ userId, edit, editData, productId }) {
   const nav = useNavigate();
   const [imgDelete, setImgDelete] = useState([]); //edit페이지일때 삭제할 이미지 임시저장
-
   const [image, setImage] = useState([]);
   const [category, setCategory] = useState("");
 
@@ -106,8 +103,7 @@ function UploadForm({ user, edit, editData, id }) {
 
   const uploadData = async () => {
     const data = {
-      //로그인 유저의 id
-      writer: user.userData._id,
+      writer: userId,
       title: titleRef.current.value,
       price: priceRef.current.value,
       description: descriptionRef.current.value,
@@ -122,7 +118,7 @@ function UploadForm({ user, edit, editData, id }) {
         if (imgDelete.length > 0) {
           imageDelete(imgDelete);
         }
-        editProduct({ ...data, id: id });
+        editProduct({ ...data, id: productId });
         alert("수정 완료");
       }
 

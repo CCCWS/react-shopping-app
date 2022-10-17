@@ -5,9 +5,19 @@ const userSlice = createSlice({
   name: "user",
   initialState: userState,
   reducers: {
-    setUserData(state, action) {
-      // console.log(action);
-      // state.userInfo
+    setLogin(state, action) {
+      console.log(action);
+      state.userInfo = action.payload;
+      state.isAuth = true;
+    },
+
+    setLogout(state, action) {
+      state.userInfo = {};
+      state.isAuth = false;
+    },
+
+    onAuthCheck(state, action) {
+      state.isAuth = action.payload.isAuth;
     },
   },
 });

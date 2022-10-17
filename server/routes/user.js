@@ -28,7 +28,7 @@ app.post("/login", (req, res) => {
       //유저 정보가에 email이 없다면 없으면
       return res.json({
         loginSuccess: false,
-        message: "user not found",
+        message: "등록되지 않은 유저입니다.",
       });
     }
 
@@ -39,7 +39,7 @@ app.post("/login", (req, res) => {
         //없으면 비밀번호가 틀린것
         return res.json({
           loginSuccess: false,
-          message: "password is not match",
+          message: "비밀번호를 다시 확인해주세요.",
         });
 
       //Token생성
@@ -50,7 +50,15 @@ app.post("/login", (req, res) => {
         res
           .cookie("userCookie", user.token)
           .status(200) //400 = 실패, 200 = 성공
-          .json({ loginSuccess: true, userId: user._id });
+          .json({
+            loginSuccess: true,
+            user: {
+              _id: user._id,
+              name: user.name,
+              email: user.email,
+              admin: user.role === 0 ? false : true,
+            },
+          });
       });
     });
   });

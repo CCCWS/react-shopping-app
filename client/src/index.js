@@ -1,21 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import App from "./App";
+
 import { Provider } from "react-redux";
-import { applyMiddleware, createStore } from "redux";
-import reduxPromisee from "redux-promise";
-import reduxThunk from "redux-thunk";
-import Reducer from "./_reducers/index";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
 
 import "antd/dist/antd.min.css";
-import App from "./App";
 
 import store from "./store/store";
 
 // const storeMiddleware = applyMiddleware(reduxPromisee, reduxThunk)(createStore);
 const root = ReactDOM.createRoot(document.getElementById("root"));
+let persistor = persistStore(store);
 
 root.render(
   <Provider store={store}>
-    <App />
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>
 );

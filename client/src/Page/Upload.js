@@ -1,16 +1,9 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import UploadForm from "../Components/UploadForm/UploadForm";
+import useAuth from "../hooks/useAuth";
 
-function Upload({ user }) {
-  const nav = useNavigate();
-
-  useEffect(() => {
-    if (!user.isAuth) {
-      nav("/");
-    }
-  }, []);
-  return <UploadForm user={user} />;
+function Upload() {
+  const { isAuth } = useAuth(true);
+  return <>{isAuth && <UploadForm />}</>;
 }
 
 export default Upload;

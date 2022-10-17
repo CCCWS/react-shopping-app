@@ -6,11 +6,12 @@ import Loading from "../Components/Loading";
 import UploadForm from "../Components/UploadForm/UploadForm";
 
 import useAxios from "../hooks/useAxios";
-import userData from "../_reducers/user_reducer";
+import useAuth from "../hooks/useAuth";
 
-function Edit({ user }) {
+function Edit() {
   const nav = useNavigate();
-  const { state } = useLocation();
+  const { state } = useLocation(); //상품 id
+  const { isAuth, userId } = useAuth(true);
 
   const {
     resData: product,
@@ -22,10 +23,8 @@ function Edit({ user }) {
     if (state === null) {
       nav("/");
     }
-    if (user.isAuth === false) {
-      nav("/");
-    }
-    if (user.isAuth === true) {
+
+    if (isAuth) {
       connectServer({
         id: state.id,
         edit: true,
@@ -38,7 +37,12 @@ function Edit({ user }) {
       {loading ? (
         <Loading />
       ) : (
-        <UploadForm user={user} edit={true} editData={product} id={state.id} />
+        <UploadForm
+          userId={userId}
+          edit={true}
+          editData={product}
+          productId={state.id}
+        />
       )}
     </div>
   );

@@ -75,9 +75,8 @@ function LoginComponent({ type, setType }) {
           email: emailRef.current.value,
           password: passwordRef.current.value,
         }) // user_action으로 전달
-      ).then((res) => {
-        console.log(res);
-      });
+      );
+      // window.location.reload();
       // .then((res) => {
       //   if (res.payload.loginSuccess) {
       //     window.localStorage.setItem("userId", res.payload.userId);

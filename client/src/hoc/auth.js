@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { auth } from "../_action/user_action";
-import { auth } from "../store/reducer/user/user-action";
+import { auth } from "../_action/user_action";
 import { useNavigate } from "react-router-dom";
 
 //App.js에서 라우트의 요소로 호출하여 랜더링할 컴포넌트를 매개변수로 받음
@@ -45,11 +44,14 @@ function Auth(Component, option, adminRoute = null) {
       // });
     }, []);
 
-    // if (Object.keys(user).length !== 0) return <Component user={user} />;
-    return <Component />;
+    if (Object.keys(user).length !== 0) return <Component user={user} />;
   };
 
   return <AuthCheck />;
 }
 
 export default Auth;
+
+//redux-persist를 사용하면서 페이지 이동마다 로그인 여부를 확일할 
+//필요없이 스토어에 데이터가 계속 남아있음
+//페이지마다 인증을 위한 서버와의 불필요한 통신을 없애면서 사용하지 않음

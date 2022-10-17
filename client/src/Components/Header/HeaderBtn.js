@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import styled, { css } from "styled-components";
@@ -10,19 +10,22 @@ import Login from "./LoginModal/Login";
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
 
+import { logout } from "../../store/reducer/user/user-action";
+
 const HeaderBtns = () => {
   const nav = useNavigate();
   const [userAuth, setUserAuth] = useState(false);
   const [userName, setUserName] = useState("");
 
-  const auth = useSelector((state) => state.user);
+  const authCheck = useSelector((state) => state.user.isAuth);
+  // console.log(auth);
 
-  useEffect(() => {
-    if (auth && auth.isAuth === true) {
-      setUserName(auth.name);
-      setUserAuth(auth.isAuth);
-    }
-  }, [auth]);
+  // useEffect(() => {
+  //   if (auth) {
+  //     setUserName(auth.name);
+  //     setUserAuth(auth.isAuth);
+  //   }
+  // }, [auth]);
 
   const HeaderBtn = ({ onSideMenu, setMenuClick }) => {
     const { openModal, contents, setOpenModal, setContents } = useModal();
@@ -97,6 +100,7 @@ const HeaderBtns = () => {
   };
 
   const HeaderLogInBtn = ({ onSideMenu }) => {
+    const dispatch = useDispatch();
     const { openModal, contents, setOpenModal, setContents } = useModal();
     const { resData, connectServer } = useAxios("/api/user/logout");
 
@@ -105,23 +109,24 @@ const HeaderBtns = () => {
       setContents({ login: true });
     };
 
-    const logout = () => {
-      connectServer();
+    const onLogout = () => {
+      dispatch(logout());
+      console.log("test");
     };
 
-    useEffect(() => {
-      if (resData) {
-        if (resData.success) {
-          setUserAuth(false);
-          setUserName("");
-          localStorage.removeItem("userId");
-          nav("/");
-          window.location.reload();
-        } else {
-          alert("fail");
-        }
-      }
-    }, [resData]);
+    // useEffect(() => {
+    //   if (resData) {
+    //     if (resData.success) {
+    //       setUserAuth(false);
+    //       setUserName("");
+    //       localStorage.removeItem("userId");
+    //       nav("/");
+    //       window.location.reload();
+    //     } else {
+    //       alert("fail");
+    //     }
+    //   }
+    // }, [resData]);
 
     return (
       <>
@@ -132,9 +137,9 @@ const HeaderBtns = () => {
           PropComponent={Login}
         />
 
-        {userAuth ? (
+        {authCheck ? (
           <>
-            <HeaderButton sideMenu={onSideMenu} onClick={logout}>
+            <HeaderButton sideMenu={onSideMenu} onClick={onLogout}>
               로그아웃
             </HeaderButton>
           </>

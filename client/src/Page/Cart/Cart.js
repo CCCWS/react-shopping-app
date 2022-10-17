@@ -9,18 +9,18 @@ import ModalBase from "../../Components/Modal/ModalBase";
 
 import useModal from "../../hooks/useModal";
 import useAxios from "../../hooks/useAxios";
+import useAuth from "../../hooks/useAuth";
 
-import { removeCart } from "../../_action/user_action";
 import FooterCartPage from "../../Components/Footer/FooterCartPage";
 import CartProduct from "./CartProduct";
 
-function Cart({ user }) {
-  const dispatch = useDispatch();
+function Cart() {
   const nav = useNavigate();
 
   const [checkProduct, setCheckProduct] = useState([]); //체크한 상품의 목록
   const [totalPrice, setTotalPrice] = useState(0); //체크한 상품의 총합가격
   const [loading, setLoading] = useState(true);
+  const { isAuth, userId } = useAuth(true);
 
   //유저의 카트에 들어있는 상품의 id를 조회
   const { resData: userCartList, connectServer: getUserCartList } =
@@ -48,15 +48,12 @@ function Cart({ user }) {
 
   //user데이터에서 cart에 들어있는 상품의 id를 조회
   useEffect(() => {
-    if (user.isAuth === false) {
-      nav("/");
-    }
-    if (user.isAuth === true) {
-      getUserCartList({ id: user._id });
-    }
-
     const titleName = document.getElementsByTagName("title")[0];
     titleName.innerHTML = `장바구니`;
+
+    if (isAuth) {
+      getUserCartList({ id: userId });
+    }
   }, []);
 
   //상품 id를 가져왔다면 id를 옵션으로 해당 id와 일치하는 모든 상품 조회

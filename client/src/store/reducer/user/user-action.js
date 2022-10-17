@@ -10,9 +10,7 @@ export const auth = () => {
   return async (dispatch) => {
     const getApi = async () => {
       const res = await axios.get(`${postUrl}/api/user/auth`);
-
-      // if(!res.data)
-      console.log(res);
+      dispatch(userAction.onAuthCheck(res.data));
     };
     getApi();
   };
@@ -20,12 +18,29 @@ export const auth = () => {
 
 export const login = (data) => {
   return async (dispatch) => {
-    const loginInfo = async () => {
+    const loginApi = async () => {
       const res = await axios.post(`${postUrl}/api/user/login`, data);
-      dispatch(userAction.setUserData(res.data));
-      return res;
+      console.log(res.data);
+
+      if (!res.data.loginSuccess) {
+        alert(res.data.message);
+      }
+
+      if (res.data.loginSuccess) {
+        dispatch(userAction.setLogin(res.data.user));
+      }
     };
-    loginInfo();
-    return "test";
+
+    loginApi();
+  };
+};
+
+export const logout = () => {
+  return async (dispatch) => {
+    const logoutApi = async () => {
+      await axios.get(`${postUrl}/api/user/logout`);
+      dispatch(userAction.setLogout());
+    };
+    logoutApi();
   };
 };
