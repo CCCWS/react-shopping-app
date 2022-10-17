@@ -4,22 +4,20 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { Section } from "../Components/style/InputStyled";
+import useAuth from "../hooks/useAuth";
 
 function PaymentResult({ user }) {
   const nav = useNavigate();
   const { state } = useLocation();
+  useAuth(true);
 
   useEffect(() => {
     if (state === null) {
       nav("/");
     }
-    if (user.isAuth === false) {
-      nav("/");
-    }
-
     const titleName = document.getElementsByTagName("title")[0];
     titleName.innerHTML = `구매성공`;
-  }, [nav, state, user.isAuth]);
+  }, [nav, state]);
 
   return (
     <div className="page">

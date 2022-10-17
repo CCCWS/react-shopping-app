@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-
 import styled from "styled-components";
 
 import Loading from "../../Components/Loading";
@@ -11,11 +9,13 @@ import PurchaseHistotyProduct from "./PurchaseHistotyProduct";
 
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
+import useAuth from "../../hooks/useAuth";
 
 function PurchaseHistory({ user }) {
   const nav = useNavigate();
   const [shippingInfo, setShippingInfo] = useState([]);
   const { openModal, contents, setOpenModal } = useModal();
+  const { isAuth, userId } = useAuth(true);
   const {
     resData: product,
     loading,
@@ -23,16 +23,13 @@ function PurchaseHistory({ user }) {
   } = useAxios("/api/user/purchaseHistory");
 
   useEffect(() => {
-    if (user.isAuth === false) {
-      nav("/");
-    }
-    if (user.isAuth === true) {
-      connectServer({ id: user._id });
+    if (isAuth) {
+      connectServer({ id: userId });
     }
 
     const titleName = document.getElementsByTagName("title")[0];
     titleName.innerHTML = `구매내역`;
-  }, []);
+  }, [isAuth, userId]);
 
   const onShippingInfo = useCallback(
     (data) => {

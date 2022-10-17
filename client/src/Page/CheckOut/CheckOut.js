@@ -6,24 +6,24 @@ import styled from "styled-components";
 
 import PaymentBtn from "../../Components/PaymentBtn";
 import Selector from "../../Components/Selector";
-
 import CheckOutProduct from "./CheckOutProduct";
-import AddressSearch from "./AddressSearch";
-
-import useAxios from "../../hooks/useAxios";
 import CheckOutInput from "./CheckOutInput";
 
-function CheckOut({ user }) {
+import useAxios from "../../hooks/useAxios";
+import useAuth from "../../hooks/useAuth";
+
+function CheckOut() {
   const nav = useNavigate();
-  const { state } = useLocation();
+  const { state } = useLocation(); //상품정보, 진입경로, 총합가격을 담은 데이터
   const [loading, setLoading] = useState(false);
   const [searchAddress, setSearchAddress] = useState("");
 
-  const { connectServer: removeCart } = useAxios("/api/user/removeCart");
-  const { connectServer: userSuccessBuy } = useAxios("/api/user/successBuy");
+  const { userId } = useAuth(true);
+  const { connectServer: userSuccessBuy } = useAxios("/api/user/successBuy"); //상품정보에 상품갯수 변경
+  const { connectServer: removeCart } = useAxios("/api/user/removeCart"); //장바구니에 있는 상품이라면 구매성공시 유저의 카트에서 해당상품 제거
   const { connectServer: productSuccessBuy } = useAxios(
     "/api/product/successBuy"
-  );
+  ); //유저정보에 구입내역을 추가
 
   const nameRef = useRef();
   const phoneRef = useRef();
@@ -34,10 +34,7 @@ function CheckOut({ user }) {
     if (state === null) {
       nav("/");
     }
-    if (user.isAuth === false) {
-      nav("/");
-    }
-  }, [nav, state, user.isAuth]);
+  }, [nav, state]);
 
   //구매 성공시
   const paymentSeccess = (e, payment) => {
@@ -86,11 +83,12 @@ function CheckOut({ user }) {
     userSuccessBuy(option);
     productsold();
 
-    setLoading(false);
-
-    nav("/paymentResult", {
-      state: option,
-    });
+    setTimeout(() => {
+      setLoading(false);
+      nav("/paymentResult", {
+        state: option,
+      });
+    }, 2000);
   };
 
   //구매한 상품의 수량 변경
@@ -98,7 +96,7 @@ function CheckOut({ user }) {
     const option = [];
     state.product.forEach((data) =>
       option.push({
-        id: data._id,
+        id: userId,
         purchasesCount: data.purchasesCount,
       })
     );

@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { CheckOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 

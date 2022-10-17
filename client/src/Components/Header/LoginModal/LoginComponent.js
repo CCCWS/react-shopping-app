@@ -2,9 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
-import { loginInfo } from "../../../_action/user_action";
 import { registerInfo } from "../../../_action/user_action";
-
 import { login } from "../../../store/reducer/user/user-action";
 
 function LoginComponent({ type, setType }) {
