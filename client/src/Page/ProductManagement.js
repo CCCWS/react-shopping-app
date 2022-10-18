@@ -28,6 +28,7 @@ function ProductManagement({ isAuth, userId }) {
   useEffect(() => {
     //총 판매개수와 금액 계산
     const calcData = (data) => {
+      console.log(data);
       const sold = [];
       const price = [];
 
