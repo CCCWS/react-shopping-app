@@ -28,16 +28,11 @@ function ProductManagement({ isAuth, userId }) {
   useEffect(() => {
     //총 판매개수와 금액 계산
     const calcData = (data) => {
-      const sold = [];
-      const price = [];
-
       // data.forEach((item) => sold.push(item.sold));
       // data.forEach((item) => price.push(item.price * item.sold));
 
-      // for (let i of data) {
-      //   sold.push(i.sold);
-      //   price.push(i.price * i.sold);
-      // }
+      const sold = data.map((item) => item.sold);
+      const price = data.map((item) => item.sold * item.price);
 
       if (sold.length === 0) {
         setTotalSold(0);
@@ -62,7 +57,7 @@ function ProductManagement({ isAuth, userId }) {
     }
 
     //판매개수와 가격의 계산이 되었을경우
-    if (totalSold && totalPrice) {
+    if (totalSold !== undefined && totalPrice !== undefined) {
       setLoading(false);
     }
   }, [resData, totalSold, totalPrice]);
