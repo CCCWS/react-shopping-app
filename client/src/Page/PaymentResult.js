@@ -4,12 +4,10 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { Section } from "../Components/Style/InputStyled";
-import useAuth from "../hooks/useAuth";
 
 function PaymentResult() {
   const nav = useNavigate();
   const { state } = useLocation();
-  useAuth(true);
 
   useEffect(() => {
     if (state === null) {

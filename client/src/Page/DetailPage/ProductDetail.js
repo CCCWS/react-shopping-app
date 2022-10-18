@@ -12,17 +12,15 @@ import FooterDetailPage from "../../Components/Footer/FooterDetailPage";
 import getTime from "../../hooks/getTime";
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
-import useAuth from "../../hooks/useAuth";
 
 import ProductInfo from "./ProductInfo";
 
-function ProductDetail({ user }) {
+function ProductDetail({ isAuth, userId }) {
   const nav = useNavigate();
 
   const [purchasesCount, setPurchasesCount] = useState(1);
   const [cartAddLoading, setCartAddLoading] = useState(false);
   const { id } = useParams();
-  const { isAuth, userId } = useAuth();
 
   //제품의 상세 정보 조회
   const {

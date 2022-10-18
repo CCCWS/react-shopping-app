@@ -28,24 +28,31 @@ function App() {
     window.onbeforeunload = function pushRefresh() {
       window.scrollTo(0, 0);
     };
-
-    scrollbar.init(document.querySelector("#smooth-scroll"));
   }, []);
+  scrollbar.init(document.querySelector("#smooth-scroll"));
 
   return (
     <BrowserRouter>
       <Header />
       <PageTop />
       <Routes>
-        <Route path={`/`} element={<Main />} />
-        <Route path={`/upload`} element={<Upload />} />
-        <Route path={`/product/:id`} element={<ProductDetail />} />
-        <Route path={`/cart`} element={<Cart />} />
-        <Route path={`/checkOut`} element={<CheckOut />} />
-        <Route path={`/paymentResult`} element={<PaymentResult />} />
-        <Route path={`/productManagement`} element={<ProductManagement />} />
-        <Route path={`/purchaseHistory`} element={<PurchaseHistory />} />
-        <Route path={`/edit/:id`} element={<Edit />} />
+        <Route path={`/`} element={Auth(Main, false)} />
+        <Route path={`/product/:id`} element={Auth(ProductDetail, false)} />
+
+        <Route path={`/upload`} element={Auth(Upload, true)} />
+        <Route path={`/cart`} element={Auth(Cart, true)} />
+        <Route path={`/checkOut`} element={Auth(CheckOut, true)} />
+        <Route path={`/paymentResult`} element={Auth(PaymentResult, true)} />
+        <Route
+          path={`/productManagement`}
+          element={Auth(ProductManagement, true)}
+        />
+        <Route
+          path={`/purchaseHistory`}
+          element={Auth(PurchaseHistory, true)}
+        />
+        <Route path={`/edit/:id`} element={Auth(Edit, true)} />
+
         <Route path={`/test`} element={<Test />} />
         <Route path={`/test2`} element={<Test2 />} />
       </Routes>

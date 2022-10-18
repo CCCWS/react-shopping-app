@@ -8,18 +8,16 @@ import ModalBase from "../../Components/Modal/ModalBase";
 
 import useModal from "../../hooks/useModal";
 import useAxios from "../../hooks/useAxios";
-import useAuth from "../../hooks/useAuth";
 
 import FooterCartPage from "../../Components/Footer/FooterCartPage";
 import CartProduct from "./CartProduct";
 
-function Cart() {
+function Cart({ isAuth, userId }) {
   const nav = useNavigate();
 
   const [checkProduct, setCheckProduct] = useState([]); //체크한 상품의 목록
   const [totalPrice, setTotalPrice] = useState(0); //체크한 상품의 총합가격
   const [loading, setLoading] = useState(true);
-  const { isAuth, userId } = useAuth(true);
 
   //유저의 카트에 들어있는 상품의 id를 조회
   const { resData: userCartList, connectServer: getUserCartList } =

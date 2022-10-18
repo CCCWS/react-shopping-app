@@ -4,18 +4,16 @@ import styled from "styled-components";
 
 import Loading from "../Components/Utility/Loading";
 
-import useAuth from "../hooks/useAuth";
 import useAxios from "../hooks/useAxios";
 
 import { postUrl } from "../PostUrl";
 
-function ProductManagement() {
+function ProductManagement({ isAuth, userId }) {
   const nav = useNavigate();
   const [totalSold, setTotalSold] = useState();
   const [totalPrice, setTotalPrice] = useState();
   const [loading, setLoading] = useState(true);
 
-  const { isAuth, userId } = useAuth(true);
   const { resData, connectServer } = useAxios("/api/product/myProduct");
 
   useEffect(() => {

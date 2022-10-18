@@ -8,6 +8,7 @@ const useAuth = (check) => {
   const userId = useSelector((state) => state.user.userInfo._id);
 
   useEffect(() => {
+    //사용자 인증이 필요하고 인증이 되지 않았을 경우
     if (check && !isAuth) {
       alert("로그인이 필요한 페이지입니다.");
       nav("/");

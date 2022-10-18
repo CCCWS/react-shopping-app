@@ -10,15 +10,13 @@ import CheckOutProduct from "./CheckOutProduct";
 import CheckOutInput from "./CheckOutInput";
 
 import useAxios from "../../hooks/useAxios";
-import useAuth from "../../hooks/useAuth";
 
-function CheckOut() {
+function CheckOut({ userId }) {
   const nav = useNavigate();
   const { state } = useLocation(); //상품정보, 진입경로, 총합가격을 담은 데이터
   const [loading, setLoading] = useState(false);
   const [searchAddress, setSearchAddress] = useState("");
 
-  const { userId } = useAuth(true);
   const { connectServer: userSuccessBuy } = useAxios("/api/user/successBuy"); //상품정보에 상품갯수 변경
   const { connectServer: removeCart } = useAxios("/api/user/removeCart"); //장바구니에 있는 상품이라면 구매성공시 유저의 카트에서 해당상품 제거
   const { connectServer: productSuccessBuy } = useAxios(

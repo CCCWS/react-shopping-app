@@ -8,12 +8,11 @@ import PurchaseHistotyProduct from "./PurchaseHistotyProduct";
 
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
-import useAuth from "../../hooks/useAuth";
 
-function PurchaseHistory() {
+function PurchaseHistory({ isAuth, userId }) {
   const [shippingInfo, setShippingInfo] = useState([]);
   const { openModal, contents, setOpenModal } = useModal();
-  const { isAuth, userId } = useAuth(true);
+
   const {
     resData: product,
     loading,

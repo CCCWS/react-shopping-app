@@ -1,8 +1,6 @@
 import UploadForm from "../Components/UploadForm/UploadForm";
-import useAuth from "../hooks/useAuth";
 
-function Upload() {
-  const { isAuth } = useAuth(true);
+function Upload({ isAuth }) {
   return <>{isAuth && <UploadForm />}</>;
 }
 

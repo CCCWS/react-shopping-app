@@ -6,12 +6,10 @@ import Loading from "../Components/Utility/Loading";
 import UploadForm from "../Components/UploadForm/UploadForm";
 
 import useAxios from "../hooks/useAxios";
-import useAuth from "../hooks/useAuth";
 
-function Edit() {
+function Edit({ isAuth, userId }) {
   const nav = useNavigate();
   const { state } = useLocation(); //상품 id
-  const { isAuth, userId } = useAuth(true);
 
   const {
     resData: product,
