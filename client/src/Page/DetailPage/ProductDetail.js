@@ -16,6 +16,7 @@ import useModal from "../../hooks/useModal";
 import ProductInfo from "./ProductInfo";
 
 function ProductDetail({ isAuth, userId }) {
+
   const nav = useNavigate();
 
   const [purchasesCount, setPurchasesCount] = useState(1);
@@ -194,7 +195,7 @@ function ProductDetail({ isAuth, userId }) {
   }, [nav, setContents, setOpenModal, cartAddResponse]);
 
   return (
-    <div className="page">
+    <div className="page" id="smooth-scroll">
       <RecentView body={true} />
 
       {cartAddLoading && (

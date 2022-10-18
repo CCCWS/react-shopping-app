@@ -17,60 +17,54 @@ const FooterDetailPage = ({
   writerLoading,
 }) => {
   const nav = useNavigate();
-  const component = () => {
-    return (
-      <>
-        <Price>
-          <div>
-            {`${parseInt(
-              product.price * purchasesCount,
-              10
-            ).toLocaleString()}원`}
-          </div>
 
-          <ProductCountBtn
-            purchasesCount={purchasesCount}
-            setPurchasesCount={setPurchasesCount}
-            productCount={product.count}
-            detail={true}
-          />
-        </Price>
+  return (
+    <Footer>
+      <Price>
+        <div>
+          {`${parseInt(product.price * purchasesCount, 10).toLocaleString()}원`}
+        </div>
 
-        <ButtonBox>
-          {!writerLoading ? (
-            <>
-              {userId === productWriter._id ? (
-                <Button
-                  btnType="edit"
-                  onClick={() =>
-                    nav(`/edit/${product._id}`, {
-                      state: { id: product._id },
-                    })
-                  }
-                >
-                  수정하기
+        <ProductCountBtn
+          purchasesCount={purchasesCount}
+          setPurchasesCount={setPurchasesCount}
+          productCount={product.count}
+          detail={true}
+        />
+      </Price>
+
+      <ButtonBox>
+        {!writerLoading ? (
+          <>
+            {userId === productWriter._id ? (
+              <Button
+                btnType="edit"
+                onClick={() =>
+                  nav(`/edit/${product._id}`, {
+                    state: { id: product._id },
+                  })
+                }
+              >
+                수정하기
+              </Button>
+            ) : (
+              <>
+                <Button btnType="cart" onClick={onAddCartProduct}>
+                  장바구니
                 </Button>
-              ) : (
-                <>
-                  <Button btnType="cart" onClick={onAddCartProduct}>
-                    장바구니
-                  </Button>
 
-                  <Button btnType="purchases" onClick={goCheckOut}>
-                    구매하기
-                  </Button>
-                </>
-              )}
-            </>
-          ) : (
-            <Skeleton.Button />
-          )}
-        </ButtonBox>
-      </>
-    );
-  };
-
-  return <Footer component={component} />;
+                <Button btnType="purchases" onClick={goCheckOut}>
+                  구매하기
+                </Button>
+              </>
+            )}
+          </>
+        ) : (
+          <Skeleton.Button />
+        )}
+      </ButtonBox>
+    </Footer>
+  );
 };
 
 const Price = styled.div`

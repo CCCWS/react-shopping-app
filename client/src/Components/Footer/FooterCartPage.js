@@ -4,20 +4,17 @@ import styled from "styled-components";
 import Footer from "./Footer";
 
 const FooterCartPage = ({ checkProductLength, totalPrice, goCheckOut }) => {
-  const component = () => {
-    return (
-      <>
-        <Price>
-          {`${checkProductLength}개 상품 ∙ ${totalPrice.toLocaleString()}원`}
-        </Price>
+  return (
+    <Footer>
+      <Price>
+        {`${checkProductLength}개 상품 ∙ ${totalPrice.toLocaleString()}원`}
+      </Price>
 
-        <Button checkProductLength={checkProductLength}>
-          <button onClick={goCheckOut}>구매하기</button>
-        </Button>
-      </>
-    );
-  };
-  return <Footer component={component} />;
+      <Button checkProductLength={checkProductLength}>
+        <button onClick={goCheckOut}>구매하기</button>
+      </Button>
+    </Footer>
+  );
 };
 
 const Price = styled.div`

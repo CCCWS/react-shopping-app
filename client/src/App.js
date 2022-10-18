@@ -29,7 +29,6 @@ function App() {
       window.scrollTo(0, 0);
     };
   }, []);
-  scrollbar.init(document.querySelector("#smooth-scroll"));
 
   return (
     <BrowserRouter>
