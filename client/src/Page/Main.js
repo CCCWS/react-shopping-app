@@ -65,31 +65,32 @@ function Main() {
     }
   }, [click]);
 
-  //제품 목록을 서버에서 받을때 추가 옵션
-  const searchOption = {
-    limit: limit,
-    category: selectCategory,
-    price: priceRange,
-    readMore: false,
-  };
-
   //페이지 로딩시 or 카테고리, 가격 목록 선택시 데이터조회
   useEffect(() => {
     setSkip(0);
     const onCategorySearch = () => {
-      const option = { ...searchOption, skip: 0, searchValue: searchValue };
+      const option = {
+        limit: limit,
+        skip: 0,
+        category: selectCategory,
+        price: priceRange,
+        readMore: false,
+        searchValue: searchValue,
+      };
       getProduct(option);
     };
     onCategorySearch();
-  }, [selectCategory, priceRange]);
+  }, [selectCategory, priceRange, searchValue, getProduct]);
 
   //더보기 동작시 데이터 조회
   useEffect(() => {
     const readMore = () => {
       const option = {
-        ...searchOption,
-        searchValue: searchValue,
+        limit: limit,
         skip: skip + limit,
+        category: selectCategory,
+        price: priceRange,
+        searchValue: searchValue,
         readMore: true,
       };
       getProduct(option);
@@ -110,11 +111,16 @@ function Main() {
         message: "검색어를 입력해주세요.",
       });
       setOpenModal(true);
-    } else {
+    }
+
+    if (searchValue.length > 0) {
       const option = {
-        ...searchOption,
-        searchValue: searchValue,
+        limit: limit,
         skip: 0,
+        category: selectCategory,
+        price: priceRange,
+        readMore: false,
+        searchValue: searchValue,
       };
       setSearchTrue(true);
       getProduct(option);
@@ -167,7 +173,14 @@ function Main() {
             onClick={() => {
               setSearchValue("");
               setSearchTrue(false);
-              getProduct(searchOption);
+              getProduct({
+                limit: limit,
+                skip: 0,
+                category: selectCategory,
+                price: priceRange,
+                readMore: false,
+                searchValue: searchValue,
+              });
             }}
           >
             <RollbackOutlined />

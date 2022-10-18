@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import Loading from "../../Components/Loading";
@@ -11,8 +10,7 @@ import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
 import useAuth from "../../hooks/useAuth";
 
-function PurchaseHistory({ user }) {
-  const nav = useNavigate();
+function PurchaseHistory() {
   const [shippingInfo, setShippingInfo] = useState([]);
   const { openModal, contents, setOpenModal } = useModal();
   const { isAuth, userId } = useAuth(true);
@@ -29,7 +27,7 @@ function PurchaseHistory({ user }) {
 
     const titleName = document.getElementsByTagName("title")[0];
     titleName.innerHTML = `구매내역`;
-  }, [isAuth, userId]);
+  }, [isAuth, userId, connectServer]);
 
   const onShippingInfo = useCallback(
     (data) => {
