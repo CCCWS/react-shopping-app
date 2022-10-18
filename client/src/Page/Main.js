@@ -185,7 +185,7 @@ function Main() {
           >
             <RollbackOutlined />
           </div>
-        </SearchReset>
+        </SearchReset> 
       ) : (
         <ProductRank />
       )}
