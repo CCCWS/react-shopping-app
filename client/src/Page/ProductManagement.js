@@ -28,12 +28,16 @@ function ProductManagement({ isAuth, userId }) {
   useEffect(() => {
     //총 판매개수와 금액 계산
     const calcData = (data) => {
-      console.log(data);
       const sold = [];
       const price = [];
 
-      data.forEach((data) => sold.push(data.sold));
-      data.forEach((data) => price.push(data.price * data.sold));
+      // data.forEach((item) => sold.push(item.sold));
+      // data.forEach((item) => price.push(item.price * item.sold));
+
+      for (let i of data) {
+        sold.push(i.sold);
+        price.push(i.price * i.sold);
+      }
 
       if (sold.length === 0) {
         setTotalSold(0);
