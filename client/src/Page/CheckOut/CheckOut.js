@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
-import PaymentBtn from "../../Components/PaymentBtn";
-import Selector from "../../Components/Selector";
+import PaymentBtn from "../../Components/Product/PaymentBtn";
+import Selector from "../../Components/Utility/Selector";
 import CheckOutProduct from "./CheckOutProduct";
 import CheckOutInput from "./CheckOutInput";
 

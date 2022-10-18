@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { MenuOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 import HeaderBtns from "./HeaderBtn";
-import RecentView from "../RecentView";
+import RecentView from "../Product/RecentView";
 
 function SideMenu() {
   const [menuClick, setMenuClick] = useState(false);

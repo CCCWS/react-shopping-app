@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CheckOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
-import Loading from "../../Components/Loading";
+import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";
 
 import useModal from "../../hooks/useModal";

@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { LeftOutlined, HomeOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
-import RecentView from "../../Components/RecentView";
-import Selector from "../../Components/Selector";
-import Loading from "../../Components/Loading";
+import RecentView from "../../Components/Product/RecentView";
+import Selector from "../../Components/Utility/Selector";
+import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";
 import FooterDetailPage from "../../Components/Footer/FooterDetailPage";
 
@@ -223,12 +223,6 @@ function ProductDetail({ user }) {
           {product.count === 0 ? (
             <SoldOut>판매완료된 상품입니다.</SoldOut>
           ) : null}
-
-          {/* <ImgCarousel
-      data={product.image}
-      setModalOpen={setModalOpen}
-      setModalImg={setModalImg}
-    /> */}
 
           <Selector ProductDetail={true} arr={product.image} />
 

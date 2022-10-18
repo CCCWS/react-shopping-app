@@ -178,6 +178,22 @@ app.post("/userInfo", (req, res) => {
     });
 });
 
+app.post("/myProduct", auth, (req, res) => {
+  //사용자가 등록한 상품 목록
+  ProductData.find({
+    writer: { $in: req.user._id },
+  })
+    .sort({ createdAt: -1 })
+    .lean()
+    .exec((err, productInfo) => {
+      if (err) return res.status(400).json({ success: false, err });
+      res.status(200).json({
+        success: true,
+        productInfo: productInfo,
+      });
+    });
+});
+
 app.post("/successBuy", auth, (req, res) => {
   User.findOneAndUpdate(
     { _id: req.user._id },

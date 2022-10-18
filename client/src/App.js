@@ -2,9 +2,11 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import scrollbar from "smooth-scrollbar";
 
-import PageTop from "./Components/PageTop";
+import PageTop from "./Components/Utility/PageTop";
 import Header from "./Components/Header/Header";
+
 import Main from "./Page/Main";
 import Upload from "./Page/Upload";
 import ProductDetail from "./Page/DetailPage/ProductDetail";
@@ -26,6 +28,8 @@ function App() {
     window.onbeforeunload = function pushRefresh() {
       window.scrollTo(0, 0);
     };
+
+    scrollbar.init(document.querySelector("#smooth-scroll"));
   }, []);
 
   return (

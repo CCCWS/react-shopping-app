@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -7,7 +6,7 @@ import {
   ImgAndTitle,
   CountAndPrice,
   List,
-} from "../../Components/style/ProductCard";
+} from "../../Components/Style/ProductCard";
 
 import { postUrl } from "../../PostUrl";
 

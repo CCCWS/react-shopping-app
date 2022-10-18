@@ -2,11 +2,11 @@ import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
-import ModalBase from "./Modal/ModalBase";
+import ModalBase from "../Modal/ModalBase";
 
-import useModal from "../hooks/useModal";
+import useModal from "../../hooks/useModal";
 
-import { postUrl } from "../PostUrl";
+import { postUrl } from "../../PostUrl";
 
 function Selector({ ProductDetail, CheckOut, arr }) {
   const { openModal, contents, setOpenModal } = useModal();

@@ -203,12 +203,9 @@ app.post("/myProduct", auth, (req, res) => {
   })
     .sort({ createdAt: -1 })
     .lean()
-    .exec((err, productInfo) => {
+    .exec((err, productList) => {
       if (err) return res.status(400).json({ success: false, err });
-      res.status(200).json({
-        success: true,
-        productInfo: productInfo,
-      });
+      res.status(200).json(productList);
     });
 });
 

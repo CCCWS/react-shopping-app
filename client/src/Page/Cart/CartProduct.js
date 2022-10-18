@@ -33,11 +33,7 @@ const CartProduct = ({
             />
 
             <ProductTitle onClick={() => nav(`/product/${data._id}`)}>
-              <div>
-                {data.title.length > 15
-                  ? `${data.title.slice(0, 15)}...`
-                  : `${data.title}`}
-              </div>
+              <div>{`${data.title}`}</div>
               <div>{`${parseInt(
                 data.price * data.purchasesCount,
                 10
@@ -98,7 +94,7 @@ const ProductCheckBox = styled.div`
 
 const ProductImg = styled.div`
   background-image: ${(props) => props.image};
-  min-width: 100px;
+  min-width: 20%;
   height: 100%;
 
   background-size: cover;
@@ -113,18 +109,17 @@ const ProductImg = styled.div`
 
 const ProductTitle = styled.div`
   cursor: pointer;
+  font-size: 1rem;
 
   //상품 이름
   & > :first-child {
-    font-size: 1.2rem;
     font-weight: 800;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
   }
 
   //상품 가격
   & > :nth-child(2) {
     color: rgba(255, 0, 0, 0.5);
-    font-size: 1rem;
     font-weight: 600;
   }
 `;

@@ -4,7 +4,6 @@ import axios from "axios";
 import styled from "styled-components";
 import {
   CameraOutlined,
-  ZoomInOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
 
@@ -104,10 +103,6 @@ function ImgUpload({ setState, setImgDelete, edit, editImg }) {
               key={index}
               alt="img"
             >
-              {/* <div>
-                <ZoomInOutlined />
-              </div> */}
-
               <UploadImgDel onClick={() => delImg(data)}>
                 <CloseOutlined />
               </UploadImgDel>
@@ -187,23 +182,6 @@ const UploadImg = styled.div`
     width: 6rem;
     height: 6rem;
   }
-
-  /* & > :first-child {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    font-size: 2rem;
-    background-color: rgba(184, 184, 184, 0.445);
-    opacity: 0;
-    transition: all ease 0.3s;
-
-    &:hover {
-      opacity: 1;
-    }
-  } */
 `;
 
 const UploadImgDel = styled.div`

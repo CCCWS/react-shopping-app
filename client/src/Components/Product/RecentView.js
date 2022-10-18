@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-import { postUrl } from "../PostUrl";
+import { postUrl } from "../../PostUrl";
 
 function RecentView({ SideMenu, setMenuClick, menuClick }) {
   const { id } = useParams();

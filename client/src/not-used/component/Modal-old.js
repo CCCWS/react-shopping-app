@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import DaumPostCode from "react-daum-postcode";
-import { postUrl } from "../../PostUrl";
+import { postUrl } from "../PostUrl";
 
 import "./Modal.css";
 

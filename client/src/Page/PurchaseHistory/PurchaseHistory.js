@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
-import Loading from "../../Components/Loading";
+import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";
 
 import PurchaseHistotyProduct from "./PurchaseHistotyProduct";

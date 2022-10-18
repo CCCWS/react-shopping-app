@@ -4,7 +4,7 @@ import {
   ImgAndTitle,
   CountAndPrice,
   List,
-} from "../../Components/style/ProductCard";
+} from "../../Components/Style/ProductCard";
 
 import { postUrl } from "../../PostUrl";
 

@@ -5,13 +5,13 @@ import { SearchOutlined, RollbackOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 //component
-import ProductCard from "../Components/ProductCard";
-import SelectBox from "../Components/SelectBox";
-import RecentView from "../Components/RecentView";
-import ProductRank from "../Components/ProductRank";
+import ProductCard from "../Components/Product/ProductCard";
+import SelectBox from "../Components/Utility/SelectBox";
+import RecentView from "../Components/Product/RecentView";
+import ProductRank from "../Components/Product/ProductRank";
 import ModalBase from "../Components/Modal/ModalBase";
-import Loading from "../Components/Loading";
-import Switch from "../Components/Switch";
+import Loading from "../Components/Utility/Loading";
+import Switch from "../Components/Utility/Switch";
 
 //comstom hooks
 import useAxios from "../hooks/useAxios";
@@ -80,7 +80,7 @@ function Main() {
       getProduct(option);
     };
     onCategorySearch();
-  }, [selectCategory, priceRange, searchValue, getProduct]);
+  }, [selectCategory, priceRange, getProduct]);
 
   //더보기 동작시 데이터 조회
   useEffect(() => {
@@ -179,7 +179,7 @@ function Main() {
                 category: selectCategory,
                 price: priceRange,
                 readMore: false,
-                searchValue: searchValue,
+                searchValue: "",
               });
             }}
           >

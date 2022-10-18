@@ -4,7 +4,7 @@ import { Skeleton } from "antd";
 import styled from "styled-components";
 
 import Footer from "./Footer";
-import ProductCountBtn from "../ProductCountBtn";
+import ProductCountBtn from "../Product/ProductCountBtn";
 
 const FooterDetailPage = ({
   product,

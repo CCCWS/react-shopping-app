@@ -4,8 +4,8 @@ import Zoom from "react-reveal/Fade";
 import withReveal from "react-reveal/withReveal";
 import styled, { css } from "styled-components";
 
-import { postUrl } from "../PostUrl";
-import getTime from "../hooks/getTime";
+import { postUrl } from "../../PostUrl";
+import getTime from "../../hooks/getTime";
 
 function ProductCard({ data, viewType }) {
   const nav = useNavigate();
@@ -29,18 +29,7 @@ function ProductCard({ data, viewType }) {
             </div>
 
             <Info viewType={viewType}>
-              <div>
-                {viewType ? (
-                  <>
-                    {/* {data.title.length > 11
-                      ? `${data.title.slice(0, 11)}...`
-                      : `${data.title}`} */}
-                    {data.title}
-                  </>
-                ) : (
-                  `${data.title}`
-                )}
-              </div>
+              <div>{viewType ? <>{data.title}</> : `${data.title}`}</div>
 
               <TimeAndPrice viewType={viewType}>
                 <div>{`${parseInt(data.price, 10).toLocaleString()}원`}</div>
@@ -81,19 +70,14 @@ const CardDiv = styled.div`
 const Card = withReveal(
   styled.div`
     //상품 카드의 크기
-    /* background-color: red; */
     margin: auto;
     margin-bottom: ${(props) => (props.viewType ? "6rem" : "1rem")};
     width: ${(props) => (props.viewType ? "90%" : "100%")};
     height: ${(props) => (props.viewType ? "20rem" : "15rem")};
     border-radius: 5px;
-    /* box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
-    border: 3px solid transparent; */
 
     &:hover {
       cursor: pointer;
-      /* border: 3px solid orange;
-      transition: all ease 0.5s; */
     }
 
     //이미지

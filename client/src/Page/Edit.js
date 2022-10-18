@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 
-import Loading from "../Components/Loading";
+import Loading from "../Components/Utility/Loading";
 import UploadForm from "../Components/UploadForm/UploadForm";
 
 import useAxios from "../hooks/useAxios";

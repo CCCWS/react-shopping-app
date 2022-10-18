@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Section, Input } from "../../Components/style/InputStyled";
+import { Section, Input } from "../../Components/Style/InputStyled";
 import AddressSearch from "./AddressSearch";
 
 const CheckOutInput = ({ searchAddress, setSearchAddress }, ref) => {

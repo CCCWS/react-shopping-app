@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Carousel } from "antd";
 import styled from "styled-components";
 
-import useAxios from "../hooks/useAxios";
+import useAxios from "../../hooks/useAxios";
 
-import { postUrl } from "../PostUrl";
+import { postUrl } from "../../PostUrl";
 
 function ProductRank() {
   const { resData: sold, connectServer: getSold } = useAxios(

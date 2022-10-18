@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
-import { registerInfo } from "../../../_action/user_action";
 import { login } from "../../../store/reducer/user/user-action";
 
 function LoginComponent({ type, setType }) {
@@ -72,17 +71,8 @@ function LoginComponent({ type, setType }) {
         login({
           email: emailRef.current.value,
           password: passwordRef.current.value,
-        }) // user_action으로 전달
+        })
       );
-      // window.location.reload();
-      // .then((res) => {
-      //   if (res.payload.loginSuccess) {
-      //     window.localStorage.setItem("userId", res.payload.userId);
-      //     window.location.reload();
-      //   } else {
-      //     alert("로그인 실패");
-      //   }
-      // });
       return;
     }
 
@@ -112,20 +102,20 @@ function LoginComponent({ type, setType }) {
         return alert("비밀번호를 다시 확인해주세요.");
       }
 
-      dispatch(
-        registerInfo({
-          email: registerEmailRef.current.value,
-          name: registerNameRef.current.value,
-          password: registerPasswordRef.current.value,
-        })
-      ).then((response) => {
-        if (response.payload.success) {
-          alert("가입 성공");
-          setType("login");
-        } else {
-          alert("이미 사용중인 이메일입니다.");
-        }
-      });
+      // dispatch(
+      //   registerInfo({
+      //     email: registerEmailRef.current.value,
+      //     name: registerNameRef.current.value,
+      //     password: registerPasswordRef.current.value,
+      //   })
+      // ).then((response) => {
+      //   if (response.payload.success) {
+      //     alert("가입 성공");
+      //     setType("login");
+      //   } else {
+      //     alert("이미 사용중인 이메일입니다.");
+      //   }
+      // });
       return;
     }
   };

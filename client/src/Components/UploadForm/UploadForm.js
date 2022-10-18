@@ -2,16 +2,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Section, Input, Textarea } from "../style/InputStyled";
 
 //component
-import SelectBox from "../SelectBox";
+import SelectBox from "../Utility/SelectBox";
 import ImgUpload from "./ImgUpload";
 
 //custom hooks
 import useAxios from "../../hooks/useAxios";
 
 //etc
+import { Section, Input, Textarea } from "../Style/InputStyled";
 import { uploadCategoryList } from "../../data/CatecoryList";
 
 function UploadForm({ userId, edit, editData, productId }) {

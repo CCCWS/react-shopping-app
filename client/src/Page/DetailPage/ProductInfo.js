@@ -3,8 +3,8 @@ import Zoom from "react-reveal/Fade";
 import { Skeleton } from "antd";
 import styled from "styled-components";
 
-import Loading from "../../Components/Loading";
-import ProductCard from "../../Components/ProductCard";
+import Loading from "../../Components/Utility/Loading";
+import ProductCard from "../../Components/Product/ProductCard";
 
 const ProductInfo = ({
   writerLoading,
