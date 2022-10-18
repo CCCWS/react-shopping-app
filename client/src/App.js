@@ -23,7 +23,7 @@ import Test2 from "./Page/Test2";
 import Auth from "./hoc/auth";
 import "./App.css";
 
-function App() {
+function App() { 
   useEffect(() => {
     window.onbeforeunload = function pushRefresh() {
       window.scrollTo(0, 0);
