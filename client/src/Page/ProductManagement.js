@@ -34,10 +34,10 @@ function ProductManagement({ isAuth, userId }) {
       // data.forEach((item) => sold.push(item.sold));
       // data.forEach((item) => price.push(item.price * item.sold));
 
-      for (let i of data) {
-        sold.push(i.sold);
-        price.push(i.price * i.sold);
-      }
+      // for (let i of data) {
+      //   sold.push(i.sold);
+      //   price.push(i.price * i.sold);
+      // }
 
       if (sold.length === 0) {
         setTotalSold(0);
