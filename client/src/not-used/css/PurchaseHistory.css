@@ -1,0 +1,113 @@
+.purchaseHistory-length {
+  font-size: 20px;
+  font-weight: 600;
+  padding: 10px;
+}
+
+.purchaseHistory-product-card-box {
+  padding: 10px;
+}
+
+.purchaseHistory-product-card {
+  display: flex;
+  box-shadow: 0px 0px 10px 5px rgba(255, 207, 118, 0.3);
+  margin-bottom: 5rem;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.purchaseHistory-product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 250px;
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+.purchaseHistory-product-info-value > :nth-child(2) {
+  color: rgba(151, 151, 151, 0.904);
+}
+
+.purchaseHistory-product-info-value > :nth-child(3) {
+  font-weight: 700;
+}
+
+.purchaseHistory-product-info > :nth-child(2) {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.purchaseHistory-product-list {
+
+  display: flex;
+  flex-wrap: wrap;
+
+  width: 100%;
+  margin: auto;
+}
+
+.purchaseHistory-purchase-card {
+  /* box-shadow: 5px 5px 10px 5px rgba(128, 128, 128, 0.507); */
+  background-color: red;
+  min-height: 8rem;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.purchaseHistory-purchase-card > :first-child {
+  display: flex;
+}
+
+.purchaseHistory-purchase-img {
+  min-width: 90px;
+  height: 100%;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.purchaseHistory-purchase-card-title {
+  font-weight: 600;
+  font-size: 16px;
+  white-space: normal;
+}
+
+.purchaseHistory-purchase-card-price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
+
+  min-width: 5rem;
+  font-size: 0.8rem;
+}
+
+
+@media (max-width: 800px) {
+  .purchaseHistory-product-card {
+    flex-direction: column;
+    padding: 0;
+    width: 100%;
+    margin-bottom: 50px;
+  }
+
+  .purchaseHistory-product-info {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  .purchaseHistory-product-list {
+    padding: 0;
+  }
+}

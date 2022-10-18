@@ -1,0 +1,168 @@
+.test-header {
+  width: 100%;
+  height: 48px;
+  padding: 6px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.test-header-left > div:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.test-header-right > div:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.test-header-left > :first-child {
+  margin-left: 15px;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.test-header-left > :nth-child(2) {
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.test-header-right {
+  width: 280px;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.test-header-right > :nth-child(3) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 25px;
+
+  width: 40px;
+  height: 40px;
+  border-radius: 30px;
+}
+
+.test-header-right > :nth-child(3):hover {
+  background-color: rgba(128, 128, 128, 0.212);
+}
+
+.test-heaer-login {
+  border: 1px solid #4285f4;
+  border-radius: 5px;
+
+  width: 78px;
+  height: 36px;
+
+  background-color: #4285f4;
+  color: white;
+}
+.test-heaer-login:hover {
+  cursor: pointer;
+  box-shadow: 1px 1px 10px 1px rgba(128, 128, 128, 0.507);
+}
+
+.test-main {
+  margin-top: 200px;
+}
+
+.test-logo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.test-search-bar {
+  width: 560px;
+  height: 50px;
+  background-color: white;
+  margin: auto;
+  border-radius: 50px;
+  border: 2px solid rgba(128, 128, 128, 0.212);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.test-search-bar-input-focus {
+  box-shadow: 1px 1px 10px 1px rgba(128, 128, 128, 0.507);
+}
+
+.test-search-bar:hover {
+  box-shadow: 1px 1px 10px 1px rgba(128, 128, 128, 0.507);
+}
+
+.test-search-bar-input {
+  width: 447px;
+  border: none;
+}
+
+.test-search-bar-input:focus {
+  outline: none;
+}
+
+.test-otherBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.test-otherBtn > div {
+  font-size: 14px;
+  background-color: rgba(128, 128, 128, 0.226);
+  padding: 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 30px;
+  border: 1px solid transparent;
+}
+
+.test-otherBtn > div:hover {
+  cursor: pointer;
+  border: 1px solid rgba(128, 128, 128, 0.514);
+}
+
+.test-footer {
+  font-size: 16px;
+  width: 100%;
+  background-color: rgba(230, 230, 230, 0.733);
+  position: absolute;
+  bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.test-footer-up {
+  padding: 13px;
+  border-bottom: 1px solid #dadce0;
+}
+
+.test-footer-down {
+  padding: 13px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.test-footer-item {
+  width: 30%;
+
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.test-footer-item > div:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

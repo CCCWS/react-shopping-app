@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: transparent;
+  padding: 1%;
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(20px);
+  /* background-color: white; */
+  border-bottom: 2px solid orange;
+  width: 100%;
+  height: 50px;
+  z-index: 20;
+}
+
+.logoImg {
+  padding-right: 10px;
+  font-size: 25px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,76 @@
+.ProductRank {
+  margin-bottom: 20px;
+}
+
+.ProductRank-section {
+  background-color: red;
+  margin-bottom: 50px;
+}
+
+.ProductRank-section > :first-child {
+  font-size: 20px;
+  height: 50px;
+  margin-left: 20px;
+}
+
+.ProductRank-product {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 470px;
+}
+
+.ProductRank-product-item {
+  box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
+  background-color: rgba(255, 166, 0, 0.267);
+  border: 3px solid transparent;
+  border-radius: 0px 30px 0px 30px;
+  width: 30%;
+}
+
+.ProductRank-product-item:hover {
+  transition: all ease 0.5s;
+  border: 3px solid rgba(255, 166, 0, 0.692);
+  cursor: pointer;
+}
+
+.ProductRank-product-item-img {
+  position: relative;
+  width: 100%;
+  height: 70%;
+  border-radius: 0px 30px 0px 0px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.ProductRank-product-item-number {
+  position: absolute;
+  color: rgba(255, 0, 0, 0.616);
+  font-size: 50px;
+  font-style: oblique;
+  font-weight: 600;
+  top: 0px;
+  left: 10px;
+}
+
+.ProductRank-product-item-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  font-size: 16px;
+  height: 30%;
+}
+
+.slick-dots-bottom {
+  bottom: 0 !important;
+}
+
+.slick-dots > li {
+  background-color: orange !important;
+}
+
+.slick-active > button {
+  background-color: transparent !important;
+}

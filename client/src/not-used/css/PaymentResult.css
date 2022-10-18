@@ -1,0 +1,29 @@
+.paymentResult-goBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.paymentResult-goBtn > :first-child {
+  margin-right: 10px;
+}
+
+.paymentResult-goBtn > button {
+  padding: 10px;
+  border: 2px solid gainsboro;
+  width: 150px;
+  font-size: 16px;
+  margin-bottom: 20px;
+
+  cursor: pointer;
+}
+
+.purchase-procedure-totalPrice {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 20px;
+}

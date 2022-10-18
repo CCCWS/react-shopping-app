@@ -1,0 +1,37 @@
+.PurchasesCountBtn-section {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  padding: 10px;
+  font-size: 16px;
+}
+
+.PurchasesCountBtn-count {
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+  margin-left: 5px;
+  border: none;
+  border: 1px solid rgb(189, 189, 189);
+  border-radius: 5px;
+}
+
+.PurchasesCountBtn-count::-webkit-outer-spin-button,
+.PurchasesCountBtn-count::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.PurchasesCountBtn-count:focus {
+  outline: none;
+  border: 1px solid rgba(248, 104, 104, 0.671);
+}
+
+.PurchasesCountBtn-count-btn {
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}

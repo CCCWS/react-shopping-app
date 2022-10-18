@@ -1,0 +1,164 @@
+.purchase-procedure {
+  font-size: 16px;
+  padding: 10px;
+}
+
+.cart-card-checkbox-all {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.cart-card-checkbox-all > :first-child {
+  margin-right: 10px;
+}
+
+.cart-card-checkbox-all > :nth-child(3) {
+  border: 1px solid rgb(156, 156, 156);
+  background-color: transparent;
+  width: 90px;
+  height: 30px;
+
+  transition: all ease 0.5s;
+}
+
+.cart-card-checkbox-all > :nth-child(3):hover {
+  cursor: pointer;
+  background-color: rgb(255, 118, 118);
+}
+
+.cart-card-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 50px;
+}
+
+.cart-card-not-item {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  font-size: 25px;
+}
+
+.cart-card {
+  box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
+  width: 49%;
+  height: 150px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart-card > :first-child {
+  display: flex;
+}
+
+.cart-card-checkbox {
+  border: 1px solid rgb(156, 156, 156);
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: all ease 0.5s;
+}
+
+.cart-card-checkbox-check {
+  background-color: rgb(255, 118, 118);
+}
+
+.cart-card-checkbox:hover {
+  cursor: pointer;
+  background-color: rgb(255, 118, 118);
+}
+
+.cart-img {
+  width: 100px;
+  height: 100%;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  border-radius: 5px;
+  margin-right: 15px;
+
+  cursor: pointer;
+}
+
+.cart-card-title {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.cart-card-title > :first-child {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.cart-card-title > :nth-child(2) {
+  color: rgba(255, 0, 0, 0.644);
+  font-weight: 600;
+}
+
+.cart-card-delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid rgb(156, 156, 156);
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+
+  transition: all ease 0.5s;
+}
+
+.cart-card-delete:hover {
+  cursor: pointer;
+  background-color: rgb(255, 118, 118);
+}
+
+.cart-purchase-btn-activate {
+  margin-right: 10px;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: rgb(255, 48, 48);
+  color: white;
+  cursor: pointer;
+}
+
+.cart-purchase-btn-disabled {
+  margin-right: 10px;
+  font-size: 20px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: rgb(145, 145, 145);
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 800px) {
+  .cart-card-box {
+    justify-content: center;
+  }
+  .cart-card {
+    width: 100%;
+  }
+}

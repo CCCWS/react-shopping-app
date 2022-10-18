@@ -1,0 +1,92 @@
+.main-productList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  /* border-top: 1px solid rgb(223, 223, 223); */
+  /* box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507); */
+}
+
+.main-productList-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.main-view-btn {
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 20px;
+  background-color: transparent;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.main-view-on {
+  background-color: rgb(255, 120, 120);
+}
+
+.main-option {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.main-option-selectBox {
+  display: flex;
+}
+
+.main-searchBar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-searchBar > :first-child {
+  border: 3px solid orange;
+  width: 300px;
+  height: 30px;
+  margin: 20px;
+  padding: 10px;
+}
+
+.main-searchBar > :first-child:focus {
+  outline: none;
+}
+
+.main-searchBar > :last-child {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.main-search-reset {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.main-search-reset > :first-child {
+  font-size: 25px;
+  padding: 5px;
+  border-radius: 20px;
+}
+
+.main-search-reset > :first-child:hover {
+  cursor: pointer;
+  background-color: rgba(255, 166, 0, 0.61);
+}
+
+@media (max-width: 450px) {
+  .main-option {
+    height: 80px;
+  }
+}
