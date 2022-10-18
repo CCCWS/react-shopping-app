@@ -12,7 +12,11 @@ import ProductRank from "../Components/Product/ProductRank";
 import ModalBase from "../Components/Modal/ModalBase";
 import Loading from "../Components/Utility/Loading";
 import Switch from "../Components/Utility/Switch";
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 449c43be60d0cb96f535c6a4c321558e111b7724
 //comstom hooks
 import useAxios from "../hooks/useAxios";
 import useModal from "../hooks/useModal.js";
@@ -185,7 +189,11 @@ function Main() {
           >
             <RollbackOutlined />
           </div>
+<<<<<<< HEAD
         </SearchReset> 
+=======
+        </SearchReset>
+>>>>>>> 449c43be60d0cb96f535c6a4c321558e111b7724
       ) : (
         <ProductRank />
       )}
