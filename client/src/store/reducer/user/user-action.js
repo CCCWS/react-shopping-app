@@ -1,11 +1,6 @@
 import axios from "axios";
 import { userAction } from "./user";
 
-const postUrl =
-  process.env.NODE_ENV === "production"
-    ? "https://protected-reef-94609.herokuapp.com/"
-    : "http://localhost:3000";
-
 export const auth = () => {
   return async (dispatch) => {
     const getApi = async () => {
@@ -38,7 +33,7 @@ export const login = (data) => {
 export const logout = () => {
   return async (dispatch) => {
     const logoutApi = async () => {
-      const res = await axios.get(`${postUrl}/api/user/logout`);
+      const res = await axios.get("/api/user/logout");
 
       if (!res.data.success) {
         throw new Error("logout error");
@@ -46,8 +41,9 @@ export const logout = () => {
 
       if (res.data.success) {
       }
-      dispatch(userAction.setLogout());
     };
+
+    dispatch(userAction.setLogout());
     logoutApi();
   };
 };
