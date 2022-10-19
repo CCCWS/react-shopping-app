@@ -31,8 +31,13 @@ function ProductManagement({ isAuth, userId }) {
       // data.forEach((item) => sold.push(item.sold));
       // data.forEach((item) => price.push(item.price * item.sold));
 
-      const sold = data.map((item) => item.sold);
-      const price = data.map((item) => item.sold * item.price);
+      // const sold = data.map((item) => item.sold);
+      // const price = data.map((item) => item.sold * item.price);
+
+      const sold = [];
+      const price = [];
+
+      console.log(data);
 
       if (sold.length === 0) {
         setTotalSold(0);
