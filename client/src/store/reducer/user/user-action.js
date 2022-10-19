@@ -3,7 +3,7 @@ import { userAction } from "./user";
 
 const postUrl =
   process.env.NODE_ENV === "production"
-    ? "https://blooming-castle-32175.herokuapp.com"
+    ? "https://protected-reef-94609.herokuapp.com/"
     : "http://localhost:3000";
 
 export const auth = () => {

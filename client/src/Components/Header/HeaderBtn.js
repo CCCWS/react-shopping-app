@@ -111,7 +111,6 @@ const HeaderBtns = () => {
 
     const onLogout = () => {
       dispatch(logout());
-      console.log("test");
     };
 
     // useEffect(() => {
