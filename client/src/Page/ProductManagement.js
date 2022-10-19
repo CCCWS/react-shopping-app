@@ -37,8 +37,6 @@ function ProductManagement({ isAuth, userId }) {
       const sold = [];
       const price = [];
 
-      console.log(data);
-
       if (sold.length === 0) {
         setTotalSold(0);
       }
@@ -63,7 +61,8 @@ function ProductManagement({ isAuth, userId }) {
 
     //판매개수와 가격의 계산이 되었을경우
     if (totalSold !== undefined && totalPrice !== undefined) {
-      setLoading(false);
+      // setLoading(false);
+      console.log(resData);
     }
   }, [resData, totalSold, totalPrice]);
 
