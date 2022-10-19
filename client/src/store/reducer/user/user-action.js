@@ -9,7 +9,7 @@ const postUrl =
 export const auth = () => {
   return async (dispatch) => {
     const getApi = async () => {
-      const res = await axios.get(`${postUrl}/api/user/auth`);
+      const res = await axios.get("/api/user/auth");
       dispatch(userAction.onAuthCheck(res.data));
     };
     getApi();
@@ -19,7 +19,7 @@ export const auth = () => {
 export const login = (data) => {
   return async (dispatch) => {
     const loginApi = async () => {
-      const res = await axios.post(`${postUrl}/api/user/login`, data);
+      const res = await axios.post("/api/user/login", data);
 
       if (!res.data.loginSuccess) {
         alert(res.data.message);
