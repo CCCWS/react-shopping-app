@@ -196,10 +196,10 @@ app.post("/successBuy", (req, res) => {
   //정상적으로 모두 처리가 되었을때만 성공 메세지를 전송
 });
 
-app.post("/myProduct", auth, (req, res) => {
+app.post("/myProduct", (req, res) => {
   //사용자가 등록한 상품 목록
   ProductData.find({
-    writer: { $in: req.user._id },
+    writer: { $in: req.body.id },
   })
     .sort({ createdAt: -1 })
     .lean()
