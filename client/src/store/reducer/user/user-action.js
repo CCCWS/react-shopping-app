@@ -45,8 +45,8 @@ export const logout = () => {
       }
 
       if (res.data.success) {
-        dispatch(userAction.setLogout());
       }
+      dispatch(userAction.setLogout());
     };
     logoutApi();
   };

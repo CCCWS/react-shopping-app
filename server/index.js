@@ -11,7 +11,6 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const { User } = require("./models/User");
 
-const { auth } = require("./middleware/auth");
 const config = require("./config/key");
 
 const port = process.env.PORT || 3001;
