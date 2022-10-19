@@ -174,13 +174,13 @@ app.post("/cart", (req, res) => {
 
 app.post("/successBuy", (req, res) => {
   //구매 성공시 처리
-  for (let i in req.body) {
+  for (let i of req.body) {
     ProductData.findOneAndUpdate(
-      { _id: req.body[i].id },
+      { _id: i.id },
       {
         $inc: {
-          sold: req.body[i].purchasesCount,
-          count: -req.body[i].purchasesCount,
+          sold: i.purchasesCount,
+          count: -i.purchasesCount,
         },
       },
       { new: true }

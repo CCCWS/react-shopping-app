@@ -17,11 +17,11 @@ function CheckOut({ userId }) {
   const [loading, setLoading] = useState(false);
   const [searchAddress, setSearchAddress] = useState("");
 
-  const { connectServer: userSuccessBuy } = useAxios("/api/user/successBuy"); //상품정보에 상품갯수 변경
+  const { connectServer: userSuccessBuy } = useAxios("/api/user/successBuy"); //유저정보에 구입내역을 추가
   const { connectServer: removeCart } = useAxios("/api/user/removeCart"); //장바구니에 있는 상품이라면 구매성공시 유저의 카트에서 해당상품 제거
   const { connectServer: productSuccessBuy } = useAxios(
     "/api/product/successBuy"
-  ); //유저정보에 구입내역을 추가
+  ); //상품개수 변경
 
   const nameRef = useRef();
   const phoneRef = useRef();
@@ -36,24 +36,24 @@ function CheckOut({ userId }) {
 
   //구매 성공시
   const paymentSeccess = (e, payment) => {
-    if (nameRef.current.value < 1) {
-      nameRef.current.focus();
-      return alert("이름을 입력해주세요.");
-    }
+    // if (nameRef.current.value < 1) {
+    //   nameRef.current.focus();
+    //   return alert("이름을 입력해주세요.");
+    // }
 
-    if (phoneRef.current.value < 1) {
-      phoneRef.current.focus();
-      return alert("전화번호를 입력해주세요.");
-    }
+    // if (phoneRef.current.value < 1) {
+    //   phoneRef.current.focus();
+    //   return alert("전화번호를 입력해주세요.");
+    // }
 
-    if (searchAddress.length < 1) {
-      return alert("주소를 입력해주세요.");
-    }
+    // if (searchAddress.length < 1) {
+    //   return alert("주소를 입력해주세요.");
+    // }
 
-    if (addressRef.current.value < 1) {
-      addressRef.current.focus();
-      return alert("추가 주소를 입력해주세요.");
-    }
+    // if (addressRef.current.value < 1) {
+    //   addressRef.current.focus();
+    //   return alert("추가 주소를 입력해주세요.");
+    // }
 
     setLoading(true);
 
@@ -65,6 +65,7 @@ function CheckOut({ userId }) {
     }
 
     const option = {
+      userId: userId,
       shippingInfo: {
         name: nameRef.current.value,
         phone: phoneRef.current.value,
@@ -83,21 +84,22 @@ function CheckOut({ userId }) {
 
     setTimeout(() => {
       setLoading(false);
-      nav("/paymentResult", {
-        state: option,
-      });
+      // nav("/paymentResult", {
+      //   state: option,
+      // });
     }, 2000);
   };
 
   //구매한 상품의 수량 변경
   const productsold = () => {
     const option = [];
-    state.product.forEach((data) =>
+    state.product.forEach((data) => {
+      console.log(data);
       option.push({
-        id: userId,
+        id: data._id,
         purchasesCount: data.purchasesCount,
-      })
-    );
+      });
+    });
     productSuccessBuy(option);
   };
 

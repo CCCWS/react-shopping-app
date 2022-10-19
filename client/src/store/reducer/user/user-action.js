@@ -20,7 +20,6 @@ export const login = (data) => {
   return async (dispatch) => {
     const loginApi = async () => {
       const res = await axios.post(`${postUrl}/api/user/login`, data);
-      console.log(res.data);
 
       if (!res.data.loginSuccess) {
         alert(res.data.message);
@@ -28,6 +27,7 @@ export const login = (data) => {
 
       if (res.data.loginSuccess) {
         dispatch(userAction.setLogin(res.data.user));
+        // await axios.get(`${postUrl}/api/user/auth`);
       }
     };
 
@@ -38,8 +38,15 @@ export const login = (data) => {
 export const logout = () => {
   return async (dispatch) => {
     const logoutApi = async () => {
-      await axios.get(`${postUrl}/api/user/logout`);
-      dispatch(userAction.setLogout());
+      const res = await axios.get(`${postUrl}/api/user/logout`);
+
+      if (!res.data.success) {
+        throw new Error("logout error");
+      }
+
+      if (res.data.success) {
+        dispatch(userAction.setLogout());
+      }
     };
     logoutApi();
   };
