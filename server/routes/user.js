@@ -64,7 +64,7 @@ app.post("/login", (req, res) => {
 
       //Token생성
       user.createToken((err, user) => {
-        if (err) return res.status(400).send(err);
+        if (err) return res.status(400).json(err);
 
         //토큰을 쿠키에 저장,  로컬스토리지 등에도 저장가능
         res
@@ -86,7 +86,7 @@ app.post("/login", (req, res) => {
 
 app.get("/logout", auth, (req, res) => {
   //DB에서 id를 찾고 토큰을 비워줌
-  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+  User.findOneAndUpdate({ _id: req.id }, { token: "" }, (err, user) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({ success: true });
   });
