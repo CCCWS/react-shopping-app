@@ -10,13 +10,9 @@ const userSlice = createSlice({
       state.isAuth = true;
     },
 
-    setLogout(state, action) {
+    setLogout(state) {
       state.userInfo = {};
       state.isAuth = false;
-    },
-
-    onAuthCheck(state, action) {
-      state.isAuth = action.payload.isAuth;
     },
   },
 });

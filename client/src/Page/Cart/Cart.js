@@ -30,15 +30,7 @@ function Cart({ isAuth, userId }) {
     connectServer: getProductList,
   } = useAxios("/api/product/cart");
 
-  //체크한 상품 카트에서 삭제
-  const { connectServer: removeCheckProduct } = useAxios(
-    "/api/user/removeCart"
-  );
-
-  //하나의 상품 카트에서 삭제
-  const { connectServer: removeTargetProduct } = useAxios(
-    "/api/user/removeCart"
-  );
+  const { connectServer: removeCartProduct } = useAxios("/api/user/removeCart");
 
   //모달창
   const { openModal, contents, setOpenModal, setContents } = useModal();
@@ -134,7 +126,7 @@ function Cart({ isAuth, userId }) {
     const delFunc = () => {
       const option = [];
       checkProduct.forEach((data) => option.push(data._id));
-      removeCheckProduct(option);
+      removeCartProduct({ productId: option, userId: userId });
 
       const temp = [...product];
       setProduct(temp.filter((data) => !checkProduct.includes(data)));
@@ -155,7 +147,7 @@ function Cart({ isAuth, userId }) {
   //하나의 상품 삭제
   const onDelProduct = (id) => {
     const delFunc = () => {
-      removeTargetProduct({ id: id });
+      removeCartProduct({ productId: [id], userId: userId });
       const temp = [...product];
       setProduct(temp.filter((data) => data._id !== id));
     };

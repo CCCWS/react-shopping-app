@@ -36,32 +36,33 @@ function CheckOut({ userId }) {
 
   //구매 성공시
   const paymentSeccess = (e, payment) => {
-    // if (nameRef.current.value < 1) {
-    //   nameRef.current.focus();
-    //   return alert("이름을 입력해주세요.");
-    // }
+    if (nameRef.current.value < 1) {
+      nameRef.current.focus();
+      return alert("이름을 입력해주세요.");
+    }
 
-    // if (phoneRef.current.value < 1) {
-    //   phoneRef.current.focus();
-    //   return alert("전화번호를 입력해주세요.");
-    // }
+    if (phoneRef.current.value < 1) {
+      phoneRef.current.focus();
+      return alert("전화번호를 입력해주세요.");
+    }
 
-    // if (searchAddress.length < 1) {
-    //   return alert("주소를 입력해주세요.");
-    // }
+    if (searchAddress.length < 1) {
+      return alert("주소를 입력해주세요.");
+    }
 
-    // if (addressRef.current.value < 1) {
-    //   addressRef.current.focus();
-    //   return alert("추가 주소를 입력해주세요.");
-    // }
+    if (addressRef.current.value < 1) {
+      addressRef.current.focus();
+      return alert("추가 주소를 입력해주세요.");
+    }
 
     setLoading(true);
 
     //만약 장바구니 페이지에서 접근했다면  장바구니 상품 제거
     if (state.cart === true) {
-      const cartArr = [];
-      state.product.forEach((data) => cartArr.push(data._id));
-      removeCart(cartArr);
+      const option = [];
+      state.product.forEach((data) => option.push(data._id));
+      console.log(option);
+      removeCart({ productId: option, userId: userId });
     }
 
     const option = {
@@ -84,9 +85,9 @@ function CheckOut({ userId }) {
 
     setTimeout(() => {
       setLoading(false);
-      // nav("/paymentResult", {
-      //   state: option,
-      // });
+      nav("/paymentResult", {
+        state: option,
+      });
     }, 2000);
   };
 
@@ -94,7 +95,6 @@ function CheckOut({ userId }) {
   const productsold = () => {
     const option = [];
     state.product.forEach((data) => {
-      console.log(data);
       option.push({
         id: data._id,
         purchasesCount: data.purchasesCount,

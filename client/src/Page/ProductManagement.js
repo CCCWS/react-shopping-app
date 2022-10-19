@@ -28,9 +28,6 @@ function ProductManagement({ isAuth, userId }) {
   useEffect(() => {
     //총 판매개수와 금액 계산
     const calcData = (data) => {
-      // data.forEach((item) => sold.push(item.sold));
-      // data.forEach((item) => price.push(item.price * item.sold));
-
       const sold = data.map((item) => item.sold);
       const price = data.map((item) => item.sold * item.price);
 
@@ -59,7 +56,6 @@ function ProductManagement({ isAuth, userId }) {
     //판매개수와 가격의 계산이 되었을경우
     if (totalSold !== undefined && totalPrice !== undefined) {
       setLoading(false);
-      console.log(resData);
     }
   }, [resData, totalSold, totalPrice]);
 

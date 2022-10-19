@@ -4,8 +4,7 @@ import { userAction } from "./user";
 export const auth = () => {
   return async (dispatch) => {
     const getApi = async () => {
-      const res = await axios.get("/api/user/auth");
-      dispatch(userAction.onAuthCheck(res.data));
+      await axios.get("/api/user/auth");
     };
     getApi();
   };
@@ -22,7 +21,6 @@ export const login = (data) => {
 
       if (res.data.loginSuccess) {
         dispatch(userAction.setLogin(res.data.user));
-        // await axios.get(`${postUrl}/api/user/auth`);
       }
     };
 
@@ -33,17 +31,10 @@ export const login = (data) => {
 export const logout = () => {
   return async (dispatch) => {
     const logoutApi = async () => {
-      const res = await axios.get("/api/user/logout");
-
-      if (!res.data.success) {
-        throw new Error("logout error");
-      }
-
-      if (res.data.success) {
-      }
+      dispatch(userAction.setLogout());
+      await axios.get("/api/user/logout");
     };
 
-    dispatch(userAction.setLogout());
     logoutApi();
   };
 };

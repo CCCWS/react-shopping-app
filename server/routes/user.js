@@ -92,8 +92,8 @@ app.get("/logout", auth, (req, res) => {
   });
 });
 
-app.post("/addCart", auth, (req, res) => {
-  User.findOne({ _id: req.id }, { cart: 1 })
+app.post("/addCart", (req, res) => {
+  User.findOne({ _id: req.body.userId }, { cart: 1 })
     .lean()
     .exec((err, userInfo) => {
       let duplicate = false;
@@ -127,14 +127,18 @@ app.post("/addCart", auth, (req, res) => {
     });
 });
 
-app.post("/removeCart", auth, (req, res) => {
-  const option = req.body.option ? { $in: req.body.option } : req.body.id;
-  //값을 전달받으면 다중삭제 그렇지 않다면 단일삭제
+app.post("/removeCart", (req, res) => {
+  console.log(req.body);
+  // const option =
+  //   req.body.productId.length > 1
+  //     ? { $in: req.body.productId }
+  //     : req.body.productId;
+  // //상품이 여러개면 그 ID를 포함한 모든 상품 삭제 아니라면 하나만 삭제
 
   // DB에서 user의 cart에서 항목을 삭제
   User.findOneAndUpdate(
-    { _id: req.user._id },
-    { $pull: { cart: { id: option } } },
+    { _id: req.body.userId },
+    { $pull: { cart: { id: { $in: req.body.productId } } } },
     { new: true }
   )
     //pull > 데이터를 빼줌

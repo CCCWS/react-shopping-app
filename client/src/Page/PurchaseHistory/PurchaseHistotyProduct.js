@@ -51,8 +51,8 @@ const Div = styled.div`
 const Product = styled.div`
   display: flex;
   background-color: rgba(205, 205, 205, 0.1);
-  box-shadow: 0px 0px 10px 5px rgba(255, 207, 118, 0.3);
-  margin-bottom: 4rem;
+  box-shadow: 0px 0px 5px 3px rgba(255, 207, 118, 0.3);
+  margin-bottom: 2rem;
   border-radius: 5px;
   padding: 0.5rem;
 
