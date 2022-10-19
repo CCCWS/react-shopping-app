@@ -1,43 +1,12 @@
 import React, { useRef, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { login } from "../../../store/reducer/user/user-action";
+import { login, register } from "../../../store/reducer/user/user-action";
 
 function LoginComponent({ type, setType }) {
-  const Form = styled.form`
-    width: 90%;
-
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    margin: auto;
-  `;
-
-  const Input = styled.input`
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    margin-bottom: 1rem;
-  `;
-
-  const Button = styled.button`
-    position: relative;
-    background-color: rgba(255, 100, 100, 0.7);
-    width: 100%;
-    padding: 0.5rem;
-    border: none;
-    border-radius: 5px;
-    margin: auto;
-    cursor: pointer;
-    color: white;
-
-    &:hover {
-      background-color: rgba(255, 100, 100, 0.9);
-    }
-  `;
+  const loginError = useSelector((state) => state.warningMessage.login);
+  const registerError = useSelector((state) => state.warningMessage.register);
 
   const dispatch = useDispatch();
   const emailRef = useRef(null);
@@ -49,8 +18,19 @@ function LoginComponent({ type, setType }) {
   const registerPasswordConfRef = useRef(null);
 
   useEffect(() => {
-    if (type === "login") return emailRef.current.focus();
-    if (type === "register") return registerEmailRef.current.focus();
+    if (type === "login") {
+      emailRef.current.value = "";
+      passwordRef.current.value = "";
+      emailRef.current.focus();
+    }
+
+    if (type === "register") {
+      registerEmailRef.current.value = "";
+      registerPasswordRef.current.value = "";
+      registerNameRef.current.value = "";
+      registerPasswordConfRef.current.value = "";
+      registerEmailRef.current.focus();
+    }
   }, [type]);
 
   const onSubmit = (event) => {
@@ -73,7 +53,6 @@ function LoginComponent({ type, setType }) {
           password: passwordRef.current.value,
         })
       );
-      return;
     }
 
     if (type === "register") {
@@ -95,28 +74,19 @@ function LoginComponent({ type, setType }) {
         return;
       }
 
-      if (
-        registerPasswordRef.current.value !==
-        registerPasswordConfRef.current.value
-      ) {
-        return alert("비밀번호를 다시 확인해주세요.");
-      }
-
-      // dispatch(
-      //   registerInfo({
-      //     email: registerEmailRef.current.value,
-      //     name: registerNameRef.current.value,
-      //     password: registerPasswordRef.current.value,
-      //   })
-      // ).then((response) => {
-      //   if (response.payload.success) {
-      //     alert("가입 성공");
-      //     setType("login");
-      //   } else {
-      //     alert("이미 사용중인 이메일입니다.");
-      //   }
-      // });
-      return;
+      dispatch(
+        register({
+          email: registerEmailRef.current.value,
+          password: registerPasswordRef.current.value,
+          passwordConf: registerPasswordConfRef.current.value,
+          name: registerNameRef.current.value,
+        })
+      ).then((res) => {
+        if (res) {
+          alert("가입완료");
+          setType("login");
+        }
+      });
     }
   };
 
@@ -125,6 +95,7 @@ function LoginComponent({ type, setType }) {
       <Form onSubmit={onSubmit}>
         {type === "login" ? (
           <>
+            {loginError.error && <Warning>{loginError.message}</Warning>}
             <Input type="email" ref={emailRef} placeholder="이메일" />
             <Input type="password" ref={passwordRef} placeholder="비밀번호" />
             <Button type="submit" onSubmit={onSubmit}>
@@ -133,6 +104,7 @@ function LoginComponent({ type, setType }) {
           </>
         ) : (
           <>
+            {registerError.error && <Warning>{registerError.message}</Warning>}
             <Input type="email" ref={registerEmailRef} placeholder="이메일" />
             <Input type="text" ref={registerNameRef} placeholder="이름" />
             <Input
@@ -154,5 +126,47 @@ function LoginComponent({ type, setType }) {
     </>
   );
 }
+
+const Warning = styled.div`
+  color: red;
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const Form = styled.form`
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+`;
+
+const Input = styled.input`
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  margin-bottom: 1rem;
+`;
+
+const Button = styled.button`
+  position: relative;
+  background-color: rgba(255, 100, 100, 0.7);
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  margin: auto;
+  cursor: pointer;
+  color: white;
+
+  &:hover {
+    background-color: rgba(255, 100, 100, 0.9);
+  }
+`;
 
 export default LoginComponent;

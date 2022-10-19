@@ -3,6 +3,7 @@ import axios from "axios";
 
 const useAxios = (url) => {
   const [resData, setResData] = useState();
+  const [lastData, setLastData] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const connectServer = useCallback(
@@ -16,6 +17,9 @@ const useAxios = (url) => {
           if (option.readMore === true) {
             const res = await axios.post(url, option);
             setResData((item) => [...item, ...res.data]);
+            if (res.data.length === 0) {
+              setLastData(true);
+            }
           } else {
             setLoading(true);
             const res = await axios.post(url, option);
@@ -30,7 +34,7 @@ const useAxios = (url) => {
     [url]
   );
 
-  return { resData, setResData, loading, setLoading, connectServer };
+  return { resData, setResData, loading, setLoading, lastData, connectServer };
 };
 
 export default useAxios;

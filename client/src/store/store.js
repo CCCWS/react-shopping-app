@@ -9,17 +9,19 @@ import storage from "redux-persist/lib/storage";
 
 import userReducer from "./reducer/user/user";
 import modalReducer from "./reducer/modal";
+import warningMessageReducer from "./reducer/warningMessage";
 
 const reducers = combineReducers({
   user: userReducer,
   modalOpen: modalReducer,
+  warningMessage: warningMessageReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
   whitelist: ["user"], //storage에 저장할 state, 새로고침해도 사라지지 않음
-  blacklist: ["modalOpen"], //저장하지 않을 state, 새로고침시 사라짐
+  blacklist: ["modalOpen", "warningMessageReducer"], //저장하지 않을 state, 새로고침시 사라짐
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
   email: {
     type: String,
     trim: true, // 스페이스 제거
-    unique: 1,
+    unique: 1, //중복을 허용하지 않음
   },
   password: {
     type: String,
@@ -44,10 +44,9 @@ const userSchema = mongoose.Schema({
 });
 
 userSchema.pre("save", function (next) {
-  //몽구스 함수, index.js에서 save전에 함수실행
-  var user = this; //user.js의
-  //mongoDB에 등록된 json파일의 비밀번호 암호화
-
+  //mongoDB 함수, user.js에서 save전에 함수실행
+  //비밀번호 암호화
+  var user = this;
   if (user.isModified("password")) {
     //이름이나 이메일을 바꿀때도 실행되기 때문에 비밀번호를 바꿀때만 암호화 실행
     bcrypt.genSalt(saltRounds, function (err, salt) {

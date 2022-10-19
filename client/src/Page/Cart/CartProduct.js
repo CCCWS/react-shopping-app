@@ -94,7 +94,7 @@ const ProductCheckBox = styled.div`
 
 const ProductImg = styled.div`
   background-image: ${(props) => props.image};
-  min-width: 20%;
+  min-width: 8rem;
   height: 100%;
 
   background-size: cover;

@@ -36,6 +36,7 @@ function Main() {
     resData: productList,
     loading,
     connectServer: getProduct,
+    lastData,
   } = useAxios("api/product/productList");
 
   //모달창
@@ -79,6 +80,7 @@ function Main() {
       };
       getProduct(option);
     };
+    
     onCategorySearch();
   }, [selectCategory, priceRange, getProduct]);
 
@@ -193,11 +195,10 @@ function Main() {
       {loading ? (
         <Loading />
       ) : (
-        <ProductCard data={productList} viewType={click} />
-      )}
-
-      {loading === false && productList.length === limit && (
-        <div ref={readRef}></div>
+        <>
+          <ProductCard data={productList} viewType={click} />
+          {!lastData && <div ref={readRef}></div>}
+        </>
       )}
     </div>
   );
@@ -216,20 +217,6 @@ const MainOption = styled.div`
       flex-direction: column;
     }
   }
-`;
-
-const ViewBtn = styled.button`
-  border: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 5px;
-  font-size: 20px;
-  background-color: ${(props) =>
-    props.type === "card" && props.click
-      ? "rgb(255, 120, 120)"
-      : "transparent"};
-  margin: 5px;
-  cursor: pointer;
 `;
 
 const MainSearchBar = styled.form`

@@ -24,19 +24,14 @@ app.get("/auth", auth, (req, res) => {
 }); //auth > 미들웨어 중간에서 작업을 해줌 auth.js
 
 app.post("/register", (req, res) => {
-  //회원 가입시 필요한 정보를 client에서 가져오면
-  //그것들을 DB에 넣어줌
-  // {
-  //   id:"hello"
-  //   password:"123"
-  // } > body에 들어있음
   const user = new User(req.body);
-  user.save((err, userInfo) => {
-    if (err) return res.json({ success: false, err }); //실패시 에러메세지 json파일로 전송
+  user.save((err) => {
+    if (err)
+      return res.json({ success: false, message: "중복된 이메일입니다." });
     return res.status(200).json({
-      success: true, //성공시
+      success: true,
     });
-  }); //mongoDB의 함수
+  });
 });
 
 //////////////////////////////////////////////////
@@ -45,7 +40,7 @@ app.post("/login", (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
     //mongoDB 함수
     if (!user) {
-      //유저 정보가에 email이 없다면 없으면
+      //유저 정보에 email이 없다면 없으면
       return res.json({
         loginSuccess: false,
         message: "등록되지 않은 유저입니다.",
