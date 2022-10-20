@@ -1,25 +1,18 @@
 const express = require("express");
 const app = express();
-
-const path = require("path");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-// 클라이언트에서 axios에 함께 보낸 파라미터를 받을수있음
-// 클라이언트 요청에 body값을 서버 내에서 해석 가능한 구문으로 파싱함과 동시에 req.body값에 할당해주는 역할을 하는 것이다.
 const cookieParser = require("cookie-parser");
+const path = require("path");
+
+// const cors = require("cors");
 
 const mongoose = require("mongoose");
-const { User } = require("./models/User");
-
 const config = require("./config/key");
 
 const port = process.env.PORT || 3001;
 //bodyParser > 클라이언트에서 오는 정보를 서버에서 분석해서 가져올 수 있게해줌
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cookieParser());
-// app.use(express.json({ extended: false }));
-app.use(bodyParser.json({ limit: "50mb" })); // json파일을 분석해서 가져옴
-app.use(cors());
+// app.use(cors());
 
 /////
 app.use("/api/product", require("./routes/product")); //해당 경로로 이동하여 처리

@@ -10,11 +10,13 @@ import storage from "redux-persist/lib/storage";
 import userReducer from "./reducer/user/user";
 import modalReducer from "./reducer/modal";
 import warningMessageReducer from "./reducer/warningMessage";
+import darkMode from "./reducer/darkMode";
 
 const reducers = combineReducers({
   user: userReducer,
   modalOpen: modalReducer,
   warningMessage: warningMessageReducer,
+  darkMode: darkMode,
 });
 
 const persistConfig = {

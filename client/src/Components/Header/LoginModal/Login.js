@@ -37,7 +37,9 @@ function Login() {
 
   return (
     <>
-      <LoginTitle>{type === "login" ? "로그인" : "회원가입"}</LoginTitle>
+      <LoginTitle type={type}>
+        {type === "login" ? "로그인" : "회원가입"}
+      </LoginTitle>
 
       <LoginComponent type={type} setType={setType} />
 
@@ -61,7 +63,10 @@ function Login() {
 const LoginTitle = styled.div`
   padding: 1rem;
   font-size: 1.3rem;
-  background-color: rgba(255, 166, 0, 0.7);
+  background-color: ${(props) =>
+    props.type === "login"
+      ? "rgba(255, 166, 0, 0.7)"
+      : "rgba(25, 166, 0, 0.7)"};
   margin-bottom: 0.4rem;
 `;
 
