@@ -1,11 +1,5 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import Scrollbar from "smooth-scrollbar";
-
-// const options = {
-//   damping: 0.01,
-// };
-// Scrollbar.init(document.getElementById("my-scrollbar"), options);
 
 function Test2() {
   useEffect(() => {}, []);

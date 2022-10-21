@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import scrollbar from "smooth-scrollbar";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import PageTop from "./Components/Utility/PageTop";
 import Header from "./Components/Header/Header";
@@ -21,9 +21,12 @@ import Test from "./Page/Test";
 import Test2 from "./Page/Test2";
 
 import Auth from "./hoc/auth";
-import "./App.css";
+import GlobalStyle from "./Components/Style/GlobalStyle";
 
-function App() { 
+function App() {
+  // const darkMode = useSelector((state) => state.darkMode.darkMode);
+
+  console.log("test");
   useEffect(() => {
     window.onbeforeunload = function pushRefresh() {
       window.scrollTo(0, 0);
@@ -31,32 +34,35 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Header />
-      <PageTop />
-      <Routes>
-        <Route path={`/`} element={Auth(Main, false)} />
-        <Route path={`/product/:id`} element={Auth(ProductDetail, false)} />
+    <>
+      <Router>
+        {Auth(GlobalStyle, false)}
+        <Header />
+        {/* <PageTop /> */}
+        <Routes>
+          <Route path={`/`} element={Auth(Main, false)} />
+          <Route path={`/product/:id`} element={Auth(ProductDetail, false)} />
 
-        <Route path={`/upload`} element={Auth(Upload, true)} />
-        <Route path={`/cart`} element={Auth(Cart, true)} />
-        <Route path={`/checkOut`} element={Auth(CheckOut, true)} />
-        <Route path={`/paymentResult`} element={Auth(PaymentResult, true)} />
-        <Route
-          path={`/productManagement`}
-          element={Auth(ProductManagement, true)}
-        />
-        <Route
-          path={`/purchaseHistory`}
-          element={Auth(PurchaseHistory, true)}
-        />
-        <Route path={`/edit/:id`} element={Auth(Edit, true)} />
+          <Route path={`/upload`} element={Auth(Upload, true)} />
+          <Route path={`/cart`} element={Auth(Cart, true)} />
+          <Route path={`/checkOut`} element={Auth(CheckOut, true)} />
+          <Route path={`/paymentResult`} element={Auth(PaymentResult, true)} />
+          <Route
+            path={`/productManagement`}
+            element={Auth(ProductManagement, true)}
+          />
+          <Route
+            path={`/purchaseHistory`}
+            element={Auth(PurchaseHistory, true)}
+          />
+          <Route path={`/edit/:id`} element={Auth(Edit, true)} />
 
-        <Route path={`/test`} element={<Test />} />
-        <Route path={`/test2`} element={<Test2 />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path={`/test`} element={<Test />} />
+          <Route path={`/test2`} element={<Test2 />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
-export default App;
+export default React.memo(App);

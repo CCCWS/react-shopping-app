@@ -57,7 +57,7 @@ function SelectBox({ data, setData, edit, initData }) {
 }
 
 const Div = styled.div`
-  width: 9rem;
+  width: 10rem;
   height: 2.5rem;
   font-size: 1rem;
   background-color: rgba(255, 166, 0, 0.3);

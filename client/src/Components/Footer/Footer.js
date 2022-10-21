@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import ReactDom from "react-dom";
 
 const Footer = (props) => {
-  return (
+  return ReactDom.createPortal(
     <Div>
       <div>{props.children}</div>
-    </Div>
+    </Div>,
+    document.querySelector("#footer-portal")
   );
 };
 

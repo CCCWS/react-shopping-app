@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const darkModeState = { darkMode: false };
 const darkModeSlice = createSlice({
-  name: "warningMessage",
+  name: "darkMode",
   initialState: darkModeState,
   reducers: {
     onMode(state) {
@@ -11,5 +11,5 @@ const darkModeSlice = createSlice({
   },
 });
 
-export const warningMessageAction = darkModeSlice.actions;
+export const darkModeAction = darkModeSlice.actions;
 export default darkModeSlice.reducer;

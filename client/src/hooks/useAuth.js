@@ -6,6 +6,7 @@ const useAuth = (check) => {
   const nav = useNavigate();
   const isAuth = useSelector((state) => state.user.isAuth);
   const userId = useSelector((state) => state.user.userInfo._id);
+  const darkMode = useSelector((state) => state.darkMode.darkMode);
 
   useEffect(() => {
     //사용자 인증이 필요하고 인증이 되지 않았을 경우
@@ -15,7 +16,7 @@ const useAuth = (check) => {
     }
   }, [check, isAuth, nav]);
 
-  return { isAuth, userId };
+  return { isAuth, userId, darkMode };
 };
 
 export default useAuth;

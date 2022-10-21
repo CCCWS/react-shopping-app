@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import styled, { css } from "styled-components";
 
 import ModalBase from "../Modal/ModalBase";
 import Login from "./LoginModal/Login";
+import Toggle from "../Utility/Toggle";
 
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
@@ -113,20 +113,6 @@ const HeaderBtns = () => {
       dispatch(logout());
     };
 
-    // useEffect(() => {
-    //   if (resData) {
-    //     if (resData.success) {
-    //       setUserAuth(false);
-    //       setUserName("");
-    //       localStorage.removeItem("userId");
-    //       nav("/");
-    //       window.location.reload();
-    //     } else {
-    //       alert("fail");
-    //     }
-    //   }
-    // }, [resData]);
-
     return (
       <>
         <ModalBase
@@ -135,6 +121,8 @@ const HeaderBtns = () => {
           setModalOpen={setOpenModal}
           PropComponent={Login}
         />
+
+        <Toggle />
 
         {authCheck ? (
           <>

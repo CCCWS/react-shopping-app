@@ -22,7 +22,7 @@ function ProductRank() {
   }, []);
 
   return (
-    <Test>
+    <Div>
       <Carousel effect="fade" autoplay>
         <Section>
           <div>
@@ -38,7 +38,7 @@ function ProductRank() {
           {sold && <ProductSection items={sold} />}
         </Section>
       </Carousel>
-    </Test>
+    </Div>
   );
 }
 
@@ -59,7 +59,7 @@ const ProductSection = ({ items }) => {
   );
 };
 
-const Test = styled.div`
+const Div = styled.div`
   height: 30rem;
   margin-bottom: 50px;
 `;
@@ -68,10 +68,10 @@ const Section = styled.section`
   height: 30rem;
 
   //제목
-  & > :first-child {
+  /* & > :first-child {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-  }
+  } */
 `;
 
 const Product = styled.div`

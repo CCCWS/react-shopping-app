@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { SearchOutlined, RollbackOutlined } from "@ant-design/icons";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 //component
 import ProductCard from "../Components/Product/ProductCard";
@@ -20,7 +21,9 @@ import useModal from "../hooks/useModal.js";
 //etc
 import { categoryList, priceList } from "../data/CatecoryList";
 
-function Main() {
+function Main({ darkMode }) {
+  // const darkMode = useSelector((state) => state.darkMode.darkMode);
+
   const [readRef, setReadRef] = useInView();
 
   const [click, setClick] = useState(true); //메인화면 제품카드 카드형 or 리스트형
@@ -80,9 +83,9 @@ function Main() {
       };
       getProduct(option);
     };
-    
+
     onCategorySearch();
-  }, [selectCategory, priceRange, getProduct]);
+  }, [selectCategory, priceRange]);
 
   //더보기 동작시 데이터 조회
   useEffect(() => {
@@ -130,9 +133,21 @@ function Main() {
     }
   };
 
-  //검색어 인풋
   const onSearchValue = (e) => {
     setSearchValue(e.target.value);
+  };
+
+  const onSearchReset = () => {
+    setSearchValue("");
+    setSearchTrue(false);
+    getProduct({
+      limit: limit,
+      skip: 0,
+      category: selectCategory,
+      price: priceRange,
+      readMore: false,
+      searchValue: "",
+    });
   };
 
   return (
@@ -158,7 +173,7 @@ function Main() {
         <Switch viewType={click} onSetMode={view} />
       </MainOption>
 
-      <MainSearchBar onSubmit={onKeywordSearch}>
+      <MainSearchBar onSubmit={onKeywordSearch} darkMode={darkMode}>
         <input
           value={searchValue}
           onChange={onSearchValue}
@@ -171,20 +186,7 @@ function Main() {
 
       {searchTrue ? (
         <SearchReset>
-          <div
-            onClick={() => {
-              setSearchValue("");
-              setSearchTrue(false);
-              getProduct({
-                limit: limit,
-                skip: 0,
-                category: selectCategory,
-                price: priceRange,
-                readMore: false,
-                searchValue: "",
-              });
-            }}
-          >
+          <div onClick={onSearchReset}>
             <RollbackOutlined />
           </div>
         </SearchReset>
@@ -224,6 +226,7 @@ const MainSearchBar = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all ease 0.5s;
 
   input {
     background-color: rgba(200, 200, 200, 0.2);

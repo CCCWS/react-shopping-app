@@ -16,7 +16,6 @@ import useModal from "../../hooks/useModal";
 import ProductInfo from "./ProductInfo";
 
 function ProductDetail({ isAuth, userId }) {
-
   const nav = useNavigate();
 
   const [purchasesCount, setPurchasesCount] = useState(1);
@@ -284,4 +283,4 @@ const SoldOut = styled.div`
   color: white;
 `;
 
-export default ProductDetail;
+export default React.memo(ProductDetail);

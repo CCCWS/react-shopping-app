@@ -22,7 +22,7 @@ const reducers = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user"], //storage에 저장할 state, 새로고침해도 사라지지 않음
+  whitelist: ["user", "darkMode"], //storage에 저장할 state, 새로고침해도 사라지지 않음
   blacklist: ["modalOpen", "warningMessageReducer"], //저장하지 않을 state, 새로고침시 사라짐
 };
 
