@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import styled from "styled-components";
-import {
-  CameraOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
+import { CameraOutlined, CloseOutlined } from "@ant-design/icons";
 
 import { postUrl } from "../../PostUrl";
 
@@ -123,11 +120,11 @@ const Section = styled.div`
 `;
 
 const DropBox = styled.div`
-  background-color: white;
+  background-color: transparent;
   width: 10rem;
   height: 10rem;
   border-radius: 5px;
-  border: 2px solid rgba(146, 146, 146, 0.3);
+  border: 2px solid var(--gray);
   margin: 0.3rem;
 
   & > :first-child {
@@ -141,7 +138,7 @@ const DropBox = styled.div`
 
     &:hover {
       cursor: pointer;
-      background-color: rgb(172, 172, 172);
+      background-color: var(--gray_transparency);
     }
   }
 

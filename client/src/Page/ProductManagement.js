@@ -5,11 +5,14 @@ import styled from "styled-components";
 import Loading from "../Components/Utility/Loading";
 
 import useAxios from "../hooks/useAxios";
+import useTheme from "../hooks/useTheme";
 
 import { postUrl } from "../PostUrl";
+import { Image } from "../Components/Style/ProductCard";
 
 function ProductManagement({ isAuth, userId }) {
   const nav = useNavigate();
+  const { darkMode } = useTheme();
   const [totalSold, setTotalSold] = useState();
   const [totalPrice, setTotalPrice] = useState();
   const [loading, setLoading] = useState(true);
@@ -86,8 +89,8 @@ function ProductManagement({ isAuth, userId }) {
             {resData.map((data, index) => (
               <Card key={index} onClick={() => nav(`/product/${data._id}`)}>
                 <div>
-                  <Product>
-                    <Image img={`url('${postUrl}${data.image[0].name}')`} />
+                  <Product darkMode={darkMode}>
+                    <NewImage img={`url('${postUrl}${data.image[0].name}')`} />
                     <Content>
                       <div>{data.title}</div>
 
@@ -126,7 +129,7 @@ const Info = styled.div`
 `;
 
 const Value = styled.div`
-  background-color: rgba(255, 166, 0, 0.5);
+  background-color: var(--orange_normal);
   width: 33%;
   border-radius: 10px;
   display: flex;
@@ -169,7 +172,9 @@ const Card = styled.div`
 //전체 컨테이너 속에 분리된 컨테이너에 하나씩 넣어줄 상품 정보
 //flex-start를 사용해도 중앙정렬 시키기위해 중첩하여 사용
 const Product = styled.div`
-  box-shadow: 1px 1px 3px 1px rgba(128, 128, 128, 0.507);
+  background-color: ${(props) =>
+    props.darkMode ? "var(--black)" : "var(--white)"};
+  box-shadow: 1px 1px 3px 1px var(--gray_transparency);
   width: 95%;
   height: 95%;
   padding: 0.5rem;
@@ -180,19 +185,13 @@ const Product = styled.div`
 
   &:hover {
     cursor: pointer;
-    border: 3px solid orange;
-    transition: all ease 0.5s;
+    border: 3px solid var(--orange_hover);
+    transition: all ease 0.3s;
   }
 `;
 
-const Image = styled.div`
+const NewImage = styled(Image)`
   min-width: 30%;
-
-  background-image: ${(props) => props.img};
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
   border-radius: 5px;
   margin-right: 1rem;
 `;

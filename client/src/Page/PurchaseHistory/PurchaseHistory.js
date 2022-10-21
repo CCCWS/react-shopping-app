@@ -8,10 +8,12 @@ import PurchaseHistotyProduct from "./PurchaseHistotyProduct";
 
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
+import useTheme from "../../hooks/useTheme";
 
 function PurchaseHistory({ isAuth, userId }) {
   const [shippingInfo, setShippingInfo] = useState([]);
   const { openModal, contents, setOpenModal } = useModal();
+  const { darkMode } = useTheme();
 
   const {
     resData: product,
@@ -47,7 +49,7 @@ function PurchaseHistory({ isAuth, userId }) {
         <Header>
           <div>배송정보</div>
         </Header>
-        <Message>
+        <Message darkMode={darkMode}>
           <div>{`이름 : ${shippingInfo.name}`}</div>
           <div>{`전화번호 : ${shippingInfo.phone}`}</div>
           <div>{`주소 : ${shippingInfo.address}`}</div>
@@ -75,6 +77,7 @@ function PurchaseHistory({ isAuth, userId }) {
           <Title>{`전체 주문내역 ${product.length}개`}</Title>
 
           <PurchaseHistotyProduct
+            darkMode={darkMode}
             product={product}
             onShippingInfo={onShippingInfo}
           />
@@ -88,16 +91,18 @@ const Title = styled.div`
   font-size: 1.3rem;
   font-weight: 700;
   padding: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1em;
 `;
 
 const Header = styled.header`
-  background-color: rgba(255, 166, 0, 0.829);
+  background-color: var(--orange_normal);
   padding: 0.7rem;
-  font-size: 20px;
+  font-size: 1.2rem;
 `;
 
 const Message = styled.div`
+  background-color: ${(props) =>
+    props.darkMode ? "var(--black)" : "var(--white)"};
   padding: 1rem;
 
   div {

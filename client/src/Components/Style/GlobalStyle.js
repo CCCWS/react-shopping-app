@@ -31,19 +31,19 @@ const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: border-box;
-    font-family : RIDIBatang
+    font-family : RIDIBatang;
+    color: ${(props) => (props.darkMode ? "var(--light)" : "var(--dark)")};
   }
 
   body {
     overflow: overlay;
-  /* background-color: rgba(255, 226, 192, 0.5); */
-  background-color: ${(props) => (props.darkMode ? "gray" : "white")};
-  color: ${(props) => (props.darkMode ? "white" : "gray")};;
-  transition: all ease 0.5s;
+  background-color: ${(props) =>
+    props.darkMode ? "var(--dark)" : "var(--light)"};
+  transition: all ease 0.3s;
   }
 
   ::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {

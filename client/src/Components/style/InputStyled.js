@@ -22,7 +22,8 @@ export const Section = styled.div`
 
 export const Input = styled.input`
   border: 2px solid transparent;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: ${(props) =>
+    props.darkMode ? "var(--black)" : "var(--gray_transparency)"};
 
   width: ${(props) =>
     //UploadForm Components
@@ -41,7 +42,7 @@ export const Input = styled.input`
   outline: none;
 
   &:focus {
-    border: 2px solid rgba(248, 104, 104, 0.671);
+    border: 2px solid var(--red_transparency);
   }
 
   ${(props) =>
@@ -56,16 +57,17 @@ export const Input = styled.input`
 
 export const Textarea = styled.textarea`
   border: 2px solid transparent;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: ${(props) =>
+    props.darkMode ? "var(--black)" : "var(--gray_transparency)"};
   border-radius: 5px;
   width: 100%;
-  height: 150px;
+  height: 10rem;
   padding: 0.5rem;
   outline: none;
   resize: none;
   overflow-y: scroll;
 
   &:focus {
-    border: 2px solid rgba(248, 104, 104, 0.671);
+    border: 2px solid var(--red_transparency);
   }
 `;

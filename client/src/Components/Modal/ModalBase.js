@@ -4,12 +4,15 @@ import ReactDom from "react-dom";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import useTheme from "../../hooks/useTheme";
+
 const Modal = ({ PropComponent, contents, modalOpen, setModalOpen }) => {
   //PropComponent > 기본 템플릿을 쓰지않고 다른 형태로 사용하려할때
   //                모달창을 열고자하는 스크립트에서 필요한 컴포넌트를 전달하고
   //                전달받은 컴포넌트를 랜더링함.
 
   const nav = useNavigate();
+  const { darkMode } = useTheme();
 
   useEffect(() => {
     if (modalOpen === true) {
@@ -26,6 +29,7 @@ const Modal = ({ PropComponent, contents, modalOpen, setModalOpen }) => {
   return ReactDom.createPortal(
     <>
       <ModalDiv
+        darkMode={darkMode}
         modalOpen={modalOpen}
         onClick={(e) => {
           if (e.target === e.currentTarget) {
@@ -82,7 +86,7 @@ const ModalDiv = styled.div`
   width: 100%;
   height: 100vh;
 
-  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
 
   display: flex;
   opacity: ${(props) => (props.modalOpen ? "1" : "0")};
@@ -94,10 +98,10 @@ const ModalDiv = styled.div`
   transition: 0.3s;
 
   & > :first-child {
-    background-color: rgba(245, 245, 245);
-    border: 3px solid white;
+    background-color: ${(props) => (props.darkMode ? "black" : "white")};
+    border: 3px solid var(--orange_normal);
     min-width: 300px;
-    border-radius: 15px;
+    border-radius: 20px;
     z-index: 100;
     overflow: hidden;
     position: relative;
@@ -118,9 +122,9 @@ const ModalContents = styled.div`
 `;
 
 const Header = styled.header`
-  background-color: rgba(255, 166, 0, 0.829);
-  padding: 0.7rem;
-  font-size: 20px;
+  background-color: var(--orange_normal);
+  padding: 0.6rem;
+  font-size: 1.2rem;
 `;
 
 const Message = styled.div`
@@ -143,7 +147,7 @@ const Button = styled.button`
   &::before {
     content: "";
     position: absolute;
-    background-color: rgba(255, 0, 0, 0.5);
+    background-color: var(--red_transparency);
     left: 0;
     bottom: 0;
     height: 0;

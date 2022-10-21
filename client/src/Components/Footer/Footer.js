@@ -12,10 +12,10 @@ const Footer = (props) => {
 };
 
 const Div = styled.div`
-  background-color: rgb(255, 255, 255);
-  border-top: 2px solid rgb(173, 173, 173);
+  backdrop-filter: blur(50px);
+  border-top: 2px solid var(--orange_normal);
   width: 100%;
-  height: 60px;
+  height: 5rem;
   position: fixed;
   display: flex;
   justify-content: center;

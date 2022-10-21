@@ -2,9 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { CaretDownFilled, CaretUpFilled } from "@ant-design/icons";
 import styled from "styled-components";
 
+import useTheme from "../../hooks/useTheme";
+
 function SelectBox({ data, setData, edit, initData }) {
   const selectRef1 = useRef();
   const selectRef2 = useRef();
+
+  const { darkMode } = useTheme();
 
   const [title, setTitle] = useState(data[0].name);
   const [click, setClick] = useState(false);
@@ -60,7 +64,7 @@ const Div = styled.div`
   width: 10rem;
   height: 2.5rem;
   font-size: 1rem;
-  background-color: rgba(255, 166, 0, 0.3);
+  background-color: var(--orange_normal);
 
   position: relative;
   display: flex;
@@ -73,7 +77,7 @@ const Div = styled.div`
 
   &:hover {
     cursor: pointer;
-    background-color: rgba(255, 166, 0, 0.6);
+    background-color: var(--orange_hover);
   }
 `;
 
@@ -90,11 +94,10 @@ const Ul = styled.ul`
   padding: 0px;
   padding: ${(props) => props.open && "0.5rem"};
   max-height: ${(props) => (props.open ? "15rem" : "0px")};
-  background-color: white;
   border: ${(props) =>
     props.open
-      ? "2px solid rgba(255, 166, 0, 0.3);"
-      : "0px solid rgba(255, 166, 0, 0.3);"};
+      ? "2px solid var(--orange_normal);"
+      : "0px solid var(--orange_normal);"};
   list-style: none;
 
   display: flex;
@@ -107,7 +110,7 @@ const Ul = styled.ul`
   transition: all ease 0.3s;
   overflow: overlay;
 
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(50px);
 
   &::-webkit-scrollbar {
     width: 0px;
@@ -134,7 +137,7 @@ const Li = styled.li`
 
   &:hover {
     cursor: pointer;
-    background-color: rgba(255, 166, 0, 0.3);
+    background-color: var(--orange_hover);
   }
 `;
 

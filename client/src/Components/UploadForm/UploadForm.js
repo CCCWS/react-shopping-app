@@ -6,6 +6,7 @@ import styled from "styled-components";
 //component
 import SelectBox from "../Utility/SelectBox";
 import ImgUpload from "./ImgUpload";
+import Footer from "../Footer/Footer";
 
 //custom hooks
 import useAxios from "../../hooks/useAxios";
@@ -221,25 +222,21 @@ function UploadForm({ userId, edit, editData, productId }) {
 
       <Hr />
 
-      <SubmitBtn>
-        <button onClick={onWrite}> {edit ? "수정하기" : "등록하기"} </button>
-      </SubmitBtn>
+      <Footer>
+        <SubmitBtn onClick={onWrite}>
+          <button>{edit ? "수정하기" : "등록하기"} </button>
+        </SubmitBtn>
+      </Footer>
     </div>
   );
 }
 
 const SubmitBtn = styled.div`
-  background-color: rgba(221, 155, 31, 0.24);
-  border-top: 2px solid orange;
   width: 100%;
-  height: 5rem;
-  position: fixed;
+  height: 100%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-
-  bottom: 0;
-  right: 0;
 
   button {
     margin-right: 2rem;
@@ -247,13 +244,13 @@ const SubmitBtn = styled.div`
     border: none;
     border-radius: 5px;
     padding: 0.5rem;
-    background-color: rgba(248, 104, 104, 0.6);
+    background-color: var(--red_transparency);
     color: white;
     transition: 0.5s;
 
     &:hover {
       cursor: pointer;
-      background-color: rgba(248, 104, 104, 1);
+      background-color: var(--red);
     }
   }
 `;

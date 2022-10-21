@@ -6,7 +6,7 @@ import useModal from "../../hooks/useModal";
 
 import ModalBase from "../../Components/Modal/ModalBase";
 
-const AddressSearch = ({ searchAddress, setSearchAddress }) => {
+const AddressSearch = ({ searchAddress, setSearchAddress, darkMode }) => {
   const { openModal, contents, setOpenModal } = useModal();
 
   const onAddress = (data) => {
@@ -43,7 +43,7 @@ const AddressSearch = ({ searchAddress, setSearchAddress }) => {
         PropComponent={searchAddressForKakao}
       />
 
-      <Section onClick={() => setOpenModal(true)}>
+      <Section onClick={() => setOpenModal(true)} darkMode={darkMode}>
         {searchAddress.length > 0 ? searchAddress : "주소 검색"}
       </Section>
     </>
@@ -51,9 +51,11 @@ const AddressSearch = ({ searchAddress, setSearchAddress }) => {
 };
 
 const Section = styled.div`
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: ${(props) =>
+    props.darkMode ? "var(--black)" : "var(--gray_transparency)"};
   display: flex;
   align-items: center;
+  color: ${(props) => (props.darkMode ? "var(--white)" : "var(--black)")};
 
   margin-bottom: 1rem;
   height: 3rem;

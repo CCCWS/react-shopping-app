@@ -41,10 +41,9 @@ const HeaderDiv = styled.div`
   align-items: center;
 
   position: sticky;
-  /* backdrop-filter: blur(20px); */
-  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
   padding: 1rem;
-  border-bottom: 2px solid orange;
+  border-bottom: 2px solid var(--orange_normal);
 
   top: 0;
   width: 100%;

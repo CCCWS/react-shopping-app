@@ -7,6 +7,7 @@ import { Section } from "../Components/Style/InputStyled";
 
 function PaymentResult() {
   const nav = useNavigate();
+
   const { state } = useLocation();
 
   useEffect(() => {
@@ -94,12 +95,15 @@ const PageBtn = styled.div`
 
   button {
     padding: 10px;
-    border: 2px solid gray;
+    border: 2px solid var(--gray);
+    background-color: transparent;
+    border-radius: 5px;
     width: 150px;
-    font-size: 16px;
-    margin-bottom: 20px;
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
 
     &:hover {
+      border: 2px solid var(--orange_hover);
       cursor: pointer;
     }
   }

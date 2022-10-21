@@ -107,22 +107,21 @@ const NextBtn = styled.button`
   background-color: transparent;
   position: absolute;
   z-index: 1;
-  width: 50px;
-  height: 50px;
+  width: 3rem;
+  height: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 40px;
+  font-size: 3rem;
   border: none;
   border-radius: 5px;
-  color: orange;
-  transition: 0.5s;
+  transition: 0.3s;
 
   left: ${(props) => props.letf && "0"};
   right: ${(props) => props.right && "0"};
 
   &:hover {
-    background-color: rgba(199, 199, 199, 0.5);
+    background-color: var(--orange_hover);
     cursor: pointer;
   }
 `;
@@ -147,7 +146,7 @@ const BoxCheckOut = styled.div`
 const BoxPoint = styled.div`
   position: absolute;
   width: 100%;
-  bottom: 10px;
+  bottom: 0px;
 
   display: flex;
   align-items: center;
@@ -155,10 +154,11 @@ const BoxPoint = styled.div`
 `;
 
 const BoxPonintItem = styled.div`
-  background-color: ${(props) => (props.location ? "orange" : "transparent")};
-  width: 15px;
-  height: 15px;
-  border: 2px solid orange;
+  background-color: ${(props) =>
+    props.location ? "var(--orange_normal)" : "transparent"};
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--orange_normal);
   border-radius: 5px;
   margin-right: 5px;
   margin-left: 5px;

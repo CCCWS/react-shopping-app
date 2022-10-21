@@ -173,7 +173,7 @@ function Main({ darkMode }) {
         <Switch viewType={click} onSetMode={view} />
       </MainOption>
 
-      <MainSearchBar onSubmit={onKeywordSearch} darkMode={darkMode}>
+      <MainSearchBar onSubmit={onKeywordSearch}>
         <input
           value={searchValue}
           onChange={onSearchValue}
@@ -229,13 +229,17 @@ const MainSearchBar = styled.form`
   transition: all ease 0.5s;
 
   input {
-    background-color: rgba(200, 200, 200, 0.2);
-    border: 2px solid orange;
+    background-color: var(--gray_transparency);
+    border: 2px solid var(--orange_normal);
     border-radius: 5px;
     width: 300px;
     margin: 1rem;
     padding: 5px;
     outline: none;
+
+    &:focus {
+      border: 2px solid var(--orange_hover);
+    }
   }
 
   div {
@@ -248,15 +252,16 @@ const SearchReset = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-bottom: 2rem;
 
   div {
     font-size: 2rem;
-    padding: 0.5rem;
+    padding: 0.3rem;
     border-radius: 10px;
 
     &:hover {
       cursor: pointer;
-      background-color: rgba(255, 166, 0, 0.61);
+      background-color: var(--orange_hover);
     }
   }
 `;

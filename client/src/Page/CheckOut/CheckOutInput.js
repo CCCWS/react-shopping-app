@@ -4,7 +4,10 @@ import styled from "styled-components";
 import { Section, Input } from "../../Components/Style/InputStyled";
 import AddressSearch from "./AddressSearch";
 
+import useTheme from "../../hooks/useTheme";
+
 const CheckOutInput = ({ searchAddress, setSearchAddress }, ref) => {
+  const { darkMode } = useTheme();
   return (
     <>
       <Section>
@@ -13,6 +16,7 @@ const CheckOutInput = ({ searchAddress, setSearchAddress }, ref) => {
           ref={ref.nameRef}
           inputType="name"
           placeholder="이름을 입력해 주세요."
+          darkMode={darkMode}
         />
       </Section>
 
@@ -25,6 +29,7 @@ const CheckOutInput = ({ searchAddress, setSearchAddress }, ref) => {
             (e.target.value = e.target.value.replace(/[^0-9-]/g, ""))
           }
           placeholder="전화번호를 입력해 주세요."
+          darkMode={darkMode}
         />
       </Section>
 
@@ -34,11 +39,13 @@ const CheckOutInput = ({ searchAddress, setSearchAddress }, ref) => {
           <AddressSearch
             searchAddress={searchAddress}
             setSearchAddress={setSearchAddress}
+            darkMode={darkMode}
           />
           <Input
             ref={ref.addressRef}
             inputType="address"
             placeholder="추가 주소를 입력해 주세요."
+            darkMode={darkMode}
           />
         </AddressBox>
       </Section>
@@ -50,6 +57,7 @@ const CheckOutInput = ({ searchAddress, setSearchAddress }, ref) => {
           inputType="req"
           placeholder="요청사항을 입력해 주세요."
           maxLength={40}
+          darkMode={darkMode}
         />
         {/* <span>{`${ShippingInfo.req.length} / 40`}</span> */}
       </Section>

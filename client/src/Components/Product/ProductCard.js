@@ -4,11 +4,15 @@ import Zoom from "react-reveal/Fade";
 import withReveal from "react-reveal/withReveal";
 import styled, { css } from "styled-components";
 
+import useTheme from "../../hooks/useTheme";
+
 import { postUrl } from "../../PostUrl";
+import { Title, Image, Price, Time, Count } from "../Style/ProductCard";
 import getTime from "../../hooks/getTime";
 
 function ProductCard({ data, viewType }) {
   const nav = useNavigate();
+  const { darkMode } = useTheme();
 
   return (
     <ProductCardDiv>
@@ -20,20 +24,25 @@ function ProductCard({ data, viewType }) {
             onClick={() => {
               nav(`/product/${data._id}`);
             }}
-            img={`url('${postUrl}${data.image[0].name}')`}
           >
-            <div>
+            <NewImage
+              viewType={viewType}
+              img={`url('${postUrl}${data.image[0].name}')`}
+            >
               {data.count === 0 ? (
                 <SoldOut>판매완료된 상품입니다.</SoldOut>
               ) : null}
-            </div>
+            </NewImage>
 
             <Info viewType={viewType}>
-              <div>{viewType ? <>{data.title}</> : `${data.title}`}</div>
+              <NewTitle darkMode={darkMode}>{data.title}</NewTitle>
 
               <TimeAndPrice viewType={viewType}>
-                <div>{`${parseInt(data.price, 10).toLocaleString()}원`}</div>
-                <div>{getTime(data.createdAt)}</div>
+                <Price>{`${parseInt(
+                  data.price,
+                  10
+                ).toLocaleString()}원`}</Price>
+                <Time>{getTime(data.createdAt)}</Time>
               </TimeAndPrice>
               <Count>{`남은 수량 ${data.count}개`}</Count>
             </Info>
@@ -48,6 +57,7 @@ const ProductCardDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  margin-bottom: 50px;
 `;
 
 const CardDiv = styled.div`
@@ -79,24 +89,6 @@ const Card = withReveal(
     &:hover {
       cursor: pointer;
     }
-
-    //이미지
-    & > :first-child {
-      background-image: ${(props) => props.img};
-      width: ${(props) => (props.viewType ? "100%" : "40%")};
-      height: ${(props) => (props.viewType ? "70%" : "100%")};
-      border-radius: 5px;
-      background-size: ${(props) => (props.viewType ? "120%" : "90%")};
-      background-position: center;
-      background-repeat: no-repeat;
-      transition: 0.2s;
-      position: relative;
-    }
-
-    &:hover > :first-child {
-      background-size: ${(props) => (props.viewType ? "130%" : "100%")};
-    }
-
     //viewType가 list일 경우 적용
     ${(props) =>
       !props.viewType &&
@@ -108,9 +100,8 @@ const Card = withReveal(
   `,
   <Zoom />
 );
-
 const SoldOut = styled.div`
-  background-color: rgba(0, 0, 0, 0.479);
+  background-color: var(--soldOut);
   width: 100%;
   height: 100%;
   border-radius: 5px;
@@ -133,41 +124,39 @@ const Info = styled.div`
   justify-content: flex-start;
   margin-top: 5px;
   font-weight: 600;
+`;
 
-  //상품명
-  & > :first-child {
-    border-bottom: 2px solid black;
-    padding-bottom: 1px;
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-    white-space: normal;
+const NewImage = styled(Image)`
+  border-radius: 5px;
+  background-size: ${(props) => (props.viewType ? "120%" : "100%")} !important;
+  width: ${(props) => (props.viewType ? "100%" : "40%")};
+  height: ${(props) => (props.viewType ? "70%" : "100%")};
+
+  transition: 0.2s;
+  position: relative;
+
+  &:hover {
+    background-size: ${(props) =>
+      props.viewType ? "130%" : "120%"} !important;
   }
 `;
 
+const NewTitle = styled(Title)`
+  border-bottom: 2px solid
+    ${(props) => (props.darkMode ? "var(--light)" : "var(--dark)")};
+  padding-bottom: 1px;
+  margin-bottom: 5px;
+`;
+
 const TimeAndPrice = styled.div`
-  color: rgba(255, 0, 0, 0.644);
-  font-size: 1rem;
   display: flex;
   justify-content: space-between;
-
-  //등록 시간
-  & > :nth-child(2) {
-    font-size: 0.9rem;
-    color: rgb(165, 165, 165);
-  }
 
   ${(props) =>
     !props.viewType &&
     css`
       flex-direction: column;
     `};
-`;
-
-const Count = styled.div`
-  font-size: 0.8rem;
-  font-weight: 500;
-  margin-top: 3px;
-  color: rgb(165, 165, 165);
 `;
 
 export default React.memo(ProductCard);

@@ -1,9 +1,11 @@
 import React from "react";
+import styled from "styled-components";
 import {
   Card,
-  ImgAndTitle,
-  CountAndPrice,
-  List,
+  Image,
+  Title,
+  Price,
+  Count,
 } from "../../Components/Style/ProductCard";
 
 import { postUrl } from "../../PostUrl";
@@ -13,24 +15,48 @@ const CheckOutProduct = ({ state }) => {
     <List>
       {state.product.map((data) => (
         <Card key={data._id}>
-          <ImgAndTitle img={`url('${postUrl}${data.image[0].name}')`}>
-            <div />
-            <div>
-              {/* {data.title.length > 20
-                  ? `${data.title.slice(0, 20)}...`
-                  : `${data.title}`} */}
-              {data.title}
-            </div>
-          </ImgAndTitle>
+          <Div>
+            <NewImage img={`url('${postUrl}${data.image[0].name}')`} />
+            <Title>{data.title}</Title>
+          </Div>
 
           <CountAndPrice>
-            <div>{data.purchasesCount}개</div>
-            <div>{parseInt(data.totalPrice, 10).toLocaleString()}원</div>
+            <Count>{data.purchasesCount}개</Count>
+            <Price>{parseInt(data.totalPrice, 10).toLocaleString()}원</Price>
           </CountAndPrice>
         </Card>
       ))}
     </List>
   );
 };
+
+const Div = styled.div`
+  display: flex;
+`;
+
+const NewImage = styled(Image)`
+  min-width: 120px;
+  height: 100%;
+  margin-right: 0.5rem;
+  border-radius: 5px;
+`;
+
+const CountAndPrice = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
+
+  min-width: 5rem;
+  font-size: 1rem;
+`;
+
+const List = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: auto;
+`;
 
 export default React.memo(CheckOutProduct);

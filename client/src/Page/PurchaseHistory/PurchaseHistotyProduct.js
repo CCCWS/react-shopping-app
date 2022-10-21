@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import PurchaseHistotyProductList from "./PurchaseHistotyProductList";
 
-const PurchaseHistotyProduct = ({ product, onShippingInfo }) => {
+const PurchaseHistotyProduct = ({ product, onShippingInfo, darkMode }) => {
   const productDate = (data) => {
     const year = new Date(data.date).getFullYear();
     const month = new Date(data.date).getMonth();
@@ -20,7 +20,7 @@ const PurchaseHistotyProduct = ({ product, onShippingInfo }) => {
   return (
     <Div>
       {product.map((data) => (
-        <Product key={data.date}>
+        <Product key={data.date} darkMode={darkMode}>
           <Info>
             <Value>
               <div>{productDate(data)}</div>
@@ -50,8 +50,9 @@ const Div = styled.div`
 
 const Product = styled.div`
   display: flex;
-  background-color: rgba(205, 205, 205, 0.1);
-  box-shadow: 0px 0px 5px 3px rgba(255, 207, 118, 0.3);
+  background-color: ${(props) =>
+    props.darkMode ? "var(--black)" : "var(--white)"};
+  box-shadow: 5px 5px 10px 3px var(--gray_transparency);
   margin-bottom: 2rem;
   border-radius: 5px;
   padding: 0.5rem;
@@ -90,7 +91,7 @@ const Value = styled.div`
 
   & > :nth-child(2) {
     //결제 시간
-    color: rgba(151, 151, 151, 0.904);
+    color: var(--gray);
   }
 
   & > :nth-child(3) {

@@ -241,44 +241,49 @@ const Procedure = styled.div`
 const Checkbox = styled.div`
   display: flex;
   align-items: center;
-  padding: 10px;
-  font-size: 16px;
+  padding: 0.7rem;
+  font-size: 1rem;
   height: 3.5rem;
 
+  //전체선택
   & > :first-child {
-    margin-right: 10px;
+    margin-right: 0.8rem;
   }
 
+  //선택 박스
   & > :nth-child(2) {
-    border: 1px solid rgb(156, 156, 156);
+    border: 1px solid var(--gray);
+    border-radius: 5px;
     font-size: 20px;
     width: 2rem;
     height: 2rem;
-    margin-right: 10px;
+    margin-right: 0.8rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all ease 0.5s;
+    transition: all ease 0.3s;
     background-color: ${(props) =>
-      props.checkLength ? "rgb(255, 118, 118)" : "transparent"};
+      props.checkLength ? "var(--red_transparency)" : "transparent"};
 
     :hover {
       cursor: pointer;
-      background-color: rgb(255, 118, 118);
+      background-color: var(--red_transparency);
     }
   }
 
+  //선택 삭제
   & > :nth-child(3) {
-    border: 1px solid rgb(156, 156, 156);
+    border: 1px solid var(--gray);
+    border-radius: 5px;
     background-color: transparent;
     width: 5rem;
     height: 2rem;
     height: 100%;
-    transition: all ease 0.5s;
+    transition: all ease 0.3s;
 
     &:hover {
       cursor: pointer;
-      background-color: rgb(255, 118, 118);
+      background-color: var(--red_transparency);
     }
   }
 `;

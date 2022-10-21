@@ -1,0 +1,14 @@
+:root {
+  --dark: #121212;
+  --light: #ffffff;
+  --black: #222222;
+  --white: #f8f9fa;
+  --orange_normal: rgba(255, 166, 0, 0.5);
+  --orange_hover: rgba(255, 166, 0, 0.8);
+  --red: rgba(255, 0, 0, 0.7);
+  --red_transparency: rgba(255, 0, 0, 0.5);
+  --soldOut: rgba(0, 0, 0, 0.5);
+  --gray: rgb(165, 165, 165);
+  --gray_transparency: rgba(165, 165, 165, 0.3);
+  --blue: rgba(0, 0, 255, 0.5);
+}

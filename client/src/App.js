@@ -23,10 +23,11 @@ import Test2 from "./Page/Test2";
 import Auth from "./hoc/auth";
 import GlobalStyle from "./Components/Style/GlobalStyle";
 
+import "./Color.css";
+
 function App() {
   // const darkMode = useSelector((state) => state.darkMode.darkMode);
 
-  console.log("test");
   useEffect(() => {
     window.onbeforeunload = function pushRefresh() {
       window.scrollTo(0, 0);
@@ -38,7 +39,7 @@ function App() {
       <Router>
         {Auth(GlobalStyle, false)}
         <Header />
-        {/* <PageTop /> */}
+        <PageTop />
         <Routes>
           <Route path={`/`} element={Auth(Main, false)} />
           <Route path={`/product/:id`} element={Auth(ProductDetail, false)} />

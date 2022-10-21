@@ -175,16 +175,17 @@ const Procedure = styled.div`
 const PurchaseBtn = styled.div`
   display: flex;
   justify-content: center;
-  font-size: 1rem;
-  background-color: transparent;
+  font-size: 1.1rem;
+  color: var(--red);
+  background-color: var(--white);
   border-radius: 5px;
-  border: 2px solid gray;
+  border: 2px solid var(--orange_normal);
   padding: 0.3rem;
   width: 100%;
 
   &:hover {
     cursor: pointer;
-    border: 2px solid orange;
+    border: 2px solid var(--orange_hover);
   }
 `;
 

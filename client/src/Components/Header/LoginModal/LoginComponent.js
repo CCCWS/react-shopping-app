@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { login, register } from "../../../store/reducer/user/user-action";
 
 function LoginComponent({ type, setType }) {
+  const darkMode = useSelector((state) => state.darkMode.darkMode);
   const loginError = useSelector((state) => state.warningMessage.login);
   const registerError = useSelector((state) => state.warningMessage.register);
 
@@ -96,8 +97,18 @@ function LoginComponent({ type, setType }) {
         {type === "login" ? (
           <>
             {loginError.error && <Warning>{loginError.message}</Warning>}
-            <Input type="email" ref={emailRef} placeholder="이메일" />
-            <Input type="password" ref={passwordRef} placeholder="비밀번호" />
+            <Input
+              type="email"
+              ref={emailRef}
+              placeholder="이메일"
+              darkMode={darkMode}
+            />
+            <Input
+              type="password"
+              ref={passwordRef}
+              placeholder="비밀번호"
+              darkMode={darkMode}
+            />
             <Button type="submit" onSubmit={onSubmit}>
               로그인
             </Button>
@@ -105,17 +116,29 @@ function LoginComponent({ type, setType }) {
         ) : (
           <>
             {registerError.error && <Warning>{registerError.message}</Warning>}
-            <Input type="email" ref={registerEmailRef} placeholder="이메일" />
-            <Input type="text" ref={registerNameRef} placeholder="이름" />
+            <Input
+              type="email"
+              ref={registerEmailRef}
+              placeholder="이메일"
+              darkMode={darkMode}
+            />
+            <Input
+              type="text"
+              ref={registerNameRef}
+              placeholder="이름"
+              darkMode={darkMode}
+            />
             <Input
               type="password"
               ref={registerPasswordRef}
               placeholder="비밀번호"
+              darkMode={darkMode}
             />
             <Input
               type="password"
               ref={registerPasswordConfRef}
               placeholder="비밀번호 확인"
+              darkMode={darkMode}
             />
             <Button type="submit" onSubmit={onSubmit}>
               회원가입
@@ -145,7 +168,8 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: ${(props) =>
+    props.darkMode ? "var(--black)" : "var(--gray_transparency)"};
   padding: 0.5rem;
   border-radius: 5px;
   border: none;

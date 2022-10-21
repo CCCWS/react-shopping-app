@@ -68,10 +68,10 @@ const Section = styled.section`
   height: 30rem;
 
   //제목
-  /* & > :first-child {
+  & > :first-child {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-  } */
+  }
 `;
 
 const Product = styled.div`
@@ -80,8 +80,8 @@ const Product = styled.div`
 `;
 
 const Card = styled.div`
-  box-shadow: 5px 5px 10px 5px rgba(128, 128, 128, 0.5);
-  background-color: rgba(255, 166, 0, 0.267);
+  box-shadow: 5px 5px 10px 3px var(--gray_transparency);
+  background-color: var(--orange_normal);
   border: 3px solid transparent;
   border-radius: 5px 30px 5px 30px;
   width: 30%;
@@ -89,7 +89,7 @@ const Card = styled.div`
   transition: all ease 0.5s;
 
   &:hover {
-    border: 3px solid rgba(255, 166, 0, 0.692);
+    border: 3px solid var(--orange_hover);
     cursor: pointer;
   }
 `;
@@ -106,7 +106,7 @@ const Image = styled.div`
 
 const Rank = styled.div`
   position: absolute;
-  color: rgba(255, 0, 0, 0.4);
+  color: var(--red_transparency);
   font-size: 3rem;
   font-style: oblique;
   font-weight: 600;
@@ -118,8 +118,8 @@ const Title = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem;
-  font-size: 1rem;
+  padding: 0.2rem;
+  font-size: 0.8rem;
   height: 30%;
 `;
 
