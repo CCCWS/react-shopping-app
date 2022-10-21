@@ -33,7 +33,7 @@ const Div = styled.div`
   border-radius: 30px;
   margin-right: 10px;
   background-color: var(--gray_transparency);
-  transition: all ease 0.3s;
+  transition: all ease 0.5s;
 
   &:hover {
     cursor: pointer;

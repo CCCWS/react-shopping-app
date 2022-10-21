@@ -12,7 +12,7 @@ import Footer from "../Footer/Footer";
 import useAxios from "../../hooks/useAxios";
 
 //etc
-import { Section, Input, Textarea } from "../Style/InputStyled";
+import { Section, Input, Textarea } from "../Style/InputStyle";
 import { uploadCategoryList } from "../../data/CatecoryList";
 
 function UploadForm({ userId, edit, editData, productId }) {

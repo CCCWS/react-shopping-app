@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Section, Input } from "../../Components/Style/InputStyled";
+import { Section, Input } from "../../Components/Style/InputStyle";
 import AddressSearch from "./AddressSearch";
 
 import useTheme from "../../hooks/useTheme";

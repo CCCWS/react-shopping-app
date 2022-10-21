@@ -3,7 +3,7 @@ import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { Section } from "../Components/Style/InputStyled";
+import { Section } from "../Components/Style/InputStyle";
 
 function PaymentResult() {
   const nav = useNavigate();
