@@ -15,6 +15,7 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
 }
 
+
 @font-face {
     font-family: 'establishRoomNo703OTF';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2112@1.0/establishRoomNo703OTF.woff') format('woff');
