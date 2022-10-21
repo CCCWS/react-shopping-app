@@ -61,7 +61,7 @@ function SelectBox({ data, setData, edit, initData }) {
 }
 
 const Div = styled.div`
-  width: 10rem;
+  width: 8rem;
   height: 2.5rem;
   font-size: 1rem;
   background-color: var(--orange_normal);
@@ -126,6 +126,7 @@ const Li = styled.li`
   margin-top: 0.3rem;
   padding: 0.6rem;
   width: 100%;
+  font-size: 0.9rem;
 
   display: flex;
   justify-content: center;
