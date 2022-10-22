@@ -179,7 +179,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   position: relative;
-  background-color: rgba(255, 100, 100, 0.7);
+  background-color: var(--red_transparency);
   width: 100%;
   padding: 0.5rem;
   border: none;
@@ -189,7 +189,7 @@ const Button = styled.button`
   color: white;
 
   &:hover {
-    background-color: rgba(255, 100, 100, 0.9);
+    background-color: var(--red);
   }
 `;
 

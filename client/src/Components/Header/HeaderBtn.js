@@ -28,7 +28,7 @@ const HeaderBtns = () => {
   // }, [auth]);
 
   const HeaderBtn = ({ onSideMenu, setMenuClick }) => {
-    const { openModal, contents, setOpenModal, setContents } = useModal();
+    const { openModal, contents, setOpenModal } = useModal();
     const btn = [
       {
         id: "",
@@ -102,7 +102,6 @@ const HeaderBtns = () => {
   const HeaderLogInBtn = ({ onSideMenu }) => {
     const dispatch = useDispatch();
     const { openModal, contents, setOpenModal, setContents } = useModal();
-    const { resData, connectServer } = useAxios("/api/user/logout");
 
     const onLogin = () => {
       setOpenModal(true);
@@ -169,7 +168,7 @@ const HeaderButton = styled.button`
   &::before {
     content: "";
     position: absolute;
-    background-color: orange;
+    background-color: var(--orange_normal);
     left: 0;
     bottom: 0;
     height: 10%;

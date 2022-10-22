@@ -37,8 +37,11 @@ const Div = styled.div`
 
   &:hover {
     cursor: pointer;
-    transform: rotate(360deg);
     background-color: var(--gray);
+  }
+
+  &:active {
+    transform: rotate(360deg);
   }
 `;
 

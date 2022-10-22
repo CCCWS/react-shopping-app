@@ -107,7 +107,7 @@ const Ul = styled.ul`
 
   z-index: 10;
   border-radius: 5px;
-  transition: all ease 0.3s;
+  transition: all ease 0.4s;
   overflow: overlay;
 
   backdrop-filter: blur(50px);

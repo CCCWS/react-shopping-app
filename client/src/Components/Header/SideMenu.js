@@ -5,7 +5,10 @@ import styled from "styled-components";
 import HeaderBtns from "./HeaderBtn";
 import RecentView from "../Product/RecentView";
 
+import useTheme from "../../hooks/useTheme";
+
 function SideMenu() {
+  const { darkMode } = useTheme();
   const [menuClick, setMenuClick] = useState(false);
   const Btns = HeaderBtns();
 
@@ -39,6 +42,7 @@ function SideMenu() {
       </SideMenuOpenBtn>
 
       <SideMenuDiv
+        darkMode={darkMode}
         menuClick={menuClick}
         onClick={(e) => {
           if (e.target === e.currentTarget) {
@@ -74,7 +78,7 @@ const SideMenuOpenBtn = styled.div`
 
   &:hover {
     cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--white);
   }
 `;
 
@@ -84,7 +88,8 @@ const SideMenuDiv = styled.div`
   top: 0;
   height: 100vh;
   width: ${(props) => (props.menuClick ? "100%" : "0")};
-  background-color: rgba(102, 102, 102, 0.3);
+  background-color: var(--gray_transparency);
+  /* backdrop-filter: blur(20px); */
 
   & > :first-child {
     position: absolute;
@@ -95,12 +100,11 @@ const SideMenuDiv = styled.div`
     top: 50%;
 
     transform: translate(0%, -50%);
-    background-color: rgba(100, 100, 100);
+    background-color: ${(props) =>
+      props.darkMode ? "var(--black)" : "var(--white)"};
     border-radius: 10px 0px 0px 10px;
-    /* overflow: hidden; */
     transition: all ease 0.3s;
-
-    color: white;
+    /* overflow: hidden; */
   }
 `;
 

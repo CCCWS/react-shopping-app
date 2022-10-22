@@ -64,9 +64,7 @@ const LoginTitle = styled.div`
   padding: 1rem;
   font-size: 1.3rem;
   background-color: ${(props) =>
-    props.type === "login"
-      ? "rgba(255, 166, 0, 0.7)"
-      : "rgba(25, 166, 0, 0.7)"};
+    props.type === "login" ? "var(--orange_normal)" : "var(--green)"};
   margin-bottom: 0.4rem;
 `;
 

@@ -94,12 +94,10 @@ const Button = styled.button`
   border-radius: 5px;
   padding: 0.5rem;
 
+  background-color: ${(props) => props.btnType === "edit" && "var(--green)"};
+  background-color: ${(props) => props.btnType === "cart" && "var(--green);"};
   background-color: ${(props) =>
-    props.btnType === "edit" && "rgba(62, 172, 62, 0.8)"};
-  background-color: ${(props) =>
-    props.btnType === "cart" && "rgb(248, 206, 189);"};
-  background-color: ${(props) =>
-    props.btnType === "purchases" && "rgb(255, 48, 48)"};
+    props.btnType === "purchases" && "var(--red_transparency)"};
 
   cursor: pointer;
   color: black;

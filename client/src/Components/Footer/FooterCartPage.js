@@ -36,7 +36,7 @@ const Button = styled.div`
     border-radius: 5px;
     padding: 0.5rem;
     background-color: ${(props) =>
-      props.checkProductLength > 0 ? "rgb(255, 48, 48)" : "rgb(145, 145, 145)"};
+      props.checkProductLength > 0 ? "var(--red_transparency)" : "var(--gray)"};
     color: white;
     cursor: pointer;
   }
