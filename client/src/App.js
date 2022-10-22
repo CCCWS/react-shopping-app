@@ -18,7 +18,7 @@ import ProductManagement from "./Page/ProductManagement";
 import Edit from "./Page/Edit";
 
 import Test from "./Page/Test";
-import Test2 from "./Page/Test2";
+import Test2 from "./Page/test/Test2";
 
 import Auth from "./hoc/auth";
 import GlobalStyle from "./Components/Style/GlobalStyle";
