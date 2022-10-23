@@ -35,3 +35,4 @@
   * mongoose - 6.2.9
   * multer - 1.4.5-lts.1
   * path-browserify - 1.0.1
+  * nodemon - 2.0.15
