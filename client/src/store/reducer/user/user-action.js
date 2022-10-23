@@ -12,6 +12,7 @@ export const auth = () => {
 };
 
 export const login = (data) => {
+  let loginCheck = false;
   return async (dispatch) => {
     const loginApi = async () => {
       const res = await axios.post("/api/user/login", data);
@@ -32,21 +33,26 @@ export const login = (data) => {
             message: "",
           })
         );
+        return true;
       }
     };
 
-    loginApi();
+    loginCheck = loginApi();
+    return loginCheck;
   };
 };
 
 export const logout = () => {
+  let logoutCheck = false;
   return async (dispatch) => {
     const logoutApi = async () => {
       dispatch(userAction.setLogout());
       await axios.get("/api/user/logout");
+      return true;
     };
 
-    logoutApi();
+    logoutCheck = logoutApi();
+    return logoutCheck;
   };
 };
 

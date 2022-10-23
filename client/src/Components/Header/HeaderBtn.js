@@ -7,9 +7,9 @@ import ModalBase from "../Modal/ModalBase";
 import Login from "./LoginModal/Login";
 import Toggle from "../Utility/Toggle";
 
-import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
 
+import { notificationAction } from "../../store/reducer/notification";
 import { logout } from "../../store/reducer/user/user-action";
 
 const HeaderBtns = () => {
@@ -109,7 +109,16 @@ const HeaderBtns = () => {
     };
 
     const onLogout = () => {
-      dispatch(logout());
+      dispatch(logout()).then((res) => {
+        if (res) {
+          dispatch(
+            notificationAction.setNotification({
+              status: "success",
+              message: "로그아웃",
+            })
+          );
+        }
+      });
     };
 
     return (

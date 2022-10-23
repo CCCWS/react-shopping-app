@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 import SideMenu from "./SideMenu";
 import HeaderBtns from "./HeaderBtn";
+import Notification from "../Utility/Notification";
 
 function Header() {
+  const notification = useSelector((state) => state.notification.notification);
   const [checkSideMenu, setCheckSideMenu] = useState(
     window.innerWidth >= 800 ? false : true
   );
@@ -22,16 +25,19 @@ function Header() {
   };
 
   return (
-    <HeaderDiv>
-      <HeaderSection>
-        <HeaderLogo>로고</HeaderLogo>
-        {!checkSideMenu && <Btns.HeaderBtn />}
-      </HeaderSection>
+    <>
+      {notification && <Notification notification={notification} />}
+      <HeaderDiv>
+        <HeaderSection>
+          <HeaderLogo>로고</HeaderLogo>
+          {!checkSideMenu && <Btns.HeaderBtn />}
+        </HeaderSection>
 
-      <HeaderSection>
-        {checkSideMenu ? <SideMenu /> : <Btns.HeaderLogInBtn />}
-      </HeaderSection>
-    </HeaderDiv>
+        <HeaderSection>
+          {checkSideMenu ? <SideMenu /> : <Btns.HeaderLogInBtn />}
+        </HeaderSection>
+      </HeaderDiv>
+    </>
   );
 }
 

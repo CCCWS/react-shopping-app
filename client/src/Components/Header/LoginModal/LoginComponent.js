@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { login, register } from "../../../store/reducer/user/user-action";
+import { notificationAction } from "../../../store/reducer/notification";
 
 function LoginComponent({ type, setType }) {
   const darkMode = useSelector((state) => state.darkMode.darkMode);
@@ -53,7 +54,16 @@ function LoginComponent({ type, setType }) {
           email: emailRef.current.value,
           password: passwordRef.current.value,
         })
-      );
+      ).then((res) => {
+        if (res) {
+          dispatch(
+            notificationAction.setNotification({
+              status: "success",
+              message: "로그인",
+            })
+          );
+        }
+      });
     }
 
     if (type === "register") {
@@ -84,7 +94,12 @@ function LoginComponent({ type, setType }) {
         })
       ).then((res) => {
         if (res) {
-          alert("가입완료");
+          dispatch(
+            notificationAction.setNotification({
+              status: "success",
+              message: "회원가입 성공",
+            })
+          );
           setType("login");
         }
       });
