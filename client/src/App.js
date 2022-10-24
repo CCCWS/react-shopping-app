@@ -7,15 +7,15 @@ import { useSelector } from "react-redux";
 import PageTop from "./Components/Utility/PageTop";
 import Header from "./Components/Header/Header";
 
-import Main from "./Page/Main";
-import Upload from "./Page/Upload";
+import Main from "./Page/Main/Main";
+import Upload from "./Page/Upload_Edit/Upload";
 import ProductDetail from "./Page/DetailPage/ProductDetail";
 import Cart from "./Page/Cart/Cart";
 import CheckOut from "./Page/CheckOut/CheckOut";
-import PaymentResult from "./Page/PaymentResult";
+import PaymentResult from "./Page/PaymentResult/PaymentResult";
 import PurchaseHistory from "./Page/PurchaseHistory/PurchaseHistory";
-import ProductManagement from "./Page/ProductManagement";
-import Edit from "./Page/Edit";
+import ProductManagement from "./Page/ProductManagement/ProductManagement";
+import Edit from "./Page/Upload_Edit/Edit";
 
 import Test from "./Page/Test";
 import Test2 from "./Page/test/Test2";

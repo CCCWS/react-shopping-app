@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import Loading from "../Components/Utility/Loading";
+import Loading from "../../Components/Utility/Loading";
 
-import useAxios from "../hooks/useAxios";
-import useTheme from "../hooks/useTheme";
+import useAxios from "../../hooks/useAxios";
+import useTheme from "../../hooks/useTheme";
 
-import { postUrl } from "../PostUrl";
-import { Image } from "../Components/Style/ProductCard";
+import { postUrl } from "../../PostUrl";
+import { Image } from "../../Components/Style/ProductCard";
 
 function ProductManagement({ isAuth, userId }) {
   const nav = useNavigate();

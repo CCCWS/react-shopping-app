@@ -6,20 +6,20 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 
 //component
-import ProductCard from "../Components/Product/ProductCard";
-import SelectBox from "../Components/Utility/SelectBox";
-import RecentView from "../Components/Product/RecentView";
-import ProductRank from "../Components/Product/ProductRank";
-import ModalBase from "../Components/Modal/ModalBase";
-import Loading from "../Components/Utility/Loading";
-import Switch from "../Components/Utility/Switch";
+import ProductCard from "../../Components/Product/ProductCard";
+import SelectBox from "../../Components/Utility/SelectBox";
+import RecentView from "../../Components/Product/RecentView";
+import ProductRank from "../../Components/Product/ProductRank";
+import ModalBase from "../../Components/Modal/ModalBase";
+import Loading from "../../Components/Utility/Loading";
+import Switch from "../../Components/Utility/Switch";
 
 //comstom hooks
-import useAxios from "../hooks/useAxios";
-import useModal from "../hooks/useModal.js";
+import useAxios from "../../hooks/useAxios";
+import useModal from "../../hooks/useModal.js";
 
 //etc
-import { categoryList, priceList } from "../data/CatecoryList";
+import { categoryList, priceList } from "../../data/CatecoryList";
 
 function Main({ darkMode }) {
   // const darkMode = useSelector((state) => state.darkMode.darkMode);
