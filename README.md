@@ -3,7 +3,7 @@
 
 
 로그인부터 상품 조회, 등록, 수정, 장바구니 등록 및 삭제, 결제 등 쇼핑몰의 전반적인 과정을 다루고 있습니다.  
-client에서는 react를 사용하고 있으며 server는 nodejs express, DB는 mongoDB를 사용하여 데이터를 관리합니다. 
+client에서는 react를 사용하고 있으며 server는 nodejs express, DB는 mongoDB를 사용하여 데이터를 관리합니다.   
 HEROKU를 사용하여 배포되었습니다.
 
 
