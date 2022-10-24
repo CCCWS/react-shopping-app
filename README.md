@@ -4,7 +4,7 @@
 ## 사용된 라이브러리
 
 * client
-  * @reduxjs/toolkit - 1.8.6
+  * @reduxjs/toolkit - 1.8.6 / 
   * antd - 4.21.1
   * axios - 0.26.1
   * http-proxy-middleware - 2.0.4
