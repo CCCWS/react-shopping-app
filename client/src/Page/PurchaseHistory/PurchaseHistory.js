@@ -43,32 +43,23 @@ function PurchaseHistory({ isAuth, userId }) {
     [setOpenModal]
   );
 
-  const ModalShipping = useCallback(() => {
-    return (
-      <>
-        <Header>
-          <div>배송정보</div>
-        </Header>
-        <Message darkMode={darkMode}>
-          <div>{`이름 : ${shippingInfo.name}`}</div>
-          <div>{`전화번호 : ${shippingInfo.phone}`}</div>
-          <div>{`주소 : ${shippingInfo.address}`}</div>
-          <div>{`요청사항 : ${
-            shippingInfo.request.length === 0 ? "없음" : shippingInfo.request
-          }`}</div>
-        </Message>
-      </>
-    );
-  }, [shippingInfo]);
-
   return (
     <div className="page">
-      <ModalBase
-        contents={contents}
-        modalOpen={openModal}
-        PropComponent={ModalShipping}
-        setModalOpen={setOpenModal}
-      />
+      <ModalBase modalOpen={openModal} setModalOpen={setOpenModal}>
+        <>
+          <Header>
+            <div>배송정보</div>
+          </Header>
+          <Message darkMode={darkMode}>
+            <div>{`이름 : ${shippingInfo.name}`}</div>
+            <div>{`전화번호 : ${shippingInfo.phone}`}</div>
+            <div>{`주소 : ${shippingInfo.address}`}</div>
+            <div>{`요청사항 : ${
+              shippingInfo.request === "" ? "없음" : shippingInfo.request
+            }`}</div>
+          </Message>
+        </>
+      </ModalBase>
 
       {loading ? (
         <Loading />

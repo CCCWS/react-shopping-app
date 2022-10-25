@@ -34,8 +34,7 @@ const Modal = ({ children, open, setOpen, option }) => {
     >
       {open && (
         <ModalContents>
-          <div>{children}</div>
-
+          <>{children}</>
           {option.onCloseBtn !== false && (
             <Footer>
               <Button onClick={() => setOpen(false)}>닫기</Button>

@@ -26,22 +26,13 @@ const AddressSearch = ({ searchAddress, setSearchAddress, darkMode }) => {
     setOpenModal(false);
   };
 
-  const searchAddressForKakao = () => {
-    return (
-      <Div>
-        <DaumPostCode onComplete={onAddress} />
-      </Div>
-    );
-  };
-
   return (
     <>
-      <ModalBase
-        contents={contents}
-        modalOpen={openModal}
-        setModalOpen={setOpenModal}
-        PropComponent={searchAddressForKakao}
-      />
+      <ModalBase modalOpen={openModal} setModalOpen={setOpenModal}>
+        <Div>
+          <DaumPostCode onComplete={onAddress} />
+        </Div>
+      </ModalBase>
 
       <Section onClick={() => setOpenModal(true)} darkMode={darkMode}>
         {searchAddress.length > 0 ? searchAddress : "주소 검색"}

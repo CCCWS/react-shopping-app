@@ -27,18 +27,11 @@ function Selector({ ProductDetail, CheckOut, arr }) {
     setCurrArr((prev) => prev + 1);
   };
 
-  const ModalImg = useCallback(() => {
-    return <ModalImage img={`url('${postUrl}${currImg}')`} />;
-  }, [currImg]);
-
   return (
     <SelectorBox ProductDetail={ProductDetail} CheckOut={CheckOut}>
-      <ModalBase
-        contents={contents}
-        modalOpen={openModal}
-        PropComponent={ModalImg}
-        setModalOpen={setOpenModal}
-      />
+      <ModalBase modalOpen={openModal} setModalOpen={setOpenModal}>
+        <ModalImage img={`url('${postUrl}${currImg}')`} />
+      </ModalBase>
 
       {arr.length > 1 && (
         <NextBtn onClick={minus} left={true}>

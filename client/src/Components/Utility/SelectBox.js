@@ -2,13 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { CaretDownFilled, CaretUpFilled } from "@ant-design/icons";
 import styled from "styled-components";
 
-import useTheme from "../../hooks/useTheme";
-
 function SelectBox({ data, setData, edit, initData }) {
   const selectRef1 = useRef();
   const selectRef2 = useRef();
-
-  const { darkMode } = useTheme();
 
   const [title, setTitle] = useState(data[0].name);
   const [click, setClick] = useState(false);
@@ -44,12 +40,7 @@ function SelectBox({ data, setData, edit, initData }) {
       {title}
       <Icons>{click ? <CaretUpFilled /> : <CaretDownFilled />}</Icons>
 
-      <Ul
-        open={click}
-        // className={[`${click ? "select-value-open" : "select-value-close"}`]}
-        onChange={select}
-        ref={selectRef2}
-      >
+      <Ul open={click} onChange={select} ref={selectRef2}>
         {data.map((item) => (
           <Li onClick={select} key={item.id} id={item.value}>
             {item.name}

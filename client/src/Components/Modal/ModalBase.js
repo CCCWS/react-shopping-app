@@ -6,11 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import useTheme from "../../hooks/useTheme";
 
-const Modal = ({ PropComponent, contents, modalOpen, setModalOpen }) => {
-  //PropComponent > 기본 템플릿을 쓰지않고 다른 형태로 사용하려할때
-  //                모달창을 열고자하는 스크립트에서 필요한 컴포넌트를 전달하고
-  //                전달받은 컴포넌트를 랜더링함.
-
+const Modal = ({ children, contents, modalOpen, setModalOpen }) => {
   const nav = useNavigate();
   const { darkMode } = useTheme();
 
@@ -39,8 +35,8 @@ const Modal = ({ PropComponent, contents, modalOpen, setModalOpen }) => {
       >
         {modalOpen && (
           <div>
-            {PropComponent ? (
-              <PropComponent />
+            {children ? (
+              <>{children}</>
             ) : (
               <ModalContents>
                 <Header>
@@ -54,11 +50,11 @@ const Modal = ({ PropComponent, contents, modalOpen, setModalOpen }) => {
             )}
 
             <Footer>
-              {contents.cartBtn && (
+              {contents && contents.cartBtn && (
                 <Button onClick={() => nav("/cart")}>장바구니 이동</Button>
               )}
 
-              {contents.cartPage && (
+              {contents && contents.cartPage && (
                 <Button
                   onClick={() => {
                     contents.delFunc();
@@ -107,9 +103,9 @@ const ModalDiv = styled.div`
     position: relative;
     font-size: 1rem;
 
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between; */
 
     @media (max-width: 350px) {
       width: 90%;

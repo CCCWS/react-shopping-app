@@ -34,7 +34,15 @@ const useAxios = (url) => {
     [url]
   );
 
-  return { resData, setResData, loading, setLoading, lastData, connectServer };
+  return {
+    resData,
+    setResData,
+    loading,
+    setLoading,
+    lastData,
+    setLastData,
+    connectServer,
+  };
 };
 
 export default useAxios;

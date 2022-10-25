@@ -39,11 +39,11 @@ const HeaderBtns = () => {
         value: "판매하기",
       },
       {
-        id: "cart", //이동할 주소 입력
+        id: "cart",
         value: "장바구니",
       },
       {
-        id: "purchaseHistory", //이동할 주소 입력
+        id: "purchaseHistory",
         value: "구매내역",
       },
       {
@@ -79,11 +79,11 @@ const HeaderBtns = () => {
 
     return (
       <>
-        <ModalBase
+        {/* <ModalBase
           contents={contents}
           modalOpen={openModal}
           setModalOpen={setOpenModal}
-        />
+        /> */}
 
         {btn.map((data) => (
           <HeaderButton
@@ -124,11 +124,12 @@ const HeaderBtns = () => {
     return (
       <>
         <ModalBase
-          contents={contents}
+          // contents={contents}
           modalOpen={openModal}
           setModalOpen={setOpenModal}
-          PropComponent={Login}
-        />
+        >
+          <Login />
+        </ModalBase>
 
         <Toggle />
 

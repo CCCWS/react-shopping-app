@@ -3,8 +3,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { SearchOutlined, RollbackOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-
 //component
 import ProductCard from "../../Components/Product/ProductCard";
 import SelectBox from "../../Components/Utility/SelectBox";
@@ -22,8 +20,6 @@ import useModal from "../../hooks/useModal.js";
 import { categoryList, priceList } from "../../data/CatecoryList";
 
 function Main({ darkMode }) {
-  // const darkMode = useSelector((state) => state.darkMode.darkMode);
-
   const [readRef, setReadRef] = useInView();
 
   const [click, setClick] = useState(true); //메인화면 제품카드 카드형 or 리스트형
@@ -40,6 +36,7 @@ function Main({ darkMode }) {
     loading,
     connectServer: getProduct,
     lastData,
+    setLastData,
   } = useAxios("api/product/productList");
 
   //모달창
@@ -139,6 +136,8 @@ function Main({ darkMode }) {
 
   const onSearchReset = () => {
     setSearchValue("");
+    setSkip(0);
+    setLastData(false);
     setSearchTrue(false);
     getProduct({
       limit: limit,
@@ -199,7 +198,7 @@ function Main({ darkMode }) {
       ) : (
         <>
           <ProductCard data={productList} viewType={click} />
-          {!lastData && <div ref={readRef}></div>}
+          {!lastData && <div ref={readRef} />}
         </>
       )}
     </div>

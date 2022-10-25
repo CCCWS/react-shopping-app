@@ -6,48 +6,30 @@ import { useSelector, useDispatch } from "react-redux";
 import { notificationAction } from "../../store/reducer/notification";
 
 function Test2() {
-  const dispatch = useDispatch();
-  const notification = useSelector((state) => state.notification.notification);
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const onModalOpen = () => {
-    setModalOpen(true);
-  };
-
-  const test = () => {
-    dispatch(
-      notificationAction.setNotification({ status: "success", message: "test" })
-    );
-  };
-
-  const option = {
-    // backgroundColor: "rgba(100, 100, 100, 0.1)",
-    // onCloseBtn: false,
-    // onClickBackgroundClose: false,
-    // onPushEscapeClose: false,
-  };
-
+  const [open, setOpen] = useState(false);
   return (
     <>
-      {notification && <Notification notification={notification} />}
+      <button onClick={() => setOpen(!open)}>test</button>
 
-      <Modal open={modalOpen} setOpen={setModalOpen} option={option}>
-        <div>Content</div>
-        <div>Content</div>
-        <div>Content</div>
-      </Modal>
-
-      <button onClick={test}>Modal Open</button>
+      <Div open={open}></Div>
+      <Div open={open}></Div>
+      <Div open={open}></Div>
+      <Div open={open}></Div>
+      <Div open={open}></Div>
     </>
   );
 }
 
 const Div = styled.div`
-  width: 300px;
-
-  @media (max-width: 350px) {
-    width: 200px;
-  }
+  width: ${(props) => (props.open ? "300px" : "0px")};
+  height: ${(props) => (props.open ? "300px" : "0px")};
+  transform: ${(props) =>
+    props.open
+      ? "translate(calc(50vw - 150px), calc(50vh - 150px))"
+      : "translateX(0)"};
+  background-color: red;
+  border-radius: 30px;
+  transition: 0.5s;
 `;
 
 export default Test2;
