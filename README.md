@@ -1,10 +1,35 @@
-## 배포 주소
+## REACT SHOPPING APP
+* 로그인부터 상품 조회, 등록, 수정, 장바구니 등록 및 삭제, 결제 등 쇼핑몰 사이트의 전반적인 과정을 다루고 있습니다.  
+* client에서는 react를 사용하고 있으며 server는 nodejs express, DB는 mongoDB를 사용하여 데이터를 관리합니다.   
+* HEROKU를 사용하여 배포되었습니다.
+
+## 주소
 * <https://protected-reef-94609.herokuapp.com/>
 
+## 페이지 구성
+|                       메인 페이지                     |                    로그인 & 회원가입 모달            |
+| :--------------------------------------------: | :---------------------------------------------: |
+| <img src = "https://user-images.githubusercontent.com/86645532/197843010-312a5a44-8072-4652-a3e9-85037389f5db.png" width="400px"> | <img src = "https://user-images.githubusercontent.com/86645532/197843531-423b6130-1961-46bb-8b3b-549fbfc385fb.png" width="200px"> <img src = "https://user-images.githubusercontent.com/86645532/197843789-c33d305e-fd27-4148-a7cf-8362c3e392c8.png" width="200px"> |
 
-로그인부터 상품 조회, 등록, 수정, 장바구니 등록 및 삭제, 결제 등 쇼핑몰의 전반적인 과정을 다루고 있습니다.  
-client에서는 react를 사용하고 있으며 server는 nodejs express, DB는 mongoDB를 사용하여 데이터를 관리합니다.   
-HEROKU를 사용하여 배포되었습니다.
+
+
+|                     상품 상세 페이지                      |               동록 & 수정 페이지                     |
+| :----------------------------------------------------: | :---------------------------------------------: |
+| <img src="https://user-images.githubusercontent.com/86645532/197844033-4c34c037-8603-4f4a-85d9-9a97a65fd5ca.png" width="400px"> | <img src="https://user-images.githubusercontent.com/86645532/197844290-9d65158e-3e25-4524-93b1-7705013c689c.png" width="400px"> |
+
+
+
+|                      장바구니 페이지                       |                     결제 페이지                      |
+| :---------------------------------------------: | :---------------------------------------------: |
+| <img src="https://user-images.githubusercontent.com/86645532/197844584-a4ecda39-37ef-49b9-9c44-b998799b8f36.png" width="400px"> | <img src="https://user-images.githubusercontent.com/86645532/197844801-040a4979-130a-4939-ad88-615a9304175d.png" width="400px"> |
+
+|                      결제 완료 페이지                       |                     구매 내역 페이지                      |
+| :---------------------------------------------: | :---------------------------------------------: |
+| <img src="https://user-images.githubusercontent.com/86645532/197845182-230f052c-0292-470a-a81c-06f6d53a0919.png" width="400px"> | <img src="https://user-images.githubusercontent.com/86645532/197845324-bafbcd63-b5b8-4fce-9046-a3ae2498cc7b.png" width="400px"> |
+
+|                      등록 상품 관리 페이지                       |                     다크 모드                      |
+| :---------------------------------------------: | :---------------------------------------------: |
+| <img src="https://user-images.githubusercontent.com/86645532/197845596-964082eb-d94d-41b8-b203-68cb8d3ff31d.png" width="400px"> | <img src="https://user-images.githubusercontent.com/86645532/197845812-8f1f0287-a001-47d9-98ea-eff888561a82.png" width="400px"> |
 
 
 
