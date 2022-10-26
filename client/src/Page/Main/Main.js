@@ -151,7 +151,7 @@ function Main({ darkMode }) {
 
   return (
     <div className="page">
-      <RecentView body={true} />
+      <RecentView page={true} />
 
       <ModalBase
         contents={contents}

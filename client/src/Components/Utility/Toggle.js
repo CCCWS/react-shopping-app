@@ -29,7 +29,7 @@ const Div = styled.div`
   justify-content: center;
   align-items: center;
   width: 35px;
-  height: 35px;
+  min-height: 35px;
   border-radius: 30px;
   margin-right: 10px;
   background-color: var(--gray_transparency);

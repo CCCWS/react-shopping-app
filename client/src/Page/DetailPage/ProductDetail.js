@@ -195,7 +195,7 @@ function ProductDetail({ isAuth, userId }) {
 
   return (
     <div className="page" id="smooth-scroll">
-      <RecentView body={true} />
+      <RecentView page={true} />
 
       {cartAddLoading && (
         <CartLoadingDiv>

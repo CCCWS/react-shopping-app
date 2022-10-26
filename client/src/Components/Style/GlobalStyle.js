@@ -62,6 +62,7 @@ const GlobalStyle = createGlobalStyle`
   min-height: calc(100vh - 50px);
   margin: auto;
   position: relative;
+  overflow-x: hidden;
 }
 
 @media (max-width: 1000px) {

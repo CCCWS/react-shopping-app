@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
+import { Image } from "../Style/ProductCard";
+
 import { postUrl } from "../../PostUrl";
 
-function RecentView({ SideMenu, setMenuClick, menuClick }) {
+function RecentView({ SideMenu, setMenuClick, page }) {
   const { id } = useParams();
   const nav = useNavigate();
   const [histoty, setHistory] = useState([]);
@@ -18,142 +20,133 @@ function RecentView({ SideMenu, setMenuClick, menuClick }) {
     }
   }, [id]);
 
-  return (
-    <>
-      {SideMenu ? (
-        <>
-          <Div>최근본상품</Div>
-          <SideDiv>
-            {histoty.length === 0 ? (
-              <Div empty={true}>최근본상품이 없습니다.</Div>
-            ) : (
-              <>
-                {histoty.map((data) => (
-                  <React.Fragment key={data.id}>
-                    <Image
-                      SideMenu={true}
-                      img={`url('${postUrl}${data.image}')`}
-                      onClick={() => {
-                        nav(`/product/${data.id}`);
-                        setMenuClick(false);
-                      }}
-                    />
-                  </React.Fragment>
-                ))}
-              </>
-            )}
-          </SideDiv>
-        </>
-      ) : (
-        <RecentViewBox>
-          <div>
-            <Div>최근본상품</Div>
-            {histoty.length === 0 ? (
-              <Div empty={true}>최근본상품이 없습니다.</Div>
-            ) : (
-              <>
-                {histoty.map((data) => (
-                  <React.Fragment key={data.id}>
-                    <Image
-                      img={`url('${postUrl}${data.image}')`}
-                      onClick={() => {
-                        nav(`/product/${data.id}`);
-                      }}
-                    />
-                  </React.Fragment>
-                ))}
-              </>
-            )}
+  const goTop = () => {
+    window.scroll(0, 0);
+  };
 
-            <Div goTop={true} onClick={() => window.scroll(0, 0)}>
-              맨위로
-            </Div>
-          </div>
-        </RecentViewBox>
-      )}
-    </>
+  const goProduct = (id) => {
+    nav(`/product/${id}`);
+  };
+
+  return (
+    <Div page={page} SideMenu={SideMenu}>
+      {}
+      <div>
+        <Title>최근본상품</Title>
+        {histoty.length === 0 ? (
+          <Empty>최근본상품이 없습니다.</Empty>
+        ) : (
+          <ImageBox page={page} SideMenu={SideMenu}>
+            {histoty.map((data) => (
+              <NewImage
+                page={page}
+                SideMenu={SideMenu}
+                key={data.id}
+                img={`url('${postUrl}${data.image}')`}
+                onClick={() => goProduct(data.id)}
+              />
+            ))}
+          </ImageBox>
+        )}
+        {page && (
+          <Title top={true} onClick={goTop}>
+            맨위로
+          </Title>
+        )}
+      </div>
+    </Div>
   );
 }
 
-const RecentViewBox = styled.div`
-  background-color: red;
-  position: absolute;
-  right: -50px;
+const Div = styled.div`
+  width: ${(props) => props.page && "100px"};
+  width: ${(props) => props.SideMenu && "100%"};
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  ${(props) =>
+    props.page &&
+    css`
+      position: absolute;
+      top: 60px;
+      right: -100px;
+    `}
+
+  @media (max-width: 1200px) {
+    display: ${(props) => props.page && "none"};
+  }
 
   & > :first-child {
-    top: 60px;
-    width: 100px;
-    position: fixed;
-  }
+    width: inherit;
+    height: inherit;
 
-  @media (max-width: 1100px) {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+
+    ${(props) =>
+      props.page &&
+      css`
+        position: fixed;
+        top: inherit;
+      `}
   }
 `;
 
-const Div = styled.div`
-  display: flex;
-  justify-content: center;
-
-  width: ${(props) => (props.empty ? "100%" : "6rem")};
-  font-size: ${(props) => (props.empty ? "0.8rem" : "1rem")};
+const Title = styled.div`
+  background-color: var(--gray_transparency);
   border-radius: 5px;
+  font-size: 1rem;
   padding: 0.5rem;
 
-  color: black;
-  background-color: ${(props) =>
-    props.empty ? "rgba(200, 200, 200, 0.5)" : "rgba(200, 200, 200, 0.9)"};
-
-  ${(props) =>
-    props.empty &&
-    css`
-      margin-top: 0.7em;
-      margin-bottom: 0.7rem;
-      white-space: pre-line;
-      align-items: center;
-    `}
-
-  ${(props) =>
-    props.goTop &&
-    css`
-      &:hover {
-        cursor: pointer;
-      }
-    `}
+  &:hover {
+    cursor: ${(props) => props.top && "pointer"};
+  }
 `;
 
-const Image = styled.div`
-  background-image: ${(props) => props.img};
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+const Empty = styled.div`
+  font-size: 1rem;
+  margin: 10px;
+`;
 
-  width: ${(props) => (props.SideMenu ? "40%" : "100%")};
+const ImageBox = styled.div`
+  /* background-color: red; */
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-evenly;
+
+  ${(props) =>
+    props.page &&
+    css`
+      flex-direction: column;
+      flex-wrap: wrap;
+    `}
+  ${(props) =>
+    props.SideMenu &&
+    css`
+      width: 250px;
+      flex-direction: row;
+      flex-wrap: wrap;
+    `};
+`;
+
+const NewImage = styled(Image)`
+  width: 100px;
   height: 100px;
-  margin: 5px;
 
-  border-radius: 10px;
-  border: 3px solid rgb(253, 253, 253);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  transition: all cubic-bezier(0.6, -0.28, 0.74, 0.05) 0.3s;
+
+  position: relative;
 
   &:hover {
     cursor: pointer;
-    border: 3px solid orange;
-    transition: all ease 0.5s;
+    transform: scale(1.2);
   }
-`;
-
-const SideDiv = styled.div`
-  width: 250px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 20px;
 `;
 
 export default React.memo(RecentView);
