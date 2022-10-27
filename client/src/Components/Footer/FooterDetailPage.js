@@ -67,15 +67,14 @@ const FooterDetailPage = ({
 };
 
 const Price = styled.div`
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-left: 1rem;
   font-size: 2rem;
   font-weight: 700;
   display: flex;
   align-items: center;
 
   @media (max-width: 500px) {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
   }
 `;
 
@@ -94,7 +93,7 @@ const ButtonBox = styled.div`
 `;
 
 const Button = styled.button`
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   border: none;
   padding: 0.5rem;
 
@@ -105,11 +104,9 @@ const Button = styled.button`
 
   cursor: pointer;
 
-
-  @media (max-width: 500px) {
-    padding: 0.3rem;
-    font-size: 1rem;
-  }
+  /* @media (max-width: 500px) {
+    font-size: 1.2rem;
+  } */
 `;
 
 export default FooterDetailPage;

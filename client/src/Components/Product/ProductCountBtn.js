@@ -36,6 +36,7 @@ const Div = styled.div`
   width: 6rem;
   height: 2.2rem;
   font-size: 1rem;
+  margin-left: 1rem;
 
   border: 2px solid var(--gray_transparency);
   border-radius: 5px;
