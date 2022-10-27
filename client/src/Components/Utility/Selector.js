@@ -120,12 +120,16 @@ const NextBtn = styled.button`
 `;
 
 const BoxImage = styled.div`
-  background-image: ${(props) => props.img};
   width: 100%;
   height: 100%;
+
+  background-color: red;
+  background-image: ${(props) => props.img};
   background-position: center;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
+
+  border-radius: 10px;
 `;
 
 const BoxCheckOut = styled.div`

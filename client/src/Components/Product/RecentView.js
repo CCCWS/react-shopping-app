@@ -26,6 +26,8 @@ function RecentView({ SideMenu, setMenuClick, page }) {
 
   const goProduct = (id) => {
     nav(`/product/${id}`);
+
+    SideMenu && setMenuClick(false);
   };
 
   return (
@@ -110,8 +112,6 @@ const Empty = styled.div`
 `;
 
 const ImageBox = styled.div`
-  /* background-color: red; */
-
   padding-top: 10px;
   padding-bottom: 10px;
   display: flex;
@@ -133,8 +133,8 @@ const ImageBox = styled.div`
 `;
 
 const NewImage = styled(Image)`
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
 
   margin-top: 10px;
   margin-bottom: 10px;

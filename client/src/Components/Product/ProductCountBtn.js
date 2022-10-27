@@ -33,8 +33,13 @@ const Div = styled.div`
   justify-content: center;
   align-items: center;
 
-  padding: 0.5rem;
+  width: 6rem;
+  height: 2.2rem;
   font-size: 1rem;
+
+  border: 2px solid var(--gray_transparency);
+  border-radius: 5px;
+
 `;
 
 const Count = styled.div`
@@ -42,25 +47,20 @@ const Count = styled.div`
   justify-content: center;
   align-items: center;
 
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-right: 5px;
-  margin-left: 5px;
+  width: 40%;
+  height: 100%;
 
   border: none;
-  border: 1px solid rgb(189, 189, 189);
-  border-radius: 5px;
 `;
 
 const Button = styled.button`
-  width: 2rem;
-  height: 2em;
+  width: 30%;
+  height: 100%;
   border: none;
-  border-radius: 5px;
-  background-color: rgba(255, 166, 0, 0.3);
+  background-color: var(--gray_transparency);
 
   &:hover {
-    background-color: rgba(255, 166, 0, 0.6);
+    background-color: var(--orange_hover);
     cursor: pointer;
   }
 `;

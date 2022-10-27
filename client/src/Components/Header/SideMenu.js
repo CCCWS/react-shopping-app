@@ -116,7 +116,9 @@ const SideMenuItem = styled.div`
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
-  overflow: hidden;
+  overflow-x: hidden;
+
+  
 `;
 
 export default React.memo(SideMenu);

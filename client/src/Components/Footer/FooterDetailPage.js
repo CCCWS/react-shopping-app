@@ -29,7 +29,6 @@ const FooterDetailPage = ({
           purchasesCount={purchasesCount}
           setPurchasesCount={setPurchasesCount}
           productCount={product.count}
-          detail={true}
         />
       </Price>
 
@@ -68,30 +67,35 @@ const FooterDetailPage = ({
 };
 
 const Price = styled.div`
-  margin-left: 1rem;
-  font-size: 1.8rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  font-size: 2rem;
   font-weight: 700;
   display: flex;
   align-items: center;
+
+  @media (max-width: 500px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const ButtonBox = styled.div`
   display: flex;
-
-  @media (max-width: 550px) {
+  border-radius: 5px;
+  border: 2px solid var(--gray_transparency);
+  margin-right: 0.5rem;
+  /* @media (max-width: 550px) {
     position: fixed;
     bottom: 0px;
     right: 0;
     z-index: 0;
     flex-direction: column;
-  }
+  } */
 `;
 
 const Button = styled.button`
-  margin-right: 1rem;
-  font-size: 1.3rem;
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  border-radius: 5px;
+  font-size: 1.1rem;
+  border: none;
   padding: 0.5rem;
 
   background-color: ${(props) => props.btnType === "edit" && "var(--green)"};
@@ -100,8 +104,12 @@ const Button = styled.button`
     props.btnType === "purchases" && "var(--red_transparency)"};
 
   cursor: pointer;
-  color: black;
-  margin-bottom: 5px;
+
+
+  @media (max-width: 500px) {
+    padding: 0.3rem;
+    font-size: 1rem;
+  }
 `;
 
 export default FooterDetailPage;

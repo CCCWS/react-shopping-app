@@ -53,6 +53,7 @@ function ProductDetail({ isAuth, userId }) {
 
   //조회한 상품을 hitory에 등록
   useEffect(() => {
+    setOpenModal(false);
     const get = JSON.parse(localStorage.getItem("productHistory"));
     const setLocalData = () => {
       //LocalStorage에 해당 상품의 정보 저장
