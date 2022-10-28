@@ -91,7 +91,6 @@ export const HeaderLogInBtn = ({ onSideMenu }) => {
     setOpenModal(true);
     setContents({ login: true });
   };
-
   const onLogout = () => {
     dispatch(logout()).then((res) => {
       if (res) {
