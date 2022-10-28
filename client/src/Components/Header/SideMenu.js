@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MenuOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
-import HeaderBtns from "./HeaderBtn";
+import { HeaderBtn, HeaderLogInBtn } from "./HeaderBtn";
 import RecentView from "../Product/RecentView";
 
 import useTheme from "../../hooks/useTheme";
@@ -10,7 +10,6 @@ import useTheme from "../../hooks/useTheme";
 function SideMenu() {
   const { darkMode } = useTheme();
   const [menuClick, setMenuClick] = useState(false);
-  const Btns = HeaderBtns();
 
   useEffect(() => {
     const escapeCheck = (e) => {
@@ -54,8 +53,8 @@ function SideMenu() {
           {menuClick && (
             <>
               <RecentView SideMenu={true} setMenuClick={setMenuClick} />
-              <Btns.HeaderLogInBtn onSideMenu={true} />
-              <Btns.HeaderBtn onSideMenu={true} setMenuClick={setMenuClick} />
+              <HeaderLogInBtn onSideMenu={true} />
+              <HeaderBtn onSideMenu={true} setMenuClick={setMenuClick} />
             </>
           )}
         </SideMenuItem>
@@ -117,8 +116,6 @@ const SideMenuItem = styled.div`
   align-items: center;
   overflow-y: scroll;
   overflow-x: hidden;
-
-  
 `;
 
 export default React.memo(SideMenu);

@@ -51,13 +51,13 @@ const Div = styled.div`
 `;
 
 const Toggle = styled.span`
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: var(--white);
   position: absolute;
   left: 5px;
   width: 30px;
   height: 30px;
   border-radius: 30px;
-  border: 2px solid rgba(255, 166, 0, 0.61);
+  border: 2px solid var(--orange_normal);
   transition: all ease 0.5s;
 
   transform: ${(props) =>
@@ -65,7 +65,7 @@ const Toggle = styled.span`
 
   &:hover {
     cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--orange_hover);
   }
 `;
 

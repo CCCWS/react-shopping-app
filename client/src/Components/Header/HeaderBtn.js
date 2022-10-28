@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import ModalBase from "../Modal/ModalBase";
@@ -10,156 +10,168 @@ import Toggle from "../Utility/Toggle";
 import useModal from "../../hooks/useModal";
 
 import { notificationAction } from "../../store/reducer/notification";
+import { pathnameAction } from "../../store/reducer/pathname";
 import { logout } from "../../store/reducer/user/user-action";
 
-const HeaderBtns = () => {
+export const HeaderBtn = ({ onSideMenu, setMenuClick }) => {
+  const btn = [
+    {
+      id: "",
+      value: "홈",
+    },
+    {
+      id: "upload", //이동할 주소 입력
+      value: "판매하기",
+    },
+    {
+      id: "cart",
+      value: "장바구니",
+    },
+    {
+      id: "purchaseHistory",
+      value: "구매내역",
+    },
+    {
+      id: "productManagement",
+      value: "상품관리",
+    },
+  ];
+
   const nav = useNavigate();
-  const [userAuth, setUserAuth] = useState(false);
-  const [userName, setUserName] = useState("");
+  const { pathname } = useLocation();
+  const [path, setPath] = useState("");
 
-  const authCheck = useSelector((state) => state.user.isAuth);
-  // console.log(auth);
+  const goPage = (e) => {
+    nav(`/${e.target.id}`);
+    //사이드메뉴가 열려있으면 버튼클릭시 닫음
 
-  // useEffect(() => {
-  //   if (auth) {
-  //     setUserName(auth.name);
-  //     setUserAuth(auth.isAuth);
-  //   }
-  // }, [auth]);
+    if (onSideMenu) {
+      setMenuClick(false);
+    }
+  };
 
-  const HeaderBtn = ({ onSideMenu, setMenuClick }) => {
-    const { openModal, contents, setOpenModal } = useModal();
-    const btn = [
-      {
-        id: "",
-        value: "홈",
-      },
-      {
-        id: "upload", //이동할 주소 입력
-        value: "판매하기",
-      },
-      {
-        id: "cart",
-        value: "장바구니",
-      },
-      {
-        id: "purchaseHistory",
-        value: "구매내역",
-      },
-      {
-        id: "productManagement",
-        value: "상품관리",
-      },
+  useEffect(() => {
+    const path = [
+      "/",
+      "/upload",
+      "/cart",
+      "/purchaseHistory",
+      "/productManagement",
     ];
 
-    const goPage = (e) => {
-      //해당 페이지에 접근시 로그인하지 않으면 접근불가 처리
-      // if (
-      //   e.target.id === "upload" ||
-      //   e.target.id === "cart" ||
-      //   e.target.id === "purchaseHistory" ||
-      //   e.target.id === "productManagement"
-      // ) {
-      //   if (!userAuth) {
-      //     setOpenModal(true);
-      //     setContents({
-      //       title: "사용자 확인 불가",
-      //       message: "회원전용 페이지입니다.",
-      //     });
-      //     return;
-      //   }
-      // }
-      nav(`/${e.target.id}`);
+    if (path.includes(pathname)) {
+      setPath(pathname);
+    } else {
+      setPath(null);
+    }
+  }, [pathname]);
 
-      //사이드메뉴가 열려있으면 버튼클릭시 닫음
-      if (onSideMenu) {
-        setMenuClick(false);
-      }
-    };
-
-    return (
-      <>
-        {/* <ModalBase
-          contents={contents}
-          modalOpen={openModal}
-          setModalOpen={setOpenModal}
-        /> */}
-
-        {btn.map((data) => (
-          <HeaderButton
-            sideMenu={onSideMenu}
-            key={data.id}
-            id={data.id}
-            onClick={goPage}
-          >
-            {data.value}
-          </HeaderButton>
-        ))}
-      </>
-    );
-  };
-
-  const HeaderLogInBtn = ({ onSideMenu }) => {
-    const dispatch = useDispatch();
-    const { openModal, contents, setOpenModal, setContents } = useModal();
-
-    const onLogin = () => {
-      setOpenModal(true);
-      setContents({ login: true });
-    };
-
-    const onLogout = () => {
-      dispatch(logout()).then((res) => {
-        if (res) {
-          dispatch(
-            notificationAction.setNotification({
-              status: "success",
-              message: "로그아웃",
-            })
-          );
-        }
-      });
-    };
-
-    return (
-      <>
-        <ModalBase
-          // contents={contents}
-          modalOpen={openModal}
-          setModalOpen={setOpenModal}
+  return (
+    <ButtonBox pathname={path} sideMenu={onSideMenu}>
+      {btn.map((data) => (
+        <HeaderButton
+          sideMenu={onSideMenu}
+          key={data.id}
+          id={data.id}
+          onClick={goPage}
         >
-          <Login />
-        </ModalBase>
-
-        <Toggle />
-
-        {authCheck ? (
-          <>
-            <HeaderButton sideMenu={onSideMenu} onClick={onLogout}>
-              로그아웃
-            </HeaderButton>
-          </>
-        ) : (
-          <>
-            <HeaderButton sideMenu={onSideMenu} onClick={onLogin}>
-              로그인·가입
-            </HeaderButton>
-          </>
-        )}
-      </>
-    );
-  };
-
-  return { HeaderBtn: HeaderBtn, HeaderLogInBtn: HeaderLogInBtn };
+          {data.value}
+        </HeaderButton>
+      ))}
+    </ButtonBox>
+  );
 };
 
-export default HeaderBtns;
+export const HeaderLogInBtn = ({ onSideMenu }) => {
+  const dispatch = useDispatch();
+  const authCheck = useSelector((state) => state.user.isAuth);
+  const { openModal, setOpenModal, setContents } = useModal();
+
+  const onLogin = () => {
+    setOpenModal(true);
+    setContents({ login: true });
+  };
+
+  const onLogout = () => {
+    dispatch(logout()).then((res) => {
+      if (res) {
+        dispatch(
+          notificationAction.setNotification({
+            status: "success",
+            message: "로그아웃",
+          })
+        );
+      }
+    });
+  };
+
+  return (
+    <>
+      <ModalBase modalOpen={openModal} setModalOpen={setOpenModal}>
+        <Login />
+      </ModalBase>
+
+      <Toggle />
+
+      {authCheck ? (
+        <>
+          <HeaderButton sideMenu={onSideMenu} onClick={onLogout}>
+            로그아웃
+          </HeaderButton>
+        </>
+      ) : (
+        <>
+          <HeaderButton sideMenu={onSideMenu} onClick={onLogin}>
+            로그인·가입
+          </HeaderButton>
+        </>
+      )}
+    </>
+  );
+};
+
+const ButtonBox = styled.div`
+  position: relative;
+
+  ${(props) =>
+    props.sideMenu
+      ? null
+      : css`
+          &::before {
+            position: absolute;
+            content: "";
+            top: 0px;
+
+            width: ${(props) => (props.pathname === "/" ? "2rem" : "5rem")};
+            height: 100%;
+            border-radius: 100px;
+            background-color: var(--orange_normal);
+            display: ${(props) => props.pathname === null && "none"};
+
+            /* transform: translateX(5px); */
+            transform: ${(props) =>
+              props.pathname === "/" && "translateX(0rem)"};
+            transform: ${(props) =>
+              props.pathname === "/upload" && "translateX(1.8rem)"};
+            transform: ${(props) =>
+              props.pathname === "/cart" && "translateX(6.6rem)"};
+            transform: ${(props) =>
+              props.pathname === "/purchaseHistory" && "translateX(11.4rem)"};
+            transform: ${(props) =>
+              props.pathname === "/productManagement" && "translateX(16.2rem)"};
+
+            transition: all ease 0.5s;
+          }
+        `}
+`;
 
 const HeaderButton = styled.button`
   position: relative;
   background-color: transparent;
   font-size: 1rem;
-  margin-right: 20px;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  /* margin-right: 20px; */
   border: none;
   z-index: 1;
   cursor: pointer;
@@ -173,6 +185,7 @@ const HeaderButton = styled.button`
       width: 200px;
       min-height: 50px;
       margin-bottom: 20px;
+      margin-right: 0px;
     `}
 
   &::before {
@@ -180,8 +193,8 @@ const HeaderButton = styled.button`
     position: absolute;
     background-color: var(--orange_normal);
     left: 0;
-    bottom: 0;
-    height: 10%;
+    bottom: -3px;
+    height: 8%;
     width: 0px;
     transition: all ease 0.3s;
     z-index: -1;

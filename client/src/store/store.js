@@ -8,14 +8,14 @@ import storage from "redux-persist/lib/storage";
 //새로고침시에는 데이터가 유지되지면 새로운 탭일경우 데이터가 유지되지 않음
 
 import userReducer from "./reducer/user/user";
-import modalReducer from "./reducer/modal";
+import pathnameReducer from "./reducer/pathname";
 import warningMessageReducer from "./reducer/warningMessage";
 import darkMode from "./reducer/darkMode";
 import notification from "./reducer/notification";
 
 const reducers = combineReducers({
   user: userReducer,
-  modalOpen: modalReducer,
+  pathname: pathnameReducer,
   warningMessage: warningMessageReducer,
   darkMode: darkMode,
   notification: notification,
