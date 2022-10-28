@@ -108,7 +108,7 @@ export const HeaderLogInBtn = ({ onSideMenu }) => {
   return (
     <>
       <ModalBase modalOpen={openModal} setModalOpen={setOpenModal}>
-        <Login />
+        <Login setOpenModal={setOpenModal} />
       </ModalBase>
 
       <Toggle />

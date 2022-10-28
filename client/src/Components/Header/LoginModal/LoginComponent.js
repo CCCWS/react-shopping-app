@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { login, register } from "../../../store/reducer/user/user-action";
 import { notificationAction } from "../../../store/reducer/notification";
 
-function LoginComponent({ type, setType }) {
+function LoginComponent({ type, setType, setOpenModal }) {
   const darkMode = useSelector((state) => state.darkMode.darkMode);
   const loginError = useSelector((state) => state.warningMessage.login);
   const registerError = useSelector((state) => state.warningMessage.register);
@@ -62,6 +62,7 @@ function LoginComponent({ type, setType }) {
               message: "로그인",
             })
           );
+          setOpenModal(false);
         }
       });
     }

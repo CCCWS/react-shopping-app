@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { warningMessageAction } from "../../../store/reducer/warningMessage";
 import LoginComponent from "./LoginComponent";
 
-function Login() {
+function Login({ setOpenModal }) {
   const dispatch = useDispatch();
   const [type, setType] = useState("login");
 
@@ -41,7 +41,11 @@ function Login() {
         {type === "login" ? "로그인" : "회원가입"}
       </LoginTitle>
 
-      <LoginComponent type={type} setType={setType} />
+      <LoginComponent
+        type={type}
+        setType={setType}
+        setOpenModal={setOpenModal}
+      />
 
       <div>
         {type === "login" ? (
