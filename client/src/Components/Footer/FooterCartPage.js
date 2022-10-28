@@ -9,7 +9,6 @@ const FooterCartPage = ({ checkProductLength, totalPrice, goCheckOut }) => {
       <Price>
         {`${checkProductLength}개 상품 ∙ ${totalPrice.toLocaleString()}원`}
       </Price>
-      
       <Button checkProductLength={checkProductLength}>
         <button onClick={goCheckOut}>구매하기</button>
       </Button>
