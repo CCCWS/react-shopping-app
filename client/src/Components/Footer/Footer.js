@@ -10,7 +10,6 @@ const Footer = (props) => {
     document.querySelector("#footer-portal")
   );
 };
-
 const Div = styled.div`
   backdrop-filter: blur(50px);
   border-top: 2px solid var(--orange_normal);
