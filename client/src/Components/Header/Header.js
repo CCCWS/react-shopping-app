@@ -29,7 +29,7 @@ function Header() {
       <HeaderDiv>
         <HeaderSection>
           <HeaderLogo>로고</HeaderLogo>
-          {!checkSideMenu && <HeaderBtn />}
+          {/* {!checkSideMenu && <HeaderBtn />} */}
         </HeaderSection>
 
         <HeaderSection>

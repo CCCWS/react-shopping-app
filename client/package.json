@@ -14,7 +14,6 @@
     "concurrently": "^7.1.0",
     "http-proxy-middleware": "^2.0.4",
     "react": "^18.1.0",
-    "react-cws-modal": "^0.1.0",
     "react-daum-postcode": "^3.1.1",
     "react-dom": "^18.1.0",
     "react-dropzone": "^14.2.1",
