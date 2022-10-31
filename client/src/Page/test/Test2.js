@@ -1,88 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
+import TransitionGroup from "react-transition-group/TransitionGroup";
+import CSSTransition from "react-transition-group/CSSTransition"; // import "./Test2.css";
 
 function Test2() {
-  const [open, setOpen] = useState(false);
-  const [num, setNum] = useState();
+  const [text, setText] = useState("");
+  const [todo, setTodo] = useState([]);
 
-  const onNum = (e) => {
-    setNum(parseInt(e.target.innerText, 10));
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setText("");
+
+    setTodo((todo) => [...todo, { id: new Date().getTime(), text: text }]);
   };
-  console.log(num);
+
+  const onDelete = (id) => {
+    setTodo((todo) => todo.filter((todo) => todo.id !== id));
+  };
   return (
-    <>
-      <button onClick={() => setOpen(!open)}>test</button>
+    <Page>
+      <Div>
+        <Form onSubmit={onSubmit}>
+          <input value={text} onChange={(e) => setText(e.target.value)} />
+        </Form>
 
-      <Div open={open}></Div>
-      <Div open={open}></Div>
-      <Div open={open}></Div>
-      <Div open={open}></Div>
-      <Div open={open}></Div>
-
-      <Test num={num}>
-        <Button onClick={(e) => onNum(e)}>1</Button>
-        <Button onClick={(e) => onNum(e)}>2</Button>
-        <Button onClick={(e) => onNum(e)}>3</Button>
-        <Button onClick={(e) => onNum(e)}>4</Button>
-        <Button onClick={(e) => onNum(e)}>5</Button>
-      </Test>
-    </>
+        <TransitionGroup>
+          {todo.map((todo) => (
+            <CSSTransition key={todo.id} timeout={500} classNames="fade">
+              <Ul>
+                <li>{todo.text}</li>
+                <button onClick={() => onDelete(todo.id)}>X</button>
+              </Ul>
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
+      </Div>
+    </Page>
   );
 }
-const Test = styled.div`
-  position: relative;
-  padding: 20px;
 
-  &::before {
-    position: absolute;
-    content: "";
-    top: 0;
-    left: 0;
-    width: 20px;
-    height: 20px;
-    border-radius: 50px;
-    background-color: red;
-
-    transition: all ease 0.5s;
-
-    transform: ${(props) => props.num === 1 && "translateX(15px)"};
-    transform: ${(props) => props.num === 2 && "translateX(65px)"};
-    transform: ${(props) => props.num === 3 && "translateX(115px)"};
-    transform: ${(props) => props.num === 4 && "translateX(165px)"};
-    transform: ${(props) => props.num === 5 && "translateX(215px)"};
-  }
+const Page = styled.div`
+  width: 100%;
+  height: 90vh;
+  padding: 100px;
 `;
 
-const Button = styled.button`
-  min-width: 50px;
-  min-height: 20px;
+const Form = styled.form`
+  overflow-y: scroll;
 `;
 
-const Test22 = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50px;
-  background-color: red;
-
-  transition: all ease 0.5s;
-
-  transform: ${(props) => props.num === 1 && "translateX(15px)"};
-  transform: ${(props) => props.num === 2 && "translateX(65px)"};
-  transform: ${(props) => props.num === 3 && "translateX(115px)"};
-  transform: ${(props) => props.num === 4 && "translateX(165px)"};
-  transform: ${(props) => props.num === 5 && "translateX(215px)"};
+const Ul = styled.ul`
+  display: flex;
 `;
 
 const Div = styled.div`
-  width: ${(props) => (props.open ? "300px" : "0px")};
-  height: ${(props) => (props.open ? "300px" : "0px")};
-  transform: ${(props) =>
-    props.open
-      ? "translate(calc(50vw - 150px), calc(50vh - 150px))"
-      : "translateX(0)"};
-  background-color: red;
-  border-radius: 30px;
-  transition: 0.5s;
+  background-color: var(--orange_hover);
+  height: 300px;
+  overflow-y: scroll;
 `;
 
 export default Test2;

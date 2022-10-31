@@ -4,7 +4,7 @@
 
 .fade-enter-active {
   opacity: 1;
-  transition: ease-in 0.5s;
+  transition: ease-in 0.3s;
 }
 
 .fade-exit {
@@ -13,5 +13,5 @@
 
 .fade-exit-active {
   opacity: 0;
-  transition: ease-in 0.5s;
+  transition: ease-in 0.3  s;
 }

@@ -59,7 +59,7 @@ const GlobalStyle = createGlobalStyle`
 .page {
   padding: 0.8rem;
   width: 1000px;
-  min-height: calc(100vh - 50px);
+  height: calc(100vh - 50px);
   margin: auto;
   position: relative;
   overflow-x: hidden;

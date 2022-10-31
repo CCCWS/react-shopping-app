@@ -97,17 +97,17 @@ const SelectorBox = styled.div`
 `;
 
 const NextBtn = styled.button`
-  background-color: transparent;
+  background-color: var(--gray_transparency);
   position: absolute;
   z-index: 1;
-  width: 3rem;
-  height: 3rem;
+  width: 3.5rem;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 3rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   transition: 0.3s;
 
   left: ${(props) => props.letf && "0"};
@@ -142,7 +142,7 @@ const BoxCheckOut = styled.div`
 const BoxPoint = styled.div`
   position: absolute;
   width: 100%;
-  bottom: 0px;
+  bottom: 10px;
 
   display: flex;
   align-items: center;
@@ -151,13 +151,13 @@ const BoxPoint = styled.div`
 
 const BoxPonintItem = styled.div`
   background-color: ${(props) =>
-    props.location ? "var(--orange_normal)" : "transparent"};
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid var(--orange_normal);
+    props.location ? "var(--orange_hover)" : "var(--orange_normal)"};
+  width: ${(props) => (props.location ? "1.5rem" : "1rem")};
+  height: 6px;
   border-radius: 5px;
   margin-right: 5px;
   margin-left: 5px;
+  transition: all ease 0.4s;
 
   cursor: pointer;
 `;

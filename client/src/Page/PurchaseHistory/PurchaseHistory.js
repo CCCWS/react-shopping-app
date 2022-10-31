@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
+import { WarningOutlined } from "@ant-design/icons";
 
 import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";
-
+import Empty from "../../Components/Utility/Empty";
 import PurchaseHistotyProduct from "./PurchaseHistotyProduct";
 
 import useAxios from "../../hooks/useAxios";
@@ -12,7 +13,7 @@ import useTheme from "../../hooks/useTheme";
 
 function PurchaseHistory({ isAuth, userId }) {
   const [shippingInfo, setShippingInfo] = useState([]);
-  const { openModal, contents, setOpenModal } = useModal();
+  const { openModal, setOpenModal } = useModal();
   const { darkMode } = useTheme();
 
   const {
@@ -67,11 +68,18 @@ function PurchaseHistory({ isAuth, userId }) {
         <>
           <Title>{`전체 주문내역 ${product.length}개`}</Title>
 
-          <PurchaseHistotyProduct
-            darkMode={darkMode}
-            product={product}
-            onShippingInfo={onShippingInfo}
-          />
+          {product.length === 0 ? (
+            <Empty onClick={(e) => console.log(e)}>
+              <WarningOutlined />
+              구매한 상품이 없습니다.
+            </Empty>
+          ) : (
+            <PurchaseHistotyProduct
+              darkMode={darkMode}
+              product={product}
+              onShippingInfo={onShippingInfo}
+            />
+          )}
         </>
       )}
     </div>

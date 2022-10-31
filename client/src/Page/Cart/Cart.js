@@ -5,12 +5,12 @@ import styled from "styled-components";
 
 import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";
+import FooterCartPage from "../../Components/Footer/FooterCartPage";
+import Empty from "../../Components/Utility/Empty";
+import CartProduct from "./CartProduct";
 
 import useModal from "../../hooks/useModal";
 import useAxios from "../../hooks/useAxios";
-
-import FooterCartPage from "../../Components/Footer/FooterCartPage";
-import CartProduct from "./CartProduct";
 
 function Cart({ isAuth, userId }) {
   const nav = useNavigate();
@@ -204,23 +204,22 @@ function Cart({ isAuth, userId }) {
             </Checkbox>
           )}
 
-          <CardBox>
-            {product === undefined || product.length === 0 ? (
-              <NotProduct>
-                <ShoppingCartOutlined />
-                장바구니에 상품을 추가해주세요.
-              </NotProduct>
-            ) : (
+          {product === undefined || product.length === 0 ? (
+            <Empty>
+              <ShoppingCartOutlined />
+              장바구니에 추가된 상품이 없습니다.
+            </Empty>
+          ) : (
+            <CardBox>
               <CartProduct
                 product={product}
                 checkProduct={checkProduct}
                 onCheckProduct={onCheckProduct}
                 onDelProduct={onDelProduct}
               />
-            )}
-          </CardBox>
-
-          <hr />
+              <hr />
+            </CardBox>
+          )}
 
           <FooterCartPage
             checkProductLength={checkProduct.length}
@@ -294,17 +293,6 @@ const CardBox = styled.div`
   justify-content: space-between;
   padding: 0.8rem;
   margin-bottom: 3rem;
-`;
-
-const NotProduct = styled.div`
-  //cart에 항목이 없을경우
-  width: 100%;
-  height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  font-size: 2rem;
 `;
 
 export default React.memo(Cart);

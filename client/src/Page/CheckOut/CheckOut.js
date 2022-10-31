@@ -34,6 +34,10 @@ function CheckOut({ userId }) {
     }
   }, [nav, state]);
 
+  useEffect(() => {
+    console.log("test");
+  }, []);
+
   //구매 성공시
   const paymentSeccess = (e, payment) => {
     if (nameRef.current.value < 1) {
@@ -61,7 +65,6 @@ function CheckOut({ userId }) {
     if (state.cart === true) {
       const option = [];
       state.product.forEach((data) => option.push(data._id));
-      console.log(option);
       removeCart({ productId: option, userId: userId });
     }
 
@@ -119,40 +122,44 @@ function CheckOut({ userId }) {
         </CheckOutLoading>
       ) : null}
 
-      <Procedure>
-        장바구니 &gt; <strong>주문서</strong> &gt; 결제완료
-      </Procedure>
+      {state && (
+        <>
+          <Procedure>
+            장바구니 &gt; <strong>주문서</strong> &gt; 결제완료
+          </Procedure>
 
-      <Div>
-        <Title>주문상품 {state.product.length}개</Title>
-        <hr />
-        <CheckOutProduct state={state} />
-      </Div>
+          <Div>
+            <Title>주문상품 {state.product.length}개</Title>
+            <hr />
+            <CheckOutProduct state={state} />
+          </Div>
 
-      <Div>
-        <Title>주문정보</Title>
-        <hr />
-        <CheckOutInput
-          ref={{
-            nameRef: nameRef,
-            phoneRef: phoneRef,
-            addressRef: addressRef,
-            reqRef: reqRef,
-          }}
-          searchAddress={searchAddress}
-          setSearchAddress={setSearchAddress}
-        />
-      </Div>
+          <Div>
+            <Title>주문정보</Title>
+            <hr />
+            <CheckOutInput
+              ref={{
+                nameRef: nameRef,
+                phoneRef: phoneRef,
+                addressRef: addressRef,
+                reqRef: reqRef,
+              }}
+              searchAddress={searchAddress}
+              setSearchAddress={setSearchAddress}
+            />
+          </Div>
 
-      <Div>
-        <Title>결제수단</Title>
-        <hr />
-        <Selector
-          arr={[PurchaseBtnNormal(), PurchaseBtnPayPal()]}
-          CheckOut={true}
-        />
-        <ToTalPrice>{`총 결제금액 ${state.totalPrice.toLocaleString()}원`}</ToTalPrice>
-      </Div>
+          <Div>
+            <Title>결제수단</Title>
+            <hr />
+            <Selector
+              arr={[PurchaseBtnNormal(), PurchaseBtnPayPal()]}
+              CheckOut={true}
+            />
+            <ToTalPrice>{`총 결제금액 ${state.totalPrice.toLocaleString()}원`}</ToTalPrice>
+          </Div>
+        </>
+      )}
     </div>
   );
 }

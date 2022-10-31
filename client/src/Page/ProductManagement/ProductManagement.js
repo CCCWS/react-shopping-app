@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { WarningOutlined } from "@ant-design/icons";
 
 import Loading from "../../Components/Utility/Loading";
+import Empty from "../../Components/Utility/Empty";
 
 import useAxios from "../../hooks/useAxios";
 import useTheme from "../../hooks/useTheme";
@@ -85,34 +87,43 @@ function ProductManagement({ isAuth, userId }) {
             </Value>
           </Info>
 
-          <List>
-            {resData.map((data, index) => (
-              <Card key={index} onClick={() => nav(`/product/${data._id}`)}>
-                <div>
-                  <Product darkMode={darkMode}>
-                    <NewImage img={`url('${postUrl}${data.image[0].name}')`} />
-                    <Content>
-                      <div>{data.title}</div>
+          {resData.length === 0 ? (
+            <Empty>
+              <WarningOutlined />
+              등록한 상품이 없습니다.
+            </Empty>
+          ) : (
+            <List>
+              {resData.map((data, index) => (
+                <Card key={index} onClick={() => nav(`/product/${data._id}`)}>
+                  <div>
+                    <Product darkMode={darkMode}>
+                      <NewImage
+                        img={`url('${postUrl}${data.image[0].name}')`}
+                      />
+                      <Content>
+                        <div>{data.title}</div>
 
-                      <ul>
-                        <li>{`등록일 ${new Date(
-                          data.createdAt
-                        ).getFullYear()}. ${
-                          new Date(data.createdAt).getMonth() + 1
-                        }. ${new Date(data.createdAt).getDate()}`}</li>
-                        <li>{`가격 ${data.price.toLocaleString()}원`}</li>
-                        <li>{`판매수 ${data.sold}`}개</li>
-                        <li>{`판매금액 ${parseInt(
-                          data.price * data.sold,
-                          10
-                        ).toLocaleString()}원`}</li>
-                      </ul>
-                    </Content>
-                  </Product>
-                </div>
-              </Card>
-            ))}
-          </List>
+                        <ul>
+                          <li>{`등록일 ${new Date(
+                            data.createdAt
+                          ).getFullYear()}. ${
+                            new Date(data.createdAt).getMonth() + 1
+                          }. ${new Date(data.createdAt).getDate()}`}</li>
+                          <li>{`가격 ${data.price.toLocaleString()}원`}</li>
+                          <li>{`판매수 ${data.sold}`}개</li>
+                          <li>{`판매금액 ${parseInt(
+                            data.price * data.sold,
+                            10
+                          ).toLocaleString()}원`}</li>
+                        </ul>
+                      </Content>
+                    </Product>
+                  </div>
+                </Card>
+              ))}
+            </List>
+          )}
         </>
       )}
     </div>

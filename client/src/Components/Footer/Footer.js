@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import ReactDom from "react-dom";
 
-const Footer = (props) => {
+const Footer = ({ children }) => {
   return ReactDom.createPortal(
     <Div>
-      <div>{props.children}</div>
+      <div>{children}</div>
     </Div>,
     document.querySelector("#footer-portal")
   );

@@ -57,7 +57,7 @@ const CountAndPrice = styled.div`
   flex-direction: column;
   align-items: flex-end;
 
-  min-width: 5rem;
+  min-width: 5.5rem;
   font-size: 1rem;
 `;
 

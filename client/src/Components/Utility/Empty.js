@@ -1,14 +1,10 @@
-import React from "react";
-import { Spin } from "antd";
 import styled from "styled-components";
 
-function Loading() {
-  return (
-    <Div>
-      <Spin size="large" />
-    </Div>
-  );
-}
+import React from "react";
+
+const Empty = ({ children }) => {
+  return <Div>{children}</Div>;
+};
 
 const Div = styled.div`
   position: fixed;
@@ -18,7 +14,8 @@ const Div = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 50px;
+  flex-direction: column;
+  font-size: 1.5rem;
 `;
 
-export default Loading;
+export default Empty;
