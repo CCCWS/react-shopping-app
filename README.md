@@ -1,7 +1,17 @@
+
 ## REACT SHOPPING APP
-* 로그인부터 상품 조회, 등록, 수정, 장바구니 등록 및 삭제, 결제 등 쇼핑몰 사이트의 전반적인 과정을 다루고 있습니다.  
-* client에서는 react를 사용하고 있으며 server는 nodejs express, DB는 mongoDB를 사용하여 데이터를 관리합니다.   
-* HEROKU를 사용하여 배포되었습니다.
+
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/REDUX-764ABC?style=for-the-badge&logo=Redux&logoColor=white"> <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"> 
+
+<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white"> <img src="https://img.shields.io/badge/Mongo DB-47A248?style=for-the-badge&logo=MongoDB&logoColor=white"> 
+
+<img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=Heroku&logoColor=white"> 
+
+
+
+
+
+
 
 ## 주소
 * <https://protected-reef-94609.herokuapp.com/>
