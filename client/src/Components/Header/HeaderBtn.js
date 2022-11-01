@@ -85,9 +85,9 @@ export const HeaderBtn = ({ onSideMenu, setMenuClick }) => {
           {data.value}
         </HeaderButton>
       ))}
-      <UnderLine path={path} num={1} />
-      <UnderLine path={path} num={2} />
-      <UnderLine path={path} num={3} />
+      <UnderLine path={path} num={1} sideMenu={onSideMenu} />
+      <UnderLine path={path} num={2} sideMenu={onSideMenu} />
+      <UnderLine path={path} num={3} sideMenu={onSideMenu} />
     </BtnBox>
   );
 };
@@ -140,25 +140,29 @@ export const HeaderLogInBtn = ({ onSideMenu }) => {
 };
 
 const UnderLine = styled.div`
-  position: absolute;
-  display: ${(props) => props.path === null && "none"};
-  bottom: -5px;
-  width: 20%;
-  height: 5px;
+  ${(props) =>
+    !props.sideMenu &&
+    css`
+      position: absolute;
+      display: ${(props) => props.path === null && "none"};
+      bottom: -5px;
+      width: 20%;
+      height: 5px;
 
-  left: ${(props) => props.path === "/" && "0%"};
-  left: ${(props) => props.path === "/upload" && "20%"};
-  left: ${(props) => props.path === "/cart" && "40%"};
-  left: ${(props) => props.path === "/purchaseHistory" && "60%"};
-  left: ${(props) => props.path === "/productManagement" && "80%"};
+      left: ${(props) => props.path === "/" && "0%"};
+      left: ${(props) => props.path === "/upload" && "20%"};
+      left: ${(props) => props.path === "/cart" && "40%"};
+      left: ${(props) => props.path === "/purchaseHistory" && "60%"};
+      left: ${(props) => props.path === "/productManagement" && "80%"};
 
-  transition: ${(props) => props.num === 1 && "1s"};
-  transition: ${(props) => props.num === 2 && "0.7s"};
-  transition: ${(props) => props.num === 3 && "0.4s"};
+      transition: ${(props) => props.num === 1 && "1s"};
+      transition: ${(props) => props.num === 2 && "0.7s"};
+      transition: ${(props) => props.num === 3 && "0.4s"};
 
-  background-color: ${(props) => props.num === 1 && "var(--orange_hover)"};
-  background-color: ${(props) => props.num === 2 && "var(--orange_normal)"};
-  background-color: ${(props) => props.num === 3 && "orange"};
+      background-color: ${(props) => props.num === 1 && "var(--orange_hover)"};
+      background-color: ${(props) => props.num === 2 && "var(--orange_normal)"};
+      background-color: ${(props) => props.num === 3 && "orange"};
+    `}
 `;
 
 const BtnBox = styled.div`

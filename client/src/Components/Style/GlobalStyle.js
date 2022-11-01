@@ -56,13 +56,17 @@ const GlobalStyle = createGlobalStyle`
   border-radius: 100px;
 }
 
+.not-scroll {
+  overflow: hidden;
+}
+
 .page {
   padding: 0.8rem;
   width: 1000px;
   height: calc(100vh - 50px);
   margin: auto;
   position: relative;
-  /* overflow-x: hidden; */
+  /* overflow-y: hidden; */
 }
 
 @media (max-width: 1000px) {

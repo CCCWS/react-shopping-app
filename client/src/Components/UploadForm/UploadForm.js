@@ -220,7 +220,9 @@ function UploadForm({ userId, edit, editData, productId }) {
         {/* <span>{`${} / 500`}</span> */}
       </Section>
 
-      <Hr />
+      <hr />
+
+      <Section />
 
       <Footer>
         <SubmitBtn onClick={onWrite}>
@@ -253,10 +255,6 @@ const SubmitBtn = styled.div`
       background-color: var(--red);
     }
   }
-`;
-
-const Hr = styled.hr`
-  margin-bottom: 5rem;
 `;
 
 export default React.memo(UploadForm);

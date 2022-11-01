@@ -217,7 +217,6 @@ function Cart({ isAuth, userId }) {
                 onCheckProduct={onCheckProduct}
                 onDelProduct={onDelProduct}
               />
-              <hr />
             </CardBox>
           )}
 
