@@ -104,8 +104,6 @@ function Main({ darkMode }) {
     }
   }, [setReadRef]);
 
-  console.log(setReadRef);
-
   //검색시 데이터 조회
   const onKeywordSearch = (e) => {
     e.preventDefault();
@@ -200,7 +198,7 @@ function Main({ darkMode }) {
       ) : (
         <>
           <ProductCard data={productList} viewType={click} />
-          {!lastData && <ReadMore ref={readRef} />}
+          {!lastData && <div ref={readRef}>1</div>}
         </>
       )}
     </div>

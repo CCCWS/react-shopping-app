@@ -37,6 +37,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    /* overflow-y: scroll; */
     overflow: overlay;
   background-color: ${(props) =>
     props.darkMode ? "var(--dark)" : "var(--light)"};
@@ -63,7 +64,7 @@ const GlobalStyle = createGlobalStyle`
 .page {
   padding: 0.8rem;
   width: 1000px;
-  height: calc(100vh - 50px);
+  min-height: calc(100vh - 50px);
   margin: auto;
   position: relative;
   /* overflow-y: hidden; */
