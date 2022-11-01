@@ -4,36 +4,53 @@ import TransitionGroup from "react-transition-group/TransitionGroup";
 import CSSTransition from "react-transition-group/CSSTransition"; // import "./Test2.css";
 
 function Test2() {
-  const [text, setText] = useState("");
-  const [todo, setTodo] = useState([]);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    setText("");
-
-    setTodo((todo) => [...todo, { id: new Date().getTime(), text: text }]);
-  };
-
-  const onDelete = (id) => {
-    setTodo((todo) => todo.filter((todo) => todo.id !== id));
-  };
+  const header = [
+    {
+      id: new Date().getTime(),
+      title: "제목1",
+      subTitle: ["서브1", "서브2", "서브3"],
+    },
+    {
+      id: new Date().getTime(),
+      title: "제목2",
+      subTitle: ["서브1", "서브2", "서브3", "서브4", "서브5", "서브6"],
+    },
+    {
+      id: new Date().getTime(),
+      title: "제목3",
+      subTitle: ["서브1", "서브2"],
+    },
+    {
+      id: new Date().getTime(),
+      title: "제목4",
+      subTitle: ["서브1", "서브2", "서브3", "서브4"],
+    },
+    {
+      id: new Date().getTime(),
+      title: "제목5",
+      subTitle: ["서브1", "서브2", "서브3"],
+    },
+    {
+      id: new Date().getTime(),
+      title: "제목6",
+      subTitle: ["서브1", "서브2", "서브3", "서브4", "서브5"],
+    },
+  ];
   return (
     <Page>
       <Div>
-        <Form onSubmit={onSubmit}>
-          <input value={text} onChange={(e) => setText(e.target.value)} />
-        </Form>
+        {header.map((item) => (
+          <Section>
+            <Title>{item.title}</Title>
 
-        <TransitionGroup>
-          {todo.map((todo) => (
-            <CSSTransition key={todo.id} timeout={500} classNames="fade">
-              <Ul>
-                <li>{todo.text}</li>
-                <button onClick={() => onDelete(todo.id)}>X</button>
-              </Ul>
-            </CSSTransition>
-          ))}
-        </TransitionGroup>
+            <Ul>
+              {item.subTitle.map((item) => (
+                <Li onClick={() => alert(item)}>{item}</Li>
+              ))}
+            </Ul>
+          </Section>
+        ))}
+        <Underline />
       </Div>
     </Page>
   );
@@ -42,21 +59,66 @@ function Test2() {
 const Page = styled.div`
   width: 100%;
   height: 90vh;
-  padding: 100px;
-`;
-
-const Form = styled.form`
-  overflow-y: scroll;
-`;
-
-const Ul = styled.ul`
-  display: flex;
+  /* padding: 100px; */
 `;
 
 const Div = styled.div`
-  background-color: var(--orange_hover);
-  height: 300px;
-  overflow-y: scroll;
+  position: relative;
+  width: inherit;
+  height: 50px;
+
+  display: flex;
+  justify-content: space-between;
+
+  overflow-y: hidden;
+  background-color: var(--gray_transparency);
+  transition: all ease 0.3s;
+
+  &:hover {
+    background-color: var(--gray);
+    height: 400px;
+  }
+`;
+
+const Section = styled.section`
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const Title = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid black;
+  min-height: 50px;
+  width: 100%;
+
+  &:hover {
+
+  }
+`;
+
+const Ul = styled.ul`
+  padding: 0;
+  /* padding: 1rem; */
+`;
+
+const Li = styled.li`
+  list-style: none;
+  padding: 1rem;
+`;
+
+const Underline = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0px;
+  width: 16%;
+  height: 5px;
+  background: #333;
+  transition: all 0.3s ease-in-out;
 `;
 
 export default Test2;

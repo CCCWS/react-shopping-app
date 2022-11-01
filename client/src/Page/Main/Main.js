@@ -104,6 +104,8 @@ function Main({ darkMode }) {
     }
   }, [setReadRef]);
 
+  console.log(setReadRef);
+
   //검색시 데이터 조회
   const onKeywordSearch = (e) => {
     e.preventDefault();
@@ -198,7 +200,7 @@ function Main({ darkMode }) {
       ) : (
         <>
           <ProductCard data={productList} viewType={click} />
-          {!lastData && <div ref={readRef} />}
+          {!lastData && <ReadMore ref={readRef} />}
         </>
       )}
     </div>
@@ -263,6 +265,11 @@ const SearchReset = styled.div`
       background-color: var(--orange_hover);
     }
   }
+`;
+
+const ReadMore = styled.div`
+  width: 100%;
+  height: 10px;
 `;
 
 export default React.memo(Main);

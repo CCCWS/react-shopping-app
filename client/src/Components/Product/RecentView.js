@@ -100,6 +100,9 @@ const Title = styled.div`
   border-radius: 5px;
   font-size: 1rem;
   padding: 0.5rem;
+  width: 100px;
+  display: flex;
+  justify-content: center;
 
   &:hover {
     cursor: ${(props) => props.top && "pointer"};
