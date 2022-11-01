@@ -10,7 +10,7 @@ const Div = styled.div`
   position: fixed;
   top: 0;
   width: inherit;
-  height: inherit;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

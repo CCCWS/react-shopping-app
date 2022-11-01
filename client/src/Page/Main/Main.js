@@ -198,7 +198,7 @@ function Main({ darkMode }) {
       ) : (
         <>
           <ProductCard data={productList} viewType={click} />
-          {!lastData && <div ref={readRef}>1</div>}
+          {!lastData && <ReadMore ref={readRef} />}
         </>
       )}
     </div>
