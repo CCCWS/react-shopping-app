@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import styled, { css } from "styled-components";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
 import ModalBase from "../Modal/ModalBase";
@@ -8,8 +8,8 @@ import useModal from "../../hooks/useModal";
 
 import { postUrl } from "../../PostUrl";
 
-function Selector({ ProductDetail, CheckOut, arr }) {
-  const { openModal, contents, setOpenModal } = useModal();
+function Selector({ ProductDetail, CheckOut, soldOut, arr }) {
+  const { openModal, setOpenModal } = useModal();
   const [currArr, setCurrArr] = useState(0);
   const [currImg, setCurrImg] = useState("");
 
@@ -44,6 +44,7 @@ function Selector({ ProductDetail, CheckOut, arr }) {
       {ProductDetail && (
         <BoxImage
           img={`url('${postUrl}${arr[currArr].name}')`}
+          soldOut={soldOut}
           onClick={() => {
             setOpenModal(true);
             setCurrImg(arr[currArr].name);
@@ -129,6 +130,26 @@ const BoxImage = styled.div`
   background-size: cover;
 
   border-radius: 10px;
+
+  ${(props) =>
+    props.soldOut &&
+    css`
+      &::before {
+        content: "판매완료된 상품입니다.";
+        font-size: 1.5rem;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: inherit;
+        height: inherit;
+        border-radius: inherit;
+        background-color: red;
+        z-index: 1;
+        background-color: var(--gray_transparency2);
+        color: var(--white);
+      }
+    `}
 `;
 
 const BoxCheckOut = styled.div`

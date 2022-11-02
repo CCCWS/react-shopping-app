@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 
 import useTheme from "../../hooks/useTheme";
@@ -17,10 +17,15 @@ const CartProduct = ({
 }) => {
   const nav = useNavigate();
   const { darkMode } = useTheme();
+
   return (
     <>
-      {product.map((data, index) => (
-        <ProductCard key={index} darkMode={darkMode}>
+      {product.map((data) => (
+        <ProductCard
+          key={data._id}
+          darkMode={darkMode}
+          purchasesFail={data.count < data.purchasesCount && true}
+        >
           <div>
             <ProductCheckBox
               productCheck={
@@ -65,6 +70,7 @@ const ProductCard = styled.div`
   margin-bottom: 2rem;
   padding: 0.5rem;
   border-radius: 5px;
+  position: relative;
 
   display: flex;
   justify-content: space-between;
@@ -76,6 +82,26 @@ const ProductCard = styled.div`
   @media (max-width: 800px) {
     width: 100%;
   }
+
+  ${(props) =>
+    props.purchasesFail &&
+    css`
+      &::before {
+        content: "구매가 불가능합니다.";
+        font-size: 1rem;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        background-color: var(--gray_transparency2);
+        color: var(--white);
+        left: 0;
+        top: 0;
+      }
+    `}
 `;
 
 const ProductCheckBox = styled.div`
@@ -87,6 +113,7 @@ const ProductCheckBox = styled.div`
   min-width: 2rem;
   height: 2rem;
   margin-right: 5px;
+  z-index: 2;
 
   display: flex;
   justify-content: center;

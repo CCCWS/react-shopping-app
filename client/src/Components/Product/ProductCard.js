@@ -28,11 +28,8 @@ function ProductCard({ data, viewType }) {
             <NewImage
               viewType={viewType}
               img={`url('${postUrl}${data.image[0].name}')`}
-            >
-              {data.count === 0 ? (
-                <SoldOut>판매완료된 상품입니다.</SoldOut>
-              ) : null}
-            </NewImage>
+              soldOut={data.count === 0 && true}
+            />
 
             <Info viewType={viewType}>
               <NewTitle darkMode={darkMode}>{data.title}</NewTitle>
@@ -57,11 +54,10 @@ const ProductCardDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin-bottom: 50px;
+  margin-bottom: 1rem;
 `;
 
 const CardDiv = styled.div`
-  margin-bottom: 1rem;
   width: ${(props) => (props.viewType ? "25%" : "100%")};
 
   ${(props) =>
@@ -100,19 +96,6 @@ const Card = withReveal(
   `,
   <Zoom />
 );
-const SoldOut = styled.div`
-  background-color: var(--soldOut);
-  width: 100%;
-  height: 100%;
-  border-radius: 5px;
-
-  font-size: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: white;
-`;
 
 const Info = styled.div`
   width: ${(props) => (props.viewType ? "100%" : "50%")};
@@ -139,6 +122,25 @@ const NewImage = styled(Image)`
     background-size: ${(props) =>
       props.viewType ? "130%" : "120%"} !important;
   }
+
+  ${(props) =>
+    props.soldOut &&
+    css`
+      &::before {
+        content: "판매완료된 상품입니다.";
+        font-size: 1rem;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        z-index: 1;
+        background-color: var(--gray_transparency2);
+        color: var(--white);
+      }
+    `}
 `;
 
 const NewTitle = styled(Title)`

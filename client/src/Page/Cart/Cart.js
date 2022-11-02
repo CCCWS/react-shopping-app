@@ -162,11 +162,23 @@ function Cart({ isAuth, userId }) {
   };
 
   //주문서 작성 페이지로 이동
-
   const goCheckOut = () => {
-    if (checkProduct.length === 0) {
-      return;
-    }
+    if (checkProduct.length === 0) return;
+
+    let possible = true;
+    //구매 가능 확인
+    checkProduct.forEach((data) => {
+      if (data.count < data.purchasesCount) {
+        possible = false;
+        setOpenModal(true);
+        setContents({
+          title: "구매 불가.",
+          message: `수량이 부족한 상품이 포함되어 있습니다.`,
+        });
+      }
+    });
+    if (!possible) return;
+
     nav("/checkOut", {
       state: { product: checkProduct, totalPrice: totalPrice, cart: true },
     });

@@ -219,11 +219,15 @@ function ProductDetail({ isAuth, userId }) {
         <Loading />
       ) : (
         <>
-          {product.count === 0 ? (
+          {/* {product.count === 0 ? (
             <SoldOut>판매완료된 상품입니다.</SoldOut>
-          ) : null}
+          ) : null} */}
 
-          <Selector ProductDetail={true} arr={product.image} />
+          <Selector
+            ProductDetail={true}
+            arr={product.image}
+            soldOut={product.count === 0 && true}
+          />
 
           <ProductInfo
             writerLoading={writerLoading}
@@ -266,7 +270,7 @@ const BackBtn = styled.div`
 `;
 
 const SoldOut = styled.div`
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--gray_transparency);
   position: absolute;
   overflow: hidden;
   z-index: 10;
