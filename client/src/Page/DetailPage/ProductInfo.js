@@ -1,5 +1,7 @@
 import React from "react";
-import Zoom from "react-reveal/Fade";
+import Fade from "react-reveal/Fade";
+// import Spin from "react-reveal/Spin";
+// import Flip from "react-reveal/Flip";
 import { Skeleton } from "antd";
 import styled from "styled-components";
 
@@ -15,8 +17,8 @@ const ProductInfo = ({
   otherLoading,
 }) => {
   return (
-    <Zoom>
-      <>
+    <>
+      <Fade bottom>
         <Writer>
           {writerLoading ? (
             <Skeleton.Button />
@@ -27,26 +29,28 @@ const ProductInfo = ({
             </>
           )}
         </Writer>
+      </Fade>
 
+      <Fade bottom>
         <Info>
           <div>{product.title}</div>
           <div>{`${product.category} ∙ ${time} ∙ 남은수량 ${product.count}개 ∙ 조회수 ${product.views} `}</div>
           <hr />
           <div>{product.description}</div>
         </Info>
+      </Fade>
 
-        {otherProduct && otherProduct.length > 0 && (
-          <>
-            <OtherProduct>관련 상품</OtherProduct>
-            {otherLoading ? (
-              <Loading />
-            ) : (
-              <ProductCard data={otherProduct} viewType={true} />
-            )}
-          </>
-        )}
-      </>
-    </Zoom>
+      {otherProduct && otherProduct.length > 0 && (
+        <>
+          <OtherProduct>관련 상품</OtherProduct>
+          {otherLoading ? (
+            <Loading />
+          ) : (
+            <ProductCard data={otherProduct} viewType={true} />
+          )}
+        </>
+      )}
+    </>
   );
 };
 

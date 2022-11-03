@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
+import Fade from "react-reveal/Fade";
 
 import ModalBase from "../Modal/ModalBase";
 
@@ -28,48 +29,52 @@ function Selector({ ProductDetail, CheckOut, soldOut, arr }) {
   };
 
   return (
-    <SelectorBox ProductDetail={ProductDetail} CheckOut={CheckOut}>
-      <ModalBase modalOpen={openModal} setModalOpen={setOpenModal}>
-        <ModalImage img={`url('${postUrl}${currImg}')`} />
-      </ModalBase>
+    <>
+      <Fade bottom>
+        <SelectorBox ProductDetail={ProductDetail} CheckOut={CheckOut}>
+          <ModalBase modalOpen={openModal} setModalOpen={setOpenModal}>
+            <ModalImage img={`url('${postUrl}${currImg}')`} />
+          </ModalBase>
 
-      {arr.length > 1 && (
-        <NextBtn onClick={minus} left={true}>
-          <CaretLeftOutlined />
-        </NextBtn>
-      )}
+          {arr.length > 1 && (
+            <NextBtn onClick={minus} left={true}>
+              <CaretLeftOutlined />
+            </NextBtn>
+          )}
 
-      {CheckOut && <BoxCheckOut>{arr[currArr]}</BoxCheckOut>}
+          {CheckOut && <BoxCheckOut>{arr[currArr]}</BoxCheckOut>}
 
-      {ProductDetail && (
-        <BoxImage
-          img={`url('${postUrl}${arr[currArr].name}')`}
-          soldOut={soldOut}
-          onClick={() => {
-            setOpenModal(true);
-            setCurrImg(arr[currArr].name);
-          }}
-        />
-      )}
+          {ProductDetail && (
+            <BoxImage
+              img={`url('${postUrl}${arr[currArr].name}')`}
+              soldOut={soldOut}
+              onClick={() => {
+                setOpenModal(true);
+                setCurrImg(arr[currArr].name);
+              }}
+            />
+          )}
 
-      {arr.length > 1 && (
-        <NextBtn onClick={plus} right={true}>
-          <CaretRightOutlined />
-        </NextBtn>
-      )}
+          {arr.length > 1 && (
+            <NextBtn onClick={plus} right={true}>
+              <CaretRightOutlined />
+            </NextBtn>
+          )}
 
-      <BoxPoint>
-        {arr.map((data, index) => (
-          <BoxPonintItem
-            key={index}
-            location={arr.indexOf(data) === currArr}
-            onClick={() => {
-              setCurrArr(arr.indexOf(data));
-            }}
-          />
-        ))}
-      </BoxPoint>
-    </SelectorBox>
+          <BoxPoint>
+            {arr.map((data, index) => (
+              <BoxPonintItem
+                key={index}
+                location={arr.indexOf(data) === currArr}
+                onClick={() => {
+                  setCurrArr(arr.indexOf(data));
+                }}
+              />
+            ))}
+          </BoxPoint>
+        </SelectorBox>
+      </Fade>
+    </>
   );
 }
 

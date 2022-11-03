@@ -54,7 +54,7 @@ const ProductCardDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin-bottom: 1rem;
+  margin-bottom: 5rem;
 `;
 
 const CardDiv = styled.div`

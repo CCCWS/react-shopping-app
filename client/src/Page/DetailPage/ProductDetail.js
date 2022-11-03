@@ -195,7 +195,7 @@ function ProductDetail({ isAuth, userId }) {
   }, [nav, setContents, setOpenModal, cartAddResponse]);
 
   return (
-    <div className="page" id="smooth-scroll">
+    <div className="page">
       <RecentView page={true} />
 
       {cartAddLoading && (
@@ -219,10 +219,6 @@ function ProductDetail({ isAuth, userId }) {
         <Loading />
       ) : (
         <>
-          {/* {product.count === 0 ? (
-            <SoldOut>판매완료된 상품입니다.</SoldOut>
-          ) : null} */}
-
           <Selector
             ProductDetail={true}
             arr={product.image}
@@ -267,25 +263,6 @@ const BackBtn = styled.div`
   font-size: 20px;
   width: 40px;
   cursor: pointer;
-`;
-
-const SoldOut = styled.div`
-  background-color: var(--gray_transparency);
-  position: absolute;
-  overflow: hidden;
-  z-index: 10;
-
-  top: 40px;
-  left: 0;
-  width: 100%;
-  height: 500px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 1.5rem;
-  color: white;
 `;
 
 export default React.memo(ProductDetail);

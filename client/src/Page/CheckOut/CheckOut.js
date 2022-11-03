@@ -34,30 +34,26 @@ function CheckOut({ userId }) {
     }
   }, [nav, state]);
 
-  useEffect(() => {
-    console.log("test");
-  }, []);
-
   //구매 성공시
   const paymentSeccess = (e, payment) => {
-    if (nameRef.current.value < 1) {
-      nameRef.current.focus();
-      return alert("이름을 입력해주세요.");
-    }
+    // if (nameRef.current.value < 1) {
+    //   nameRef.current.focus();
+    //   return alert("이름을 입력해주세요.");
+    // }
 
-    if (phoneRef.current.value < 1) {
-      phoneRef.current.focus();
-      return alert("전화번호를 입력해주세요.");
-    }
+    // if (phoneRef.current.value < 1) {
+    //   phoneRef.current.focus();
+    //   return alert("전화번호를 입력해주세요.");
+    // }
 
-    if (searchAddress.length < 1) {
-      return alert("주소를 입력해주세요.");
-    }
+    // if (searchAddress.length < 1) {
+    //   return alert("주소를 입력해주세요.");
+    // }
 
-    if (addressRef.current.value < 1) {
-      addressRef.current.focus();
-      return alert("추가 주소를 입력해주세요.");
-    }
+    // if (addressRef.current.value < 1) {
+    //   addressRef.current.focus();
+    //   return alert("추가 주소를 입력해주세요.");
+    // }
 
     setLoading(true);
 
