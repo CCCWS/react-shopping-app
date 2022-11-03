@@ -5,6 +5,8 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 
 import useTheme from "../../hooks/useTheme";
 
+import ProductCountBtn from "../../Components/Product/ProductCountBtn";
+
 import { Image, Title, Price, Count } from "../../Components/Style/ProductCard";
 
 import { postUrl } from "../../PostUrl";
@@ -14,6 +16,8 @@ const CartProduct = ({
   checkProduct,
   onCheckProduct,
   onDelProduct,
+  onChangeCountPlus,
+  onChangeCountMinus,
 }) => {
   const nav = useNavigate();
   const { darkMode } = useTheme();
@@ -42,13 +46,21 @@ const CartProduct = ({
               onClick={() => nav(`/product/${data._id}`)}
             />
 
-            <ProductTitle onClick={() => nav(`/product/${data._id}`)}>
+            <ProductTitle>
               <Title>{`${data.title}`}</Title>
               <Price>{`${parseInt(
                 data.price * data.purchasesCount,
                 10
               ).toLocaleString()}원`}</Price>
-              <Count>{data.purchasesCount}개</Count>
+              {/* <Count>{data.purchasesCount}개</Count> */}
+              <ProductCountBtn
+                onChangeCountPlus={onChangeCountPlus}
+                onChangeCountMinus={onChangeCountMinus}
+                productCount={data.count}
+                purchasesCount={data.purchasesCount}
+                id={data._id}
+                cart={true}
+              />
             </ProductTitle>
           </div>
 
@@ -138,7 +150,6 @@ const NewImage = styled(Image)`
 `;
 
 const ProductTitle = styled.div`
-  cursor: pointer;
   font-size: 1rem;
 `;
 

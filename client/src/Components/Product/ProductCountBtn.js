@@ -1,13 +1,25 @@
 import React from "react";
 import styled from "styled-components";
 
-function ProductCountBtn({ purchasesCount, setPurchasesCount, productCount }) {
+function ProductCountBtn({
+  purchasesCount,
+  setPurchasesCount,
+  productCount,
+  onChangeCountPlus,
+  onChangeCountMinus,
+  id,
+  cart,
+}) {
   return (
     <Div>
       <Button
         onClick={() => {
           if (purchasesCount === 1) return;
-          setPurchasesCount(parseInt(purchasesCount, 10) - 1);
+          if (cart) {
+            onChangeCountMinus(id, purchasesCount);
+          } else {
+            setPurchasesCount(parseInt(purchasesCount, 10) - 1);
+          }
         }}
       >
         -
@@ -19,7 +31,11 @@ function ProductCountBtn({ purchasesCount, setPurchasesCount, productCount }) {
         onClick={() => {
           if (productCount === 0) return;
           if (purchasesCount === productCount) return;
-          setPurchasesCount(parseInt(purchasesCount, 10) + 1);
+          if (cart) {
+            onChangeCountPlus(id, purchasesCount);
+          } else {
+            setPurchasesCount(parseInt(purchasesCount, 10) + 1);
+          }
         }}
       >
         +
@@ -36,11 +52,10 @@ const Div = styled.div`
   width: 6rem;
   height: 2.2rem;
   font-size: 1rem;
-  margin-left: 1rem;
+  /* margin-left: 1rem; */
 
   border: 2px solid var(--gray_transparency);
   border-radius: 5px;
-
 `;
 
 const Count = styled.div`

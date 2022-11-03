@@ -122,8 +122,16 @@ app.post("/addCart", (req, res) => {
     });
 });
 
+app.post("/changeCart", (req, res) => {
+  User.findOneAndUpdate({ _id: req.body.id }, { cart: req.body.cart })
+    .lean()
+    .exec((err) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json({ success: true });
+    });
+});
+
 app.post("/removeCart", (req, res) => {
-  console.log(req.body);
   // const option =
   //   req.body.productId.length > 1
   //     ? { $in: req.body.productId }
@@ -137,7 +145,6 @@ app.post("/removeCart", (req, res) => {
     { new: true }
   )
     //pull > 데이터를 빼줌
-    //auth 미들웨어가 있어서 로그인한 유저의 id를 받아올수있음
     .lean()
     .exec((err, userInfo) => {
       if (err) return res.status(400).json({ success: false, err });

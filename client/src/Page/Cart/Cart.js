@@ -23,6 +23,8 @@ function Cart({ isAuth, userId }) {
   const { resData: userCartList, connectServer: getUserCartList } =
     useAxios("/api/user/getCart");
 
+  const { connectServer: changeCart } = useAxios("/api/user/changeCart");
+
   //조회된 id를 가지는 상품의 목록 조회
   const {
     resData: product,
@@ -184,6 +186,44 @@ function Cart({ isAuth, userId }) {
     });
   };
 
+  const onChangeCountPlus = (id, purchasesCount) => {
+    const newCartList = [...userCartList];
+    const newProduct = [...product];
+
+    for (let i of newCartList) {
+      if (i.id === id) {
+        i.purchasesCount = purchasesCount + 1;
+      }
+    }
+
+    for (let i of newProduct) {
+      if (i._id === id) {
+        i.purchasesCount = purchasesCount + 1;
+      }
+    }
+
+    changeCart({ id: userId, cart: newCartList });
+  };
+
+  const onChangeCountMinus = (id, purchasesCount) => {
+    const newCartList = [...userCartList];
+    const newProduct = [...product];
+
+    for (let i of newCartList) {
+      if (i.id === id) {
+        i.purchasesCount = purchasesCount - 1;
+      }
+    }
+
+    for (let i of newProduct) {
+      if (i._id === id) {
+        i.purchasesCount = purchasesCount - 1;
+      }
+    }
+
+    changeCart({ id: userId, cart: newCartList });
+  };
+
   return (
     <div className="page">
       <ModalBase
@@ -228,6 +268,8 @@ function Cart({ isAuth, userId }) {
                 checkProduct={checkProduct}
                 onCheckProduct={onCheckProduct}
                 onDelProduct={onDelProduct}
+                onChangeCountPlus={onChangeCountPlus}
+                onChangeCountMinus={onChangeCountMinus}
               />
             </CardBox>
           )}
