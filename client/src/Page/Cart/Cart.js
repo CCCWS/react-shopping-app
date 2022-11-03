@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import styled from "styled-components";
+import Fade from "react-reveal/Fade";
 
 import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";
@@ -97,7 +98,7 @@ function Cart({ isAuth, userId }) {
     if (checkProduct.length >= 0) {
       calcTotalPrice();
     }
-  }, [checkProduct]);
+  }, [checkProduct, product]);
 
   //전체 상품 체크
   const onCheckAll = () => {
@@ -186,43 +187,51 @@ function Cart({ isAuth, userId }) {
     });
   };
 
-  const onChangeCountPlus = (id, purchasesCount) => {
-    const newCartList = [...userCartList];
-    const newProduct = [...product];
+  const onChangeCountPlus = useCallback(
+    (id, purchasesCount) => {
+      const newCartList = [...userCartList];
+      const newProduct = [...product];
 
-    for (let i of newCartList) {
-      if (i.id === id) {
-        i.purchasesCount = purchasesCount + 1;
+      for (let i of newCartList) {
+        if (i.id === id) {
+          i.purchasesCount = purchasesCount + 1;
+        }
       }
-    }
 
-    for (let i of newProduct) {
-      if (i._id === id) {
-        i.purchasesCount = purchasesCount + 1;
+      for (let i of newProduct) {
+        if (i._id === id) {
+          i.purchasesCount = purchasesCount + 1;
+        }
       }
-    }
 
-    changeCart({ id: userId, cart: newCartList });
-  };
+      setProduct(newProduct);
+      changeCart({ id: userId, cart: newCartList });
+    },
+    [userCartList, product, changeCart, setProduct, userId]
+  );
 
-  const onChangeCountMinus = (id, purchasesCount) => {
-    const newCartList = [...userCartList];
-    const newProduct = [...product];
+  const onChangeCountMinus = useCallback(
+    (id, purchasesCount) => {
+      const newCartList = [...userCartList];
+      const newProduct = [...product];
 
-    for (let i of newCartList) {
-      if (i.id === id) {
-        i.purchasesCount = purchasesCount - 1;
+      for (let i of newCartList) {
+        if (i.id === id) {
+          i.purchasesCount = purchasesCount - 1;
+        }
       }
-    }
 
-    for (let i of newProduct) {
-      if (i._id === id) {
-        i.purchasesCount = purchasesCount - 1;
+      for (let i of newProduct) {
+        if (i._id === id) {
+          i.purchasesCount = purchasesCount - 1;
+          i.totalPrice = i.price * purchasesCount - 1;
+        }
       }
-    }
-
-    changeCart({ id: userId, cart: newCartList });
-  };
+      setProduct(newProduct);
+      changeCart({ id: userId, cart: newCartList });
+    },
+    [userCartList, product, changeCart, setProduct, userId]
+  );
 
   return (
     <div className="page">
@@ -232,47 +241,53 @@ function Cart({ isAuth, userId }) {
         setModalOpen={setOpenModal}
       />
 
-      <Procedure>
-        <strong>장바구니</strong> &gt; 주문서 &gt; 결제완료
-      </Procedure>
+      <Fade bottom>
+        <Procedure>
+          <strong>장바구니</strong> &gt; 주문서 &gt; 결제완료
+        </Procedure>
+      </Fade>
 
       {loading ? (
         <Loading />
       ) : (
         <>
-          {product && product.length > 0 && (
-            <Checkbox
-              checkLength={
-                product.length === checkProduct.length &&
-                checkProduct.length !== 0 &&
-                true
-              }
-            >
-              <div>전체선택</div>
-              <div onClick={onCheckAll}>
-                <CheckOutlined />
-              </div>
-              <button onClick={onCheckDel}>선택삭제</button>
-            </Checkbox>
-          )}
+          <Fade bottom>
+            {product && product.length > 0 && (
+              <Checkbox
+                checkLength={
+                  product.length === checkProduct.length &&
+                  checkProduct.length !== 0 &&
+                  true
+                }
+              >
+                <div>전체선택</div>
+                <div onClick={onCheckAll}>
+                  <CheckOutlined />
+                </div>
+                <button onClick={onCheckDel}>선택삭제</button>
+              </Checkbox>
+            )}
+          </Fade>
 
-          {product === undefined || product.length === 0 ? (
-            <Empty>
-              <ShoppingCartOutlined />
-              장바구니에 추가된 상품이 없습니다.
-            </Empty>
-          ) : (
-            <CardBox>
-              <CartProduct
-                product={product}
-                checkProduct={checkProduct}
-                onCheckProduct={onCheckProduct}
-                onDelProduct={onDelProduct}
-                onChangeCountPlus={onChangeCountPlus}
-                onChangeCountMinus={onChangeCountMinus}
-              />
-            </CardBox>
-          )}
+          <Fade bottom>
+            {product === undefined || product.length === 0 ? (
+              <Empty>
+                <ShoppingCartOutlined />
+                장바구니에 추가된 상품이 없습니다.
+              </Empty>
+            ) : (
+              <CardBox>
+                <CartProduct
+                  product={product}
+                  checkProduct={checkProduct}
+                  onCheckProduct={onCheckProduct}
+                  onDelProduct={onDelProduct}
+                  onChangeCountPlus={onChangeCountPlus}
+                  onChangeCountMinus={onChangeCountMinus}
+                />
+              </CardBox>
+            )}
+          </Fade>
 
           <FooterCartPage
             checkProductLength={checkProduct.length}

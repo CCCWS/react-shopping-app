@@ -63,14 +63,14 @@ const Count = styled.div`
   justify-content: center;
   align-items: center;
 
-  width: 40%;
+  width: 100%;
   height: 100%;
 
   border: none;
 `;
 
 const Button = styled.button`
-  width: 30%;
+  min-width: 30%;
   height: 100%;
   border: none;
   background-color: var(--gray_transparency);
