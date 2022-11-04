@@ -67,8 +67,16 @@ function Cart({ isAuth, userId }) {
         // ( ) => { }는 새로운 배열을 리턴하기전 어떠한 연산이나 변수선언등 조건을 처리할때 사용하며
         // 반드시 return으로 값을 직접 넘겨줘야함
         // ( ) => ( )는 다른 작업없이 즉시 리턴할때 사용
-        data.totalPrice = data.price * userCartList[index].purchasesCount;
-        data.purchasesCount = userCartList[index].purchasesCount;
+
+        //제품 정보를 가져올때 장바구니에 추가한 순서가 아닌 해당 제품이 등록된 순서로 가져오게됨
+        //가져온 제품 데이터에 수량을 추가하기 위해 수량을 가지고있는 userCartList를 forEach하여 같은 id 탐색
+        userCartList.forEach((cartList) => {
+          if (data._id === cartList.id) {
+            data.totalPrice = data.price * cartList.purchasesCount;
+            data.purchasesCount = cartList.purchasesCount;
+          }
+        });
+
         return data;
       });
     };
@@ -188,51 +196,41 @@ function Cart({ isAuth, userId }) {
     });
   };
 
-  const onChangeCountPlus = useCallback(
-    (id, purchasesCount) => {
-      const newCartList = [...userCartList];
-      const newProduct = [...product];
+  const onChangeCountPlus = (id, purchasesCount) => {
+    const newCartList = [...userCartList];
+    const newProduct = [...product];
 
-      for (let i of newCartList) {
-        if (i.id === id) {
-          i.purchasesCount = purchasesCount + 1;
-        }
+    for (let i of newCartList) {
+      if (i.id === id) {
+        i.purchasesCount = purchasesCount + 1;
       }
-
-      for (let i of newProduct) {
-        if (i._id === id) {
-          i.purchasesCount = purchasesCount + 1;
-        }
+    }
+    for (let i of newProduct) {
+      if (i._id === id) {
+        i.purchasesCount = purchasesCount + 1;
       }
+    }
+    setProduct(newProduct);
+    changeCart({ id: userId, cart: newCartList });
+  };
 
-      setProduct(newProduct);
-      changeCart({ id: userId, cart: newCartList });
-    },
-    [userCartList, product, changeCart, setProduct, userId]
-  );
-
-  const onChangeCountMinus = useCallback(
-    (id, purchasesCount) => {
-      const newCartList = [...userCartList];
-      const newProduct = [...product];
-
-      for (let i of newCartList) {
-        if (i.id === id) {
-          i.purchasesCount = purchasesCount - 1;
-        }
+  const onChangeCountMinus = (id, purchasesCount) => {
+    const newCartList = [...userCartList];
+    const newProduct = [...product];
+    for (let i of newCartList) {
+      if (i.id === id) {
+        i.purchasesCount = purchasesCount - 1;
       }
-
-      for (let i of newProduct) {
-        if (i._id === id) {
-          i.purchasesCount = purchasesCount - 1;
-          i.totalPrice = i.price * purchasesCount - 1;
-        }
+    }
+    for (let i of newProduct) {
+      if (i._id === id) {
+        i.purchasesCount = purchasesCount - 1;
+        i.totalPrice = i.price * purchasesCount - 1;
       }
-      setProduct(newProduct);
-      changeCart({ id: userId, cart: newCartList });
-    },
-    [userCartList, product, changeCart, setProduct, userId]
-  );
+    }
+    setProduct(newProduct);
+    changeCart({ id: userId, cart: newCartList });
+  };
 
   return (
     <div className="page">
