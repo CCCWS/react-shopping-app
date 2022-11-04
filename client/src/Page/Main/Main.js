@@ -19,7 +19,7 @@ import useModal from "../../hooks/useModal.js";
 //etc
 import { categoryList, priceList } from "../../data/CatecoryList";
 
-function Main({ darkMode }) {
+function Main() {
   const [readRef, setReadRef] = useInView();
 
   const [click, setClick] = useState(true); //메인화면 제품카드 카드형 or 리스트형

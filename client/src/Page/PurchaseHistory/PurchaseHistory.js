@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { WarningOutlined } from "@ant-design/icons";
+import { useInView } from "react-intersection-observer";
 
 import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";
@@ -10,27 +11,53 @@ import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
-import useTheme from "../../hooks/useTheme";
 
-function PurchaseHistory({ isAuth, userId }) {
+function PurchaseHistory({ isAuth, userId, darkMode }) {
+  const [readRef, setReadRef] = useInView();
   const [shippingInfo, setShippingInfo] = useState([]);
+  const [skip, setSkip] = useState(0);
+  const limit = 4;
   const { openModal, setOpenModal } = useModal();
-  const { darkMode } = useTheme();
 
   const {
     resData: product,
     loading,
+    lastData,
     connectServer,
   } = useAxios("/api/user/purchaseHistory");
 
   useEffect(() => {
     if (isAuth) {
-      connectServer({ id: userId });
+      const option = {
+        limit: limit,
+        skip: 0,
+        readMore: false,
+        id: userId,
+      };
+
+      connectServer(option);
     }
 
     const titleName = document.getElementsByTagName("title")[0];
     titleName.innerHTML = `구매내역`;
   }, [isAuth, userId, connectServer]);
+
+  useEffect(() => {
+    const readMore = () => {
+      const option = {
+        limit: limit,
+        skip: skip + limit,
+        id: userId,
+        readMore: true,
+      };
+      connectServer(option);
+      setSkip((prev) => prev + limit);
+    };
+
+    if (setReadRef) {
+      readMore();
+    }
+  }, [setReadRef, userId, connectServer]);
 
   const onShippingInfo = useCallback(
     (data) => {
@@ -66,7 +93,7 @@ function PurchaseHistory({ isAuth, userId }) {
       ) : (
         <>
           <FadeAnimation>
-            <Title>{`전체 주문내역 ${product.length}개`}</Title>
+            <Title>{`최근 주문내역`}</Title>
           </FadeAnimation>
 
           {product.length === 0 ? (
@@ -75,11 +102,14 @@ function PurchaseHistory({ isAuth, userId }) {
               구매한 상품이 없습니다.
             </Empty>
           ) : (
-            <PurchaseHistotyProduct
-              darkMode={darkMode}
-              product={product}
-              onShippingInfo={onShippingInfo}
-            />
+            <>
+              <PurchaseHistotyProduct
+                darkMode={darkMode}
+                product={product}
+                onShippingInfo={onShippingInfo}
+              />
+              {!lastData && <ReadMore ref={readRef} />}
+            </>
           )}
         </>
       )}
@@ -91,7 +121,7 @@ const Title = styled.div`
   font-size: 1.3rem;
   font-weight: 700;
   padding: 0.5rem;
-  margin-bottom: 1em;
+  /* margin-bottom: 0.5rem; */
 `;
 
 const Header = styled.header`
@@ -108,6 +138,11 @@ const Message = styled.div`
   div {
     margin-bottom: 0.5rem;
   }
+`;
+
+const ReadMore = styled.div`
+  width: 100%;
+  height: 10px;
 `;
 
 export default React.memo(PurchaseHistory);
