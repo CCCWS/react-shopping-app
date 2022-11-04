@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import PurchaseHistotyProductList from "./PurchaseHistotyProductList";
+import ZoomAnimation from "../../Components/Utility/Animation/ZoomAnimation";
 
 const PurchaseHistotyProduct = ({ product, onShippingInfo, darkMode }) => {
   const productDate = (data) => {
@@ -20,25 +21,27 @@ const PurchaseHistotyProduct = ({ product, onShippingInfo, darkMode }) => {
   return (
     <Div>
       {product.map((data) => (
-        <Product key={data.date} darkMode={darkMode}>
-          <Info>
-            <Value>
-              <div>{productDate(data)}</div>
-              <div>{productTime(data)}</div>
-              <div>{`결제금액 ${data.price.toLocaleString()}원`}</div>
-            </Value>
+        <ZoomAnimation key={data.date}>
+          <Product darkMode={darkMode}>
+            <Info>
+              <Value>
+                <div>{productDate(data)}</div>
+                <div>{productTime(data)}</div>
+                <div>{`결제금액 ${data.price.toLocaleString()}원`}</div>
+              </Value>
 
-            <div
-              onClick={() => {
-                onShippingInfo(data.shippingInfo);
-              }}
-            >
-              배송정보
-            </div>
-          </Info>
+              <div
+                onClick={() => {
+                  onShippingInfo(data.shippingInfo);
+                }}
+              >
+                배송정보
+              </div>
+            </Info>
 
-          <PurchaseHistotyProductList data={data} />
-        </Product>
+            <PurchaseHistotyProductList data={data} />
+          </Product>
+        </ZoomAnimation>
       ))}
     </Div>
   );

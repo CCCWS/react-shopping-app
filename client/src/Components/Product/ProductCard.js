@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Zoom from "react-reveal/Fade";
-import withReveal from "react-reveal/withReveal";
 import styled, { css } from "styled-components";
+
+import ZoomAnimation from "../Utility/Animation/ZoomAnimation";
 
 import useTheme from "../../hooks/useTheme";
 
@@ -18,32 +18,34 @@ function ProductCard({ data, viewType }) {
     <ProductCardDiv>
       {data.map((data, index) => (
         <CardDiv key={index} viewType={viewType}>
-          <Card
-            viewType={viewType}
-            id={data._id}
-            onClick={() => {
-              nav(`/product/${data._id}`);
-            }}
-          >
-            <NewImage
+          <ZoomAnimation>
+            <Card
               viewType={viewType}
-              img={`url('${postUrl}${data.image[0].name}')`}
-              soldOut={data.count === 0 && true}
-            />
+              id={data._id}
+              onClick={() => {
+                nav(`/product/${data._id}`);
+              }}
+            >
+              <NewImage
+                viewType={viewType}
+                img={`url('${postUrl}${data.image[0].name}')`}
+                soldOut={data.count === 0 && true}
+              />
 
-            <Info viewType={viewType}>
-              <NewTitle darkMode={darkMode}>{data.title}</NewTitle>
+              <Info viewType={viewType}>
+                <NewTitle darkMode={darkMode}>{data.title}</NewTitle>
 
-              <TimeAndPrice viewType={viewType}>
-                <Price>{`${parseInt(
-                  data.price,
-                  10
-                ).toLocaleString()}원`}</Price>
-                <Time>{getTime(data.createdAt)}</Time>
-              </TimeAndPrice>
-              <Count>{`남은 수량 ${data.count}개`}</Count>
-            </Info>
-          </Card>
+                <TimeAndPrice viewType={viewType}>
+                  <Price>{`${parseInt(
+                    data.price,
+                    10
+                  ).toLocaleString()}원`}</Price>
+                  <Time>{getTime(data.createdAt)}</Time>
+                </TimeAndPrice>
+                <Count>{`남은 수량 ${data.count}개`}</Count>
+              </Info>
+            </Card>
+          </ZoomAnimation>
         </CardDiv>
       ))}
     </ProductCardDiv>
@@ -73,29 +75,26 @@ const CardDiv = styled.div`
     `}
 `;
 
-const Card = withReveal(
-  styled.div`
-    //상품 카드의 크기
-    margin: auto;
-    margin-bottom: ${(props) => (props.viewType ? "6rem" : "1rem")};
-    width: ${(props) => (props.viewType ? "90%" : "100%")};
-    height: ${(props) => (props.viewType ? "20rem" : "15rem")};
-    border-radius: 5px;
+const Card = styled.div`
+  //상품 카드의 크기
+  margin: auto;
+  margin-bottom: ${(props) => (props.viewType ? "6rem" : "1rem")};
+  width: ${(props) => (props.viewType ? "90%" : "100%")};
+  height: ${(props) => (props.viewType ? "20rem" : "15rem")};
+  border-radius: 5px;
 
-    &:hover {
-      cursor: pointer;
-    }
-    //viewType가 list일 경우 적용
-    ${(props) =>
-      !props.viewType &&
-      css`
-        display: flex;
-        justify-content: center;
-        flex-direction: row;
-      `}
-  `,
-  <Zoom />
-);
+  &:hover {
+    cursor: pointer;
+  }
+  //viewType가 list일 경우 적용
+  ${(props) =>
+    !props.viewType &&
+    css`
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+    `}
+`;
 
 const Info = styled.div`
   width: ${(props) => (props.viewType ? "100%" : "50%")};

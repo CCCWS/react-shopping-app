@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
-import Fade from "react-reveal/Fade";
 
 import ModalBase from "../Modal/ModalBase";
+import ZoomAnimation from "./Animation/ZoomAnimation";
 
 import useModal from "../../hooks/useModal";
 
@@ -29,8 +29,7 @@ function Selector({ ProductDetail, CheckOut, soldOut, arr }) {
   };
 
   return (
-    <>
-      <Fade bottom>
+      <ZoomAnimation>
         <SelectorBox ProductDetail={ProductDetail} CheckOut={CheckOut}>
           <ModalBase modalOpen={openModal} setModalOpen={setOpenModal}>
             <ModalImage img={`url('${postUrl}${currImg}')`} />
@@ -73,8 +72,7 @@ function Selector({ ProductDetail, CheckOut, soldOut, arr }) {
             ))}
           </BoxPoint>
         </SelectorBox>
-      </Fade>
-    </>
+      </ZoomAnimation>
   );
 }
 

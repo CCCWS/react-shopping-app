@@ -1,10 +1,8 @@
 import React from "react";
-import Fade from "react-reveal/Fade";
-// import Spin from "react-reveal/Spin";
-// import Flip from "react-reveal/Flip";
 import { Skeleton } from "antd";
 import styled from "styled-components";
 
+import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 import Loading from "../../Components/Utility/Loading";
 import ProductCard from "../../Components/Product/ProductCard";
 
@@ -18,7 +16,7 @@ const ProductInfo = ({
 }) => {
   return (
     <>
-      <Fade bottom>
+      <FadeAnimation>
         <Writer>
           {writerLoading ? (
             <Skeleton.Button />
@@ -29,26 +27,26 @@ const ProductInfo = ({
             </>
           )}
         </Writer>
-      </Fade>
+      </FadeAnimation>
 
-      <Fade bottom>
+      <FadeAnimation>
         <Info>
           <div>{product.title}</div>
           <div>{`${product.category} ∙ ${time} ∙ 남은수량 ${product.count}개 ∙ 조회수 ${product.views} `}</div>
           <hr />
           <div>{product.description}</div>
         </Info>
-      </Fade>
+      </FadeAnimation>
 
       {otherProduct && otherProduct.length > 0 && (
-        <>
+        <FadeAnimation>
           <OtherProduct>관련 상품</OtherProduct>
           {otherLoading ? (
             <Loading />
           ) : (
             <ProductCard data={otherProduct} viewType={true} />
           )}
-        </>
+        </FadeAnimation>
       )}
     </>
   );

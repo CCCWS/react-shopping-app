@@ -5,6 +5,8 @@ import { WarningOutlined } from "@ant-design/icons";
 
 import Loading from "../../Components/Utility/Loading";
 import Empty from "../../Components/Utility/Empty";
+import ZoomAnimation from "../../Components/Utility/Animation/ZoomAnimation";
+import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 
 import useAxios from "../../hooks/useAxios";
 import useTheme from "../../hooks/useTheme";
@@ -70,22 +72,24 @@ function ProductManagement({ isAuth, userId }) {
         <Loading />
       ) : (
         <>
-          <Info>
-            <Value>
-              <div>등록물품</div>
-              <div>{resData.length}개</div>
-            </Value>
+          <FadeAnimation>
+            <Info>
+              <Value>
+                <div>등록물품</div>
+                <div>{resData.length}개</div>
+              </Value>
 
-            <Value>
-              <div>판매개수</div>
-              <div>{totalSold}개</div>
-            </Value>
+              <Value>
+                <div>판매개수</div>
+                <div>{totalSold}개</div>
+              </Value>
 
-            <Value>
-              <div>판매금액</div>
-              <div>{totalPrice.toLocaleString()}원</div>
-            </Value>
-          </Info>
+              <Value>
+                <div>판매금액</div>
+                <div>{totalPrice.toLocaleString()}원</div>
+              </Value>
+            </Info>
+          </FadeAnimation>
 
           {resData.length === 0 ? (
             <Empty>
@@ -96,7 +100,7 @@ function ProductManagement({ isAuth, userId }) {
             <List>
               {resData.map((data, index) => (
                 <Card key={index} onClick={() => nav(`/product/${data._id}`)}>
-                  <div>
+                  <ZoomAnimation>
                     <Product darkMode={darkMode}>
                       <NewImage
                         img={`url('${postUrl}${data.image[0].name}')`}
@@ -119,7 +123,7 @@ function ProductManagement({ isAuth, userId }) {
                         </ul>
                       </Content>
                     </Product>
-                  </div>
+                  </ZoomAnimation>
                 </Card>
               ))}
             </List>

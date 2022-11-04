@@ -6,6 +6,7 @@ import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";
 import Empty from "../../Components/Utility/Empty";
 import PurchaseHistotyProduct from "./PurchaseHistotyProduct";
+import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
@@ -47,26 +48,26 @@ function PurchaseHistory({ isAuth, userId }) {
   return (
     <div className="page">
       <ModalBase modalOpen={openModal} setModalOpen={setOpenModal}>
-        <>
-          <Header>
-            <div>배송정보</div>
-          </Header>
-          <Message darkMode={darkMode}>
-            <div>{`이름 : ${shippingInfo.name}`}</div>
-            <div>{`전화번호 : ${shippingInfo.phone}`}</div>
-            <div>{`주소 : ${shippingInfo.address}`}</div>
-            <div>{`요청사항 : ${
-              shippingInfo.request === "" ? "없음" : shippingInfo.request
-            }`}</div>
-          </Message>
-        </>
+        <Header>
+          <div>배송정보</div>
+        </Header>
+        <Message darkMode={darkMode}>
+          <div>{`이름 : ${shippingInfo.name}`}</div>
+          <div>{`전화번호 : ${shippingInfo.phone}`}</div>
+          <div>{`주소 : ${shippingInfo.address}`}</div>
+          <div>{`요청사항 : ${
+            shippingInfo.request === "" ? "없음" : shippingInfo.request
+          }`}</div>
+        </Message>
       </ModalBase>
 
       {loading ? (
         <Loading />
       ) : (
         <>
-          <Title>{`전체 주문내역 ${product.length}개`}</Title>
+          <FadeAnimation>
+            <Title>{`전체 주문내역 ${product.length}개`}</Title>
+          </FadeAnimation>
 
           {product.length === 0 ? (
             <Empty onClick={(e) => console.log(e)}>

@@ -8,6 +8,7 @@ import PaymentBtn from "../../Components/Product/PaymentBtn";
 import Selector from "../../Components/Utility/Selector";
 import CheckOutProduct from "./CheckOutProduct";
 import CheckOutInput from "./CheckOutInput";
+import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 
 import useAxios from "../../hooks/useAxios";
 
@@ -36,24 +37,24 @@ function CheckOut({ userId }) {
 
   //구매 성공시
   const paymentSeccess = (e, payment) => {
-    // if (nameRef.current.value < 1) {
-    //   nameRef.current.focus();
-    //   return alert("이름을 입력해주세요.");
-    // }
+    if (nameRef.current.value < 1) {
+      nameRef.current.focus();
+      return alert("이름을 입력해주세요.");
+    }
 
-    // if (phoneRef.current.value < 1) {
-    //   phoneRef.current.focus();
-    //   return alert("전화번호를 입력해주세요.");
-    // }
+    if (phoneRef.current.value < 1) {
+      phoneRef.current.focus();
+      return alert("전화번호를 입력해주세요.");
+    }
 
-    // if (searchAddress.length < 1) {
-    //   return alert("주소를 입력해주세요.");
-    // }
+    if (searchAddress.length < 1) {
+      return alert("주소를 입력해주세요.");
+    }
 
-    // if (addressRef.current.value < 1) {
-    //   addressRef.current.focus();
-    //   return alert("추가 주소를 입력해주세요.");
-    // }
+    if (addressRef.current.value < 1) {
+      addressRef.current.focus();
+      return alert("추가 주소를 입력해주세요.");
+    }
 
     setLoading(true);
 
@@ -120,30 +121,36 @@ function CheckOut({ userId }) {
 
       {state && (
         <>
-          <Procedure>
-            장바구니 &gt; <strong>주문서</strong> &gt; 결제완료
-          </Procedure>
+          <FadeAnimation>
+            <Procedure>
+              장바구니 &gt; <strong>주문서</strong> &gt; 결제완료
+            </Procedure>
+          </FadeAnimation>
 
-          <Div>
-            <Title>주문상품 {state.product.length}개</Title>
-            <hr />
-            <CheckOutProduct state={state} />
-          </Div>
+          <FadeAnimation>
+            <Div>
+              <Title>주문상품 {state.product.length}개</Title>
+              <hr />
+              <CheckOutProduct state={state} />
+            </Div>
+          </FadeAnimation>
 
-          <Div>
-            <Title>주문정보</Title>
-            <hr />
-            <CheckOutInput
-              ref={{
-                nameRef: nameRef,
-                phoneRef: phoneRef,
-                addressRef: addressRef,
-                reqRef: reqRef,
-              }}
-              searchAddress={searchAddress}
-              setSearchAddress={setSearchAddress}
-            />
-          </Div>
+          <FadeAnimation>
+            <Div>
+              <Title>주문정보</Title>
+              <hr />
+              <CheckOutInput
+                ref={{
+                  nameRef: nameRef,
+                  phoneRef: phoneRef,
+                  addressRef: addressRef,
+                  reqRef: reqRef,
+                }}
+                searchAddress={searchAddress}
+                setSearchAddress={setSearchAddress}
+              />
+            </Div>
+          </FadeAnimation>
 
           <Div>
             <Title>결제수단</Title>

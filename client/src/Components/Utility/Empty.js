@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-import React from "react";
-
 const Empty = ({ children }) => {
   return <Div>{children}</Div>;
 };

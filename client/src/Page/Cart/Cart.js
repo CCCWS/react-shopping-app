@@ -9,6 +9,7 @@ import ModalBase from "../../Components/Modal/ModalBase";
 import FooterCartPage from "../../Components/Footer/FooterCartPage";
 import Empty from "../../Components/Utility/Empty";
 import CartProduct from "./CartProduct";
+import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 
 import useModal from "../../hooks/useModal";
 import useAxios from "../../hooks/useAxios";
@@ -241,17 +242,17 @@ function Cart({ isAuth, userId }) {
         setModalOpen={setOpenModal}
       />
 
-      <Fade bottom>
+      <FadeAnimation>
         <Procedure>
           <strong>장바구니</strong> &gt; 주문서 &gt; 결제완료
         </Procedure>
-      </Fade>
+      </FadeAnimation>
 
       {loading ? (
         <Loading />
       ) : (
         <>
-          <Fade bottom>
+          <FadeAnimation>
             {product && product.length > 0 && (
               <Checkbox
                 checkLength={
@@ -267,15 +268,15 @@ function Cart({ isAuth, userId }) {
                 <button onClick={onCheckDel}>선택삭제</button>
               </Checkbox>
             )}
-          </Fade>
+          </FadeAnimation>
 
-          <Fade bottom>
-            {product === undefined || product.length === 0 ? (
-              <Empty>
-                <ShoppingCartOutlined />
-                장바구니에 추가된 상품이 없습니다.
-              </Empty>
-            ) : (
+          {product === undefined || product.length === 0 ? (
+            <Empty>
+              <ShoppingCartOutlined />
+              장바구니에 추가된 상품이 없습니다.
+            </Empty>
+          ) : (
+            <FadeAnimation>
               <CardBox>
                 <CartProduct
                   product={product}
@@ -286,8 +287,8 @@ function Cart({ isAuth, userId }) {
                   onChangeCountMinus={onChangeCountMinus}
                 />
               </CardBox>
-            )}
-          </Fade>
+            </FadeAnimation>
+          )}
 
           <FooterCartPage
             checkProductLength={checkProduct.length}

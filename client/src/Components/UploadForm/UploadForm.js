@@ -7,6 +7,7 @@ import styled from "styled-components";
 import SelectBox from "../Utility/SelectBox";
 import ImgUpload from "./ImgUpload";
 import Footer from "../Footer/Footer";
+import ZoomAnimation from "../Utility/Animation/ZoomAnimation";
 
 //custom hooks
 import useAxios from "../../hooks/useAxios";
@@ -135,101 +136,103 @@ function UploadForm({ userId, edit, editData, productId }) {
   };
 
   return (
-    <div className="page">
-      <Section>
-        <div>
-          상품이미지 <div>{`${image.length} / 12`}</div>
-        </div>
+    <>
+      <ZoomAnimation>
+        <Section>
+          <div>
+            상품이미지 <div>{`${image.length} / 12`}</div>
+          </div>
 
-        <ImgUpload
-          setState={setImage}
-          setImgDelete={setImgDelete}
-          edit={edit}
-          editImg={editData}
-        />
-      </Section>
+          <ImgUpload
+            setState={setImage}
+            setImgDelete={setImgDelete}
+            edit={edit}
+            editImg={editData}
+          />
+        </Section>
 
-      <hr />
-      <Section>
-        <div>제목</div>
-        <Input
-          inputType="title"
-          id="title"
-          placeholder="2글자 이상 입력해주세요."
-          maxLength={40}
-          ref={titleRef}
-        />
-        {/* <span>{`${} / 40`}</span> */}
-      </Section>
+        <hr />
+        <Section>
+          <div>제목</div>
+          <Input
+            inputType="title"
+            id="title"
+            placeholder="2글자 이상 입력해주세요."
+            maxLength={40}
+            ref={titleRef}
+          />
+          {/* <span>{`${} / 40`}</span> */}
+        </Section>
 
-      <hr />
+        <hr />
 
-      <Section>
-        <div>가격</div>
-        <Input
-          inputType="price"
-          type="number"
-          id="price"
-          placeholder="숫자만 입력해주세요."
-          ref={priceRef}
-          min="1"
-          maxLength="8"
-          onInput={maxLengthCheck}
-        />
-        <label>원</label>
-      </Section>
+        <Section>
+          <div>가격</div>
+          <Input
+            inputType="price"
+            type="number"
+            id="price"
+            placeholder="숫자만 입력해주세요."
+            ref={priceRef}
+            min="1"
+            maxLength="8"
+            onInput={maxLengthCheck}
+          />
+          <label>원</label>
+        </Section>
 
-      <hr />
+        <hr />
 
-      <Section>
-        <div>상품 개수</div>
-        <Input
-          inputType="count"
-          type="number"
-          id="count"
-          placeholder="최대 99개"
-          ref={countRef}
-          maxLength="2"
-          onInput={maxLengthCheck}
-        />
-        <label>개</label>
-      </Section>
+        <Section>
+          <div>상품 개수</div>
+          <Input
+            inputType="count"
+            type="number"
+            id="count"
+            placeholder="최대 99개"
+            ref={countRef}
+            maxLength="2"
+            onInput={maxLengthCheck}
+          />
+          <label>개</label>
+        </Section>
 
-      <hr />
+        <hr />
 
-      <Section>
-        <div>카테고리</div>
-        <SelectBox
-          data={uploadCategoryList}
-          setData={setCategory}
-          edit={edit}
-          initData={edit && editData.category}
-        />
-      </Section>
+        <Section>
+          <div>카테고리</div>
+          <SelectBox
+            data={uploadCategoryList}
+            setData={setCategory}
+            edit={edit}
+            initData={edit && editData.category}
+          />
+        </Section>
 
-      <hr />
+        <hr />
 
-      <Section>
-        <div>설명</div>
-        <Textarea
-          id="description"
-          placeholder="10글자 이상 입력해주세요."
-          maxLength={500}
-          ref={descriptionRef}
-        />
-        {/* <span>{`${} / 500`}</span> */}
-      </Section>
+        <Section>
+          <div>설명</div>
+          <Textarea
+            id="description"
+            placeholder="10글자 이상 입력해주세요."
+            maxLength={500}
+            ref={descriptionRef}
+          />
+          {/* <span>{`${} / 500`}</span> */}
+        </Section>
 
-      <hr />
+        <hr />
 
-      <Section />
+        <Section />
+      </ZoomAnimation>
 
       <Footer>
         <SubmitBtn onClick={onWrite}>
           <button>{edit ? "수정하기" : "등록하기"} </button>
         </SubmitBtn>
       </Footer>
-    </div>
+    </>
   );
 }
 

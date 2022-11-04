@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Carousel } from "antd";
 import styled from "styled-components";
 
+import ZoomAnimation from "../Utility/Animation/ZoomAnimation";
+
 import useAxios from "../../hooks/useAxios";
 
 import { postUrl } from "../../PostUrl";
@@ -22,23 +24,25 @@ function ProductRank() {
   }, []);
 
   return (
-    <Div>
-      <Carousel effect="fade" autoplay>
-        <Section>
-          <div>
-            <strong>조회수</strong>가 높은 상품
-          </div>
-          {views && <ProductSection items={views} />}
-        </Section>
+    <ZoomAnimation>
+      <Div>
+        <Carousel effect="fade" autoplay>
+          <Section>
+            <div>
+              <strong>조회수</strong>가 높은 상품
+            </div>
+            {views && <ProductSection items={views} />}
+          </Section>
 
-        <Section>
-          <div>
-            <strong>판매량</strong>이 많은 상품
-          </div>
-          {sold && <ProductSection items={sold} />}
-        </Section>
-      </Carousel>
-    </Div>
+          <Section>
+            <div>
+              <strong>판매량</strong>이 많은 상품
+            </div>
+            {sold && <ProductSection items={sold} />}
+          </Section>
+        </Carousel>
+      </Div>
+    </ZoomAnimation>
   );
 }
 
