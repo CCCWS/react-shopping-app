@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CaretDownFilled, CaretUpFilled } from "@ant-design/icons";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 function SelectBox({ data, setData, edit, initData }) {
   const selectRef1 = useRef();
@@ -8,6 +9,7 @@ function SelectBox({ data, setData, edit, initData }) {
 
   const [title, setTitle] = useState(data[0].name);
   const [click, setClick] = useState(false);
+  const darkMode = useSelector((state) => state.darkMode.darkMode);
 
   const select = (e) => {
     setTitle(e.target.innerText);
@@ -40,7 +42,7 @@ function SelectBox({ data, setData, edit, initData }) {
       {title}
       <Icons>{click ? <CaretUpFilled /> : <CaretDownFilled />}</Icons>
 
-      <Ul open={click} onChange={select} ref={selectRef2}>
+      <Ul open={click} onChange={select} ref={selectRef2} darkMode={darkMode}>
         {data.map((item) => (
           <Li onClick={select} key={item.id} id={item.value}>
             {item.name}
@@ -84,7 +86,7 @@ const Ul = styled.ul`
   top: 3rem;
   padding: 0px;
   padding: ${(props) => props.open && "0.5rem"};
-  max-height: ${(props) => (props.open ? "15rem" : "0px")};
+  max-height: ${(props) => (props.open ? "12rem" : "0px")};
   border: ${(props) =>
     props.open
       ? "2px solid var(--orange_normal);"
@@ -101,7 +103,8 @@ const Ul = styled.ul`
   transition: all ease 0.4s;
   overflow: overlay;
 
-  backdrop-filter: blur(50px);
+  background-color: ${(props) =>
+    props.darkMode ? "var(--black)" : "var(--white)"};
 
   &::-webkit-scrollbar {
     width: 0px;
@@ -127,10 +130,12 @@ const Li = styled.li`
 
   transition: all ease 0.3s;
 
+  /* background-color: red; */
+
   &:hover {
     cursor: pointer;
     background-color: var(--orange_hover);
   }
 `;
 
-export default React.memo(SelectBox);
+export default SelectBox;
