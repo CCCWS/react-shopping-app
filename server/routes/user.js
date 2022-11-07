@@ -164,11 +164,11 @@ app.post("/getCart", (req, res) => {
 app.post("/purchaseHistory", (req, res) => {
   User.findOne(
     { _id: req.body.id },
-    {
-      purchase: {
-        $slice: [req.body.skip, req.body.limit],
-      },
-    }
+    // {
+    //   purchase: {
+    //     $slice: [req.body.skip, req.body.limit],
+    //   },
+    // }
   )
     .lean()
     .exec((err, userInfo) => {
