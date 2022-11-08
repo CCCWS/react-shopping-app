@@ -77,3 +77,79 @@
   * mongoose - 6.2.9 / mongoDB
   * multer - 1.4.5-lts.1 / 파일 업로드
   * nodemon - 2.0.15 / 서버 변경사항 실시간 
+
+
+## 특징
+  * Dark Mode  
+
+|                   OFF                 |                    ON                      |
+| :---------------------------------------------: | :---------------------------------------------: |
+| <img src="https://user-images.githubusercontent.com/86645532/200363660-bc95ce07-afe4-4c9b-b8d7-518c35dd380d.png" > | <img src="https://user-images.githubusercontent.com/86645532/200363764-c2f3309b-497f-4d8d-9d43-248f4b8bac41.png" > |
+
+     Redux-store에서 다크모드 on/off를 전역적으로 관리하여 모든 컴포넌트에서 적용됩니다.
+
+
+  * Modal  
+<img src="https://user-images.githubusercontent.com/86645532/200364170-e3601112-0308-42bf-86fa-cb3225bdc5ef.png" width="200px">
+
+
+     페이지 이동없이 로그인이 가능하며 경고나 알람이 필요할때 alert 사용을 최소화하여 사용 편의성을 증가시켰습니다.
+     
+     
+  * Responsive Web
+  
+|                   800px 초과 메인화면            |           800px 이하 메인화면 (menu open)        |
+| :---------------------------------------------: | :---------------------------------------------: |
+| <img src="https://user-images.githubusercontent.com/86645532/200369970-88ae40e9-5c17-4674-9bab-fb7d73fdaa71.PNG" width="300px"> | <img src="https://user-images.githubusercontent.com/86645532/200370036-92eab4ac-9b69-44e7-8f39-0c45bd531c3b.PNG" width="300px" > |
+
+
+     접속중인 기기의 화면 크기 및 글씨 크기에 대하여 반응형으로 설계되었습니다.
+
+
+
+  * Infinite Scroll
+ 
+|                  8개의 데이터 약 0.4s ~ 0.5s           |           60개의 데이터 약 4s ~ 5s        |
+| :---------------------------------------------: | :---------------------------------------------: |
+| <img src="https://user-images.githubusercontent.com/86645532/200370755-fd471085-3572-4acf-b503-efe1ebb29a65.PNG" > | <img src="https://user-images.githubusercontent.com/86645532/200371050-9cccf3e4-a37f-4491-baad-8ab4d34d948a.PNG" > |
+
+
+     배포된 상태에서 측정하였으며 네트워크 상태에 따라 상이할 수 있습니다.  
+     상품목록이나 구매내역 등 한번에 많은 데이터를 불러올 경우 페이지 로딩속도가 급격하게 늘어나게 됩니다.
+     이를 해소하기위해 intersection-observer를 사용하여 스크롤이 최하단인지를 감지하고
+     최하단이라면 api를 요청하여 데이터를 점점 추가해가는 방식으로 무한스크롤을 구현하였습니다.  
+     
+     client에서는 한번에 불러올 데이터의 수(limit)와 가져올 데이터의 시작 위치(skip)을 추가하여 요청하고
+     server에서는 필요한 데이터를 분할하여 넘겨줍니다.
+     
+     
+     
+     
+     
+ #### client
+ 
+ ``` javascript
+      const option = {
+        limit: limit,
+        skip: skip + limit,
+        id: userId,
+        readMore: true,
+      };
+      
+      connectServer(option);
+      setSkip((prev) => prev + limit);
+```
+
+#### server
+``` javascript
+  User.findOne(
+    { _id: req.body.id },
+    {
+      purchase: {
+        $slice: [req.body.skip, req.body.limit],
+      },
+    }
+  )
+```
+
+
