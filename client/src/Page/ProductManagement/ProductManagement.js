@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { WarningOutlined } from "@ant-design/icons";
 
+import BuyerList from "./BuyerList";
 import Loading from "../../Components/Utility/Loading";
 import Empty from "../../Components/Utility/Empty";
 import ZoomAnimation from "../../Components/Utility/Animation/ZoomAnimation";
@@ -22,15 +23,21 @@ function ProductManagement({ isAuth, userId }) {
   const [loading, setLoading] = useState(true);
 
   const { resData, connectServer } = useAxios("/api/product/myProduct");
+  const { connectServer: getBuyerList, resData: buyerList } = useAxios(
+    "/api/user/buyerList"
+  );
 
   useEffect(() => {
     if (isAuth) {
       connectServer({ id: userId });
+      getBuyerList({ id: userId });
     }
 
     const titleName = document.getElementsByTagName("title")[0];
     titleName.innerHTML = `상품관리`;
-  }, [isAuth, userId, connectServer]);
+  }, [isAuth, userId, connectServer, getBuyerList]);
+
+  console.log(buyerList);
 
   useEffect(() => {
     //총 판매개수와 금액 계산
@@ -61,10 +68,14 @@ function ProductManagement({ isAuth, userId }) {
     }
 
     //판매개수와 가격의 계산이 되었을경우
-    if (totalSold !== undefined && totalPrice !== undefined) {
+    if (
+      totalSold !== undefined &&
+      totalPrice !== undefined &&
+      buyerList !== undefined
+    ) {
       setLoading(false);
     }
-  }, [resData, totalSold, totalPrice]);
+  }, [resData, totalSold, totalPrice, buyerList]);
 
   return (
     <div className="page">
@@ -89,6 +100,10 @@ function ProductManagement({ isAuth, userId }) {
                 <div>{totalPrice.toLocaleString()}원</div>
               </Value>
             </Info>
+          </FadeAnimation>
+
+          <FadeAnimation>
+            <BuyerList buyerList={buyerList} />
           </FadeAnimation>
 
           {resData.length === 0 ? (
@@ -137,7 +152,6 @@ function ProductManagement({ isAuth, userId }) {
 const Info = styled.div`
   width: 100%;
   height: 6rem;
-  padding: 0.5rem;
   font-size: 1rem;
   display: flex;
   justify-content: space-between;
@@ -161,7 +175,6 @@ const Value = styled.div`
 const List = styled.div`
   display: flex;
   flex-wrap: wrap;
-  padding: 0.5rem;
   width: 100%;
   margin: auto;
 `;

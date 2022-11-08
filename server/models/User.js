@@ -41,6 +41,10 @@ const userSchema = mongoose.Schema({
     type: Array,
     defaul: [],
   },
+  buyer: {
+    type: Array,
+    defaul: [],
+  },
 });
 
 userSchema.pre("save", function (next) {

@@ -24,10 +24,14 @@ function CheckOut({ userId }) {
     "/api/product/successBuy"
   ); //상품개수 변경
 
+  const { connectServer: addBuyer } = useAxios("/api/user/addBuyer"); //상품을 동록한 유저의 데이터에 구매자 정보 추가
+
   const nameRef = useRef();
   const phoneRef = useRef();
   const addressRef = useRef();
   const reqRef = useRef();
+
+  console.log(state);
 
   useEffect(() => {
     if (state === null) {
@@ -81,6 +85,7 @@ function CheckOut({ userId }) {
     };
 
     userSuccessBuy(option);
+    addBuyer(option);
     productsold();
 
     setTimeout(() => {

@@ -164,11 +164,11 @@ app.post("/getCart", (req, res) => {
 app.post("/purchaseHistory", (req, res) => {
   User.findOne(
     { _id: req.body.id },
-    // {
-    //   purchase: {
-    //     $slice: [req.body.skip, req.body.limit],
-    //   },
-    // }
+    {
+      purchase: {
+        $slice: [req.body.skip, req.body.limit],
+      },
+    }
   )
     .lean()
     .exec((err, userInfo) => {
@@ -212,6 +212,58 @@ app.post("/successBuy", (req, res) => {
     .exec((err) => {
       if (err) return res.status(400).json({ success: false, err });
       res.status(200).json({ success: true });
+    });
+});
+
+app.post("/addBuyer", (req, res) => {
+  for (let i of req.body.product) {
+    User.findOneAndUpdate(
+      { _id: i.writer },
+
+      {
+        $push: {
+          buyer: {
+            $each: [
+              {
+                shippingInfo: req.body.shippingInfo,
+                title: i.title,
+                purchasesCount: i.purchasesCount,
+                date: req.body.date,
+              },
+            ],
+            $position: 0,
+          },
+        },
+      },
+
+      { new: true }
+    )
+      .lean()
+      .exec((err) => {
+        if (err) return res.status(400).json({ success: false, err });
+      });
+  }
+  return res.status(200).json({ success: true });
+});
+
+app.post("/buyerList", (req, res) => {
+  User.findOne(
+    { _id: req.body.id },
+    {
+      buyer: 1,
+    }
+  )
+
+    // {
+    //   purchase: {
+    //     $slice: [req.body.skip, req.body.limit],
+    //   },
+    // }
+
+    .lean()
+    .exec((err, buyer) => {
+      if (err) return res.status(400).json({ success: false, err });
+      return res.status(200).json(buyer.buyer);
     });
 });
 
