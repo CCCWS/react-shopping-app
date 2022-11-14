@@ -135,7 +135,7 @@ function UploadForm({ userId, edit, editData, productId }) {
   };
 
   return (
-    <>
+    <div className="page">
       <Section>
         <div>
           상품이미지 <div>{`${image.length} / 12`}</div>
@@ -229,7 +229,7 @@ function UploadForm({ userId, edit, editData, productId }) {
           <button>{edit ? "수정하기" : "등록하기"} </button>
         </SubmitBtn>
       </Footer>
-    </>
+    </div>
   );
 }
 
