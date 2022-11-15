@@ -87,6 +87,19 @@
 | <img src="https://user-images.githubusercontent.com/86645532/200363660-bc95ce07-afe4-4c9b-b8d7-518c35dd380d.png" > | <img src="https://user-images.githubusercontent.com/86645532/200363764-c2f3309b-497f-4d8d-9d43-248f4b8bac41.png" > |
 
      Redux-store에서 다크모드 on/off를 전역적으로 관리하여 모든 컴포넌트에서 적용됩니다.
+     
+``` javascript
+const darkModeState = { darkMode: false };
+const darkModeSlice = createSlice({
+  name: "darkMode",
+  initialState: darkModeState,
+  reducers: {
+    onMode(state) {
+      state.darkMode = !state.darkMode;
+    },
+  },
+});
+```
 
 
   * Modal  
