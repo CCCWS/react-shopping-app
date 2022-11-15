@@ -80,7 +80,7 @@
 
 
 ## 특징
-  * Dark Mode  
+  * [Dark Mode](https://github.com/CCCWS/react-shopping-app/blob/master/client/src/store/reducer/darkMode.js)
 
 |                   OFF                 |                    ON                      |
 | :---------------------------------------------: | :---------------------------------------------: |
@@ -102,7 +102,7 @@ const darkModeSlice = createSlice({
 ```
 
 
-  * Modal  
+  * [Modal](https://github.com/CCCWS/react-shopping-app/blob/master/client/src/Components/Modal/ModalBase.js)  
 <img src="https://user-images.githubusercontent.com/86645532/200364170-e3601112-0308-42bf-86fa-cb3225bdc5ef.png" width="200px">
 
 
@@ -146,7 +146,7 @@ const darkModeSlice = createSlice({
      
      
      
-  * Responsive Web
+  * [Responsive Web](https://github.com/CCCWS/react-shopping-app/blob/master/client/src/Components/Header/Header.js)
   
 |                   800px 초과 메인화면            |           800px 이하 메인화면 (menu open)        |
 | :---------------------------------------------: | :---------------------------------------------: |
@@ -154,10 +154,20 @@ const darkModeSlice = createSlice({
 
 
      접속중인 기기의 화면 크기 및 글씨 크기에 대하여 반응형으로 설계되었습니다.
+     
+```javascript
+  window.onresize = () => {
+    if (window.innerWidth <= 800) {
+      setCheckSideMenu(true);
+    } else {
+      setCheckSideMenu(false);
+    }
+  };
+```
 
 
 
-  * Infinite Scroll
+  * [Infinite Scroll](https://github.com/CCCWS/react-shopping-app/blob/master/client/src/Page/PurchaseHistory/PurchaseHistory.js)
  
 |                  8개의 데이터 약 0.4s ~ 0.5s           |           60개의 데이터 약 4s ~ 5s        |
 | :---------------------------------------------: | :---------------------------------------------: |
