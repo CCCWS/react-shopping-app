@@ -211,5 +211,11 @@ const darkModeSlice = createSlice({
     }
   )
 ```
+```javascript
+ProductData.find(arg)
+    .sort({ createdAt: -1 })
+    .skip(parseInt(req.body.skip, 10))
+    .limit(parseInt(req.body.limit, 10))
+```
 
 
