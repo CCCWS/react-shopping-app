@@ -80,23 +80,73 @@
 
 
 ## 특징
-  * Dark Mode  
+  * [Dark Mode](https://github.com/CCCWS/react-shopping-app/blob/master/client/src/store/reducer/darkMode.js)
 
 |                   OFF                 |                    ON                      |
 | :---------------------------------------------: | :---------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/86645532/200363660-bc95ce07-afe4-4c9b-b8d7-518c35dd380d.png" > | <img src="https://user-images.githubusercontent.com/86645532/200363764-c2f3309b-497f-4d8d-9d43-248f4b8bac41.png" > |
 
      Redux-store에서 다크모드 on/off를 전역적으로 관리하여 모든 컴포넌트에서 적용됩니다.
+     
+``` javascript
+const darkModeState = { darkMode: false };
+const darkModeSlice = createSlice({
+  name: "darkMode",
+  initialState: darkModeState,
+  reducers: {
+    onMode(state) {
+      state.darkMode = !state.darkMode;
+    },
+  },
+});
+```
 
 
-  * Modal  
+  * [Modal](https://github.com/CCCWS/react-shopping-app/blob/master/client/src/Components/Modal/ModalBase.js)  
 <img src="https://user-images.githubusercontent.com/86645532/200364170-e3601112-0308-42bf-86fa-cb3225bdc5ef.png" width="200px">
 
 
      페이지 이동없이 로그인이 가능하며 경고나 알람이 필요할때 alert 사용을 최소화하여 사용 편의성을 증가시켰습니다.
+     createPortal을 사용하여 부모 컴포넌트의 DOM 계층구조 외부에 있는 DOM노드로 랜더링하여 부모-자식간의 제약에서 벗어나
+     부모 컴포넌트의 스타일링에 영향을 받지않게되어 일관성있는 스타일링이 가능합니다.
      
      
-  * Responsive Web
+```javascript
+ return ReactDom.createPortal(
+    <>
+      ...
+      {modalOpen && (
+        <div>
+          {children ? (
+            <>{children}</>
+          ) : (
+            <ModalContents>
+              <Header>
+                <div>{contents.title}</div>
+              </Header>
+              
+              <Message>
+                <div>{contents.message}</div>
+              </Message>
+            </ModalContents>
+          )}
+       ...        
+    </>,
+    document.querySelector("#modal-portal")
+  );
+};
+```
+
+```html
+    <div id="modal-portal"></div>
+    <div id="root"></div>
+```
+     
+     
+     
+     
+     
+  * [Responsive Web](https://github.com/CCCWS/react-shopping-app/blob/master/client/src/Components/Header/Header.js)
   
 |                   800px 초과 메인화면            |           800px 이하 메인화면 (menu open)        |
 | :---------------------------------------------: | :---------------------------------------------: |
@@ -104,10 +154,20 @@
 
 
      접속중인 기기의 화면 크기 및 글씨 크기에 대하여 반응형으로 설계되었습니다.
+     
+```javascript
+  window.onresize = () => {
+    if (window.innerWidth <= 800) {
+      setCheckSideMenu(true);
+    } else {
+      setCheckSideMenu(false);
+    }
+  };
+```
 
 
 
-  * Infinite Scroll
+  * [Infinite Scroll](https://github.com/CCCWS/react-shopping-app/blob/master/client/src/Page/PurchaseHistory/PurchaseHistory.js)
  
 |                  8개의 데이터 약 0.4s ~ 0.5s           |           60개의 데이터 약 4s ~ 5s        |
 | :---------------------------------------------: | :---------------------------------------------: |
@@ -150,6 +210,12 @@
       },
     }
   )
+```
+```javascript
+ProductData.find(arg)
+    .sort({ createdAt: -1 })
+    .skip(parseInt(req.body.skip, 10))
+    .limit(parseInt(req.body.limit, 10))
 ```
 
 
