@@ -20,6 +20,7 @@ import Edit from "./Page/Upload_Edit/Edit";
 import Test from "./Page/Test";
 import Test2 from "./Page/test/Test2";
 import Test3 from "./Page/test/Test3";
+import Test4 from "./Page/test/Test4";
 
 import Auth from "./hoc/auth";
 import GlobalStyle from "./Components/Style/GlobalStyle";
@@ -62,6 +63,7 @@ function App() {
           <Route path={`/test`} element={<Test />} />
           <Route path={`/test2`} element={<Test2 />} />
           <Route path={`/test3`} element={<Test3 />} />
+          <Route path={`/test4`} element={<Test4 />} />
         </Routes>
       </Router>
     </>
