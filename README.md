@@ -107,6 +107,43 @@ const darkModeSlice = createSlice({
 
 
      페이지 이동없이 로그인이 가능하며 경고나 알람이 필요할때 alert 사용을 최소화하여 사용 편의성을 증가시켰습니다.
+     createPortal을 사용하여 부모 컴포넌트의 DOM 계층구조 외부에 있는 DOM노드로 랜더링하여 부모-자식간의 제약에서 벗어나
+     부모 컴포넌트의 스타일링에 영향을 받지않게되어 일관성있는 스타일링이 가능합니다.
+     
+     
+```javascript
+ return ReactDom.createPortal(
+    <>
+      ...
+      {modalOpen && (
+        <div>
+          {children ? (
+            <>{children}</>
+          ) : (
+            <ModalContents>
+              <Header>
+                <div>{contents.title}</div>
+              </Header>
+              
+              <Message>
+                <div>{contents.message}</div>
+              </Message>
+            </ModalContents>
+          )}
+       ...        
+    </>,
+    document.querySelector("#modal-portal")
+  );
+};
+```
+
+```html
+    <div id="modal-portal"></div>
+    <div id="root"></div>
+```
+     
+     
+     
      
      
   * Responsive Web
