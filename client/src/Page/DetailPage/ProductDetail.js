@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { LeftOutlined, HomeOutlined } from "@ant-design/icons";
-import styled from "styled-components";
+import { LeftOutlined, HomeOutlined, SearchOutlined } from "@ant-design/icons";
+import styled, { css } from "styled-components";
 
 import RecentView from "../../Components/Product/RecentView";
-import Selector from "../../Components/Utility/Selector";
+import Carousel2 from "../../Components/Utility/Carousel2";
 import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";
 import FooterDetailPage from "../../Components/Footer/FooterDetailPage";
@@ -13,6 +13,7 @@ import getTime from "../../hooks/getTime";
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
 
+import { postUrl } from "../../PostUrl";
 import ProductInfo from "./ProductInfo";
 
 function ProductDetail({ isAuth, userId }) {
@@ -20,6 +21,7 @@ function ProductDetail({ isAuth, userId }) {
 
   const [purchasesCount, setPurchasesCount] = useState(1);
   const [cartAddLoading, setCartAddLoading] = useState(false);
+  const [currImg, setCurrImg] = useState("");
   const { id } = useParams();
 
   //제품의 상세 정보 조회
@@ -47,6 +49,7 @@ function ProductDetail({ isAuth, userId }) {
     useAxios("/api/user/addCart");
 
   const { openModal, contents, setOpenModal, setContents } = useModal();
+  const { openModal: openImgModal, setOpenModal: setOpenImgModal } = useModal();
 
   //작성된 시간과 현재시간의 차이를 데이터로 받음
   const time = product && getTime(product.createdAt);
@@ -210,6 +213,10 @@ function ProductDetail({ isAuth, userId }) {
         setModalOpen={setOpenModal}
       />
 
+      <ModalBase modalOpen={openImgModal} setModalOpen={setOpenImgModal}>
+        <ImgDiv img={`url('${postUrl}${currImg}')`} modal={true} />
+      </ModalBase>
+
       <BackBtn onClick={() => nav("/")}>
         <LeftOutlined />
         <HomeOutlined />
@@ -219,11 +226,25 @@ function ProductDetail({ isAuth, userId }) {
         <Loading />
       ) : (
         <>
-          <Selector
-            ProductDetail={true}
-            arr={product.image}
-            soldOut={product.count === 0 && true}
-          />
+          <Carousel2 height={"500px"} point={true}>
+            {product.image.map((data, index) => (
+              <>
+                <ImgDiv
+                  key={index}
+                  carousel={true}
+                  img={`url('${postUrl}${data.name}')`}
+                />
+                <OpenModalBtn
+                  onClick={() => {
+                    setOpenImgModal(true);
+                    setCurrImg(data.name);
+                  }}
+                >
+                  <SearchOutlined />
+                </OpenModalBtn>
+              </>
+            ))}
+          </Carousel2>
 
           <ProductInfo
             writerLoading={writerLoading}
@@ -263,6 +284,52 @@ const BackBtn = styled.div`
   font-size: 20px;
   width: 40px;
   cursor: pointer;
+`;
+
+const ImgDiv = styled.div`
+  background-image: ${(props) => props.img};
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  position: relative;
+
+  ${(props) =>
+    props.modal &&
+    css`
+      width: 80vmin;
+      height: 80vmin;
+    `}
+
+  ${(props) =>
+    props.carousel &&
+    css`
+      width: 100%;
+      height: 100%;
+    `}
+`;
+
+const OpenModalBtn = styled.div`
+  position: absolute;
+  padding: 10px;
+  border-radius: 10px;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 2rem;
+  opacity: 0.2;
+  background-color: var(--gray_transparency);
+
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
 `;
 
 export default React.memo(ProductDetail);

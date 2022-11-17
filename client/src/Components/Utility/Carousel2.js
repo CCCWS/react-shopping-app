@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const Test5 = ({ children, height, point }) => {
+const Carousel2 = ({ children, height, point }) => {
   if (children.length === undefined) {
     children = [children];
   }
@@ -53,11 +53,11 @@ const Section = styled.div`
 
   position: relative;
 
-  margin-left: 15%;
+  margin-left: 20%;
 `;
 
 const Item = styled.div`
-  min-width: 70%;
+  min-width: 60%;
   height: 100%;
 
   display: flex;
@@ -101,4 +101,4 @@ const Point = styled.div`
   }
 `;
 
-export default Test5;
+export default React.memo(Carousel2);
