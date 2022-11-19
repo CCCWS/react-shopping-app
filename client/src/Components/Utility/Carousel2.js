@@ -53,11 +53,11 @@ const Section = styled.div`
 
   position: relative;
 
-  margin-left: 20%;
+  margin-left: 15%;
 `;
 
 const Item = styled.div`
-  min-width: 60%;
+  min-width: 70%;
   height: 100%;
 
   display: flex;
@@ -68,8 +68,8 @@ const Item = styled.div`
   transform: ${(props) => `translateX(-${props.location}00%)`};
 
   & > div {
-    width: ${(props) => (props.location === props.id ? "100%" : "80%")};
-    height: ${(props) => (props.location === props.id ? "100%" : "80%")};
+    width: ${(props) => (props.location === props.id ? "100%" : "85%")};
+    height: ${(props) => (props.location === props.id ? "100%" : "85%")};
     transition: all ease 0.3s;
   }
 `;
@@ -87,11 +87,11 @@ const PointBox = styled.div`
 `;
 
 const Point = styled.div`
-  width: 10px;
-  height: 10px;
+  width: ${(props) => (props.location === props.id ? "20px" : "10px")};
+  height: 5px;
   border-radius: 20px;
-  border: 1px solid gray;
-  background-color: ${(props) => props.location === props.id && "black"};
+  background-color: ${(props) =>
+    props.location === props.id ? "orange" : "rgba(0,0,0,0.3)"};
   margin: 10px;
 
   transition: all ease 0.3s;

@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 import PaymentBtn from "../../Components/Product/PaymentBtn";
 import Selector from "../../Components/Utility/Selector";
+import Carousel1 from "../../Components/Utility/Carousel1";
 import CheckOutProduct from "./CheckOutProduct";
 import CheckOutInput from "./CheckOutInput";
 import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
@@ -108,14 +109,6 @@ function CheckOut({ userId }) {
     productSuccessBuy(option);
   };
 
-  const PurchaseBtnNormal = () => {
-    return <PurchaseBtn onClick={paymentSeccess}>결제하기</PurchaseBtn>;
-  };
-
-  const PurchaseBtnPayPal = () => {
-    return <PaymentBtn price={state.price} paymentSeccess={paymentSeccess} />;
-  };
-
   return (
     <div className="page">
       {loading === true ? (
@@ -160,10 +153,25 @@ function CheckOut({ userId }) {
           <Div>
             <Title>결제수단</Title>
             <hr />
-            <Selector
-              arr={[PurchaseBtnNormal(), PurchaseBtnPayPal()]}
-              CheckOut={true}
-            />
+
+            <Carousel1
+              height={"200px"}
+              point={true}
+              slide={true}
+              nextBtn={true}
+            >
+              <CheckOutDiv>
+                <PurchaseBtn onClick={paymentSeccess}>결제하기</PurchaseBtn>
+              </CheckOutDiv>
+
+              <CheckOutDiv>
+                <PaymentBtn
+                  price={state.totalPrice}
+                  paymentSeccess={paymentSeccess}
+                />
+              </CheckOutDiv>
+            </Carousel1>
+
             <ToTalPrice>{`총 결제금액 ${state.totalPrice.toLocaleString()}원`}</ToTalPrice>
           </Div>
         </>
@@ -196,7 +204,7 @@ const PurchaseBtn = styled.div`
   border-radius: 5px;
   border: 2px solid var(--orange_normal);
   padding: 0.3rem;
-  width: 100%;
+  width: 70%;
 
   &:hover {
     cursor: pointer;
@@ -230,6 +238,14 @@ const CheckOutLoading = styled.div`
   font-weight: 600;
 
   backdrop-filter: blur(5px);
+`;
+
+const CheckOutDiv = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default React.memo(CheckOut);

@@ -228,12 +228,8 @@ function ProductDetail({ isAuth, userId }) {
         <>
           <Carousel2 height={"500px"} point={true}>
             {product.image.map((data, index) => (
-              <>
-                <ImgDiv
-                  key={index}
-                  carousel={true}
-                  img={`url('${postUrl}${data.name}')`}
-                />
+              <React.Fragment key={index}>
+                <ImgDiv carousel={true} img={`url('${postUrl}${data.name}')`} />
                 <OpenModalBtn
                   onClick={() => {
                     setOpenImgModal(true);
@@ -242,7 +238,7 @@ function ProductDetail({ isAuth, userId }) {
                 >
                   <SearchOutlined />
                 </OpenModalBtn>
-              </>
+              </React.Fragment>
             ))}
           </Carousel2>
 

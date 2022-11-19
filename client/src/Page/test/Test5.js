@@ -90,8 +90,8 @@ const Point = styled.div`
   width: 10px;
   height: 10px;
   border-radius: 20px;
-  border: 1px solid gray;
-  background-color: ${(props) => props.location === props.id && "black"};
+  background-color: ${(props) =>
+    props.location === props.id ? "black" : "rgba(0,0,0,0.3)"};
   margin: 10px;
 
   transition: all ease 0.3s;
