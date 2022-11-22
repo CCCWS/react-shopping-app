@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
-const Test5 = ({ children, height, slide, fade, nextBtn, point }) => {
+const Test6 = ({ children, height, slide, fade, nextBtn, point }) => {
   //props로 넘겨준 자식노드가 하나만 있을 경우
   if (children.length === undefined) {
     children = [children];
@@ -142,11 +142,11 @@ const PointBox = styled.div`
 `;
 
 const Point = styled.div`
-  width: 10px;
-  height: 10px;
+  width: ${(props) => (props.location === props.id ? "20px" : "10px")};
+  height: 5px;
   border-radius: 20px;
-  border: 1px solid gray;
-  background-color: ${(props) => props.location === props.id && "black"};
+  background-color: ${(props) =>
+    props.location === props.id ? "orange" : "rgba(0,0,0,0.3)"};
   margin: 10px;
 
   transition: all ease 0.3s;
@@ -156,4 +156,4 @@ const Point = styled.div`
   }
 `;
 
-export default Test5;
+export default Test6;

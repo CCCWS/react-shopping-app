@@ -5,7 +5,6 @@ import { LoadingOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 import PaymentBtn from "../../Components/Product/PaymentBtn";
-import Selector from "../../Components/Utility/Selector";
 import Carousel1 from "../../Components/Utility/Carousel1";
 import CheckOutProduct from "./CheckOutProduct";
 import CheckOutInput from "./CheckOutInput";

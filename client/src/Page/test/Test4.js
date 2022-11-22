@@ -2,23 +2,59 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import Test5 from "./Test5";
+import Test6 from "./Test6";
 
 const Test4 = () => {
   return (
     <Test>
-      <Test5 height={"300px"} point={true}>
-        <Div id={1}>테</Div>
-        <Div id={2}>테</Div>
-        <Div id={3}>테</Div>
-        <Div id={4}>테</Div>
-        <Div id={5}>테</Div>
-      </Test5>
+      <Test1>
+        <Test5 height={"400px"} point={true}>
+          <Div id={1}></Div>
+          <Div id={2}></Div>
+          <Div id={3}></Div>
+          <Div id={4}></Div>
+          <Div id={5}></Div>
+        </Test5>
+      </Test1>
+      <HR />
+
+      <Test1>
+        <Test6 height={"400px"} point={true} slide={true} nextBtn={true}>
+          <Div id={1}></Div>
+          <Div id={2}></Div>
+          <Div id={3}></Div>
+          <Div id={4}></Div>
+          <Div id={5}></Div>
+        </Test6>
+      </Test1>
+      <HR />
+
+      <Test1>
+        <Test6 height={"400px"} point={true} fade={true} nextBtn={true}>
+          <Div id={1}></Div>
+          <Div id={2}></Div>
+          <Div id={3}></Div>
+          <Div id={4}></Div>
+          <Div id={5}></Div>
+        </Test6>
+      </Test1>
+      <HR />
     </Test>
   );
 };
 
+const Test1 = styled.div`
+  width: 800px;
+`;
+
 const Test = styled.div`
   width: 100%;
+  margin-top: 30px;
+`;
+
+const HR = styled.div`
+  width: 300px;
+  height: 300px;
 `;
 
 const Div = styled.div`

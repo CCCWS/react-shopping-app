@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
-import ModalBase from "../Modal/ModalBase";
-import ZoomAnimation from "./Animation/ZoomAnimation";
+import ModalBase from "../Components/Modal/ModalBase";
+import ZoomAnimation from "../Components/Utility/Animation/ZoomAnimation";
 
-import useModal from "../../hooks/useModal";
+import useModal from "../hooks/useModal";
 
-import { postUrl } from "../../PostUrl";
+import { postUrl } from "../PostUrl";
 
 function Selector({ ProductDetail, CheckOut, soldOut, arr }) {
   const { openModal, setOpenModal } = useModal();

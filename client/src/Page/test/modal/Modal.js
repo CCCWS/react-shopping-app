@@ -1,11 +1,19 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 
-const Modal = ({ children, open, setOpen, option }) => {
+const Modal = ({
+  children,
+  open,
+  setOpen,
+  onPushEscapeClose,
+  onClickBackgroundClose,
+  backgroundColor,
+  onCloseBtn,
+}) => {
   useEffect(() => {
     if (open === true) {
       const escapeCheck = (e) => {
-        if (option.onPushEscapeClose !== false) {
+        if (onPushEscapeClose === true) {
           if (e.key === "Escape") {
             setOpen(false);
           }
@@ -14,10 +22,10 @@ const Modal = ({ children, open, setOpen, option }) => {
       window.addEventListener("keydown", escapeCheck);
       return () => window.removeEventListener("keydown", escapeCheck);
     }
-  }, [open, setOpen, option.onPushEscapeClose]);
+  }, [open, setOpen, onPushEscapeClose]);
 
   const onBackgroundClick = (e) => {
-    if (option.onClickBackgroundClose !== false) {
+    if (onClickBackgroundClose === true) {
       if (e.target === e.currentTarget) {
         setOpen(false);
       }
@@ -30,12 +38,13 @@ const Modal = ({ children, open, setOpen, option }) => {
       onClick={(e) => {
         onBackgroundClick(e);
       }}
-      backgroundColor={option.backgroundColor}
+      backgroundColor={backgroundColor}
     >
       {open && (
         <ModalContents>
-          <>{children}</>
-          {option.onCloseBtn !== false && (
+          {children}
+
+          {onCloseBtn === true && (
             <Footer>
               <Button onClick={() => setOpen(false)}>닫기</Button>
             </Footer>
