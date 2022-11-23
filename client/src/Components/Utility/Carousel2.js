@@ -92,7 +92,7 @@ const Point = styled.div`
   border-radius: 20px;
   background-color: ${(props) =>
     props.location === props.id ? "orange" : "rgba(0,0,0,0.3)"};
-  margin: 10px;
+  margin: 5px;
 
   transition: all ease 0.3s;
 

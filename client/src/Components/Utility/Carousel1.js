@@ -2,12 +2,37 @@ import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
-const Carousel1 = ({ children, height, slide, fade, nextBtn, point }) => {
+import useInterval from "../../hooks/useInterval";
+
+const Carousel1 = ({
+  children,
+  height,
+  slide,
+  fade,
+  nextBtn,
+  point,
+  auto,
+  delay,
+}) => {
   if (children.length === undefined) {
     children = [children];
   }
 
   const [location, setLocation] = useState(0);
+  let mouseOver = false;
+
+  //setInterval은 state를 변화시켜 재랜더링이 발생하면
+  //처음 설정한 state의 초기값을 계속 참조하여 초기값으로 랜더링이 됨
+  //useInterval을 사용하여 참조하는 값을 동적으로 하여 변화된 state가 반영됨
+  useInterval(() => {
+    if (auto && mouseOver === false && children.length > 1) {
+      if (location === children.length - 1) {
+        setLocation(0);
+      } else {
+        setLocation((location) => location + 1);
+      }
+    }
+  }, delay);
 
   const onPrev = () => {
     if (location === 0) {
@@ -25,13 +50,12 @@ const Carousel1 = ({ children, height, slide, fade, nextBtn, point }) => {
     }
   };
 
-  const onLocation = (index) => {
-    setLocation(index);
-  };
-
   return (
     <>
-      <Div>
+      <Div
+        onMouseOver={() => (mouseOver = true)}
+        onMouseLeave={() => (mouseOver = false)}
+      >
         {nextBtn && children.length > 1 && (
           <>
             <Button prev={true} onClick={onPrev}>
@@ -64,7 +88,7 @@ const Carousel1 = ({ children, height, slide, fade, nextBtn, point }) => {
                 key={index}
                 id={index}
                 location={location}
-                onClick={() => onLocation(index)}
+                onClick={() => setLocation(index)}
               />
             ))}
           </PointBox>
@@ -141,7 +165,7 @@ const Point = styled.div`
   border-radius: 20px;
   background-color: ${(props) =>
     props.location === props.id ? "orange" : "rgba(0,0,0,0.3)"};
-  margin: 10px;
+  margin: 5px;
 
   transition: all ease 0.3s;
 

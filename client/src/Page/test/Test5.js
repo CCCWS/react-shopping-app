@@ -1,20 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
-const Test5 = ({ children, height, point }) => {
+const Test5 = ({ children, height, point, auto, delay }) => {
   if (children.length === undefined) {
     children = [children];
   }
 
   const [location, setLocation] = useState(0);
+  const savedCallback = useRef();
+  const [mouseOver, setMouseOver] = useState(false);
 
-  const onLocation = (index) => {
-    setLocation(index);
-  };
+  useEffect(() => {
+    const autoNext = () => {
+      if (location === children.length - 1) {
+        setLocation(0);
+      } else {
+        setLocation((location) => location + 1);
+      }
+    };
+
+    savedCallback.current = autoNext;
+  }, [children, location]);
+
+  useEffect(() => {
+    if (auto && mouseOver === false && children.length > 1) {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }
+  }, [children, auto, delay, mouseOver]);
 
   return (
     <>
-      <Div>
+      <Div
+        onMouseOver={() => setMouseOver(true)}
+        onMouseLeave={() => setMouseOver(false)}
+      >
         <Section height={height}>
           {children.map((data, index) => (
             <Item key={index} id={index} location={location}>
@@ -30,7 +55,7 @@ const Test5 = ({ children, height, point }) => {
                 key={index}
                 id={index}
                 location={location}
-                onClick={() => onLocation(index)}
+                onClick={() => setLocation(index)}
               />
             ))}
           </PointBox>

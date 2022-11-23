@@ -7,10 +7,11 @@ import styled from "styled-components";
 import ProductCard from "../../Components/Product/ProductCard";
 import SelectBox from "../../Components/Utility/SelectBox";
 import RecentView from "../../Components/Product/RecentView";
-import ProductRank from "../../Components/Product/ProductRank";
+// import ProductRank from "../../Components/Product/ProductRank";
 import ModalBase from "../../Components/Modal/ModalBase";
 import Loading from "../../Components/Utility/Loading";
 import Switch from "../../Components/Utility/Switch";
+import ProductRankCarousel from "./ProductRankCarousel";
 
 //comstom hooks
 import useAxios from "../../hooks/useAxios";
@@ -190,7 +191,8 @@ function Main() {
           </div>
         </SearchReset>
       ) : (
-        <ProductRank />
+        // <ProductRank />
+        <ProductRankCarousel />
       )}
 
       {loading ? (
