@@ -1,14 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
-const Test6 = ({ children, height, slide, fade, nextBtn, point }) => {
+const Test6 = ({
+  children,
+  height,
+  slide,
+  fade,
+  nextBtn,
+  point,
+  auto,
+  delay,
+}) => {
   //props로 넘겨준 자식노드가 하나만 있을 경우
   if (children.length === undefined) {
     children = [children];
   }
 
   const [location, setLocation] = useState(0);
+  const [mouseOver, setMouseOver] = useState(false);
+  const savedCallback = useRef();
+  let clientX = 0;
+
+  useEffect(() => {
+    const autoNext = () => {
+      if (location === children.length - 1) {
+        setLocation(0);
+      } else {
+        setLocation((location) => location + 1);
+      }
+    };
+
+    savedCallback.current = autoNext;
+  }, [children, location]);
+
+  useEffect(() => {
+    if (auto && mouseOver === false && children.length > 1) {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }
+  }, [children, auto, delay, mouseOver]);
 
   const onPrev = () => {
     if (location === 0) {
@@ -26,13 +62,37 @@ const Test6 = ({ children, height, slide, fade, nextBtn, point }) => {
     }
   };
 
+  const onMouseDown = (e) => {
+    clientX = e.clientX;
+  };
+
+  const onMouseUp = (e) => {
+    // setLocation(2);
+    let moveX = clientX - e.clientX;
+
+    if (moveX >= 100) {
+      onNext();
+    }
+
+    if (moveX <= -100) {
+      onPrev();
+    }
+    console.log(moveX);
+    clientX = 0;
+  };
+
   const onLocation = (index) => {
     setLocation(index);
   };
 
   return (
     <>
-      <Div>
+      <Div
+        onMouseOver={() => setMouseOver(true)}
+        onMouseLeave={() => setMouseOver(false)}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+      >
         {nextBtn && children.length > 1 && (
           <>
             <Button prev={true} onClick={onPrev}>
@@ -113,7 +173,7 @@ const Section = styled.div`
 const Item = styled.div`
   min-width: 100%;
   height: 100%;
-  transition: all ease 0.3s;
+  transition: all ease 1s;
 
   ${(props) =>
     props.slide &&

@@ -8,7 +8,7 @@ const Test4 = () => {
   return (
     <Test>
       <Test1>
-        <Test5 height={"400px"} point={true} auto={true} delay={1000}>
+        <Test5 height={"400px"} point={true} auto={false} delay={1000}>
           <Div id={1}></Div>
           <Div id={2}></Div>
           <Div id={3}></Div>
@@ -19,7 +19,14 @@ const Test4 = () => {
       <HR />
 
       <Test1>
-        <Test6 height={"400px"} point={true} slide={true} nextBtn={true}>
+        <Test6
+          height={"400px"}
+          point={true}
+          slide={true}
+          nextBtn={true}
+          auto={true}
+          delay={1000}
+        >
           <Div id={1}></Div>
           <Div id={2}></Div>
           <Div id={3}></Div>
