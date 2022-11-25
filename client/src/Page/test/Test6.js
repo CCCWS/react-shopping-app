@@ -11,6 +11,7 @@ const Test6 = ({
   point,
   auto,
   delay,
+  swipe,
 }) => {
   //props로 넘겨준 자식노드가 하나만 있을 경우
   if (children.length === undefined) {
@@ -19,8 +20,26 @@ const Test6 = ({
 
   const [location, setLocation] = useState(0);
   const [mouseOver, setMouseOver] = useState(false);
+  const [user, setUser] = useState("");
   const savedCallback = useRef();
-  let clientX = 0;
+
+  useEffect(() => {
+    if (
+      navigator.userAgent.match(
+        /Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/
+      )
+    ) {
+      setUser("mobile");
+    }
+
+    if (
+      !navigator.userAgent.match(
+        /Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/
+      )
+    ) {
+      setUser("pc");
+    }
+  }, []);
 
   useEffect(() => {
     const autoNext = () => {
@@ -62,36 +81,38 @@ const Test6 = ({
     }
   };
 
-  const onMouseDown = (e) => {
-    clientX = e.clientX;
+  let startClientX = 0;
+
+  const onDownEvent = (e) => {
+    if (user === "pc") startClientX = e.clientX;
+    if (user === "mobile") startClientX = e.changedTouches[0].clientX;
   };
 
-  const onMouseUp = (e) => {
-    // setLocation(2);
-    let moveX = clientX - e.clientX;
+  const onUpEvent = (e) => {
+    let endClientX = 0;
 
-    if (moveX >= 100) {
+    if (user === "pc") endClientX = e.clientX;
+    if (user === "mobile") endClientX = e.changedTouches[0].clientX;
+
+    let moveX = startClientX - endClientX;
+    if (moveX >= 200) {
       onNext();
     }
 
-    if (moveX <= -100) {
+    if (moveX <= -200) {
       onPrev();
     }
-    console.log(moveX);
-    clientX = 0;
-  };
-
-  const onLocation = (index) => {
-    setLocation(index);
   };
 
   return (
     <>
       <Div
-        onMouseOver={() => setMouseOver(true)}
-        onMouseLeave={() => setMouseOver(false)}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
+        onMouseOver={() => auto && setMouseOver(true)}
+        onMouseLeave={() => auto && setMouseOver(false)}
+        onMouseDown={swipe && user === "pc" ? onDownEvent : null}
+        onMouseUp={swipe && user === "pc" ? onUpEvent : null}
+        onTouchStart={swipe && user === "mobile" ? onDownEvent : null}
+        onTouchEnd={swipe && user === "mobile" ? onUpEvent : null}
       >
         {nextBtn && children.length > 1 && (
           <>
@@ -125,7 +146,7 @@ const Test6 = ({
                 key={index}
                 id={index}
                 location={location}
-                onClick={() => onLocation(index)}
+                onClick={() => setLocation(index)}
               />
             ))}
           </PointBox>
@@ -173,7 +194,7 @@ const Section = styled.div`
 const Item = styled.div`
   min-width: 100%;
   height: 100%;
-  transition: all ease 1s;
+  transition: all ease 0.3s;
 
   ${(props) =>
     props.slide &&

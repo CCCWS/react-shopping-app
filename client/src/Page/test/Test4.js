@@ -24,8 +24,9 @@ const Test4 = () => {
           point={true}
           slide={true}
           nextBtn={true}
-          auto={true}
+          auto={false}
           delay={1000}
+          swipe={true}
         >
           <Div id={1}></Div>
           <Div id={2}></Div>
