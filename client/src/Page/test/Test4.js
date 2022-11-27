@@ -3,11 +3,12 @@ import styled from "styled-components";
 
 import Test5 from "./Test5";
 import Test6 from "./Test6";
+import Test8 from "./Test8";
 
 const Test4 = () => {
   return (
     <Test>
-      <Test1>
+      {/* <Test1>
         <Test5 height={"400px"} point={true} auto={false} delay={1000}>
           <Div id={1}></Div>
           <Div id={2}></Div>
@@ -46,7 +47,20 @@ const Test4 = () => {
           <Div id={5}></Div>
         </Test6>
       </Test1>
-      <HR />
+      <HR /> */}
+
+      <Test6
+        height={"400px"}
+        point={true}
+        slide={true}
+        // swipe={true}
+      >
+        <Div id={1}></Div>
+        <Div id={2}></Div>
+        <Div id={3}></Div>
+        <Div id={4}></Div>
+        <Div id={5}></Div>
+      </Test6>
     </Test>
   );
 };

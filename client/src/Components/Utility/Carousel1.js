@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
@@ -13,12 +13,14 @@ const Carousel1 = ({
   point,
   auto,
   delay,
+  swipe,
 }) => {
   if (children.length === undefined) {
     children = [children];
   }
 
   const [location, setLocation] = useState(0);
+  const [user, setUser] = useState("");
   let mouseOver = false;
 
   //setInterval은 state를 변화시켜 재랜더링이 발생하면
@@ -33,6 +35,24 @@ const Carousel1 = ({
       }
     }
   }, delay);
+
+  useEffect(() => {
+    if (
+      navigator.userAgent.match(
+        /Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/
+      )
+    ) {
+      setUser("mobile");
+    }
+
+    if (
+      !navigator.userAgent.match(
+        /Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/
+      )
+    ) {
+      setUser("pc");
+    }
+  }, []);
 
   const onPrev = () => {
     if (location === 0) {
@@ -50,11 +70,37 @@ const Carousel1 = ({
     }
   };
 
+  let startClientX = 0;
+
+  const onDownEvent = (e) => {
+    if (user === "pc") startClientX = e.clientX;
+    if (user === "mobile") startClientX = e.changedTouches[0].clientX;
+  };
+
+  const onUpEvent = (e) => {
+    let endClientX = 0;
+
+    if (user === "pc") endClientX = e.clientX;
+    if (user === "mobile") endClientX = e.changedTouches[0].clientX;
+
+    let moveX = startClientX - endClientX;
+    if (moveX <= -200) {
+      onPrev();
+    }
+    if (moveX >= 200) {
+      onNext();
+    }
+  };
+
   return (
     <>
       <Div
         onMouseOver={() => (mouseOver = true)}
         onMouseLeave={() => (mouseOver = false)}
+        onMouseDown={swipe && user === "pc" ? onDownEvent : null}
+        onMouseUp={swipe && user === "pc" ? onUpEvent : null}
+        onTouchStart={swipe && user === "mobile" ? onDownEvent : null}
+        onTouchEnd={swipe && user === "mobile" ? onUpEvent : null}
       >
         {nextBtn && children.length > 1 && (
           <>

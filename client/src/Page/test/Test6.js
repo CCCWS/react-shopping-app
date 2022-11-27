@@ -2,239 +2,79 @@ import React, { useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
-const Test6 = ({
-  children,
-  height,
-  slide,
-  fade,
-  nextBtn,
-  point,
-  auto,
-  delay,
-  swipe,
-}) => {
-  //props로 넘겨준 자식노드가 하나만 있을 경우
-  if (children.length === undefined) {
-    children = [children];
-  }
+const Test6 = ({}) => {
+  // let onClick = false;
+  // const [clientX, setClientX] = useState();
+  // const [clientY, setClientY] = useState();
 
-  const [location, setLocation] = useState(0);
-  const [mouseOver, setMouseOver] = useState(false);
-  const [user, setUser] = useState("");
-  const savedCallback = useRef();
+  // const [posX, setPosX] = useState();
+  // const [posY, setPosY] = useState();
 
-  useEffect(() => {
-    if (
-      navigator.userAgent.match(
-        /Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/
-      )
-    ) {
-      setUser("mobile");
-    }
+  // const [offsetLeft, setOffsetLeft] = useState();
+  // const [offsetTop, setOffsetTop] = useState();
 
-    if (
-      !navigator.userAgent.match(
-        /Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/
-      )
-    ) {
-      setUser("pc");
-    }
-  }, []);
+  // const onDown = (e) => {
+  //   setClientX(e.clientX);
+  //   setClientY(e.clientY);
+  //   onClick = true;
+  // };
 
-  useEffect(() => {
-    const autoNext = () => {
-      if (location === children.length - 1) {
-        setLocation(0);
-      } else {
-        setLocation((location) => location + 1);
-      }
-    };
+  // const onMove = (e) => {
+  //   if (onClick) {
+  //   }
+  //   console.log("test");
+  //   setPosX(clientX - e.clientX);
+  //   setPosY(clientY - e.clientY);
 
-    savedCallback.current = autoNext;
-  }, [children, location]);
+  //   setClientX(e.clientX);
+  //   setClientY(e.clientX);
 
-  useEffect(() => {
-    if (auto && mouseOver === false && children.length > 1) {
-      function tick() {
-        savedCallback.current();
-      }
-      if (delay !== null) {
-        let id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }
-  }, [children, auto, delay, mouseOver]);
+  //   setOffsetLeft(e.target.offsetLeft);
+  //   setOffsetTop(e.target.offsetTop);
+  // };
 
-  const onPrev = () => {
-    if (location === 0) {
-      setLocation(children.length - 1);
-    } else {
-      setLocation((location) => location - 1);
-    }
-  };
+  // const onUp = () => {
+  //   onClick = false;
+  // };
 
-  const onNext = () => {
-    if (location === children.length - 1) {
-      setLocation(0);
-    } else {
-      setLocation((location) => location + 1);
-    }
-  };
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  let startClientX = 0;
-
-  const onDownEvent = (e) => {
-    if (user === "pc") startClientX = e.clientX;
-    if (user === "mobile") startClientX = e.changedTouches[0].clientX;
-  };
-
-  const onUpEvent = (e) => {
-    let endClientX = 0;
-
-    if (user === "pc") endClientX = e.clientX;
-    if (user === "mobile") endClientX = e.changedTouches[0].clientX;
-
-    let moveX = startClientX - endClientX;
-    if (moveX >= 200) {
-      onNext();
-    }
-
-    if (moveX <= -200) {
-      onPrev();
-    }
+  const trackPos = (data) => {
+    setPosition({ x: data.x, y: data.y });
   };
 
   return (
     <>
-      <Div
-        onMouseOver={() => auto && setMouseOver(true)}
-        onMouseLeave={() => auto && setMouseOver(false)}
-        onMouseDown={swipe && user === "pc" ? onDownEvent : null}
-        onMouseUp={swipe && user === "pc" ? onUpEvent : null}
-        onTouchStart={swipe && user === "mobile" ? onDownEvent : null}
-        onTouchEnd={swipe && user === "mobile" ? onUpEvent : null}
-      >
-        {nextBtn && children.length > 1 && (
-          <>
-            <Button prev={true} onClick={onPrev}>
-              <CaretLeftOutlined />
-            </Button>
-            <Button next={true} onClick={onNext}>
-              <CaretRightOutlined />
-            </Button>
-          </>
-        )}
-
-        <Section height={height}>
-          {children.map((data, index) => (
-            <Item
-              key={index}
-              id={index}
-              location={location}
-              slide={slide}
-              fade={fade}
-            >
-              {data}
-            </Item>
-          ))}
-        </Section>
-
-        {point && (
-          <PointBox>
-            {children.map((data, index) => (
-              <Point
-                key={index}
-                id={index}
-                location={location}
-                onClick={() => setLocation(index)}
-              />
-            ))}
-          </PointBox>
-        )}
-      </Div>
+      <Box>
+        <Test
+          // onMouseDown={onDown}
+          // onMouseMove={onMove}
+          // onMouseUp={onUp}
+          // posX={posX}
+          // posY={posY}
+          // offsetLeft={offsetLeft}
+          // offsetTop={offsetTop}
+        ></Test>
+      </Box>
     </>
   );
 };
-
-const Div = styled.div`
-  width: 100%;
-  overflow: hidden;
+const Box = styled.div`
+  width: 500px;
+  height: 500px;
+  background-color: gray;
   position: relative;
 `;
 
-const Button = styled.button`
+const Test = styled.div`
+  width: 30px;
+  height: 30px;
+  background-color: black;
+  border-radius: 30px;
+
   position: absolute;
-  left: ${(props) => props.prev && "0"};
-  right: ${(props) => props.next && "0"};
-  z-index: 1;
-  height: 100%;
-  width: 40px;
-  font-size: 3rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background-color: transparent;
-  border: none;
-
-  :hover {
-    cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-`;
-
-const Section = styled.div`
-  width: inherit;
-  height: ${(props) => props.height};
-  display: flex;
-  position: relative;
-`;
-
-const Item = styled.div`
-  min-width: 100%;
-  height: 100%;
-  transition: all ease 0.3s;
-
-  ${(props) =>
-    props.slide &&
-    css`
-      transform: ${(props) => `translateX(-${props.location}00%)`};
-    `}
-
-  ${(props) =>
-    props.fade &&
-    css`
-      position: absolute;
-      opacity: ${(props) => (props.id === props.location ? "1" : "0")};
-    `}
-`;
-
-const PointBox = styled.div`
-  width: 70%;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-`;
-
-const Point = styled.div`
-  width: ${(props) => (props.location === props.id ? "20px" : "10px")};
-  height: 5px;
-  border-radius: 20px;
-  background-color: ${(props) =>
-    props.location === props.id ? "orange" : "rgba(0,0,0,0.3)"};
-  margin: 10px;
-
-  transition: all ease 0.3s;
-
-  :hover {
-    cursor: pointer;
-  }
+  top: ${(props) => `${props.offsetTop - props.posX}px`};
+  left: ${(props) => `${props.offsetLeft - props.posY}px`};
 `;
 
 export default Test6;
