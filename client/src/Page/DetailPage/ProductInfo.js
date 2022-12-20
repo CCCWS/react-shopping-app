@@ -40,7 +40,9 @@ const ProductInfo = ({
 
       {otherProduct && otherProduct.length > 0 && (
         <FadeAnimation>
-          <OtherProduct>관련 상품</OtherProduct>
+          <OtherProduct>
+            <strong>관련 상품</strong>
+          </OtherProduct>
           {otherLoading ? (
             <Loading />
           ) : (
@@ -63,6 +65,7 @@ const Writer = styled.div`
 `;
 
 const Info = styled.div`
+  margin-bottom: 50px;
   & > :first-child {
     //제품명
     padding: 0.8rem;

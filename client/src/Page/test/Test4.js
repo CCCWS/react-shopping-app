@@ -5,93 +5,66 @@ import Test5 from "./Test5";
 import Test6 from "./Test6";
 import Test8 from "./Test8";
 
+import SelectBox from "./SelectBox";
+
 const Test4 = () => {
+  const [selectValue, setSelectValue] = useState("기본값");
+  const [click, setClick] = useState(false);
+
   return (
-    <Test>
-      {/* <Test1>
-        <Test5 height={"400px"} point={true} auto={false} delay={1000}>
-          <Div id={1}></Div>
-          <Div id={2}></Div>
-          <Div id={3}></Div>
-          <Div id={4}></Div>
-          <Div id={5}></Div>
-        </Test5>
-      </Test1>
-      <HR />
+    <>
+      <SelectBox
+        dataArr={[
+          "선택1",
+          "선택2",
+          "선택3",
+          "선택4",
+          "선택5",
+          "선택6",
+          "선택7",
+        ]}
+        width={"200px"}
+        selectValue={selectValue}
+        setSelectValue={setSelectValue}
+        fade={true}
+      />
 
-      <Test1>
-        <Test6
-          height={"400px"}
-          point={true}
-          slide={true}
-          nextBtn={true}
-          auto={false}
-          delay={1000}
-          swipe={true}
-        >
-          <Div id={1}></Div>
-          <Div id={2}></Div>
-          <Div id={3}></Div>
-          <Div id={4}></Div>
-          <Div id={5}></Div>
-        </Test6>
-      </Test1>
-      <HR />
-
-      <Test1>
-        <Test6 height={"400px"} point={true} fade={true} nextBtn={true}>
-          <Div id={1}></Div>
-          <Div id={2}></Div>
-          <Div id={3}></Div>
-          <Div id={4}></Div>
-          <Div id={5}></Div>
-        </Test6>
-      </Test1>
-      <HR /> */}
-
-      <Test6
-        height={"400px"}
-        point={true}
-        slide={true}
-        // swipe={true}
-      >
-        <Div id={1}></Div>
-        <Div id={2}></Div>
-        <Div id={3}></Div>
-        <Div id={4}></Div>
-        <Div id={5}></Div>
-      </Test6>
-    </Test>
+      <Div>
+        <Box>
+          <Divv />
+          <Divv />
+          <Divv />
+          <Divv />
+          <Divv />
+          <Divv />
+        </Box>
+      </Div>
+      <button onClick={() => setClick(false)}>맨앞</button>
+      <button onClick={() => setClick(true)}>맨뒤</button>
+    </>
   );
 };
 
-const Test1 = styled.div`
-  width: 800px;
-`;
-
-const Test = styled.div`
-  width: 100%;
-  margin-top: 30px;
-`;
-
-const HR = styled.div`
-  width: 300px;
-  height: 300px;
-`;
-
 const Div = styled.div`
-  width: 100%;
-  height: 100%;
-
+  width: 600px;
+  height: 150px;
+  background-color: red;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+`;
 
-  background-color: ${(props) => props.id === 1 && "red"};
-  background-color: ${(props) => props.id === 2 && "blue"};
-  background-color: ${(props) => props.id === 3 && "green"};
-  background-color: ${(props) => props.id === 4 && "yellow"};
-  background-color: ${(props) => props.id === 5 && "orange"};
+const Box = styled.div`
+  display: flex;
+  height: 100%;
+  overflow-x: scroll;
+`;
+
+const Divv = styled.div`
+  min-width: 100px;
+  height: 100%;
+  margin-right: 10px;
+  background-color: black;
+  /* transform: translateX(-100%); */
 `;
 
 export default Test4;
