@@ -138,4 +138,4 @@ const Li = styled.li`
   }
 `;
 
-export default SelectBox;
+export default React.memo(SelectBox);

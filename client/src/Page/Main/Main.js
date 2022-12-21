@@ -7,6 +7,7 @@ import styled from "styled-components";
 import ProductCard from "../../Components/Product/ProductCard";
 import SelectBox from "../../Components/Utility/SelectBox";
 import RecentView from "../../Components/Product/RecentView";
+import SearchBar from "./SearchBar";
 // import ProductRank from "../../Components/Product/ProductRank";
 import ModalBase from "../../Components/Modal/ModalBase";
 import Loading from "../../Components/Utility/Loading";
@@ -173,16 +174,11 @@ function Main() {
         <Switch viewType={click} onSetMode={view} />
       </MainOption>
 
-      <MainSearchBar onSubmit={onKeywordSearch}>
-        <input
-          value={searchValue}
-          onChange={onSearchValue}
-          placeholder="검색어를 입력해주세요."
-        />
-        <div>
-          <SearchOutlined onClick={onKeywordSearch} />
-        </div>
-      </MainSearchBar>
+      <SearchBar
+        onKeywordSearch={onKeywordSearch}
+        searchValue={searchValue}
+        onSearchValue={onSearchValue}
+      />
 
       {searchTrue ? (
         <SearchReset>
