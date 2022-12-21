@@ -6,7 +6,7 @@ const { ProductData } = require("../models/productData");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads");
+    cb(null, "client/public/uploads");
   }, //파일 저장 경로
 
   filename: function (req, file, cb) {
@@ -70,7 +70,7 @@ app.post("/delImg", async (req, res) => {
   // if (fs.existsSync(`uploads/${req.body.image}`)) {
   // 파일이 존재한다면 true 그렇지 않은 경우 false 반환
   try {
-    fs.unlinkSync(`uploads/${req.body.image}`);
+    fs.unlinkSync(`client/public/uploads/${req.body.image}`);
     return res.json({
       success: true,
     });
