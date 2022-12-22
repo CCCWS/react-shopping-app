@@ -41,9 +41,9 @@ const MainSearchBar = styled.form`
   }
 
   div {
-    font-size: 20px;
+    font-size: 1.2rem;
     cursor: pointer;
   }
 `;
 
-export default React.memo(SearchBar);
+export default SearchBar;

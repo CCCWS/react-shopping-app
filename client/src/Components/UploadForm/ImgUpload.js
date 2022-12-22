@@ -9,6 +9,7 @@ import { postUrl } from "../../PostUrl";
 function ImgUpload({ setState, setImgDelete, edit, editImg }) {
   const [img, setImg] = useState([]);
 
+  console.log(img);
   useEffect(() => {
     if (edit) {
       setImg(editImg.image);

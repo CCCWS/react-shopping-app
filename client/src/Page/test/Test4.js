@@ -1,70 +1,100 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Dropzone from "react-dropzone";
+import { CameraOutlined, CloseOutlined } from "@ant-design/icons";
+
 import styled from "styled-components";
 
-import Test5 from "./Test5";
-import Test6 from "./Test6";
-import Test8 from "./Test8";
-
-import SelectBox from "./SelectBox";
-
 const Test4 = () => {
-  const [selectValue, setSelectValue] = useState("기본값");
-  const [click, setClick] = useState(false);
+  const [img, setImg] = useState();
+
+  const requestImg = async (files) => {
+    let formData = new FormData();
+    formData.append("image", files[0]);
+
+    const res = await axios.post("/api/s3/test", formData);
+
+    for (let value of formData.values()) {
+      console.log(value);
+    }
+  };
+
+  useEffect(() => {
+    console.log(img);
+  }, [img]);
 
   return (
     <>
-      <SelectBox
-        dataArr={[
-          "선택1",
-          "선택2",
-          "선택3",
-          "선택4",
-          "선택5",
-          "선택6",
-          "선택7",
-        ]}
-        width={"200px"}
-        selectValue={selectValue}
-        setSelectValue={setSelectValue}
-        fade={true}
-      />
-
-      <Div>
-        <Box>
-          <Divv />
-          <Divv />
-          <Divv />
-          <Divv />
-          <Divv />
-          <Divv />
-        </Box>
-      </Div>
-      <button onClick={() => setClick(false)}>맨앞</button>
-      <button onClick={() => setClick(true)}>맨뒤</button>
+      <DropBox>
+        <Dropzone onDrop={requestImg}>
+          {({ getRootProps, getInputProps }) => (
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              <DropzoneIcon>
+                <div>
+                  <CameraOutlined />
+                </div>
+                <div>이미지 등록</div>
+              </DropzoneIcon>
+            </div>
+          )}
+        </Dropzone>
+      </DropBox>
     </>
   );
 };
 
-const Div = styled.div`
-  width: 600px;
-  height: 150px;
-  background-color: red;
-  display: flex;
-  position: relative;
+const DropBox = styled.div`
+  background-color: transparent;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 5px;
+  border: 2px solid var(--gray);
+  margin: 0.3rem;
+
+  & > :first-child {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    border-radius: 5px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: var(--gray_transparency);
+    }
+  }
+
+  @media (max-width: 550px) {
+    width: 6rem;
+    height: 6rem;
+  }
 `;
 
-const Box = styled.div`
-  display: flex;
-  height: 100%;
-  overflow-x: scroll;
-`;
+const DropzoneIcon = styled.div`
+  & > :first-child {
+    display: flex;
+    justify-content: center;
+    font-size: 2.5rem;
+  }
 
-const Divv = styled.div`
-  min-width: 100px;
-  height: 100%;
-  margin-right: 10px;
-  background-color: black;
-  /* transform: translateX(-100%); */
+  & > :nth-child(2) {
+    font-size: 1rem;
+  }
 `;
 
 export default Test4;
+
+{
+  /* <div id="imageEdit">
+        <input
+          type="file"
+          id="image_uploads"
+          name="image"
+          accept="image/*"
+          onChange={requestImg}
+        />
+      </div> */
+}
