@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Dropzone from "react-dropzone";
-import { CameraOutlined, CloseOutlined } from "@ant-design/icons";
+import { CameraOutlined } from "@ant-design/icons";
+
+import { postUrl } from "../../PostUrl";
 
 import styled from "styled-components";
 
 const Test4 = () => {
-  const [img, setImg] = useState();
+  const [img, setImg] = useState([]);
 
   const requestImg = async (files) => {
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append("image", files[0]);
 
-    const res = await axios.post("/api/s3/test", formData);
-
-    for (let value of formData.values()) {
-      console.log(value);
-    }
+    const res = await axios.post("/api/s3/s3Upload", formData);
+    setImg((prev) => [...prev, res.data.fileName]);
   };
 
   useEffect(() => {
@@ -40,9 +39,31 @@ const Test4 = () => {
           )}
         </Dropzone>
       </DropBox>
+
+      <Image>
+        {img.map((data, index) => (
+          <Img img={`url('${postUrl}${data}')`}></Img>
+        ))}
+      </Image>
     </>
   );
 };
+
+const Img = styled.div`
+  width: 100px;
+  height: 100px;
+
+  background-image: ${(props) => props.img};
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`;
+
+const Image = styled.div`
+  width: 300px;
+  height: 500px;
+  background-color: beige;
+`;
 
 const DropBox = styled.div`
   background-color: transparent;

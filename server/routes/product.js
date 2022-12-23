@@ -10,6 +10,7 @@ const storage = multer.diskStorage({
   }, //파일 저장 경로
 
   filename: function (req, file, cb) {
+    console.log(file);
     const ext = file.mimetype.split("/")[1];
     if (["png", "jpg", "jpeg", "gif"].includes(ext)) {
       cb(null, `${Date.now()}.${ext}`);
