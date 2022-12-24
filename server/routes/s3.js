@@ -14,6 +14,7 @@ const upload = multer({
     acl: "public-read",
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: function (req, file, cb) {
+      console.log(file);
       cb(null, `${Date.now()}_${file.originalname}`);
     },
   }),
@@ -28,5 +29,7 @@ app.post("/s3Upload", upload.single("image"), (req, res) => {
 
 //   return res.status(200).json({ success: true, id: 1 });
 // });
+
+// upload.array("image", 5),
 
 module.exports = app;

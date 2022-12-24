@@ -10,17 +10,17 @@ import styled from "styled-components";
 const Test4 = () => {
   const [img, setImg] = useState([]);
 
-  const requestImg = async (files) => {
+  const requestImg = async (file) => {
     const formData = new FormData();
-    formData.append("image", files[0]);
+    formData.append("image", file[0]);
 
-    const res = await axios.post("/api/s3/s3Upload", formData);
-    setImg((prev) => [...prev, res.data.fileName]);
+    try {
+      const res = await axios.post("/api/s3/s3Upload", formData);
+      setImg((prev) => [...prev, res.data.fileName]);
+    } catch (err) {
+      alert("이미지 업로드 실패");
+    }
   };
-
-  useEffect(() => {
-    console.log(img);
-  }, [img]);
 
   return (
     <>
@@ -42,7 +42,7 @@ const Test4 = () => {
 
       <Image>
         {img.map((data, index) => (
-          <Img img={`url('${postUrl}${data}')`}></Img>
+          <Img key={index} img={`url('${postUrl}${data}')`}></Img>
         ))}
       </Image>
     </>

@@ -142,7 +142,7 @@ function UploadForm({ userId, edit, editData, productId }) {
         </div>
 
         <ImgUpload
-          setState={setImage}
+          setImage={setImage}
           setImgDelete={setImgDelete}
           edit={edit}
           editImg={editData}

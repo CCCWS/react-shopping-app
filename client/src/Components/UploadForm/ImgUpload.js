@@ -6,22 +6,45 @@ import { CameraOutlined, CloseOutlined } from "@ant-design/icons";
 
 import { postUrl } from "../../PostUrl";
 
-function ImgUpload({ setState, setImgDelete, edit, editImg }) {
-  const [img, setImg] = useState([]);
+function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
+  const [upladeImg, setUploadImg] = useState([]); //현재 페이지에서 업로드된 이미지 목록
 
-  console.log(img);
+  //수정페이지일 경우 기존의 이미지를 state에 넣어줌
   useEffect(() => {
     if (edit) {
-      setImg(editImg.image);
+      setUploadImg(editImg.image);
     }
-  }, []);
+  }, [edit, editImg]);
 
+  //업로드된 이미지정보를 DB에 저정하기 위해 값을 저장
   useEffect(() => {
-    setState([...img]);
-  }, [img]);
+    setImage([...upladeImg]);
+  }, [setImage, upladeImg]);
+
+  //s3에 이미지 저장
+  const onUploadImgS3 = async (file) => {
+    if (upladeImg.length === 12) {
+      return alert("사진 첨부는 12개까지 가능합니다.");
+    }
+
+    const formData = new FormData();
+
+    // for (let i in file) {
+    //   formData.append("image", file[i]);
+    // }
+
+    formData.append("image", file[0]);
+
+    try {
+      const res = await axios.post("/api/s3/s3Upload", formData);
+      setUploadImg((prev) => [...prev, res.data.fileName]);
+    } catch (err) {
+      alert("이미지 업로드 실패");
+    }
+  };
 
   const dropItem = (files) => {
-    if (img.length === 12) {
+    if (upladeImg.length === 12) {
       return alert("사진 첨부는 12개까지 가능합니다.");
     }
 
@@ -40,8 +63,8 @@ function ImgUpload({ setState, setImgDelete, edit, editImg }) {
     const res = await axios.post("/api/product/img", formData, config);
     const getImg = new Image();
     getImg.onload = function () {
-      setImg([
-        ...img,
+      setUploadImg([
+        ...upladeImg,
         {
           name: res.data.file.filename,
           width: this.width,
@@ -54,8 +77,8 @@ function ImgUpload({ setState, setImgDelete, edit, editImg }) {
   };
 
   const delImg = async (e) => {
-    const copyImg = [...img];
-    setImg(copyImg.filter((data) => data !== e));
+    const copyImg = [...upladeImg];
+    setUploadImg(copyImg.filter((data) => data !== e));
 
     //edit페이지일 경우 취소했을 경우도 있으니 바로 이미지를 지우면 안됨
     if (edit) {
@@ -78,7 +101,7 @@ function ImgUpload({ setState, setImgDelete, edit, editImg }) {
   return (
     <Section>
       <DropBox>
-        <Dropzone onDrop={dropItem}>
+        <Dropzone onDrop={onUploadImgS3}>
           {({ getRootProps, getInputProps }) => (
             <div {...getRootProps()}>
               <input {...getInputProps()} />
@@ -93,14 +116,10 @@ function ImgUpload({ setState, setImgDelete, edit, editImg }) {
         </Dropzone>
       </DropBox>
 
-      {img.length > 0 && (
+      {upladeImg.length > 0 && (
         <>
-          {img.map((data, index) => (
-            <UploadImg
-              img={`url('${postUrl}${data.name}')`}
-              key={index}
-              alt="img"
-            >
+          {upladeImg.map((data, index) => (
+            <UploadImg img={`url('${postUrl}${data}')`} key={index} alt="img">
               <UploadImgDel onClick={() => delImg(data)}>
                 <CloseOutlined />
               </UploadImgDel>

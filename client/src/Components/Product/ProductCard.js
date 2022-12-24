@@ -114,12 +114,12 @@ const NewImage = styled(Image)`
   width: ${(props) => (props.viewType ? "100%" : "40%")};
   height: ${(props) => (props.viewType ? "70%" : "100%")};
 
-  transition: 0.2s;
+  transition: all cubic-bezier(0.6, -0.28, 0.74, 0.05) 0.3s;
   position: relative;
 
   &:hover {
     background-size: ${(props) =>
-      props.viewType ? "130%" : "120%"} !important;
+      props.viewType ? "140%" : "120%"} !important;
   }
 
   ${(props) =>

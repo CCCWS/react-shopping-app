@@ -112,6 +112,14 @@ const Title = styled.div`
 const Empty = styled.div`
   font-size: 1rem;
   margin: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 1200px) {
+    width: 200px;
+  }
 `;
 
 const ImageBox = styled.div`
