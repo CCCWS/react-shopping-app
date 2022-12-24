@@ -42,7 +42,7 @@ const CartProduct = ({
             </ProductCheckBox>
 
             <NewImage
-              img={`url('${postUrl}${data.image[0].name}')`}
+              img={`url('${postUrl}${data.image[0]}')`}
               onClick={() => nav(`/product/${data._id}`)}
             />
 

@@ -116,7 +116,7 @@ function ProductManagement({ isAuth, userId }) {
                   <ZoomAnimation>
                     <Product darkMode={darkMode}>
                       <NewImage
-                        img={`url('${postUrl}${data.image[0].name}')`}
+                        img={`url('${postUrl}${data.image[0]}')`}
                       />
                       <Content>
                         <div>{data.title}</div>

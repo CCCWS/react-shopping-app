@@ -23,6 +23,8 @@ function ProductRank() {
     getViews({ type: "view", count: 3 });
   }, []);
 
+  console.log(sold);
+
   return (
     <ZoomAnimation>
       <Div>
@@ -52,7 +54,7 @@ const ProductSection = ({ items }) => {
     <Product>
       {items.map((data, index) => (
         <Card key={index} onClick={() => nav(`/product/${data._id}`)}>
-          <Image img={`url('${postUrl}${data.image[0].name}')`}>
+          <Image img={`url('${postUrl}${data.image[0]}')`}>
             <Rank>{items.indexOf(data) + 1}</Rank>
           </Image>
 

@@ -65,7 +65,7 @@ function ProductDetail({ isAuth, userId }) {
       localStorage.setItem(
         "productHistory",
         JSON.stringify([
-          { id: product._id, image: product.image[0].name },
+          { id: product._id, image: product.image[0] },
           ...filterGet,
         ])
         //이미있는 정보를 제외하고 새롭게 등록하여 데이터를 최상단으로 갱신시킴
@@ -76,7 +76,7 @@ function ProductDetail({ isAuth, userId }) {
         //LocalStorage가 비어있을 경우 데이터를 추가
         localStorage.setItem(
           "productHistory",
-          JSON.stringify([{ id: product._id, image: product.image[0].name }])
+          JSON.stringify([{ id: product._id, image: product.image[0] }])
         );
       } else {
         ///LocalStorage에 데이터가 있을 경우
@@ -229,11 +229,11 @@ function ProductDetail({ isAuth, userId }) {
           <Carousel2 height={"500px"} point={true}>
             {product.image.map((data, index) => (
               <React.Fragment key={index}>
-                <ImgDiv carousel={true} img={`url('${postUrl}${data.name}')`} />
+                <ImgDiv carousel={true} img={`url('${postUrl}${data}')`} />
                 <OpenModalBtn
                   onClick={() => {
                     setOpenImgModal(true);
-                    setCurrImg(data.name);
+                    setCurrImg(data);
                   }}
                 >
                   <SearchOutlined />

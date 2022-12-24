@@ -26,6 +26,8 @@ const ProductRankCarousel = () => {
     getViews({ type: "view", count: 3 });
   }, [getSold, getViews]);
 
+  console.log(views);
+
   return (
     <ZoomAnimation>
       {!soldLoading && !viewsLoading && (
@@ -34,7 +36,7 @@ const ProductRankCarousel = () => {
           point={true}
           fade={true}
           auto={true}
-          delay={2000}
+          delay={3000}
         >
           <div>
             <Type>
@@ -62,7 +64,7 @@ const CarouselSection = ({ data }) => {
     <Product>
       {data.map((item, index) => (
         <Card key={index} onClick={() => nav(`/product/${item._id}`)}>
-          <Image img={`url('${postUrl}${item.image[0].name}')`}>
+          <Image img={`url('${postUrl}${item.image[0]}')`}>
             <Rank>{data.indexOf(item) + 1}</Rank>
           </Image>
           <Title>{item.title}</Title>

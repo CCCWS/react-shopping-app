@@ -28,7 +28,7 @@ function ProductCard({ data, viewType }) {
             >
               <NewImage
                 viewType={viewType}
-                img={`url('${postUrl}${data.image[0].name}')`}
+                img={`url('${postUrl}${data.image[0]}')`}
                 soldOut={data.count === 0 && true}
               />
 

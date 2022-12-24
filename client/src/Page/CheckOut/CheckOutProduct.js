@@ -16,7 +16,7 @@ const CheckOutProduct = ({ state }) => {
       {state.product.map((data) => (
         <Card key={data._id}>
           <Div>
-            <NewImage img={`url('${postUrl}${data.image[0].name}')`} />
+            <NewImage img={`url('${postUrl}${data.image[0]}')`} />
             <Title>{data.title}</Title>
           </Div>
 

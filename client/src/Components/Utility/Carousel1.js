@@ -193,6 +193,7 @@ const Item = styled.div`
     css`
       position: absolute;
       opacity: ${(props) => (props.id === props.location ? "1" : "0")};
+      z-index: ${(props) => (props.id === props.location ? "1" : "0")};
     `}
 `;
 
@@ -206,6 +207,7 @@ const PointBox = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  z-index: 1;
 `;
 
 const Point = styled.div`
@@ -213,7 +215,7 @@ const Point = styled.div`
   height: 5px;
   border-radius: 20px;
   background-color: ${(props) =>
-    props.location === props.id ? "orange" : "rgba(0,0,0,0.3)"};
+    props.location === props.id ? "orange" : "gray"};
   margin: 5px;
 
   transition: all ease 0.3s;

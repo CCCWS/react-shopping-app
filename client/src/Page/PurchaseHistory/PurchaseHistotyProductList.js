@@ -23,7 +23,7 @@ const PurchaseHistotyProductList = ({ data }) => {
               nav(`/product/${data._id}`);
             }}
           >
-            <NewImage img={`url('${postUrl}${data.image[0].name}')`} />
+            <NewImage img={`url('${postUrl}${data.image[0]}')`} />
             <Title>{data.title}</Title>
           </Div>
 
