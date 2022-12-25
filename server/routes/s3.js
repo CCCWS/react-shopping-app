@@ -7,14 +7,15 @@ const aws = require("aws-sdk");
 aws.config.loadFromPath(__dirname + "/../config/s3.json");
 
 const s3 = new aws.S3();
+const bucketName = "shopping-img";
+
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: "shopping-img",
+    bucket: bucketName,
     acl: "public-read",
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key: function (req, file, cb) {
-      console.log(file);
       cb(null, `${Date.now()}_${file.originalname}`);
     },
   }),
@@ -24,12 +25,17 @@ app.post("/s3Upload", upload.single("image"), (req, res) => {
   return res.status(200).json({ fileName: res.req.file.key });
 });
 
-// app.post("/test", (req, res) => {
-//   console.log(req.body);
-
-//   return res.status(200).json({ success: true, id: 1 });
-// });
-
-// upload.array("image", 5),
+app.post("/s3Delete", (req, res) => {
+  s3.deleteObject(
+    {
+      Bucket: bucketName,
+      Key: `${req.body.img}`,
+    },
+    (err, data) => {
+      if (err) return res.status(400).json(err);
+      return res.status(200).json({ success: true });
+    }
+  );
+});
 
 module.exports = app;

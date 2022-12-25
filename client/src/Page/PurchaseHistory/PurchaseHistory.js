@@ -42,6 +42,8 @@ function PurchaseHistory({ isAuth, userId, darkMode }) {
     titleName.innerHTML = `구매내역`;
   }, [isAuth, userId, connectServer]);
 
+  console.log(product);
+
   useEffect(() => {
     const readMore = () => {
       const option = {

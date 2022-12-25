@@ -187,7 +187,6 @@ function Main() {
           </div>
         </SearchReset>
       ) : (
-        // <ProductRank />
         <ProductRankCarousel />
       )}
 
@@ -215,33 +214,6 @@ const MainOption = styled.div`
     @media (max-width: 380px) {
       flex-direction: column;
     }
-  }
-`;
-
-const MainSearchBar = styled.form`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all ease 0.5s;
-
-  input {
-    background-color: var(--gray_transparency);
-    border: 2px solid var(--orange_normal);
-    border-radius: 5px;
-    width: 300px;
-    margin: 1rem;
-    padding: 5px;
-    outline: none;
-
-    &:focus {
-      border: 2px solid var(--orange_hover);
-    }
-  }
-
-  div {
-    font-size: 20px;
-    cursor: pointer;
   }
 `;
 

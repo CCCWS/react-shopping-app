@@ -26,8 +26,6 @@ const ProductRankCarousel = () => {
     getViews({ type: "view", count: 3 });
   }, [getSold, getViews]);
 
-  console.log(views);
-
   return (
     <ZoomAnimation>
       {!soldLoading && !viewsLoading && (

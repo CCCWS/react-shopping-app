@@ -26,20 +26,25 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
     if (upladeImg.length === 12) {
       return alert("사진 첨부는 12개까지 가능합니다.");
     }
-
     const formData = new FormData();
-
-    // for (let i in file) {
-    //   formData.append("image", file[i]);
-    // }
-
     formData.append("image", file[0]);
 
     try {
       const res = await axios.post("/api/s3/s3Upload", formData);
+      alert("이미지 업로드");
       setUploadImg((prev) => [...prev, res.data.fileName]);
     } catch (err) {
       alert("이미지 업로드 실패");
+    }
+  };
+
+  const onDeleteImgS3 = async (img) => {
+    try {
+      const res = await axios.post("/api/s3/s3Delete", { img: img });
+      alert("이미지 삭제");
+      setUploadImg((prev) => prev.filter((data) => data !== img));
+    } catch (err) {
+      alert("이미지 삭제 실패");
     }
   };
 
@@ -120,7 +125,7 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
         <>
           {upladeImg.map((data, index) => (
             <UploadImg img={`url('${postUrl}${data}')`} key={index} alt="img">
-              <UploadImgDel onClick={() => delImg(data)}>
+              <UploadImgDel onClick={() => onDeleteImgS3(data)}>
                 <CloseOutlined />
               </UploadImgDel>
             </UploadImg>
