@@ -1,6 +1,7 @@
 //library
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
 
 //component
@@ -10,6 +11,7 @@ import Footer from "../Footer/Footer";
 
 //custom hooks
 import useAxios from "../../hooks/useAxios";
+import { usePrompt } from "../../hooks/usePrompt";
 
 //etc
 import { Section, Input, Textarea } from "../Style/InputStyle";
@@ -31,6 +33,9 @@ function UploadForm({ userId, edit, editData, productId }) {
   );
   const { connectServer: editProduct } = useAxios("/api/product/edit");
   const { connectServer: writeProduct } = useAxios("/api/product/write");
+
+  //작성중 페이지 이동 및 새로고침, 닫기 방지
+  usePrompt("페이지를 이동하시겠습니까?", true);
 
   useEffect(() => {
     const titleName = document.getElementsByTagName("title")[0];
@@ -133,27 +138,6 @@ function UploadForm({ userId, edit, editData, productId }) {
       alert("등록 실패");
     }
   };
-
-  const preventClose = (e) => {
-    e.preventDefault();
-    e.returnValue = "";
-  };
-
-  useEffect(() => {
-    window.addEventListener("beforeunload", (event) => {
-      // 표준에 따라 기본 동작 방지
-      event.preventDefault();
-      // Chrome에서는 returnValue 설정이 필요함
-      event.returnValue = "";
-    });
-
-    window.addEventListener("unload", (event) => {
-      // 표준에 따라 기본 동작 방지
-      event.preventDefault();
-      // Chrome에서는 returnValue 설정이 필요함
-      event.returnValue = "";
-    });
-  }, []);
 
   return (
     <div className="page">
