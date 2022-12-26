@@ -41,6 +41,8 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
   const onDeleteImgS3 = async (img) => {
     try {
       const res = await axios.post("/api/s3/s3Delete", { img: img });
+      if (!edit) {
+      }
       alert("이미지 삭제");
       setUploadImg((prev) => prev.filter((data) => data !== img));
     } catch (err) {
