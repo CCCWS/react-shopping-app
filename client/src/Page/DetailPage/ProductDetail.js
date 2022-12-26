@@ -19,10 +19,10 @@ import ProductInfo from "./ProductInfo";
 function ProductDetail({ isAuth, userId }) {
   const nav = useNavigate();
 
-  const [purchasesCount, setPurchasesCount] = useState(1);
-  const [cartAddLoading, setCartAddLoading] = useState(false);
-  const [currImg, setCurrImg] = useState("");
-  const { id } = useParams();
+  const [purchasesCount, setPurchasesCount] = useState(1); //구매수
+  const [cartAddLoading, setCartAddLoading] = useState(false); //장바구니 추가시 로딩
+  const [currImg, setCurrImg] = useState(""); //이미지 클릭시 모달로 전달
+  const { id } = useParams(); //상품 id
 
   //제품의 상세 정보 조회
   const {
@@ -45,82 +45,99 @@ function ProductDetail({ isAuth, userId }) {
     connectServer: getWriter,
   } = useAxios("/api/user/userInfo");
 
+  //장바구니 추가
   const { resData: cartAddResponse, connectServer: addProductCart } =
     useAxios("/api/user/addCart");
 
+  //비로그인 경고, 장바구니 추가시 보여지는 모달
   const { openModal, contents, setOpenModal, setContents } = useModal();
+
+  //이미지클릭시 보여지는 모달
   const { openModal: openImgModal, setOpenModal: setOpenImgModal } = useModal();
 
-  //작성된 시간과 현재시간의 차이를 데이터로 받음
+  //작성된 시간과 현재시간의 차이를 데이터로 받음, 작성일을 n일전으로 표시
   const time = product && getTime(product.createdAt);
 
   //조회한 상품을 hitory에 등록
   useEffect(() => {
+    //모달창이 열린상태로 뒤로가기 혹은 앞으로갈때 모달창이 닫히도록 이동하면 false로 바꿔줌
     setOpenModal(false);
+
     const get = JSON.parse(localStorage.getItem("productHistory"));
+
+    //LocalStorage에 해당 상품 저장
     const setLocalData = () => {
-      //LocalStorage에 해당 상품의 정보 저장
+      //접속한 페이지의 상품을 제외한 나머지 데이터를 가져옴
       const filterGet = get.filter((data) => data.id !== product._id);
-      //해당 정보가 이미 LocalStorage에 있다면 해당 정보를 제외한 데이터
+
+      //접속한 페이지의 상품을 LocalStorage에 저장
+      //없는 상품이라면 새롭게 추가, 이미 있던 상품이라면 제거후 최상단으로 새롭게 추가
       localStorage.setItem(
         "productHistory",
         JSON.stringify([
           { id: product._id, image: product.image[0] },
           ...filterGet,
         ])
-        //이미있는 정보를 제외하고 새롭게 등록하여 데이터를 최상단으로 갱신시킴
       );
     };
+
     if (loading === false) {
+      //LocalStorage가 비어있을 경우
       if (get === null) {
-        //LocalStorage가 비어있을 경우 데이터를 추가
         localStorage.setItem(
           "productHistory",
           JSON.stringify([{ id: product._id, image: product.image[0] }])
         );
+
+        //LocalStorage에 데이터가 있을 경우
       } else {
-        ///LocalStorage에 데이터가 있을 경우
+        //LocalStorage의 최대 저장길이는 6으로 지정
         if (get.length === 6) {
-          ///LocalStorage의 최대 저장길이는 6으로 지정
+          //중복 데이터가 이미 있는 경우
           if (get.filter((data) => data.id === product._id).length === 1) {
             setLocalData();
-            //중복 데이터가 이미 있는 경우
+
+            //중복데이터가 없을경우 하나를 pop하고 추가
           } else {
             get.pop();
             setLocalData();
-            //새로운 데이터일 경우 하나를 삭제하고 등록
           }
+
+          //LocalStorage에 저장된 상품이 6미만일 경우
         } else {
           setLocalData();
-          //LocalStorage의 데이터가 6미만일 경우
         }
       }
     }
-  }, [loading, product]);
+  }, [id, loading, product, setOpenModal]);
 
-  // //상품의 정보를 받아옴
+  //상품의 정보를 받아옴
   useEffect(() => {
     getProduct({ id });
-  }, [id]);
+  }, [id, getProduct]);
 
-  // //제품 정보를 가져왔을때 실행, 작성자와 다른 상품의 정보를 받아옴
+  //제품 정보를 가져왔을때 실행
   useEffect(() => {
     if (product) {
+      const titleName = document.getElementsByTagName("title")[0];
+      titleName.innerHTML = product.title;
+
+      //작성자 정보
       getWriter({ id: product.writer });
+
+      //같은 카테고리의 다른 상품
       getOtherProduct({
         filterId: id,
         category: product.category,
       });
-
-      const titleName = document.getElementsByTagName("title")[0];
-      titleName.innerHTML = product.title;
     }
-  }, [product]);
+  }, [product, getOtherProduct, getWriter, id]);
 
   //장바구니와 구매하기 버튼 클릭시 가능여부 확인
-  const btnCheck = () => {
+  const onBtnCheck = () => {
     let authCheck = true;
 
+    //비로그인
     if (!isAuth) {
       authCheck = false;
       setContents({
@@ -130,6 +147,7 @@ function ProductDetail({ isAuth, userId }) {
       setOpenModal(true);
     }
 
+    //품절
     if (product.count === 0) {
       authCheck = false;
       setContents({
@@ -143,8 +161,10 @@ function ProductDetail({ isAuth, userId }) {
   };
 
   //구매 버튼 클릭시 실행
-  const goCheckOut = () => {
-    if (btnCheck()) {
+  const onGoCheckOut = () => {
+    //onBtnCheck의 결과가 true라면 로그인이 되어있고 품절이 아님
+    if (onBtnCheck()) {
+      //구매 물품과 수량을 함께 넘겨줌
       nav("/checkOut", {
         state: {
           product: [
@@ -163,8 +183,10 @@ function ProductDetail({ isAuth, userId }) {
 
   //장바구니 버튼 클릭시 실행
   const onAddCartProduct = () => {
-    if (btnCheck()) {
+    //onBtnCheck의 결과가 true라면 로그인이 되어있고 품절이 아님
+    if (onBtnCheck()) {
       setCartAddLoading(true);
+
       const option = {
         productId: product._id,
         userId: userId,
@@ -175,8 +197,9 @@ function ProductDetail({ isAuth, userId }) {
     }
   };
 
-  //장바구니 버튼 클릭시 실행
+  //장바구니 추가 api의 res를 받았을때 실행됨
   useEffect(() => {
+    //중복상품일 경우
     if (cartAddResponse && cartAddResponse.duplicate) {
       setContents({
         title: "장바구니",
@@ -186,7 +209,8 @@ function ProductDetail({ isAuth, userId }) {
       setOpenModal(true);
     }
 
-    if (cartAddResponse && cartAddResponse.duplicate === false) {
+    //중복이 아닐경우
+    if (cartAddResponse && !cartAddResponse.duplicate) {
       setContents({
         title: "장바구니",
         message: "장바구니에 상품이 추가되었습니다.",
@@ -194,8 +218,10 @@ function ProductDetail({ isAuth, userId }) {
       });
       setOpenModal(true);
     }
+
+    //모든 행동이 완료된 이후 로딩 false
     setCartAddLoading(false);
-  }, [nav, setContents, setOpenModal, cartAddResponse]);
+  }, [setContents, setOpenModal, cartAddResponse]);
 
   return (
     <div className="page">
@@ -259,7 +285,7 @@ function ProductDetail({ isAuth, userId }) {
             writerLoading={writerLoading}
             setPurchasesCount={setPurchasesCount}
             onAddCartProduct={onAddCartProduct}
-            goCheckOut={goCheckOut}
+            goCheckOut={onGoCheckOut}
           />
         </>
       )}

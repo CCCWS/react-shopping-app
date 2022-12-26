@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-import Fade from "react-reveal/Fade";
 
 import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";

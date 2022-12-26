@@ -31,8 +31,6 @@ function CheckOut({ userId }) {
   const addressRef = useRef();
   const reqRef = useRef();
 
-  console.log(state);
-
   useEffect(() => {
     if (state === null) {
       nav("/");

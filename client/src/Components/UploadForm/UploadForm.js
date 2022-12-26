@@ -20,18 +20,25 @@ import { uploadCategoryList } from "../../data/CatecoryList";
 function UploadForm({ userId, edit, editData, productId }) {
   const nav = useNavigate();
   const [imgDelete, setImgDelete] = useState([]); //edit페이지일때 삭제할 이미지 임시저장
-  const [image, setImage] = useState([]);
-  const [category, setCategory] = useState("");
+  const [image, setImage] = useState([]); //등록된 이미지
+  const [category, setCategory] = useState(""); //선택된 카테고리
+  // const [onChange, setOnChange] = useState(false);
 
+  //입력정보 ref
   const titleRef = useRef();
   const priceRef = useRef();
   const countRef = useRef();
   const descriptionRef = useRef();
 
+  //수정완료후 삭제한 이미지가 있다면 이미지 삭제
   const { connectServer: imageDelete } = useAxios(
     "/api/product/delImgEditPage"
   );
+
+  //수정페이지로 접속했을경우 기존의 정보를 가져옴
   const { connectServer: editProduct } = useAxios("/api/product/edit");
+
+  //작성된 정보를 DB에 저장
   const { connectServer: writeProduct } = useAxios("/api/product/write");
 
   //작성중 페이지 이동 및 새로고침, 닫기 방지
@@ -54,7 +61,7 @@ function UploadForm({ userId, edit, editData, productId }) {
     } else {
       titleName.innerHTML = `상품 등록`;
     }
-  }, []);
+  }, [edit, editData]);
 
   const maxLengthCheck = (e) => {
     //숫자 이외의 문자 입력 방지
@@ -121,9 +128,9 @@ function UploadForm({ userId, edit, editData, productId }) {
 
     try {
       if (edit) {
-        if (imgDelete.length > 0) {
-          imageDelete(imgDelete);
-        }
+        // if (imgDelete.length > 0) {
+        //   imageDelete(imgDelete);
+        // }
         editProduct({ ...data, id: productId });
         alert("수정 완료");
       }
