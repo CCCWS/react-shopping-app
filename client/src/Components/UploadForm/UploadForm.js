@@ -22,7 +22,7 @@ function UploadForm({ userId, edit, editData, productId }) {
   const [imgDelete, setImgDelete] = useState([]); //edit페이지일때 삭제할 이미지 임시저장
   const [image, setImage] = useState([]); //등록된 이미지
   const [category, setCategory] = useState(""); //선택된 카테고리
-  // const [onChange, setOnChange] = useState(false);
+  const [writeCheck, setWriteCheck] = useState(true);
 
   //입력정보 ref
   const titleRef = useRef();
@@ -42,7 +42,7 @@ function UploadForm({ userId, edit, editData, productId }) {
   const { connectServer: writeProduct } = useAxios("/api/product/write");
 
   //작성중 페이지 이동 및 새로고침, 닫기 방지
-  usePrompt("페이지를 이동하시겠습니까?", true);
+  usePrompt("페이지를 이동하시겠습니까?", writeCheck);
 
   useEffect(() => {
     const titleName = document.getElementsByTagName("title")[0];
@@ -111,7 +111,9 @@ function UploadForm({ userId, edit, editData, productId }) {
       return alert("설명을 10글자 이상 입력해주세요.");
     }
 
-    uploadData();
+    if (window.confirm("상품을 등록하시겠습니까?")) {
+      uploadData();
+    }
   };
 
   const uploadData = async () => {
@@ -139,12 +141,18 @@ function UploadForm({ userId, edit, editData, productId }) {
         writeProduct(data);
         alert("등록 완료");
       }
-
-      nav("/");
     } catch (err) {
       alert("등록 실패");
     }
+
+    setWriteCheck(false);
   };
+
+  //usePrompt를 true로 주면 수정하기나 등록하기를 할때에도 페이지 이동 경고가 나옴
+  //수정, 등록 완료시 이 기능을 끄기위해 state를 false로 바꿔주고 state가 변화했을때 홈으로 이동
+  useEffect(() => {
+    if (!writeCheck) nav("/");
+  }, [writeCheck, nav]);
 
   return (
     <div className="page">

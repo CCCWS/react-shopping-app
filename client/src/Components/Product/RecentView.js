@@ -150,7 +150,7 @@ const NewImage = styled(Image)`
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
-  transition: all cubic-bezier(0.6, -0.28, 0.74, 0.05) 0.3s;
+  transition: all cubic-bezier(0, -0.16, 1, 1.9) 0.3s;
 
   position: relative;
 

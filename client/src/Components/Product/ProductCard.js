@@ -78,7 +78,7 @@ const CardDiv = styled.div`
 const Card = styled.div`
   //상품 카드의 크기
   margin: auto;
-  margin-bottom: ${(props) => (props.viewType ? "6rem" : "1rem")};
+  margin-bottom: ${(props) => (props.viewType ? "6rem" : "3rem")};
   width: ${(props) => (props.viewType ? "90%" : "100%")};
   height: ${(props) => (props.viewType ? "20rem" : "15rem")};
   border-radius: 5px;
@@ -110,16 +110,16 @@ const Info = styled.div`
 
 const NewImage = styled(Image)`
   border-radius: 5px;
-  background-size: ${(props) => (props.viewType ? "120%" : "100%")} !important;
+  background-size: ${(props) =>
+    props.viewType ? "cover" : "cover"} !important;
   width: ${(props) => (props.viewType ? "100%" : "40%")};
   height: ${(props) => (props.viewType ? "70%" : "100%")};
 
-  transition: all cubic-bezier(0.6, -0.28, 0.74, 0.05) 0.3s;
+  transition: all cubic-bezier(0, -0.16, 1, 1.9) 0.3s;
   position: relative;
 
   &:hover {
-    background-size: ${(props) =>
-      props.viewType ? "140%" : "120%"} !important;
+    transform: scale(1.1);
   }
 
   ${(props) =>
