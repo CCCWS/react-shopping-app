@@ -149,8 +149,8 @@ const Div = styled.div`
   overflow: hidden;
   position: relative;
 
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 `;
 
 const Button = styled.button`

@@ -33,7 +33,7 @@ function ProductCard({ data, viewType }) {
               />
 
               <Info viewType={viewType}>
-                <NewTitle darkMode={darkMode}>{data.title}</NewTitle>
+                <Title darkMode={darkMode}>{data.title}</Title>
 
                 <TimeAndPrice viewType={viewType}>
                   <Price>{`${parseInt(
@@ -104,7 +104,6 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: 5px;
   font-weight: 600;
 `;
 
@@ -122,6 +121,7 @@ const NewImage = styled(Image)`
     transform: scale(1.1);
   }
 
+  //품절시
   ${(props) =>
     props.soldOut &&
     css`
@@ -134,19 +134,13 @@ const NewImage = styled(Image)`
         align-items: center;
         width: 100%;
         height: 100%;
+
         border-radius: inherit;
         z-index: 1;
         background-color: var(--gray_transparency2);
         color: var(--white);
       }
     `}
-`;
-
-const NewTitle = styled(Title)`
-  border-bottom: 2px solid
-    ${(props) => (props.darkMode ? "var(--light)" : "var(--dark)")};
-  padding-bottom: 1px;
-  margin-bottom: 5px;
 `;
 
 const TimeAndPrice = styled.div`

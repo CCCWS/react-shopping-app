@@ -1,7 +1,7 @@
 //library
 import React, { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { SearchOutlined, RollbackOutlined } from "@ant-design/icons";
+import { RollbackOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 //component
 import ProductCard from "../../Components/Product/ProductCard";
@@ -32,7 +32,7 @@ function Main() {
   const [skip, setSkip] = useState(0); //현재 가져온 데이터 갯수
   const limit = 8; //한번에 불러올 데이터 갯수
 
-  //제품 목록을 받아옴
+  //제품 목록 조회
   const {
     resData: productList,
     loading,
@@ -41,11 +41,11 @@ function Main() {
     setLastData,
   } = useAxios("api/product/productList");
 
-  //모달창
+  //modal
   const { openModal, contents, setOpenModal, setContents } = useModal();
 
-  //로컬스토리지에 저장된 제품카드의 형태에 따라 페이지 로딩시 적용
   useEffect(() => {
+    //페이지 접속시 제품 목록 뷰타입 초기 설정
     const getMainView = JSON.parse(localStorage.getItem("mainView"));
     if (getMainView !== null) {
       setClick(getMainView);
@@ -55,8 +55,8 @@ function Main() {
     titleName.innerHTML = `메인 페이지`;
   }, []);
 
-  //제품카드의 형태를 로컬스토리지에 저장
-  const view = useCallback(() => {
+  //제품 목록 뷰타입 저장
+  const view = () => {
     if (!click) {
       localStorage.setItem("mainView", true);
       setClick(true);
@@ -66,7 +66,7 @@ function Main() {
       localStorage.setItem("mainView", false);
       setClick(false);
     }
-  }, [click]);
+  };
 
   //페이지 로딩시 or 카테고리, 가격 목록 선택시 데이터조회
   useEffect(() => {
@@ -86,7 +86,7 @@ function Main() {
     onCategorySearch();
   }, [selectCategory, priceRange]);
 
-  //더보기 동작시 데이터 조회
+  //더보기시 데이터 조회
   useEffect(() => {
     const readMore = () => {
       const option = {
@@ -132,10 +132,12 @@ function Main() {
     }
   };
 
+  //input값 저장
   const onSearchValue = (e) => {
     setSearchValue(e.target.value);
   };
 
+  //검색어 입력 초기화
   const onSearchReset = () => {
     setSearchValue("");
     setSkip(0);

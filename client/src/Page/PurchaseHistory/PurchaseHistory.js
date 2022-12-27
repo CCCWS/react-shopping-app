@@ -13,12 +13,16 @@ import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
 
 function PurchaseHistory({ isAuth, userId, darkMode }) {
-  const [readRef, setReadRef] = useInView();
-  const [shippingInfo, setShippingInfo] = useState([]);
-  const [skip, setSkip] = useState(0);
-  const limit = 4;
+  const [readRef, setReadRef] = useInView(); //element 감시
+  const [shippingInfo, setShippingInfo] = useState([]); //배송정보
+  const [skip, setSkip] = useState(0); //받아온 데이터 수
+  const limit = 4; //한번에 받아올 데이터 수
+
+  //modal
+
   const { openModal, setOpenModal } = useModal();
 
+  //구매내역 요청
   const {
     resData: product,
     loading,
@@ -27,6 +31,7 @@ function PurchaseHistory({ isAuth, userId, darkMode }) {
   } = useAxios("/api/user/purchaseHistory");
 
   useEffect(() => {
+    //로그인 인증이 되었을 경우 실행
     if (isAuth) {
       const option = {
         limit: limit,
@@ -42,9 +47,8 @@ function PurchaseHistory({ isAuth, userId, darkMode }) {
     titleName.innerHTML = `구매내역`;
   }, [isAuth, userId, connectServer]);
 
-  console.log(product);
-
   useEffect(() => {
+    //더보기시 실행
     const readMore = () => {
       const option = {
         limit: limit,
@@ -59,8 +63,9 @@ function PurchaseHistory({ isAuth, userId, darkMode }) {
     if (setReadRef) {
       readMore();
     }
-  }, [setReadRef, userId, connectServer]);
+  }, [skip, setReadRef, userId, connectServer]);
 
+  //modal을 열때 배송정보 저장
   const onShippingInfo = useCallback(
     (data) => {
       setShippingInfo({

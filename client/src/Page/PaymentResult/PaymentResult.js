@@ -8,9 +8,12 @@ import { Section } from "../../Components/Style/InputStyle";
 function PaymentResult() {
   const nav = useNavigate();
 
+  //checkOut에서 넘겨준 구매정보
   const { state } = useLocation();
 
   useEffect(() => {
+    //checkOut에서 접근한 경우가 아닐때는 state가 비어있음
+    //잘못된 접근으로 판단하여 메인페이지로 이동
     if (state === null) {
       nav("/");
     }

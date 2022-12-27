@@ -9,12 +9,14 @@ import useAxios from "../../hooks/useAxios";
 import { postUrl } from "../../PostUrl";
 
 const ProductRankCarousel = () => {
+  //판매량이 높은 상품 조회
   const {
     resData: sold,
     loading: soldLoading,
     connectServer: getSold,
   } = useAxios("api/product/productSort");
 
+  //조회수가 높은 상품 조회
   const {
     resData: views,
     loading: viewsLoading,
@@ -117,8 +119,12 @@ const Title = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0.2rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
   height: 30%;
+
+  @media (max-width: 400px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const Type = styled.div`

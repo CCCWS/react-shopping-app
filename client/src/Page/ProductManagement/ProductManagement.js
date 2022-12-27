@@ -17,17 +17,19 @@ import { Image } from "../../Components/Style/ProductCard";
 
 function ProductManagement({ isAuth, userId }) {
   const nav = useNavigate();
-  const { darkMode } = useTheme();
-  const [totalSold, setTotalSold] = useState();
-  const [totalPrice, setTotalPrice] = useState();
-  const [loading, setLoading] = useState(true);
+  const { darkMode } = useTheme(); //다크모드 확인
+  const [totalSold, setTotalSold] = useState(); //전체 판매량
+  const [totalPrice, setTotalPrice] = useState(); //전체 판매금엑
+  const [loading, setLoading] = useState(true); //페이지 로딩
 
+  //구매자 목록 요청
   const { resData, connectServer } = useAxios("/api/product/myProduct");
   const { connectServer: getBuyerList, resData: buyerList } = useAxios(
     "/api/user/buyerList"
   );
 
   useEffect(() => {
+    //로그인 인증이 된료되었다면 실행
     if (isAuth) {
       connectServer({ id: userId });
       getBuyerList({ id: userId });
@@ -40,7 +42,10 @@ function ProductManagement({ isAuth, userId }) {
   useEffect(() => {
     //총 판매개수와 금액 계산
     const calcData = (data) => {
+      //판매량만 뽑아서 새로운 배열 생성
       const sold = data.map((item) => item.sold);
+
+      //판매금액만 뽑아서 새로운 배열 생성
       const price = data.map((item) => item.sold * item.price);
 
       if (sold.length === 0) {
@@ -115,9 +120,7 @@ function ProductManagement({ isAuth, userId }) {
                 <Card key={index} onClick={() => nav(`/product/${data._id}`)}>
                   <ZoomAnimation>
                     <Product darkMode={darkMode}>
-                      <NewImage
-                        img={`url('${postUrl}${data.image[0]}')`}
-                      />
+                      <NewImage img={`url('${postUrl}${data.image[0]}')`} />
                       <Content>
                         <div>{data.title}</div>
 

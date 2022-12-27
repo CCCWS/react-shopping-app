@@ -15,6 +15,7 @@ function RecentView({ SideMenu, setMenuClick, page }) {
     const getProductHistory = JSON.parse(
       localStorage.getItem("productHistory")
     );
+
     if (getProductHistory !== null) {
       setHistory(getProductHistory);
     }

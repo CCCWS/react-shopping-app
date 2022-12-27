@@ -8,6 +8,7 @@ import { postUrl } from "../../PostUrl";
 
 function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
   const [upladeImg, setUploadImg] = useState([]); //현재 페이지에서 업로드된 이미지 목록
+  const [imgLoading, setImgLoading] = useState(false);
 
   //수정페이지일 경우 기존의 이미지를 state에 넣어줌
   useEffect(() => {
@@ -21,23 +22,36 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
     setImage([...upladeImg]);
   }, [setImage, upladeImg]);
 
-  //s3에 이미지 저장
+  //s3에 이미지 업로드 요청
   const onUploadImgS3 = async (file) => {
+    //이미지 개수 제한
     if (upladeImg.length === 12) {
       return alert("사진 첨부는 12개까지 가능합니다.");
     }
+
+    //이미지 용량 제한 3000000b = 3mb
+    const MAX_SIZE = 3000000;
+    if (file[0].size > MAX_SIZE) {
+      return alert("3mb 이하의 파일만 업로드 가능합니다.");
+    }
+
+    setImgLoading(true);
+
     const formData = new FormData();
     formData.append("image", file[0]);
 
     try {
       const res = await axios.post("/api/s3/s3Upload", formData);
-      alert("이미지 업로드");
+      // alert("이미지 업로드");
+      console.log(res.data.fileName);
       setUploadImg((prev) => [...prev, res.data.fileName]);
+      setImgLoading(false);
     } catch (err) {
       alert("이미지 업로드 실패");
     }
   };
 
+  //이미지 삭제 요청
   const onDeleteImgS3 = async (img) => {
     try {
       if (!edit) {
@@ -50,60 +64,60 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
     }
   };
 
-  const dropItem = (files) => {
-    if (upladeImg.length === 12) {
-      return alert("사진 첨부는 12개까지 가능합니다.");
-    }
+  // const dropItem = (files) => {
+  //   if (upladeImg.length === 12) {
+  //     return alert("사진 첨부는 12개까지 가능합니다.");
+  //   }
 
-    const formData = new FormData();
-    const config = {
-      header: { "content-type": "multipart/form-data" },
-    }; //header에 파일에 대한 타입을 정의
+  //   const formData = new FormData();
+  //   const config = {
+  //     header: { "content-type": "multipart/form-data" },
+  //   }; //header에 파일에 대한 타입을 정의
 
-    formData.append("file", files[0]);
-    //formData에 선택한 파일에 대한 정보를 담음
+  //   formData.append("file", files[0]);
+  //   //formData에 선택한 파일에 대한 정보를 담음
 
-    sendServerImageData(formData, config);
-  };
+  //   sendServerImageData(formData, config);
+  // };
 
-  const sendServerImageData = async (formData, config) => {
-    const res = await axios.post("/api/product/img", formData, config);
-    const getImg = new Image();
-    getImg.onload = function () {
-      setUploadImg([
-        ...upladeImg,
-        {
-          name: res.data.file.filename,
-          width: this.width,
-          height: this.height,
-          // path: `http://localhost:3001/uploads/${res.data.file.filename}`,
-        },
-      ]);
-    };
-    getImg.src = `${postUrl}${res.data.file.filename}`;
-  };
+  // const sendServerImageData = async (formData, config) => {
+  //   const res = await axios.post("/api/product/img", formData, config);
+  //   const getImg = new Image();
+  //   getImg.onload = function () {
+  //     setUploadImg([
+  //       ...upladeImg,
+  //       {
+  //         name: res.data.file.filename,
+  //         width: this.width,
+  //         height: this.height,
+  //         // path: `http://localhost:3001/uploads/${res.data.file.filename}`,
+  //       },
+  //     ]);
+  //   };
+  //   getImg.src = `${postUrl}${res.data.file.filename}`;
+  // };
 
-  const delImg = async (e) => {
-    const copyImg = [...upladeImg];
-    setUploadImg(copyImg.filter((data) => data !== e));
+  // const delImg = async (e) => {
+  //   const copyImg = [...upladeImg];
+  //   setUploadImg(copyImg.filter((data) => data !== e));
 
-    //edit페이지일 경우 취소했을 경우도 있으니 바로 이미지를 지우면 안됨
-    if (edit) {
-      setImgDelete((data) => [...data, e.name]);
-    }
+  //   //edit페이지일 경우 취소했을 경우도 있으니 바로 이미지를 지우면 안됨
+  //   if (edit) {
+  //     setImgDelete((data) => [...data, e.name]);
+  //   }
 
-    //등록페이지의 경우 이미지를 바로 삭제해도 무관함
-    if (edit === undefined) {
-      const res = await axios.post("/api/product/delImg", { image: e.name });
-      if (res.data.success) {
-        // alert("삭제 완료");
-      }
+  //   //등록페이지의 경우 이미지를 바로 삭제해도 무관함
+  //   if (edit === undefined) {
+  //     const res = await axios.post("/api/product/delImg", { image: e.name });
+  //     if (res.data.success) {
+  //       // alert("삭제 완료");
+  //     }
 
-      if (res.data.success === false) {
-        alert("삭제 실패");
-      }
-    }
-  };
+  //     if (res.data.success === false) {
+  //       alert("삭제 실패");
+  //     }
+  //   }
+  // };
 
   return (
     <Section>
@@ -132,6 +146,7 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
               </UploadImgDel>
             </UploadImg>
           ))}
+          {imgLoading ? <UploadImg></UploadImg> : null}
         </>
       )}
     </Section>

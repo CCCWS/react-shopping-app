@@ -14,9 +14,22 @@ const Test3 = () => {
     // inputRef.current.value = "";
   };
 
+  const test = () => {
+    const chars =
+      "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let temp = "";
+
+    for (let i = 0; i <= 11; i++) {
+      temp += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    console.log(temp);
+  };
+
   return (
     <div className="page">
       <Div>
+        <button onClick={test}>test</button>
         <form onSubmit={addList}>
           <Input onFocus={() => setFocus(true)} ref={inputRef}></Input>
         </form>

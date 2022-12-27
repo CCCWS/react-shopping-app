@@ -20,18 +20,21 @@ export const Image = styled.div`
 
 export const Title = styled.div`
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1rem;
   white-space: normal;
+  margin-bottom: 5px;
 `;
 
 export const Price = styled.div`
   color: var(--red);
-  font-size: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
 `;
 
 export const Time = styled.div`
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: var(--gray);
+  font-weight: 500;
 `;
 
 export const Count = styled.div`
