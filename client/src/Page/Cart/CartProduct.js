@@ -76,7 +76,7 @@ const CartProduct = ({
 const ProductCard = styled.div`
   background-color: ${(props) =>
     props.darkMode ? "var(--black)" : "var(--white)"};
-  box-shadow: 5px 5px 10px 3px var(--gray_transparency);
+  /* box-shadow: 5px 5px 10px 3px var(--gray_transparency); */
   width: 49%;
   height: 12rem;
   margin-bottom: 2rem;

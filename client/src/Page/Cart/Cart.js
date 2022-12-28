@@ -20,6 +20,10 @@ function Cart({ isAuth, userId }) {
   const [totalPrice, setTotalPrice] = useState(0); //체크한 상품의 총합가격
   const [loading, setLoading] = useState(true);
 
+  //user정보에 들어있는 장바구니에 추가한 상품의 개수와
+  //해당 상품의 정보를 합친 새로운 상품배열
+  const [userProduct, setUserProduct] = useState([]);
+
   //유저의 카트에 들어있는 상품의 id를 조회
   const { resData: userCartList, connectServer: getUserCartList } =
     useAxios("/api/user/getCart");
@@ -46,7 +50,7 @@ function Cart({ isAuth, userId }) {
     if (isAuth) {
       getUserCartList({ id: userId });
     }
-  }, []);
+  }, [getUserCartList, isAuth, userId]);
 
   //상품 id를 가져왔다면 id를 옵션으로 해당 id와 일치하는 모든 상품 조회
   useEffect(() => {
@@ -55,67 +59,73 @@ function Cart({ isAuth, userId }) {
       userCartList.forEach((data) => option.push(data.id));
       getProductList(option);
     }
-  }, [userCartList]);
+  }, [getProductList, userCartList]);
+
+  const onUserProduct = useCallback(() => {
+    const temp = [...product];
+    const newProductArr = temp.map((data, index) => {
+      // ( ) => { }는 새로운 배열을 리턴하기전 어떠한 연산이나 변수선언등 조건을 처리할때 사용하며
+      // 반드시 return으로 값을 직접 넘겨줘야함
+      // ( ) => ( )는 다른 작업없이 즉시 리턴할때 사용
+
+      //제품 정보를 가져올때 장바구니에 추가한 순서가 아닌 해당 제품이 등록된 순서로 가져오게됨
+      //가져온 제품 데이터에 수량을 추가하기 위해 수량을 가지고있는 userCartList를 forEach하여 같은 id 탐색
+      userCartList.forEach((cartList) => {
+        if (data._id === cartList.id) {
+          data.totalPrice = data.price * cartList.purchasesCount;
+          data.purchasesCount = cartList.purchasesCount;
+        }
+      });
+
+      return data;
+    });
+
+    setUserProduct(newProductArr);
+  }, [product, userCartList]);
 
   //유저의 카트에서 조회한 데이터에 장바구니에 추가한 상품의 개수가 담겨있음
   //상품정보에 해당 상품의 개수와 총합가격을 데이터로 추가
   useEffect(() => {
-    const newProduct = () => {
-      const temp = [...product];
-      const newProductArr = temp.map((data, index) => {
-        // ( ) => { }는 새로운 배열을 리턴하기전 어떠한 연산이나 변수선언등 조건을 처리할때 사용하며
-        // 반드시 return으로 값을 직접 넘겨줘야함
-        // ( ) => ( )는 다른 작업없이 즉시 리턴할때 사용
-
-        //제품 정보를 가져올때 장바구니에 추가한 순서가 아닌 해당 제품이 등록된 순서로 가져오게됨
-        //가져온 제품 데이터에 수량을 추가하기 위해 수량을 가지고있는 userCartList를 forEach하여 같은 id 탐색
-        userCartList.forEach((cartList) => {
-          if (data._id === cartList.id) {
-            data.totalPrice = data.price * cartList.purchasesCount;
-            data.purchasesCount = cartList.purchasesCount;
-          }
-        });
-
-        return data;
-      });
-    };
-
     if (product && product.length > 0) {
-      newProduct();
+      onUserProduct();
       setLoading(false);
     }
 
     if (product && product.length === 0) {
       setLoading(false);
     }
-  }, [product, userCartList]);
+  }, [product, onUserProduct]);
 
   //선택한 상품의 가격 계산
   useEffect(() => {
     const calcTotalPrice = () => {
       const arr = [];
       checkProduct.forEach((data) => arr.push(data.totalPrice));
-      if (arr.length === 0) {
-        setTotalPrice(0);
-      }
-      if (arr.length > 0) {
-        setTotalPrice(arr.reduce((prev, current) => prev + current));
-      }
+
+      setTotalPrice(arr.reduce((prev, current) => prev + current));
     };
 
-    if (checkProduct.length >= 0) {
+    if (checkProduct.length > 0) {
       calcTotalPrice();
+      console.log("test");
     }
-  }, [checkProduct, product]);
+
+    if (checkProduct.length === 0) {
+      setTotalPrice(0);
+    }
+  }, [checkProduct, userProduct]);
 
   //전체 상품 체크
-  const onCheckAll = () => {
-    if (product.length === checkProduct.length) {
+  const onCheckAll = useCallback(() => {
+    //장바구니 상품 개수와 선택된 상품의 개수가 같다면 전체선택된 상태
+    if (userProduct.length === checkProduct.length) {
       setCheckProduct([]);
+
+      //그렇지 않다면 하나 이상이 선택이 안된상태임으로 전체선택으로 만듬
     } else {
-      setCheckProduct([...product]);
+      setCheckProduct([...userProduct]);
     }
-  };
+  }, [checkProduct, userProduct]);
 
   //하나의 상품 체크
   const onCheckProduct = useCallback(
@@ -139,8 +149,8 @@ function Cart({ isAuth, userId }) {
       checkProduct.forEach((data) => option.push(data._id));
       removeCartProduct({ productId: option, userId: userId });
 
-      const temp = [...product];
-      setProduct(temp.filter((data) => !checkProduct.includes(data)));
+      const temp = [...userProduct];
+      setUserProduct(temp.filter((data) => !checkProduct.includes(data)));
       setCheckProduct([]);
     };
 
@@ -160,7 +170,7 @@ function Cart({ isAuth, userId }) {
     const delFunc = () => {
       removeCartProduct({ productId: [id], userId: userId });
       const temp = [...product];
-      setProduct(temp.filter((data) => data._id !== id));
+      setUserProduct(temp.filter((data) => data._id !== id));
     };
 
     setOpenModal(true);
@@ -197,37 +207,44 @@ function Cart({ isAuth, userId }) {
 
   const onChangeCountPlus = (id, purchasesCount) => {
     const newCartList = [...userCartList];
-    const newProduct = [...product];
+    const newUserProduct = [...userProduct];
 
+    //유저 장바구니 정보에서 해당 상품의 수량을 증가
     for (let i of newCartList) {
       if (i.id === id) {
         i.purchasesCount = purchasesCount + 1;
       }
     }
-    for (let i of newProduct) {
+
+    //현재 보여지는 화면에 보여지는 상품정보를 업데이트
+    for (let i of newUserProduct) {
       if (i._id === id) {
         i.purchasesCount = purchasesCount + 1;
+        i.totalPrice = i.purchasesCount * i.price;
       }
     }
-    setProduct(newProduct);
+    setUserProduct(newUserProduct);
+
+    //수량이 변경된 유저 장바구니 정보를 서버에 전송
     changeCart({ id: userId, cart: newCartList });
   };
 
   const onChangeCountMinus = (id, purchasesCount) => {
     const newCartList = [...userCartList];
-    const newProduct = [...product];
+    const newUserProduct = [...userProduct];
+
     for (let i of newCartList) {
       if (i.id === id) {
         i.purchasesCount = purchasesCount - 1;
       }
     }
-    for (let i of newProduct) {
+    for (let i of newUserProduct) {
       if (i._id === id) {
         i.purchasesCount = purchasesCount - 1;
-        i.totalPrice = i.price * purchasesCount - 1;
+        i.totalPrice = i.purchasesCount * i.price;
       }
     }
-    setProduct(newProduct);
+    setUserProduct(newUserProduct);
     changeCart({ id: userId, cart: newCartList });
   };
 
@@ -276,7 +293,7 @@ function Cart({ isAuth, userId }) {
             <FadeAnimation>
               <CardBox>
                 <CartProduct
-                  product={product}
+                  product={userProduct}
                   checkProduct={checkProduct}
                   onCheckProduct={onCheckProduct}
                   onDelProduct={onDelProduct}
@@ -361,4 +378,4 @@ const CardBox = styled.div`
   margin-bottom: 3rem;
 `;
 
-export default React.memo(Cart);
+export default Cart;
