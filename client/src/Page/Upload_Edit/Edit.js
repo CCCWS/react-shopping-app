@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import Loading from "../../Components/Utility/Loading";
 import UploadForm from "../../Components/UploadForm/UploadForm";
-import ZoomAnimation from "../../Components/Utility/Animation/ZoomAnimation";
+import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 
 import useAxios from "../../hooks/useAxios";
 
@@ -36,14 +36,14 @@ function Edit({ isAuth, userId }) {
       {loading ? (
         <Loading />
       ) : (
-        <ZoomAnimation>
+        <FadeAnimation>
           <UploadForm
             userId={userId}
             edit={true}
             editData={product}
             productId={state.id}
           />
-        </ZoomAnimation>
+        </FadeAnimation>
       )}
     </div>
   );

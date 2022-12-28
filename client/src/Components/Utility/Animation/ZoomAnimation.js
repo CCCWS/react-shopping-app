@@ -1,7 +1,16 @@
-import Zoom from "react-reveal/Fade";
+import React from "react";
+import { Slide } from "react-awesome-reveal";
 
 const ZoomAnimation = ({ children }) => {
-  return <Zoom>{children}</Zoom>;
+  return (
+    <>
+      {children && (
+        <Slide duration={1000} triggerOnce={true}>
+          {children}
+        </Slide>
+      )}
+    </>
+  );
 };
 
-export default ZoomAnimation;
+export default React.memo(ZoomAnimation);

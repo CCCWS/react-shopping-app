@@ -1,7 +1,16 @@
-import Fade from "react-reveal/Fade";
+import React from "react";
+import { Fade } from "react-awesome-reveal";
 
 const FadeAnimation = ({ children }) => {
-  return <Fade bottom>{children}</Fade>;
+  return (
+    <>
+      {children && (
+        <Fade duration={1000} triggerOnce={true}>
+          {children}
+        </Fade>
+      )}
+    </>
+  );
 };
 
-export default FadeAnimation;
+export default React.memo(FadeAnimation);

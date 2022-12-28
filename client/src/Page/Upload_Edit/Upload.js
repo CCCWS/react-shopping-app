@@ -1,13 +1,13 @@
 import UploadForm from "../../Components/UploadForm/UploadForm";
-import ZoomAnimation from "../../Components/Utility/Animation/ZoomAnimation";
+import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 
 function Upload({ isAuth, userId }) {
   return (
     <>
       {isAuth && (
-        <ZoomAnimation>
+        <FadeAnimation>
           <UploadForm userId={userId} />
-        </ZoomAnimation>
+        </FadeAnimation>
       )}
     </>
   );

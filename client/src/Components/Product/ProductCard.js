@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-import ZoomAnimation from "../Utility/Animation/ZoomAnimation";
+import FadeAnimation from "../Utility/Animation/FadeAnimation";
 
 import useTheme from "../../hooks/useTheme";
 
@@ -18,7 +18,7 @@ function ProductCard({ data, viewType }) {
     <ProductCardDiv>
       {data.map((data, index) => (
         <CardDiv key={index} viewType={viewType}>
-          <ZoomAnimation>
+          <FadeAnimation>
             <Card
               viewType={viewType}
               id={data._id}
@@ -45,7 +45,7 @@ function ProductCard({ data, viewType }) {
                 <Count>{`남은 수량 ${data.count}개`}</Count>
               </Info>
             </Card>
-          </ZoomAnimation>
+          </FadeAnimation>
         </CardDiv>
       ))}
     </ProductCardDiv>
