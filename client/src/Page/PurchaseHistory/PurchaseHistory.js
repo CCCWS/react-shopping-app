@@ -8,6 +8,9 @@ import ModalBase from "../../Components/Modal/ModalBase";
 import Empty from "../../Components/Utility/Empty";
 import PurchaseHistotyProduct from "./PurchaseHistotyProduct";
 import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
+import SlideAnimation from "../../Components/Utility/Animation/SlideAnimation";
+
+
 
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
@@ -99,9 +102,9 @@ function PurchaseHistory({ isAuth, userId, darkMode }) {
         <Loading />
       ) : (
         <>
-          <FadeAnimation>
+          <SlideAnimation>
             <Title>{`최근 주문내역`}</Title>
-          </FadeAnimation>
+          </SlideAnimation>
 
           {product.length === 0 ? (
             <Empty onClick={(e) => console.log(e)}>

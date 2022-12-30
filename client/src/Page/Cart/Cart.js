@@ -9,6 +9,7 @@ import FooterCartPage from "../../Components/Footer/FooterCartPage";
 import Empty from "../../Components/Utility/Empty";
 import CartProduct from "./CartProduct";
 import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
+import SlideAnimation from "../../Components/Utility/Animation/SlideAnimation";
 
 import useModal from "../../hooks/useModal";
 import useAxios from "../../hooks/useAxios";
@@ -31,11 +32,8 @@ function Cart({ isAuth, userId }) {
   const { connectServer: changeCart } = useAxios("/api/user/changeCart");
 
   //조회된 id를 가지는 상품의 목록 조회
-  const {
-    resData: product,
-    setResData: setProduct,
-    connectServer: getProductList,
-  } = useAxios("/api/product/cart");
+  const { resData: product, connectServer: getProductList } =
+    useAxios("/api/product/cart");
 
   const { connectServer: removeCartProduct } = useAxios("/api/user/removeCart");
 
@@ -61,8 +59,12 @@ function Cart({ isAuth, userId }) {
     }
   }, [getProductList, userCartList]);
 
+  //유저 장바구니 데이터의 장바구니 개수와
+  //해당 상품의 정보를 합한 새로운 유저 상품 배열 생성
   const onUserProduct = useCallback(() => {
+    //product에는 장바구니 개수가 포함되지 않은 순수 상품 정보만 담김
     const temp = [...product];
+
     const newProductArr = temp.map((data, index) => {
       // ( ) => { }는 새로운 배열을 리턴하기전 어떠한 연산이나 변수선언등 조건을 처리할때 사용하며
       // 반드시 return으로 값을 직접 넘겨줘야함
@@ -83,8 +85,7 @@ function Cart({ isAuth, userId }) {
     setUserProduct(newProductArr);
   }, [product, userCartList]);
 
-  //유저의 카트에서 조회한 데이터에 장바구니에 추가한 상품의 개수가 담겨있음
-  //상품정보에 해당 상품의 개수와 총합가격을 데이터로 추가
+  //상품 정보를 가져온후 새로운 상품 배열 생성
   useEffect(() => {
     if (product && product.length > 0) {
       onUserProduct();
@@ -95,25 +96,6 @@ function Cart({ isAuth, userId }) {
       setLoading(false);
     }
   }, [product, onUserProduct]);
-
-  //선택한 상품의 가격 계산
-  useEffect(() => {
-    const calcTotalPrice = () => {
-      const arr = [];
-      checkProduct.forEach((data) => arr.push(data.totalPrice));
-
-      setTotalPrice(arr.reduce((prev, current) => prev + current));
-    };
-
-    if (checkProduct.length > 0) {
-      calcTotalPrice();
-      console.log("test");
-    }
-
-    if (checkProduct.length === 0) {
-      setTotalPrice(0);
-    }
-  }, [checkProduct, userProduct]);
 
   //전체 상품 체크
   const onCheckAll = useCallback(() => {
@@ -144,16 +126,23 @@ function Cart({ isAuth, userId }) {
 
   //선택한 상품 삭제
   const onCheckDel = () => {
+    //modal창에서 삭제버튼을 클릭시 실행
     const delFunc = () => {
       const option = [];
+
+      //선택된 상품의 id만 뽑아서 배열에 추가
       checkProduct.forEach((data) => option.push(data._id));
+
+      //id만 담겨있는 배열을 option으로 api요청
       removeCartProduct({ productId: option, userId: userId });
 
+      //선택한 상품을 제외한 나머지 상품만 남도록 유저 상품 배열 업데이트
       const temp = [...userProduct];
       setUserProduct(temp.filter((data) => !checkProduct.includes(data)));
       setCheckProduct([]);
     };
 
+    //선택된 상품이 하나이상일때 실행가능
     if (checkProduct.length !== 0) {
       setOpenModal(true);
       setContents({
@@ -168,6 +157,7 @@ function Cart({ isAuth, userId }) {
   //하나의 상품 삭제
   const onDelProduct = (id) => {
     const delFunc = () => {
+      //전체 삭제시 id를 배열에 담아서 보내주었기 때문에 하나의 상품도 배열에 담아서 전송
       removeCartProduct({ productId: [id], userId: userId });
       const temp = [...product];
       setUserProduct(temp.filter((data) => data._id !== id));
@@ -182,29 +172,7 @@ function Cart({ isAuth, userId }) {
     });
   };
 
-  //주문서 작성 페이지로 이동
-  const goCheckOut = () => {
-    if (checkProduct.length === 0) return;
-
-    let possible = true;
-    //구매 가능 확인
-    checkProduct.forEach((data) => {
-      if (data.count < data.purchasesCount) {
-        possible = false;
-        setOpenModal(true);
-        setContents({
-          title: "구매 불가.",
-          message: `수량이 부족한 상품이 포함되어 있습니다.`,
-        });
-      }
-    });
-    if (!possible) return;
-
-    nav("/checkOut", {
-      state: { product: checkProduct, totalPrice: totalPrice, cart: true },
-    });
-  };
-
+  //장바구니 상품 수량 증가
   const onChangeCountPlus = (id, purchasesCount) => {
     const newCartList = [...userCartList];
     const newUserProduct = [...userProduct];
@@ -229,6 +197,7 @@ function Cart({ isAuth, userId }) {
     changeCart({ id: userId, cart: newCartList });
   };
 
+  //장바구니 상품 수량 감소
   const onChangeCountMinus = (id, purchasesCount) => {
     const newCartList = [...userCartList];
     const newUserProduct = [...userProduct];
@@ -248,6 +217,54 @@ function Cart({ isAuth, userId }) {
     changeCart({ id: userId, cart: newCartList });
   };
 
+  //선택한 상품의 가격 계산
+  useEffect(() => {
+    const calcTotalPrice = () => {
+      const arr = [];
+      //선택한 상품의 가격만 뽑아서 배열에 추가
+      //totalPrice > 구매수량 * 상품 한개의 가격
+      checkProduct.forEach((data) => arr.push(data.totalPrice));
+
+      //배열의 값을 모두 더하여 상태 업데이트
+      setTotalPrice(arr.reduce((prev, current) => prev + current));
+    };
+
+    //선택한 상품이 하나 이상일때 가격 계산
+    if (checkProduct.length > 0) {
+      calcTotalPrice();
+    }
+
+    //선택한 상품이 없다면 전체 가격은 0원
+    if (checkProduct.length === 0) {
+      setTotalPrice(0);
+    }
+  }, [checkProduct, userProduct]);
+
+  //주문서 작성 페이지로 이동
+  const goCheckOut = () => {
+    //구매 선택한 상품이 없다면 이동 불가
+    if (checkProduct.length === 0) return;
+
+    let possible = true;
+
+    //구매 가능 확인
+    checkProduct.forEach((data) => {
+      if (data.count < data.purchasesCount) {
+        possible = false;
+        setOpenModal(true);
+        setContents({
+          title: "구매 불가.",
+          message: `수량이 부족한 상품이 포함되어 있습니다.`,
+        });
+      }
+    });
+    if (!possible) return;
+
+    nav("/checkOut", {
+      state: { product: checkProduct, totalPrice: totalPrice, cart: true },
+    });
+  };
+
   return (
     <div className="page">
       <ModalBase
@@ -256,11 +273,11 @@ function Cart({ isAuth, userId }) {
         setModalOpen={setOpenModal}
       />
 
-      <FadeAnimation>
+      <SlideAnimation>
         <Procedure>
           <strong>장바구니</strong> &gt; 주문서 &gt; 결제완료
         </Procedure>
-      </FadeAnimation>
+      </SlideAnimation>
 
       {loading ? (
         <Loading />

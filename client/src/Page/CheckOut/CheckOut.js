@@ -9,6 +9,7 @@ import Carousel1 from "../../Components/Utility/Carousel1";
 import CheckOutProduct from "./CheckOutProduct";
 import CheckOutInput from "./CheckOutInput";
 import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
+import SlideAnimation from "../../Components/Utility/Animation/SlideAnimation";
 
 import useAxios from "../../hooks/useAxios";
 
@@ -116,11 +117,11 @@ function CheckOut({ userId }) {
 
       {state && (
         <>
-          <FadeAnimation>
+          <SlideAnimation>
             <Procedure>
               장바구니 &gt; <strong>주문서</strong> &gt; 결제완료
             </Procedure>
-          </FadeAnimation>
+          </SlideAnimation>
 
           <FadeAnimation>
             <Div>

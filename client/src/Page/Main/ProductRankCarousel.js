@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Carousel1 from "../../Components/Utility/Carousel1";
-import ZoomAnimation from "../../Components/Utility/Animation/ZoomAnimation";
+import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 
 import useAxios from "../../hooks/useAxios";
 
@@ -29,7 +29,7 @@ const ProductRankCarousel = () => {
   }, [getSold, getViews]);
 
   return (
-    <ZoomAnimation>
+    <FadeAnimation>
       {!soldLoading && !viewsLoading && (
         <Carousel1
           height={"500px"}
@@ -53,7 +53,7 @@ const ProductRankCarousel = () => {
           </div>
         </Carousel1>
       )}
-    </ZoomAnimation>
+    </FadeAnimation>
   );
 };
 

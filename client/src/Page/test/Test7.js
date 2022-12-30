@@ -1,33 +1,24 @@
-import React, { useState } from "react";
-import Modal from "./modal/Modal";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 
 const Test7 = () => {
-  const [openModal, setOpenModal] = useState(false);
-  return (
-    <>
-      <Modal
-        open={openModal}
-        setOpen={setOpenModal}
-        onPushEscapeClose={true}
-        onClickBackgroundClose={true}
-        onCloseBtn={true}
-        backgroundColor={"rgba(0,0,0,0.5)"}
-      >
-        <Div>TEST</Div>
-      </Modal>
+  const createConnection = () => {
+    return {
+      connect() {
+        console.log("✅ Connecting...");
+      },
+      disconnect() {
+        console.log("❌ Disconnected.");
+      },
+    };
+  };
 
-      <button onClick={() => setOpenModal(!openModal)}>열기</button>
-    </>
-  );
+  useEffect(() => {
+    const connection = createConnection();
+    connection.connect();
+    return () => connection.disconnect();
+  }, []);
+
+  return <></>;
 };
-
-const Div = styled.div`
-  width: 200px;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default Test7;

@@ -8,6 +8,8 @@ import Loading from "../../Components/Utility/Loading";
 import Empty from "../../Components/Utility/Empty";
 import ZoomAnimation from "../../Components/Utility/Animation/ZoomAnimation";
 import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
+import SlideAnimation from "../../Components/Utility/Animation/SlideAnimation";
+
 
 import useAxios from "../../hooks/useAxios";
 import useTheme from "../../hooks/useTheme";
@@ -86,7 +88,7 @@ function ProductManagement({ isAuth, userId }) {
         <Loading />
       ) : (
         <>
-          <FadeAnimation>
+          <SlideAnimation>
             <Info>
               <Value>
                 <div>등록물품</div>
@@ -103,7 +105,7 @@ function ProductManagement({ isAuth, userId }) {
                 <div>{totalPrice.toLocaleString()}원</div>
               </Value>
             </Info>
-          </FadeAnimation>
+          </SlideAnimation>
 
           <FadeAnimation>
             <BuyerList buyerList={buyerList} />
@@ -118,7 +120,7 @@ function ProductManagement({ isAuth, userId }) {
             <List>
               {resData.map((data, index) => (
                 <Card key={index} onClick={() => nav(`/product/${data._id}`)}>
-                  <ZoomAnimation>
+                  <FadeAnimation>
                     <Product darkMode={darkMode}>
                       <NewImage img={`url('${postUrl}${data.image[0]}')`} />
                       <Content>
@@ -139,7 +141,7 @@ function ProductManagement({ isAuth, userId }) {
                         </ul>
                       </Content>
                     </Product>
-                  </ZoomAnimation>
+                  </FadeAnimation>
                 </Card>
               ))}
             </List>

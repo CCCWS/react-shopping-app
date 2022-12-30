@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import PurchaseHistotyProductList from "./PurchaseHistotyProductList";
-import ZoomAnimation from "../../Components/Utility/Animation/ZoomAnimation";
+import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 
 const PurchaseHistotyProduct = ({ product, onShippingInfo, darkMode }) => {
   const productDate = (data) => {
@@ -21,7 +21,7 @@ const PurchaseHistotyProduct = ({ product, onShippingInfo, darkMode }) => {
   return (
     <Div>
       {product.map((data) => (
-        <ZoomAnimation key={data.date}>
+        <FadeAnimation key={data.date}>
           <Product darkMode={darkMode}>
             <Info>
               <Value>
@@ -41,7 +41,7 @@ const PurchaseHistotyProduct = ({ product, onShippingInfo, darkMode }) => {
 
             <PurchaseHistotyProductList data={data} />
           </Product>
-        </ZoomAnimation>
+        </FadeAnimation>
       ))}
     </Div>
   );

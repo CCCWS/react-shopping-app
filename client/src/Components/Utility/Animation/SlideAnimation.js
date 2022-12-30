@@ -1,13 +1,13 @@
 import React from "react";
-import { Zoom } from "react-awesome-reveal";
+import { Slide } from "react-awesome-reveal";
 
 const ZoomAnimation = ({ children }) => {
   return (
     <>
       {children && (
-        <Zoom duration={1000} triggerOnce={true}>
+        <Slide duration={1000} direction={"down"} triggerOnce={true}>
           {children}
-        </Zoom>
+        </Slide>
       )}
     </>
   );
