@@ -47,6 +47,8 @@ function Cart({ isAuth, userId }) {
 
     if (isAuth) {
       getUserCartList({ id: userId });
+
+      return () => getUserCartList({ id: userId });
     }
   }, [getUserCartList, isAuth, userId]);
 
@@ -56,6 +58,8 @@ function Cart({ isAuth, userId }) {
       const option = []; //id만 배열로 묶어서 서버에 함께 전송
       userCartList.forEach((data) => option.push(data.id));
       getProductList(option);
+
+      return () => getProductList(option);
     }
   }, [getProductList, userCartList]);
 
@@ -90,11 +94,15 @@ function Cart({ isAuth, userId }) {
     if (product && product.length > 0) {
       onUserProduct();
       setLoading(false);
+
+      return () => onUserProduct();
     }
 
     if (product && product.length === 0) {
       setLoading(false);
     }
+
+    console.log("2");
   }, [product, onUserProduct]);
 
   //전체 상품 체크

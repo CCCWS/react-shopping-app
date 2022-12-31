@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from "react";
 
 const Test7 = () => {
-  const createConnection = () => {
-    return {
-      connect() {
-        console.log("✅ Connecting...");
-      },
-      disconnect() {
-        console.log("❌ Disconnected.");
-      },
-    };
-  };
+  // const [onInput, setOnInput] = useState("");
+  const [onBoolean, setOnBoolean] = useState(false);
 
-  useEffect(() => {
-    const connection = createConnection();
-    connection.connect();
-    return () => connection.disconnect();
-  }, []);
+  // useEffect(() => {
+  //   setOnInput("");
+  //   console.log("reset");
+  // }, [onBoolean]);
 
-  return <></>;
+  return (
+    <>
+      <TestInput onBoolean={onBoolean} key={onBoolean} />
+      <button onClick={() => setOnBoolean(!onBoolean)}>reset</button>
+    </>
+  );
+};
+
+const TestInput = ({ onBoolean }) => {
+  const [onInput, setOnInput] = useState("");
+
+  console.log(onBoolean);
+
+  return (
+    <>
+      <input value={onInput} onChange={(e) => setOnInput(e.target.value)} />
+    </>
+  );
 };
 
 export default Test7;

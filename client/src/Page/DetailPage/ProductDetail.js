@@ -61,7 +61,8 @@ function ProductDetail({ isAuth, userId }) {
   //조회한 상품을 hitory에 등록
   useEffect(() => {
     //모달창이 열린상태로 뒤로가기 혹은 앞으로갈때 모달창이 닫히도록 이동하면 false로 바꿔줌
-    setOpenModal(false);
+    if (openImgModal) setOpenImgModal(false);
+    if (openModal) setOpenModal(false);
 
     const get = JSON.parse(localStorage.getItem("productHistory"));
 
