@@ -18,7 +18,9 @@ const Modal = ({ children, contents, modalOpen, setModalOpen }) => {
         }
       };
       window.addEventListener("keydown", escapeCheck);
-      return () => window.removeEventListener("keydown", escapeCheck);
+      return () => {
+        window.removeEventListener("keydown", escapeCheck);
+      };
     }
   }, [modalOpen, setModalOpen]);
 

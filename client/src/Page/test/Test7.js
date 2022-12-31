@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const Test7 = () => {
-  // const [onInput, setOnInput] = useState("");
   const [onBoolean, setOnBoolean] = useState(false);
-
-  // useEffect(() => {
-  //   setOnInput("");
-  //   console.log("reset");
-  // }, [onBoolean]);
 
   return (
     <>
@@ -19,8 +13,6 @@ const Test7 = () => {
 
 const TestInput = ({ onBoolean }) => {
   const [onInput, setOnInput] = useState("");
-
-  console.log(onBoolean);
 
   return (
     <>

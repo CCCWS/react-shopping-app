@@ -78,13 +78,12 @@ function Main() {
         category: selectCategory,
         price: priceRange,
         readMore: false,
-        searchValue: searchValue,
       };
       getProduct(option);
     };
 
     onCategorySearch();
-  }, [selectCategory, priceRange]);
+  }, [selectCategory, priceRange, getProduct]);
 
   //더보기시 데이터 조회
   useEffect(() => {
@@ -104,7 +103,7 @@ function Main() {
     if (setReadRef) {
       readMore();
     }
-  }, [setReadRef]);
+  }, [setReadRef, getProduct]);
 
   //검색시 데이터 조회
   const onKeywordSearch = (e) => {
@@ -197,7 +196,9 @@ function Main() {
       ) : (
         <>
           <ProductCard data={productList} viewType={click} />
-          {!lastData && <ReadMore ref={readRef} />}
+          {!lastData && productList.length >= limit && (
+            <ReadMore ref={readRef} />
+          )}
         </>
       )}
     </div>

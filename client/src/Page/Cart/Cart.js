@@ -47,8 +47,6 @@ function Cart({ isAuth, userId }) {
 
     if (isAuth) {
       getUserCartList({ id: userId });
-
-      return () => getUserCartList({ id: userId });
     }
   }, [getUserCartList, isAuth, userId]);
 
@@ -101,8 +99,6 @@ function Cart({ isAuth, userId }) {
     if (product && product.length === 0) {
       setLoading(false);
     }
-
-    console.log("2");
   }, [product, onUserProduct]);
 
   //전체 상품 체크

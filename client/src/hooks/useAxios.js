@@ -12,13 +12,16 @@ const useAxios = (url) => {
         if (option === undefined) {
           setLoading(true);
           const res = await axios.get(url);
+
           setResData(res.data);
         } else {
           if (option.readMore === true) {
             const res = await axios.post(url, option);
             setResData((item) => [...item, ...res.data]);
+
             if (res.data.length === 0) {
               setLastData(true);
+              console.log("라스트");
             }
           } else {
             setLoading(true);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { LeftOutlined, HomeOutlined, SearchOutlined } from "@ant-design/icons";
 import styled, { css } from "styled-components";
@@ -12,6 +12,7 @@ import FooterDetailPage from "../../Components/Footer/FooterDetailPage";
 import getTime from "../../hooks/getTime";
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 import { postUrl } from "../../PostUrl";
 import ProductInfo from "./ProductInfo";
@@ -58,81 +59,50 @@ function ProductDetail({ isAuth, userId }) {
   //작성된 시간과 현재시간의 차이를 데이터로 받음, 작성일을 n일전으로 표시
   const time = product && getTime(product.createdAt);
 
-  //조회한 상품을 hitory에 등록
+  //최근본 상품에 등록
+  useLocalStorage(product, loading);
+
+  // useEffect(() => {
+  //   //모달창이 열린상태로 뒤로가기 혹은 앞으로갈때 모달창이 닫히도록 이동하면 false로 바꿔줌
+  //   if (!openImgModal && !openModal) return;
+
+  //   if (openImgModal) setOpenImgModal(false);
+  //   if (openModal) setOpenModal(false);
+  // }, [openImgModal, openModal, setOpenImgModal, setOpenModal]);
+
   useEffect(() => {
-    //모달창이 열린상태로 뒤로가기 혹은 앞으로갈때 모달창이 닫히도록 이동하면 false로 바꿔줌
-    if (openImgModal) setOpenImgModal(false);
-    if (openModal) setOpenModal(false);
+    setOpenModal(false);
+    setOpenImgModal(false);
+  }, [id, setOpenModal, setOpenImgModal]);
 
-    const get = JSON.parse(localStorage.getItem("productHistory"));
-
-    //LocalStorage에 해당 상품 저장
-    const setLocalData = () => {
-      //접속한 페이지의 상품을 제외한 나머지 데이터를 가져옴
-      const filterGet = get.filter((data) => data.id !== product._id);
-
-      //접속한 페이지의 상품을 LocalStorage에 저장
-      //없는 상품이라면 새롭게 추가, 이미 있던 상품이라면 제거후 최상단으로 새롭게 추가
-      localStorage.setItem(
-        "productHistory",
-        JSON.stringify([
-          { id: product._id, image: product.image[0] },
-          ...filterGet,
-        ])
-      );
-    };
-
-    if (loading === false) {
-      //LocalStorage가 비어있을 경우
-      if (get === null) {
-        localStorage.setItem(
-          "productHistory",
-          JSON.stringify([{ id: product._id, image: product.image[0] }])
-        );
-
-        //LocalStorage에 데이터가 있을 경우
-      } else {
-        //LocalStorage의 최대 저장길이는 6으로 지정
-        if (get.length === 6) {
-          //중복 데이터가 이미 있는 경우
-          if (get.filter((data) => data.id === product._id).length === 1) {
-            setLocalData();
-
-            //중복데이터가 없을경우 하나를 pop하고 추가
-          } else {
-            get.pop();
-            setLocalData();
-          }
-
-          //LocalStorage에 저장된 상품이 6미만일 경우
-        } else {
-          setLocalData();
-        }
-      }
-    }
-  }, [id, loading, product, setOpenModal]);
-
-  //상품의 정보를 받아옴
   useEffect(() => {
+    //상품정보가 없을때 실행
+    let onFetch = false;
+    if (onFetch) return;
+
     getProduct({ id });
+
+    return () => (onFetch = true);
   }, [id, getProduct]);
 
-  //제품 정보를 가져왔을때 실행
+  const getApi = useCallback(() => {
+    getWriter({ id: product.writer });
+    getOtherProduct({
+      filterId: id,
+      category: product.category,
+    });
+  }, [getOtherProduct, getWriter, id, product]);
+
   useEffect(() => {
-    if (product) {
+    //상품정보가 있을때 실행
+
+    if (product && product._id === id) {
       const titleName = document.getElementsByTagName("title")[0];
       titleName.innerHTML = product.title;
 
-      //작성자 정보
-      getWriter({ id: product.writer });
-
-      //같은 카테고리의 다른 상품
-      getOtherProduct({
-        filterId: id,
-        category: product.category,
-      });
+      getApi();
     }
-  }, [product, getOtherProduct, getWriter, id]);
+  }, [id, product, getApi]);
 
   //장바구니와 구매하기 버튼 클릭시 가능여부 확인
   const onBtnCheck = () => {
@@ -208,6 +178,8 @@ function ProductDetail({ isAuth, userId }) {
         cartBtn: true,
       });
       setOpenModal(true);
+
+      return () => setOpenModal(false);
     }
 
     //중복이 아닐경우
@@ -218,6 +190,8 @@ function ProductDetail({ isAuth, userId }) {
         cartBtn: true,
       });
       setOpenModal(true);
+
+      return () => setOpenModal(false);
     }
 
     //모든 행동이 완료된 이후 로딩 false
@@ -244,10 +218,10 @@ function ProductDetail({ isAuth, userId }) {
         <ImgDiv img={`url('${postUrl}${currImg}')`} modal={true} />
       </ModalBase>
 
-      <BackBtn onClick={() => nav("/")}>
+      {/* <BackBtn onClick={() => nav("/")}>
         <LeftOutlined />
         <HomeOutlined />
-      </BackBtn>
+      </BackBtn> */}
 
       {loading ? (
         <Loading />
@@ -355,4 +329,4 @@ const OpenModalBtn = styled.div`
   }
 `;
 
-export default React.memo(ProductDetail);
+export default ProductDetail;

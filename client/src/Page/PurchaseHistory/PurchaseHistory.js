@@ -10,8 +10,6 @@ import PurchaseHistotyProduct from "./PurchaseHistotyProduct";
 import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 import SlideAnimation from "../../Components/Utility/Animation/SlideAnimation";
 
-
-
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
 
@@ -43,6 +41,8 @@ function PurchaseHistory({ isAuth, userId, darkMode }) {
         id: userId,
       };
 
+      console.log("인증");
+
       connectServer(option);
     }
 
@@ -60,13 +60,13 @@ function PurchaseHistory({ isAuth, userId, darkMode }) {
         readMore: true,
       };
       connectServer(option);
-      setSkip((prev) => prev + limit);
     };
 
     if (setReadRef) {
       readMore();
+      setSkip((prev) => prev + limit);
     }
-  }, [skip, setReadRef, userId, connectServer]);
+  }, [setReadRef, userId, connectServer]);
 
   //modal을 열때 배송정보 저장
   const onShippingInfo = useCallback(
@@ -118,7 +118,9 @@ function PurchaseHistory({ isAuth, userId, darkMode }) {
                 product={product}
                 onShippingInfo={onShippingInfo}
               />
-              {!lastData && <ReadMore ref={readRef} />}
+              {!lastData && product.length >= limit && (
+                <ReadMore ref={readRef} />
+              )}
             </>
           )}
         </>
@@ -153,6 +155,7 @@ const Message = styled.div`
 const ReadMore = styled.div`
   width: 100%;
   height: 10px;
+  background-color: red;
 `;
 
 export default React.memo(PurchaseHistory);
