@@ -5,21 +5,25 @@ import styled from "styled-components";
 import { login, register } from "../../../store/reducer/user/user-action";
 import { notificationAction } from "../../../store/reducer/notification";
 
-function LoginComponent({ type, setType, setOpenModal }) {
+function LoginForm({ type, setType, setOpenModal }) {
+  const dispatch = useDispatch();
+
   const darkMode = useSelector((state) => state.darkMode.darkMode);
   const loginError = useSelector((state) => state.warningMessage.login);
   const registerError = useSelector((state) => state.warningMessage.register);
 
-  const dispatch = useDispatch();
+  //로그인
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
+  //회원가입
   const registerEmailRef = useRef(null);
   const registerPasswordRef = useRef(null);
   const registerNameRef = useRef(null);
   const registerPasswordConfRef = useRef(null);
 
   useEffect(() => {
+    //로그인 > 회원가입, 회원가입 > 로그인으로 전환시 입력값 제거
     if (type === "login") {
       emailRef.current.value = "";
       passwordRef.current.value = "";
@@ -209,4 +213,4 @@ const Button = styled.button`
   }
 `;
 
-export default LoginComponent;
+export default LoginForm;

@@ -37,7 +37,6 @@ const upload = multer({
 
 //이미지 업로드
 app.post("/s3Upload", upload.single("image"), (req, res) => {
-  console.log(res.req.file);
   return res.status(200).json({ fileName: res.req.file.key });
 });
 

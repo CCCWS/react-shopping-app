@@ -11,8 +11,10 @@ export const auth = () => {
   };
 };
 
+//로그인 요청시
 export const login = (data) => {
   let loginCheck = false;
+
   return async (dispatch) => {
     const loginApi = async () => {
       const res = await axios.post("/api/user/login", data);

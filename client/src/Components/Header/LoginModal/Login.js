@@ -3,12 +3,13 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 
 import { warningMessageAction } from "../../../store/reducer/warningMessage";
-import LoginComponent from "./LoginComponent";
+import LoginForm from "./LoginForm";
 
 function Login({ setOpenModal }) {
   const dispatch = useDispatch();
   const [type, setType] = useState("login");
 
+  //로그인 > 회원가입, 회원가입 > 로그인으로 전환시 기존의 에러메세지 초기화
   useEffect(() => {
     dispatch(
       warningMessageAction.setRegisterError({
@@ -41,11 +42,7 @@ function Login({ setOpenModal }) {
         {type === "login" ? "로그인" : "회원가입"}
       </LoginTitle>
 
-      <LoginComponent
-        type={type}
-        setType={setType}
-        setOpenModal={setOpenModal}
-      />
+      <LoginForm type={type} setType={setType} setOpenModal={setOpenModal} />
 
       <div>
         {type === "login" ? (
