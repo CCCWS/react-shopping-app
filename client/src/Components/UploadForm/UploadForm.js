@@ -18,6 +18,8 @@ import { Section, Input, Textarea } from "../Style/InputStyle";
 import { uploadCategoryList } from "../../data/CatecoryList";
 
 function UploadForm({ userId, edit, editData, productId }) {
+  console.log("test");
+
   const nav = useNavigate();
   const [imgDelete, setImgDelete] = useState([]); //edit페이지일때 삭제할 이미지 임시저장
   const [image, setImage] = useState([]); //등록된 이미지
@@ -125,7 +127,6 @@ function UploadForm({ userId, edit, editData, productId }) {
       count: countRef.current.value,
       image: image,
       category: category,
-      sold: 0,
     };
 
     try {
@@ -151,8 +152,8 @@ function UploadForm({ userId, edit, editData, productId }) {
   //usePrompt를 true로 주면 수정하기나 등록하기를 할때에도 페이지 이동 경고가 나옴
   //수정, 등록 완료시 이 기능을 끄기위해 state를 false로 바꿔주고 state가 변화했을때 홈으로 이동
   useEffect(() => {
-    if (!writeCheck) nav("/");
-  }, [writeCheck, nav]);
+    if (!writeCheck) nav(`/product/${productId}`);
+  }, [productId, writeCheck, nav]);
 
   return (
     <div className="page">

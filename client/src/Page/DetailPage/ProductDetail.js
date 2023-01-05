@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { LeftOutlined, HomeOutlined, SearchOutlined } from "@ant-design/icons";
 import styled, { css } from "styled-components";
+import axios from "axios";
 
 import RecentView from "../../Components/Product/RecentView";
 import Carousel2 from "../../Components/Utility/Carousel2";
@@ -25,26 +26,32 @@ function ProductDetail({ isAuth, userId }) {
   const [currImg, setCurrImg] = useState(""); //이미지 클릭시 모달로 전달
   const { id } = useParams(); //상품 id
 
+  const [loading, setLoading] = useState(true);
+  const [sideLoading, setSideLoading] = useState(true);
+  const [product, setProduct] = useState();
+  const [otherProduct, setOtherProduct] = useState();
+  const [productWriter, setProductWriter] = useState();
+
   //제품의 상세 정보 조회
-  const {
-    resData: product,
-    loading,
-    connectServer: getProduct,
-  } = useAxios("/api/product/productDetail");
+  // const {
+  //   resData: product,
+  //   loading,
+  //   connectServer: getProduct,
+  // } = useAxios("/api/product/productDetail");
 
   //제품과 같은 카테고리의 상품 조회
-  const {
-    resData: otherProduct,
-    loading: otherLoading,
-    connectServer: getOtherProduct,
-  } = useAxios("/api/product/productList");
+  // const {
+  //   resData: otherProduct,
+  //   loading: otherLoading,
+  //   connectServer: getOtherProduct,
+  // } = useAxios("/api/product/productList");
 
   //작성자 정보 조회
-  const {
-    resData: productWriter,
-    loading: writerLoading,
-    connectServer: getWriter,
-  } = useAxios("/api/user/userInfo");
+  // const {
+  //   resData: productWriter,
+  //   loading: writerLoading,
+  //   connectServer: getWriter,
+  // } = useAxios("/api/user/userInfo");
 
   //장바구니 추가
   const { resData: cartAddResponse, connectServer: addProductCart } =
@@ -71,38 +78,90 @@ function ProductDetail({ isAuth, userId }) {
   // }, [openImgModal, openModal, setOpenImgModal, setOpenModal]);
 
   useEffect(() => {
-    setOpenModal(false);
-    setOpenImgModal(false);
+    const init = () => {
+      console.log("초기화");
+      // setProduct();
+      // setOtherProduct();
+      // setProductWriter();
+
+      setLoading(true);
+      setSideLoading(true);
+
+      setOpenModal(false);
+      setOpenImgModal(false);
+    };
+    init();
   }, [id, setOpenModal, setOpenImgModal]);
 
   useEffect(() => {
-    //상품정보가 없을때 실행
-    let onFetch = false;
-    if (onFetch) return;
+    const getOtherProduct = async (PRODUCT_ID, PRODUCT_CATEGORY) => {
+      const res = await axios.post("/api/product/productList", {
+        filterId: PRODUCT_ID,
+        category: PRODUCT_CATEGORY,
+      });
+      setOtherProduct(res.data);
+    };
 
-    getProduct({ id });
+    const getProductWriter = async (PRODUCT_WRITER) => {
+      const res = await axios.post("/api/user/userInfo", {
+        id: PRODUCT_WRITER,
+      });
+      setProductWriter(res.data);
+    };
 
-    return () => (onFetch = true);
-  }, [id, getProduct]);
+    const getProduct = async (postId) => {
+      const res = await axios.post("/api/product/productDetail", {
+        id: postId,
+      });
 
-  const getApi = useCallback(() => {
-    getWriter({ id: product.writer });
-    getOtherProduct({
-      filterId: id,
-      category: product.category,
-    });
-  }, [getOtherProduct, getWriter, id, product]);
+      setProduct(res.data);
+
+      const PRODUCT_ID = res.data._id;
+      const PRODUCT_CATEGORY = res.data.category;
+      const PRODUCT_WRITER = res.data.writer;
+
+      getOtherProduct(PRODUCT_ID, PRODUCT_CATEGORY);
+      getProductWriter(PRODUCT_WRITER);
+
+      setLoading(false);
+    };
+    getProduct(id);
+  }, [id]);
 
   useEffect(() => {
-    //상품정보가 있을때 실행
+    if (productWriter && otherProduct) setSideLoading(false);
+  }, [productWriter, otherProduct]);
 
-    if (product && product._id === id) {
-      const titleName = document.getElementsByTagName("title")[0];
-      titleName.innerHTML = product.title;
+  console.log("Test");
 
-      getApi();
-    }
-  }, [id, product, getApi]);
+  // useEffect(() => {
+  //   //상품정보가 없을때 실행
+  //   let onFetch = false;
+  //   if (onFetch) return;
+
+  //   getProduct({ id });
+
+  //   return () => (onFetch = true);
+  // }, [id, getProduct]);
+
+  // const getApi = useCallback(() => {
+  //   getWriter({ id: product.writer });
+  //   getOtherProduct({
+  //     filterId: id,
+  //     category: product.category,
+  //   });
+  // }, [getOtherProduct, getWriter, id, product]);
+
+  // useEffect(() => {
+  //   //상품정보가 있을때 실행
+
+  //   if (product && product._id === id) {
+  //     const titleName = document.getElementsByTagName("title")[0];
+  //     titleName.innerHTML = product.title;
+
+  //     getApi();
+  //   }
+  // }, [id, product, getApi]);
 
   //장바구니와 구매하기 버튼 클릭시 가능여부 확인
   const onBtnCheck = () => {
@@ -178,8 +237,6 @@ function ProductDetail({ isAuth, userId }) {
         cartBtn: true,
       });
       setOpenModal(true);
-
-      return () => setOpenModal(false);
     }
 
     //중복이 아닐경우
@@ -190,8 +247,6 @@ function ProductDetail({ isAuth, userId }) {
         cartBtn: true,
       });
       setOpenModal(true);
-
-      return () => setOpenModal(false);
     }
 
     //모든 행동이 완료된 이후 로딩 false
@@ -244,12 +299,12 @@ function ProductDetail({ isAuth, userId }) {
           </Carousel2>
 
           <ProductInfo
-            writerLoading={writerLoading}
+            writerLoading={sideLoading}
             productWriter={productWriter}
             product={product}
             time={time}
             otherProduct={otherProduct}
-            otherLoading={otherLoading}
+            otherLoading={sideLoading}
           />
 
           <FooterDetailPage
@@ -257,7 +312,7 @@ function ProductDetail({ isAuth, userId }) {
             userId={userId}
             purchasesCount={purchasesCount}
             productWriter={productWriter}
-            writerLoading={writerLoading}
+            writerLoading={sideLoading}
             setPurchasesCount={setPurchasesCount}
             onAddCartProduct={onAddCartProduct}
             goCheckOut={onGoCheckOut}
