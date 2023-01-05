@@ -53,6 +53,7 @@ const Div = styled.div`
   height: 2.2rem;
   font-size: 1rem;
   /* margin-left: 1rem; */
+  margin: 5px;
 
   border: 2px solid var(--gray_transparency);
   border-radius: 5px;

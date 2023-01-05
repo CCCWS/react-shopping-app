@@ -8,10 +8,6 @@ const Carousel2 = ({ children, height, point }) => {
 
   const [location, setLocation] = useState(0);
 
-  const onLocation = (index) => {
-    setLocation(index);
-  };
-
   return (
     <>
       <Div>
@@ -30,7 +26,7 @@ const Carousel2 = ({ children, height, point }) => {
                 key={index}
                 id={index}
                 location={location}
-                onClick={() => onLocation(index)}
+                onClick={() => setLocation(index)}
               />
             ))}
           </PointBox>

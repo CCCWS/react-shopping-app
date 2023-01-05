@@ -9,6 +9,7 @@ import Carousel2 from "../../Components/Utility/Carousel2";
 import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";
 import FooterDetailPage from "../../Components/Footer/FooterDetailPage";
+import ProductCarousel from "./ProductCarousel";
 
 import getTime from "../../hooks/getTime";
 import useAxios from "../../hooks/useAxios";
@@ -28,9 +29,9 @@ function ProductDetail({ isAuth, userId }) {
 
   const [loading, setLoading] = useState(true);
   const [sideLoading, setSideLoading] = useState(true);
-  const [product, setProduct] = useState();
-  const [otherProduct, setOtherProduct] = useState();
-  const [productWriter, setProductWriter] = useState();
+  const [product, setProduct] = useState([]);
+  const [otherProduct, setOtherProduct] = useState([]);
+  const [productWriter, setProductWriter] = useState([]);
 
   //제품의 상세 정보 조회
   // const {
@@ -132,8 +133,6 @@ function ProductDetail({ isAuth, userId }) {
     if (productWriter && otherProduct) setSideLoading(false);
   }, [productWriter, otherProduct]);
 
-  console.log("Test");
-
   // useEffect(() => {
   //   //상품정보가 없을때 실행
   //   let onFetch = false;
@@ -164,7 +163,7 @@ function ProductDetail({ isAuth, userId }) {
   // }, [id, product, getApi]);
 
   //장바구니와 구매하기 버튼 클릭시 가능여부 확인
-  const onBtnCheck = () => {
+  const onBtnCheck = useCallback(() => {
     let authCheck = true;
 
     //비로그인
@@ -188,10 +187,10 @@ function ProductDetail({ isAuth, userId }) {
     }
 
     return authCheck;
-  };
+  }, [isAuth, product.count, setContents, setOpenModal]);
 
   //구매 버튼 클릭시 실행
-  const onGoCheckOut = () => {
+  const onGoCheckOut = useCallback(() => {
     //onBtnCheck의 결과가 true라면 로그인이 되어있고 품절이 아님
     if (onBtnCheck()) {
       //구매 물품과 수량을 함께 넘겨줌
@@ -209,10 +208,10 @@ function ProductDetail({ isAuth, userId }) {
         },
       });
     }
-  };
+  }, [nav, onBtnCheck, product, purchasesCount]);
 
   //장바구니 버튼 클릭시 실행
-  const onAddCartProduct = () => {
+  const onAddCartProduct = useCallback(() => {
     //onBtnCheck의 결과가 true라면 로그인이 되어있고 품절이 아님
     if (onBtnCheck()) {
       setCartAddLoading(true);
@@ -225,7 +224,7 @@ function ProductDetail({ isAuth, userId }) {
 
       addProductCart(option);
     }
-  };
+  }, [onBtnCheck, addProductCart, product._id, userId, purchasesCount]);
 
   //장바구니 추가 api의 res를 받았을때 실행됨
   useEffect(() => {
@@ -252,6 +251,14 @@ function ProductDetail({ isAuth, userId }) {
     //모든 행동이 완료된 이후 로딩 false
     setCartAddLoading(false);
   }, [setContents, setOpenModal, cartAddResponse]);
+
+  const onImgModalOpen = useCallback(
+    (data) => {
+      setOpenImgModal(true);
+      setCurrImg(data);
+    },
+    [setOpenImgModal, setCurrImg]
+  );
 
   return (
     <div className="page">
@@ -282,21 +289,12 @@ function ProductDetail({ isAuth, userId }) {
         <Loading />
       ) : (
         <>
-          <Carousel2 height={"500px"} point={true}>
-            {product.image.map((data, index) => (
-              <React.Fragment key={index}>
-                <ImgDiv carousel={true} img={`url('${postUrl}${data}')`} />
-                <OpenModalBtn
-                  onClick={() => {
-                    setOpenImgModal(true);
-                    setCurrImg(data);
-                  }}
-                >
-                  <SearchOutlined />
-                </OpenModalBtn>
-              </React.Fragment>
-            ))}
-          </Carousel2>
+          <ProductCarousel
+            img={product.image}
+            postUrl={postUrl}
+            onImgModalOpen={onImgModalOpen}
+            ImgDiv={ImgDiv}
+          />
 
           <ProductInfo
             writerLoading={sideLoading}
@@ -359,29 +357,6 @@ const ImgDiv = styled.div`
       width: 100%;
       height: 100%;
     `}
-`;
-
-const OpenModalBtn = styled.div`
-  position: absolute;
-  padding: 10px;
-  border-radius: 10px;
-
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 2rem;
-  opacity: 0.2;
-  background-color: var(--gray_transparency);
-
-  &:hover {
-    cursor: pointer;
-    opacity: 1;
-  }
 `;
 
 export default ProductDetail;

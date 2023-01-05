@@ -16,6 +16,7 @@ const FooterDetailPage = ({
   goCheckOut,
   writerLoading,
 }) => {
+  console.log("TEST");
   const nav = useNavigate();
 
   return (
@@ -109,4 +110,4 @@ const Button = styled.button`
   } */
 `;
 
-export default FooterDetailPage;
+export default React.memo(FooterDetailPage);
