@@ -26,7 +26,6 @@ import Test7 from "./Page/test/Test7";
 import Auth from "./hoc/auth";
 import GlobalStyle from "./Components/Style/GlobalStyle";
 
-
 import "./Color.css";
 
 function App() {

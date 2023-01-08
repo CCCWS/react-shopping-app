@@ -13,6 +13,7 @@ const Toggle = () => {
   const click = () => {
     dispatch(darkModeAction.onMode());
   };
+
   return (
     <Div onClick={click}>
       {darkMode ? (

@@ -71,6 +71,7 @@ function Main() {
   //페이지 로딩시 or 카테고리, 가격 목록 선택시 데이터조회
   useEffect(() => {
     setSkip(0);
+
     const onCategorySearch = () => {
       const option = {
         limit: limit,
@@ -87,15 +88,16 @@ function Main() {
 
   //더보기시 데이터 조회
   useEffect(() => {
+    const option = {
+      limit: limit,
+      skip: skip + limit,
+      category: selectCategory,
+      price: priceRange,
+      searchValue: searchValue,
+      readMore: true,
+    };
+
     const readMore = () => {
-      const option = {
-        limit: limit,
-        skip: skip + limit,
-        category: selectCategory,
-        price: priceRange,
-        searchValue: searchValue,
-        readMore: true,
-      };
       getProduct(option);
       setSkip((prev) => prev + limit);
     };

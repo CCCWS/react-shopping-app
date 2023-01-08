@@ -35,7 +35,7 @@ function SelectBox({ data, setData, edit, initData }) {
 
   useEffect(() => {
     if (edit) setTitle(initData);
-  }, []);
+  }, [edit, initData]);
 
   return (
     <Div onClick={() => setClick(!click)} ref={selectRef1}>

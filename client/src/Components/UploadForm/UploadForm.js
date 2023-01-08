@@ -18,9 +18,8 @@ import { Section, Input, Textarea } from "../Style/InputStyle";
 import { uploadCategoryList } from "../../data/CatecoryList";
 
 function UploadForm({ userId, edit, editData, productId }) {
-  console.log("test");
-
   const nav = useNavigate();
+
   const [imgDelete, setImgDelete] = useState([]); //edit페이지일때 삭제할 이미지 임시저장
   const [image, setImage] = useState([]); //등록된 이미지
   const [category, setCategory] = useState(""); //선택된 카테고리
@@ -89,17 +88,17 @@ function UploadForm({ userId, edit, editData, productId }) {
       return alert("이미지를 등록해주세요.");
     }
 
-    if (titleRef.current.value < 2) {
+    if (titleRef.current.value.length < 2) {
       titleRef.current.focus();
       return alert("제목을 2글자 이상 입력해주세요.");
     }
 
-    if (priceRef.current.value < 1) {
+    if (priceRef.current.value.length < 1) {
       priceRef.current.focus();
       return alert("가격을 입력해주세요.");
     }
 
-    if (countRef.current.value < 1) {
+    if (countRef.current.value.length < 1) {
       countRef.current.focus();
       return alert("수량을 입력해주세요.");
     }
@@ -108,14 +107,14 @@ function UploadForm({ userId, edit, editData, productId }) {
       return alert("카테고리를 선택해주세요.");
     }
 
-    if (descriptionRef.current.value < 10) {
+    if (descriptionRef.current.value.length < 10) {
       descriptionRef.current.focus();
       return alert("설명을 10글자 이상 입력해주세요.");
     }
 
-    if (window.confirm("상품을 등록하시겠습니까?")) {
-      uploadData();
-    }
+    // if (window.confirm("상품을 등록하시겠습니까?")) {
+    //   uploadData();
+    // }
   };
 
   const uploadData = async () => {

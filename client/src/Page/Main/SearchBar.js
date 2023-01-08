@@ -4,18 +4,16 @@ import { SearchOutlined } from "@ant-design/icons";
 
 const SearchBar = ({ onKeywordSearch, searchValue, onSearchValue }) => {
   return (
-    <>
-      <MainSearchBar onSubmit={onKeywordSearch}>
-        <input
-          value={searchValue}
-          onChange={onSearchValue}
-          placeholder="검색어를 입력해주세요."
-        />
-        <div>
-          <SearchOutlined onClick={onKeywordSearch} />
-        </div>
-      </MainSearchBar>
-    </>
+    <MainSearchBar onSubmit={onKeywordSearch}>
+      <input
+        value={searchValue}
+        onChange={onSearchValue}
+        placeholder="검색어를 입력해주세요."
+      />
+      <div>
+        <SearchOutlined onClick={onKeywordSearch} />
+      </div>
+    </MainSearchBar>
   );
 };
 

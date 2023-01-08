@@ -12,9 +12,10 @@ const useAxios = (url) => {
         if (option === undefined) {
           setLoading(true);
           const res = await axios.get(url);
-
           setResData(res.data);
-        } else {
+        }
+
+        if (option) {
           if (option.readMore === true) {
             const res = await axios.post(url, option);
             setResData((item) => [...item, ...res.data]);
