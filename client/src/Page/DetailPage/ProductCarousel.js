@@ -5,7 +5,6 @@ import Carousel2 from "../../Components/Utility/Carousel2";
 import { SearchOutlined } from "@ant-design/icons";
 
 const ProductCarousel = ({ img, postUrl, onImgModalOpen, ImgDiv }) => {
-  console.log("이미지랜더");
   return (
     <Carousel2 height={"500px"} point={true}>
       {img.map((data, index) => (

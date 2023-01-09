@@ -32,17 +32,17 @@ const Div = styled.div`
   width: 35px;
   min-height: 35px;
   border-radius: 30px;
-  /* margin-right: 10px; */
   background-color: var(--gray_transparency);
   transition: all ease 0.5s;
 
   &:hover {
     cursor: pointer;
     background-color: var(--gray);
+    transform: rotate(360deg);
   }
 
   &:active {
-    transform: rotate(360deg);
+    /* transform: rotate(360deg); */
   }
 `;
 

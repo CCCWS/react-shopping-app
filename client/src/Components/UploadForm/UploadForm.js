@@ -112,9 +112,9 @@ function UploadForm({ userId, edit, editData, productId }) {
       return alert("설명을 10글자 이상 입력해주세요.");
     }
 
-    // if (window.confirm("상품을 등록하시겠습니까?")) {
-    //   uploadData();
-    // }
+    if (window.confirm("상품을 등록하시겠습니까?")) {
+      uploadData();
+    }
   };
 
   const uploadData = async () => {

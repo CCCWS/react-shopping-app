@@ -80,7 +80,6 @@ function ProductDetail({ isAuth, userId }) {
 
   useEffect(() => {
     const init = () => {
-      console.log("초기화");
       // setProduct();
       // setOtherProduct();
       // setProductWriter();

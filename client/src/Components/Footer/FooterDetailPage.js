@@ -16,7 +16,6 @@ const FooterDetailPage = ({
   goCheckOut,
   writerLoading,
 }) => {
-  console.log("TEST");
   const nav = useNavigate();
 
   return (

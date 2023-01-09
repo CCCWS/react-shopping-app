@@ -7,7 +7,6 @@ import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";
 import Empty from "../../Components/Utility/Empty";
 import PurchaseHistotyProduct from "./PurchaseHistotyProduct";
-import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 import SlideAnimation from "../../Components/Utility/Animation/SlideAnimation";
 
 import useAxios from "../../hooks/useAxios";
@@ -40,8 +39,6 @@ function PurchaseHistory({ isAuth, userId, darkMode }) {
         readMore: false,
         id: userId,
       };
-
-      console.log("인증");
 
       connectServer(option);
     }
