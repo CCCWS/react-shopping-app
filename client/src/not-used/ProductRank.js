@@ -3,17 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { Carousel } from "antd";
 import styled from "styled-components";
 
-import ZoomAnimation from "../Utility/Animation/ZoomAnimation";
+import ZoomAnimation from "../Components/Utility/Animation/ZoomAnimation";
 
-import useAxios from "../../hooks/useAxios";
+import useAxios from "../hooks/useAxios";
 
-import { postUrl } from "../../PostUrl";
+import { postUrl } from "../PostUrl";
 
 function ProductRank() {
+  //판매량 높은 상품 정보
   const { resData: sold, connectServer: getSold } = useAxios(
     "api/product/productSort"
   );
 
+  //조회수 높은 상품 정보
   const { resData: views, connectServer: getViews } = useAxios(
     "api/product/productSort"
   );
@@ -21,9 +23,7 @@ function ProductRank() {
   useEffect(() => {
     getSold({ type: "sold", count: 3 });
     getViews({ type: "view", count: 3 });
-  }, []);
-
-  console.log(sold);
+  }, [getSold, getViews]);
 
   return (
     <ZoomAnimation>

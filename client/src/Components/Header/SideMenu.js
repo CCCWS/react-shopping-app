@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import { HeaderBtn, HeaderLogInBtn } from "./HeaderBtn";
 import RecentView from "../Product/RecentView";
+import HamburgerBtn from "../Utility/HamburgerBtn";
 
 import useTheme from "../../hooks/useTheme";
 
@@ -12,20 +13,21 @@ function SideMenu() {
   const [menuClick, setMenuClick] = useState(false);
 
   useEffect(() => {
+    //esc를 눌러 메뉴 닫기
     const escapeCheck = (e) => {
       if (e.key === "Escape") {
         setMenuClick(false);
       }
     };
 
+    //열려있을때만 이벤트 추가
     if (menuClick) {
-      //sideMenu가 열려있을때는 body의 클래스에 "not-scroll"
+      //sideMenu가 열려있을때는 body의 클래스에 "not-scroll"를 추가하여 스크롤 방지
       //"not-scroll"는 app.js에서 작성된 css
       document.querySelector("body").classList.toggle("not-scroll");
 
-      //열려있을때만 이벤트 추가
-      //esc클릭시 메뉴 닫기
       window.addEventListener("keydown", escapeCheck);
+      //return을 안해주면 메뉴를 닫아도 escapeCheck는 계속 실행중
       return () => window.removeEventListener("keydown", escapeCheck);
     }
 
@@ -36,9 +38,10 @@ function SideMenu() {
 
   return (
     <>
-      <SideMenuOpenBtn onClick={() => setMenuClick(true)}>
+      {/* <SideMenuOpenBtn onClick={() => setMenuClick(true)}>
         <MenuOutlined />
-      </SideMenuOpenBtn>
+      </SideMenuOpenBtn> */}
+      <HamburgerBtn setMenuClick={setMenuClick} menuClick={menuClick} />
 
       <SideMenuDiv
         darkMode={darkMode}

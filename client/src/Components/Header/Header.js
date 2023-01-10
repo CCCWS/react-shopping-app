@@ -7,7 +7,10 @@ import { HeaderBtn, HeaderLogInBtn } from "./HeaderBtn";
 import Notification from "../Utility/Notification";
 
 function Header() {
+  //로그인 및 로그아웃시 알람
   const notification = useSelector((state) => state.notification.notification);
+
+  //화면크기가 800이하라면 사이드메뉴 사용
   const [checkSideMenu, setCheckSideMenu] = useState(
     window.innerWidth >= 800 ? false : true
   );
@@ -26,12 +29,15 @@ function Header() {
   return (
     <>
       {notification && <Notification notification={notification} />}
+
       <HeaderDiv>
+        {/* 왼쪽 아이콘 모음 */}
         <HeaderSection>
           <HeaderLogo>로고</HeaderLogo>
           {!checkSideMenu && <HeaderBtn />}
         </HeaderSection>
 
+        {/* 오른쪽 아이콘 모음 */}
         <HeaderSection>
           {checkSideMenu ? <SideMenu /> : <HeaderLogInBtn />}
         </HeaderSection>

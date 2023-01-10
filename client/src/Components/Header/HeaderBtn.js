@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useLocation, NavLink } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import ModalBase from "../Modal/ModalBase";
@@ -12,29 +12,33 @@ import useModal from "../../hooks/useModal";
 import { notificationAction } from "../../store/reducer/notification";
 import { logout } from "../../store/reducer/user/user-action";
 
-export const HeaderBtn = ({ onSideMenu, setMenuClick }) => {
-  const btn = [
-    {
-      id: "",
-      value: "홈",
-    },
-    {
-      id: "upload", //이동할 주소 입력
-      value: "판매하기",
-    },
-    {
-      id: "cart",
-      value: "장바구니",
-    },
-    {
-      id: "purchaseHistory",
-      value: "구매내역",
-    },
-    {
-      id: "productManagement",
-      value: "상품관리",
-    },
-  ];
+export const HeaderBtn = React.memo(({ onSideMenu, setMenuClick }) => {
+  //헤더 버튼
+  const btn = useMemo(
+    () => [
+      {
+        id: "",
+        value: "홈",
+      },
+      {
+        id: "upload", //이동할 주소 입력
+        value: "판매하기",
+      },
+      {
+        id: "cart",
+        value: "장바구니",
+      },
+      {
+        id: "purchaseHistory",
+        value: "구매내역",
+      },
+      {
+        id: "productManagement",
+        value: "상품관리",
+      },
+    ],
+    []
+  );
 
   const nav = useNavigate();
   const { pathname } = useLocation();
@@ -42,32 +46,37 @@ export const HeaderBtn = ({ onSideMenu, setMenuClick }) => {
 
   const goPage = (e) => {
     nav(`/${e.target.id}`);
-    //사이드메뉴가 열려있으면 버튼클릭시 닫음
 
-    if (onSideMenu) {
-      setMenuClick(false);
-    }
+    //사이드메뉴가 열려있으면 버튼클릭시 닫음
+    onSideMenu && setMenuClick(false);
   };
 
-  const onPathName = () => {
-    const path = [
-      "/",
-      "/upload",
-      "/cart",
-      "/purchaseHistory",
-      "/productManagement",
-    ];
+  const onSetPathName = (e) => {
+    if (onSideMenu) return;
 
+    setPath(`/${e.target.id}`);
+  };
+
+  //페이지 경로 저장
+  //현재 경로와 일치하는 헤더의 버튼에 하단바 표시를 위해 사용
+  const onPathName = useCallback(() => {
+    if (onSideMenu) return;
+
+    //버튼에서 경로만 모아놓은 배열
+    const path = btn.map((data) => `/${data.id}`);
+
+    //현재 페이지가 버튼의 경로에 포함되어 있다면
     if (path.includes(pathname)) {
       setPath(pathname);
     } else {
       setPath(null);
     }
-  };
+  }, [onSideMenu, pathname, btn]);
 
+  //페이지 이동할때마다 실행
   useEffect(() => {
     onPathName();
-  }, [pathname]);
+  }, [onSideMenu, pathname, onPathName]);
 
   return (
     <BtnBox pathname={path} sideMenu={onSideMenu}>
@@ -77,9 +86,7 @@ export const HeaderBtn = ({ onSideMenu, setMenuClick }) => {
           id={data.id}
           key={data.id}
           onClick={goPage}
-          onMouseEnter={(e) => {
-            setPath(`/${e.target.id}`);
-          }}
+          onMouseEnter={onSetPathName}
           onMouseLeave={onPathName}
         >
           {data.value}
@@ -90,17 +97,20 @@ export const HeaderBtn = ({ onSideMenu, setMenuClick }) => {
       <UnderLine path={path} num={3} sideMenu={onSideMenu} />
     </BtnBox>
   );
-};
+});
 
 export const HeaderLogInBtn = ({ onSideMenu }) => {
   const dispatch = useDispatch();
+
+  //리덕스 스토어에서 인증정보 확인
   const authCheck = useSelector((state) => state.user.isAuth);
-  const { openModal, setOpenModal, setContents } = useModal();
+
+  const { openModal, setOpenModal } = useModal();
 
   const onLogin = () => {
     setOpenModal(true);
-    setContents({ login: true });
   };
+
   const onLogout = () => {
     dispatch(logout()).then((res) => {
       if (res) {

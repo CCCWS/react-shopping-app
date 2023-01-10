@@ -5,63 +5,48 @@ import React from "react";
 const Switch = ({ viewType, onSetMode }) => {
   return (
     <Theme>
-      <Div viewType={viewType}>
-        <div>
-          <AppstoreOutlined />
-        </div>
-        <div>
-          <BarsOutlined />
-        </div>
+      <Div viewType={viewType} onClick={onSetMode}>
+        <AppstoreOutlined />
 
-        <Toggle viewType={viewType} onClick={onSetMode} />
+        <BarsOutlined />
+
+        <Toggle viewType={viewType} />
       </Div>
     </Theme>
   );
 };
 
 const Theme = styled.div`
-  /* right: 1rem;
-  bottom: 1rem; */
+  cursor: pointer;
+  font-size: 20px;
+  width: 80px;
+  height: 40px;
 `;
 
 const Div = styled.div`
   background-color: rgba(255, 207, 148, 0.5);
-  width: 80px;
-  height: 40px;
+  width: inherit;
+  height: inherit;
   border-radius: 30px;
-  border: 2px solid orange;
 
   display: flex;
   justify-content: space-around;
   align-items: center;
 
   position: relative;
-
-  transition: all ease 0.5s;
-
-  & div {
-    width: 20px;
-    height: 100%;
-    border-radius: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-  }
 `;
 
 const Toggle = styled.span`
   background-color: var(--white);
   position: absolute;
-  left: 5px;
+
   width: 30px;
   height: 30px;
   border-radius: 30px;
-  border: 2px solid var(--orange_normal);
+  border: 1px solid var(--orange_normal);
   transition: all ease 0.5s;
 
-  transform: ${(props) =>
-    props.viewType ? "translateX(0)" : "translateX(38px)"};
+  left: ${(props) => (props.viewType ? "5px" : "calc(100% - 35px)")};
 
   &:hover {
     cursor: pointer;
