@@ -84,7 +84,7 @@ const ModalDiv = styled.div`
   width: 100%;
   height: 100vh;
 
-  backdrop-filter: blur(10px);
+  background-color: var(--gray_transparency);
 
   display: flex;
   opacity: ${(props) => (props.modalOpen ? "1" : "0")};

@@ -1,9 +1,9 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-const HamburgerBtn = ({ menuClick, setMenuClick }) => {
+const HamburgerBtn = ({ btnClick, setBtnClick }) => {
   return (
-    <Box onClick={() => setMenuClick((prev) => !prev)} menuClick={menuClick}>
+    <Box onClick={() => setBtnClick((prev) => !prev)} btnClick={btnClick}>
       <div />
       <div />
       <div />
@@ -14,7 +14,6 @@ const HamburgerBtn = ({ menuClick, setMenuClick }) => {
 const Box = styled.div`
   width: 30px;
   height: 30px;
-  /* transform: scale(1.1); */
 
   z-index: 1;
 
@@ -23,13 +22,13 @@ const Box = styled.div`
   justify-content: space-around;
 
   div {
-    transition: 0.3s;
+    transition: all ease 0.5s;
     width: 100%;
-    height: 5px;
+    height: 4px;
     background-color: var(--gray);
     border-radius: 30px;
 
-    transform-origin: 4px 0px;
+    transform-origin: 0px 0px;
   }
 
   &:hover {
@@ -37,22 +36,21 @@ const Box = styled.div`
   }
 
   ${(props) =>
-    props.menuClick &&
+    props.btnClick &&
     css`
       & > :first-child {
         transform: rotate(45deg) translate(4px, -4px);
         transform-origin: 0% 0%;
-        width: 100%;
       }
 
       & > :nth-child(2) {
+        transform: translateX(-15px);
         opacity: 0;
       }
 
       & > :last-child {
         transform: rotate(-45deg) translate(4px, 4px);
         transform-origin: 0% 100%;
-        width: 100%;
       }
     `}
 `;

@@ -21,6 +21,7 @@ import Test from "./Page/Test";
 import Test2 from "./Page/test/Test2";
 import Test3 from "./Page/test/Test3";
 import Test4 from "./Page/test/Test4";
+import Test5 from "./Page/test/Test5";
 import Test7 from "./Page/test/Test7";
 
 import Auth from "./hoc/auth";
@@ -65,6 +66,7 @@ function App() {
           <Route path={`/test2`} element={<Test2 />} />
           <Route path={`/test3`} element={<Test3 />} />
           <Route path={`/test4`} element={<Test4 />} />
+          <Route path={`/test5`} element={<Test5 />} />
           <Route path={`/test7`} element={<Test7 />} />
         </Routes>
       </Router>

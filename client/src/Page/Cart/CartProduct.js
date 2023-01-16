@@ -7,7 +7,7 @@ import useTheme from "../../hooks/useTheme";
 
 import ProductCountBtn from "../../Components/Product/ProductCountBtn";
 
-import { Image, Title, Price, Count } from "../../Components/Style/ProductCard";
+import { Image, Title, Price } from "../../Components/Style/ProductCard";
 
 import { postUrl } from "../../PostUrl";
 
@@ -22,54 +22,49 @@ const CartProduct = ({
   const nav = useNavigate();
   const { darkMode } = useTheme();
 
+  console.log(checkProduct);
+
   return (
-    <>
-      {product.map((data) => (
-        <ProductCard
-          key={data._id}
-          darkMode={darkMode}
-          purchasesFail={data.count < data.purchasesCount && true}
+    <ProductCard
+      key={product._id}
+      darkMode={darkMode}
+      purchasesFail={product.count < product.purchasesCount && true}
+    >
+      <div>
+        <ProductCheckBox
+          productCheck={false}
+          onClick={() => onCheckProduct(product)}
         >
-          <div>
-            <ProductCheckBox
-              productCheck={
-                checkProduct.find((item) => item._id === data._id) !==
-                  undefined && true
-              }
-              onClick={() => onCheckProduct(data)}
-            >
-              <CheckOutlined />
-            </ProductCheckBox>
+          <CheckOutlined />
+        </ProductCheckBox>
 
-            <NewImage
-              img={`url('${postUrl}${data.image[0]}')`}
-              onClick={() => nav(`/product/${data._id}`)}
-            />
+        <NewImage
+          img={`url('${postUrl}${product.image[0]}')`}
+          onClick={() => nav(`/product/${product._id}`)}
+        />
 
-            <ProductTitle>
-              <Title>{`${data.title}`}</Title>
-              <Price>{`${parseInt(
-                data.price * data.purchasesCount,
-                10
-              ).toLocaleString()}원`}</Price>
-              {/* <Count>{data.purchasesCount}개</Count> */}
-              <ProductCountBtn
-                onChangeCountPlus={onChangeCountPlus}
-                onChangeCountMinus={onChangeCountMinus}
-                productCount={data.count}
-                purchasesCount={data.purchasesCount}
-                id={data._id}
-                cart={true}
-              />
-            </ProductTitle>
-          </div>
+        <ProductTitle>
+          <Title>{`${product.title}`}</Title>
+          <Price>{`${parseInt(
+            product.price * product.purchasesCount,
+            10
+          ).toLocaleString()}원`}</Price>
 
-          <ProductCheckBox onClick={() => onDelProduct(data._id)}>
-            <CloseOutlined />
-          </ProductCheckBox>
-        </ProductCard>
-      ))}
-    </>
+          <ProductCountBtn
+            onChangeCountPlus={onChangeCountPlus}
+            onChangeCountMinus={onChangeCountMinus}
+            productCount={product.count}
+            purchasesCount={product.purchasesCount}
+            id={product._id}
+            cart={true}
+          />
+        </ProductTitle>
+      </div>
+
+      <ProductCheckBox onClick={() => onDelProduct(product._id)}>
+        <CloseOutlined />
+      </ProductCheckBox>
+    </ProductCard>
   );
 };
 

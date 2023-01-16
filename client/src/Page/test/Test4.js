@@ -2,82 +2,77 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled, { css } from "styled-components";
 
+import CarouselType1 from "./CarouselType1";
+
+import Carousel from "./Carousel";
+import HamburgerBtn from "../../Components/Utility/HamburgerBtn";
+import Drag from "./Drag";
+import DragEvent from "./DragEvent";
+
 const Test4 = () => {
   const [monster, setMonster] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [click, setClick] = useState(false);
-  useEffect(() => {
-    const getApi = async () => {
-      const res = await axios.get("https://mhw-db.com/monsters");
-      setMonster(res.data);
-      setLoading(false);
-    };
 
-    getApi();
-  }, []);
+  // useEffect(() => {
+  //   const getApi = async () => {
+  //     const res = await axios.get("https://mhw-db.com/monsters");
+  //     setMonster(res.data);
+  //     setLoading(false);
+  //   };
+
+  //   getApi();
+  // }, []);
+
+  const [moveValue, setMoveValue] = useState(0);
+
   return (
-    <>
-      {/* {loading ? (
-        <div>로딩중</div>
-      ) : (
-        <>
-          {monster.map((data) => (
-            <div key={data.id}>{data.name}</div>
-          ))}
-        </>
-      )} */}
-      <Box onClick={() => setClick((prev) => !prev)} click={click}>
-        <div />
-        <div />
-        <div />
-      </Box>
-    </>
+    <Box>
+      {/* <Drag>
+        <Div color={"red"}></Div>
+        <Div color={"blue"}></Div>
+        <Div color={"green"}></Div>
+      </Drag> */}
+
+      {/* <CarouselType1 slide={true} nextBtn={true} point={true} height={"300px"}>
+        <Div color={"red"}></Div>
+        <Div color={"blue"}></Div>
+        <Div color={"green"}></Div>
+      </CarouselType1> */}
+
+      {/* <Carousel
+        height={"500px"}
+        transitionDuration={100}
+        point={true}
+        nextBtn={true}
+        // auto={true}
+        // autoDelay={300}
+      >
+        <Div color={"red"}></Div>
+        <Div color={"blue"}></Div>
+        <Div color={"green"}></Div>
+      </Carousel> */}
+
+      {/* <Div onMouseDown={onMouseDown} onMouseUp={onMouseUp}></Div> */}
+
+      <DragEvent />
+    </Box>
   );
 };
 
 const Box = styled.div`
-  margin: 50px;
-  width: 30px;
-  height: 30px;
-  /* transform: scale(1.1); */
+  width: 100vw;
+`;
 
+const Div = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
 
-  div {
-    transition: 0.5s;
-    width: 100%;
-    height: 5px;
-    background-color: var(--gray);
-    border-radius: 30px;
+  width: 100%;
+  height: 100%;
 
-    transform-origin: 4px 0px;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  ${(props) =>
-    props.click &&
-    css`
-      & > :first-child {
-        transform: rotate(45deg) translate(4px, -4px);
-        transform-origin: 0% 0%;
-        width: 100%;
-      }
-
-      & > :nth-child(2) {
-        opacity: 0;
-      }
-
-      & > :last-child {
-        transform: rotate(-45deg) translate(4px, 4px);
-        transform-origin: 0% 100%;
-        width: 100%;
-      }
-    `}
+  background-color: ${(props) => props.color};
 `;
 
 export default Test4;

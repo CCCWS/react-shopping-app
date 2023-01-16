@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled, { css } from "styled-components";
 
-import useInterval from "../../hooks/useInterval";
-
-const Carousel1 = ({
+const CarouselType1 = ({
   children,
   height,
   slide,
@@ -11,30 +9,20 @@ const Carousel1 = ({
   nextBtn,
   point,
   auto,
-  delay,
+  autoDelay,
   swipe,
 }) => {
+  //넘겨진 자식노드가 하나일 경우 배열로 감싸줌
   if (children.length === undefined) {
     children = [children];
   }
 
+  const savedCallback = useRef();
   const [location, setLocation] = useState(0);
+  const [mouseOver, setMouseOver] = useState(false);
   const [user, setUser] = useState("");
-  let mouseOver = false;
 
-  //setInterval은 state를 변화시켜 재랜더링이 발생하면
-  //처음 설정한 state의 초기값을 계속 참조하여 초기값으로 랜더링이 됨
-  //useInterval을 사용하여 참조하는 값을 동적으로 하여 변화된 state가 반영됨
-  useInterval(() => {
-    if (auto && mouseOver === false && children.length > 1) {
-      if (location === children.length - 1) {
-        setLocation(0);
-      } else {
-        setLocation((location) => location + 1);
-      }
-    }
-  }, delay);
-
+  //유저가 접속한 브라우저 환경 확인
   useEffect(() => {
     if (
       navigator.userAgent.match(
@@ -53,6 +41,7 @@ const Carousel1 = ({
     }
   }, []);
 
+  //컴포넌트이동 이벤트
   const onPrev = () => {
     if (location === 0) {
       setLocation(children.length - 1);
@@ -60,17 +49,32 @@ const Carousel1 = ({
       setLocation((location) => location - 1);
     }
   };
-
-  const onNext = () => {
+  const onNext = useCallback(() => {
     if (location === children.length - 1) {
       setLocation(0);
     } else {
       setLocation((location) => location + 1);
     }
-  };
+  }, [location, children]);
 
+  //참조값을 동적으로 하여 변화된 state가 반영되는 setInterval의 개량형
+  useEffect(() => {
+    if (auto && autoDelay) savedCallback.current = onNext;
+  }, [onNext, autoDelay, autoDelay]);
+
+  useEffect(() => {
+    const tick = () => {
+      savedCallback.current();
+    };
+
+    if (!mouseOver && auto && autoDelay) {
+      const func = setInterval(tick, autoDelay);
+      return () => clearInterval(func);
+    }
+  }, [auto, autoDelay, mouseOver]);
+
+  //스와이프
   let startClientX = 0;
-
   const onDownEvent = (e) => {
     if (user === "pc") startClientX = e.clientX;
     if (user === "mobile") startClientX = e.changedTouches[0].clientX;
@@ -83,19 +87,21 @@ const Carousel1 = ({
     if (user === "mobile") endClientX = e.changedTouches[0].clientX;
 
     let moveX = startClientX - endClientX;
-    if (moveX <= -200) {
-      onPrev();
-    }
-    if (moveX >= 200) {
+    if (moveX >= 150) {
       onNext();
+    }
+
+    if (moveX <= -150) {
+      onPrev();
     }
   };
 
   return (
     <>
       <Div
-        onMouseOver={() => (mouseOver = true)}
-        onMouseLeave={() => (mouseOver = false)}
+        height={height}
+        onMouseOver={() => auto && setMouseOver(true)}
+        onMouseLeave={() => auto && setMouseOver(false)}
         onMouseDown={swipe && user === "pc" ? onDownEvent : null}
         onMouseUp={swipe && user === "pc" ? onUpEvent : null}
         onTouchStart={swipe && user === "mobile" ? onDownEvent : null}
@@ -145,11 +151,38 @@ const Carousel1 = ({
 
 const Div = styled.div`
   width: 100%;
+  height: ${(props) => props.height};
   overflow: hidden;
   position: relative;
+`;
 
-  margin-top: 30px;
-  margin-bottom: 30px;
+const Section = styled.div`
+  width: inherit;
+  height: inherit;
+
+  display: flex;
+  flex-flow: column wrap;
+  position: relative;
+`;
+
+const Item = styled.div`
+  min-width: 100%;
+  height: 100%;
+  transition: all ease 0.3s;
+
+  ${(props) =>
+    props.slide &&
+    css`
+      transform: ${(props) => `translateX(-${props.location}00%)`};
+    `}
+
+  ${(props) =>
+    props.fade &&
+    css`
+      position: absolute;
+      opacity: ${(props) => (props.id === props.location ? "1" : "0")};
+      z-index: ${(props) => (props.id === props.location ? "1" : "0")};
+    `}
 `;
 
 const Button = styled.button`
@@ -160,9 +193,11 @@ const Button = styled.button`
   height: 100%;
   width: 40px;
   font-size: 3rem;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   background-color: transparent;
   border: none;
 
@@ -183,31 +218,6 @@ const Button = styled.button`
   }
 `;
 
-const Section = styled.div`
-  width: inherit;
-  height: ${(props) => props.height};
-  display: flex;
-  position: relative;
-`;
-
-const Item = styled.div`
-  min-width: 100%;
-  height: 100%;
-  transition: all ease 0.3s;
-  ${(props) =>
-    props.slide &&
-    css`
-      transform: ${(props) => `translateX(-${props.location}00%)`};
-    `}
-  ${(props) =>
-    props.fade &&
-    css`
-      position: absolute;
-      opacity: ${(props) => (props.id === props.location ? "1" : "0")};
-      z-index: ${(props) => (props.id === props.location ? "1" : "0")};
-    `}
-`;
-
 const PointBox = styled.div`
   width: 70%;
   position: absolute;
@@ -226,14 +236,14 @@ const Point = styled.div`
   height: 5px;
   border-radius: 20px;
   background-color: ${(props) =>
-    props.location === props.id ? "orange" : "gray"};
-  margin: 5px;
+    props.location === props.id ? "orange" : "rgba(0,0,0,0.3)"};
+  margin: 10px;
 
   transition: all ease 0.3s;
 
-  &:hover {
+  :hover {
     cursor: pointer;
   }
 `;
 
-export default Carousel1;
+export default CarouselType1;

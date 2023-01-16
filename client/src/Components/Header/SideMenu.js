@@ -41,7 +41,7 @@ function SideMenu() {
       {/* <SideMenuOpenBtn onClick={() => setMenuClick(true)}>
         <MenuOutlined />
       </SideMenuOpenBtn> */}
-      <HamburgerBtn setMenuClick={setMenuClick} menuClick={menuClick} />
+      <HamburgerBtn setBtnClick={setMenuClick} btnClick={menuClick} />
 
       <SideMenuDiv
         darkMode={darkMode}

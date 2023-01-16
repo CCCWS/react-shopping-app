@@ -115,14 +115,19 @@ function Cart({ isAuth, userId }) {
 
   //하나의 상품 체크
   const onCheckProduct = useCallback(
-    (data) => {
+    (product) => {
+      console.log(checkProduct.find((data) => data._id === product._id));
       //체크목록에 선택한 항목이 있는지 확인
-      if (checkProduct.find((item) => item._id === data._id) !== undefined) {
+      if (checkProduct.find((data) => data._id === product._id)) {
         //이미 있는 항목이면 제외시킴
-        setCheckProduct(checkProduct.filter((item) => item._id !== data._id));
-      } else {
-        //없다면 항목에 추가
-        setCheckProduct([...checkProduct, data]);
+        // setCheckProduct((prev) => [...prev, product]);
+        // console.log("없음");
+        // return;
+        console.log("있음");
+      }
+
+      if (checkProduct.find((data) => data._id === product._id) === undefined) {
+        setCheckProduct((prev) => [...prev, product]);
       }
     },
     [checkProduct]
@@ -162,9 +167,10 @@ function Cart({ isAuth, userId }) {
   const onDelProduct = (id) => {
     const delFunc = () => {
       //전체 삭제시 id를 배열에 담아서 보내주었기 때문에 하나의 상품도 배열에 담아서 전송
-      removeCartProduct({ productId: [id], userId: userId });
+      // removeCartProduct({ productId: [id], userId: userId });
       const temp = [...product];
-      setUserProduct(temp.filter((data) => data._id !== id));
+      console.log(id);
+      // setUserProduct(temp.filter((data) => data._id !== id));
     };
 
     setOpenModal(true);
@@ -313,14 +319,20 @@ function Cart({ isAuth, userId }) {
           ) : (
             <FadeAnimation>
               <CardBox>
-                <CartProduct
-                  product={userProduct}
-                  checkProduct={checkProduct}
-                  onCheckProduct={onCheckProduct}
-                  onDelProduct={onDelProduct}
-                  onChangeCountPlus={onChangeCountPlus}
-                  onChangeCountMinus={onChangeCountMinus}
-                />
+                {product.map((data) => (
+                  <CartProduct
+                    key={data._id}
+                    product={data}
+                    checkProduct={
+                      checkProduct.find((data) => data._id === product._id) &&
+                      true
+                    }
+                    onCheckProduct={onCheckProduct}
+                    onDelProduct={onDelProduct}
+                    onChangeCountPlus={onChangeCountPlus}
+                    onChangeCountMinus={onChangeCountMinus}
+                  />
+                ))}
               </CardBox>
             </FadeAnimation>
           )}
