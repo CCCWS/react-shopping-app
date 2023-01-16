@@ -22,8 +22,6 @@ const CartProduct = ({
   const nav = useNavigate();
   const { darkMode } = useTheme();
 
-  console.log(checkProduct);
-
   return (
     <ProductCard
       key={product._id}
@@ -32,7 +30,7 @@ const CartProduct = ({
     >
       <div>
         <ProductCheckBox
-          productCheck={false}
+          productCheck={checkProduct}
           onClick={() => onCheckProduct(product)}
         >
           <CheckOutlined />

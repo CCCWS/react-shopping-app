@@ -116,18 +116,18 @@ function Cart({ isAuth, userId }) {
   //하나의 상품 체크
   const onCheckProduct = useCallback(
     (product) => {
-      console.log(checkProduct.find((data) => data._id === product._id));
       //체크목록에 선택한 항목이 있는지 확인
+      //이미 있는 항목이면 제외시킴
       if (checkProduct.find((data) => data._id === product._id)) {
-        //이미 있는 항목이면 제외시킴
-        // setCheckProduct((prev) => [...prev, product]);
-        // console.log("없음");
-        // return;
-        console.log("있음");
+        setCheckProduct(
+          checkProduct.filter((data) => data._id !== product._id)
+        );
+        return;
       }
 
       if (checkProduct.find((data) => data._id === product._id) === undefined) {
         setCheckProduct((prev) => [...prev, product]);
+        return;
       }
     },
     [checkProduct]
@@ -167,10 +167,11 @@ function Cart({ isAuth, userId }) {
   const onDelProduct = (id) => {
     const delFunc = () => {
       //전체 삭제시 id를 배열에 담아서 보내주었기 때문에 하나의 상품도 배열에 담아서 전송
-      // removeCartProduct({ productId: [id], userId: userId });
-      const temp = [...product];
-      console.log(id);
-      // setUserProduct(temp.filter((data) => data._id !== id));
+      removeCartProduct({ productId: [id], userId: userId });
+
+      const temp = [...userProduct];
+      const filterTemp = temp.filter((data) => data._id !== id);
+      setUserProduct(filterTemp);
     };
 
     setOpenModal(true);
@@ -319,13 +320,12 @@ function Cart({ isAuth, userId }) {
           ) : (
             <FadeAnimation>
               <CardBox>
-                {product.map((data) => (
+                {userProduct.map((data) => (
                   <CartProduct
                     key={data._id}
                     product={data}
                     checkProduct={
-                      checkProduct.find((data) => data._id === product._id) &&
-                      true
+                      checkProduct.find((item) => item._id === data._id) && true
                     }
                     onCheckProduct={onCheckProduct}
                     onDelProduct={onDelProduct}

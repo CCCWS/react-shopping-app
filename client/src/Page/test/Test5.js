@@ -1,52 +1,19 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import useConfirm from "./useConfirm";
+import useProtect from "./useProtect";
+import styled from "styled-components";
 
-import UserItem from "./UserItem";
+const Test5 = () => {
+  const confirmAction = () => console.log("확인완료");
+  const onClickComfirm = useConfirm("확인", confirmAction);
 
-function Test5() {
-  console.log("UserList component render");
+  const { protectOn, protectOff } = useProtect();
+  return <Page></Page>;
+};
 
-  const [users, setUsers] = useState([
-    {
-      id: 0,
-      name: "Kim",
-      age: 27,
-      score: 80,
-    },
-    {
-      id: 1,
-      name: "Jo",
-      age: 25,
-      score: 70,
-    },
-  ]);
-
-  const addUser = () => {
-    setUsers([
-      ...users,
-      {
-        id: 2,
-        name: "Jung",
-        age: 30,
-        score: 90,
-      },
-    ]);
-  };
-
-  return (
-    <div>
-      <button
-        value="배열의 맨 앞에 아이템 추가"
-        // disabled={users.length >= 3}
-        onClick={addUser}
-      >
-        추가
-      </button>
-
-      {users.map((user, index) => {
-        return <UserItem key={index} user={user} index={index} />;
-      })}
-    </div>
-  );
-}
+const Page = styled.div`
+  width: 100vw;
+  height: 1000vh;
+`;
 
 export default Test5;
