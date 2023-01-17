@@ -38,9 +38,6 @@ function SideMenu() {
 
   return (
     <>
-      {/* <SideMenuOpenBtn onClick={() => setMenuClick(true)}>
-        <MenuOutlined />
-      </SideMenuOpenBtn> */}
       <HamburgerBtn setBtnClick={setMenuClick} btnClick={menuClick} />
 
       <SideMenuDiv
@@ -105,7 +102,8 @@ const SideMenuDiv = styled.div`
     background-color: ${(props) =>
       props.darkMode ? "var(--black)" : "var(--white)"};
     border-radius: 10px 0px 0px 10px;
-    transition: all cubic-bezier(0.23, 0.24, 0.95, 0.14) 0.3s;
+    /* transition: all cubic-bezier(0.23, 0.24, 0.95, 0.14) 0.3s; */
+    transition: all ease 0.3s;
     /* overflow: hidden; */
   }
 `;

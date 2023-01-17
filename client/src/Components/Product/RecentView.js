@@ -16,6 +16,7 @@ function RecentView({ SideMenu, setMenuClick, page }) {
       localStorage.getItem("productHistory")
     );
 
+    //localStorage에 들어있는 값을 가져옴
     if (getProductHistory !== null) {
       setHistory(getProductHistory);
     }
@@ -28,6 +29,7 @@ function RecentView({ SideMenu, setMenuClick, page }) {
   const goProduct = (id) => {
     nav(`/product/${id}`);
 
+    //사이드메뉴가 열려있다면 이동시 닫음
     SideMenu && setMenuClick(false);
   };
 

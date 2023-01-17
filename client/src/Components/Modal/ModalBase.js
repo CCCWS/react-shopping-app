@@ -12,6 +12,7 @@ const Modal = ({ children, contents, modalOpen, setModalOpen }) => {
 
   useEffect(() => {
     if (modalOpen === true) {
+      //esc버튼으로 모달 닫기
       const escapeCheck = (e) => {
         if (e.key === "Escape") {
           setModalOpen(false);

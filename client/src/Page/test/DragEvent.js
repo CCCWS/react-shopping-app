@@ -24,19 +24,6 @@ const DragEvent = () => {
     setIsDrag(false);
   };
 
-  const throttle = (func, ms) => {
-    let throttled = false;
-    return (...args) => {
-      if (!throttled) {
-        throttled = true;
-        setTimeout(() => {
-          func(...args);
-          throttled = false;
-        }, ms);
-      }
-    };
-  };
-
   const onDragMove = (e) => {
     if (isDrag) {
       const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
@@ -50,9 +37,6 @@ const DragEvent = () => {
       }
     }
   };
-
-  const delay = 10;
-  const onThrottleDragMove = throttle(onDragMove, delay);
 
   const test = (e) => {
     if (scrollRef.current.scrollLeft === 0) {
@@ -70,10 +54,12 @@ const DragEvent = () => {
   };
 
   const prev = (e) => {
-    scrollRef.current.scrollLeft -= itemRef.current.offsetWidth;
+    // scrollRef.current.scrollLeft -= itemRef.current.offsetWidth;
+    setLocation((prev) => prev - 1);
   };
   const next = (e) => {
-    scrollRef.current.scrollLeft += itemRef.current.offsetWidth;
+    // scrollRef.current.scrollLeft += itemRef.current.offsetWidth;
+    setLocation((prev) => prev + 1);
   };
 
   return (
@@ -88,9 +74,9 @@ const DragEvent = () => {
           ref={scrollRef}
           location={location}
         >
-          <Item ref={itemRef} color={"red"} />
-          <Item ref={itemRef} color={"blue"} />
-          <Item ref={itemRef} color={"green"} />
+          <Item ref={itemRef} location={location} color={"red"} />
+          <Item ref={itemRef} location={location} color={"blue"} />
+          <Item ref={itemRef} location={location} color={"green"} />
         </ItemBox>
       </Div>
 
@@ -102,7 +88,7 @@ const DragEvent = () => {
 };
 
 const Div = styled.div`
-  width: 100vw;
+  width: 50vw;
   height: 300px;
   background-color: gray;
   position: relative;
@@ -119,14 +105,16 @@ const ItemBox = styled.div`
   overflow: hidden;
   overflow: overlay;
 
-  scroll-behavior: smooth;
-  transition: 1s;
+  /* scroll-behavior: smooth; */
+  transition: all ease 0.5s;
+  /* left: ${(props) => `-${props.location}00%`}; */
 `;
 
 const Item = styled.div`
   width: 100%;
   height: 100%;
-
+  transition: 0.5s;
+  transform: ${(props) => `translateX(-${props.location}00%, 0px, 0px)`};
   background-color: ${(props) => props.color};
 `;
 
