@@ -1,5 +1,7 @@
-export const chatList = {};
+export const chatList = [
+    {id : 0, name : }
+];
 
-export const statusList = {};
+export const statusList = [];
 
-export const callList = {};
+export const callList = [];

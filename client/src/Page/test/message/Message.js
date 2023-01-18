@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import {
+  MessageOutlined,
+  PhoneOutlined,
+  CameraOutlined,
+} from "@ant-design/icons";
 
 import Header from "./Component/Header";
 import Selector from "./Component/Selector";
@@ -23,7 +28,11 @@ const Message = () => {
       <Selector types={types} currType={currType} onClickType={onClickType} />
       <TypeView currType={currType} types={types} />
 
-      <Icon></Icon>
+      <Icon>
+        {currType === 0 && <MessageOutlined />}
+        {currType === 1 && <CameraOutlined />}
+        {currType === 2 && <PhoneOutlined />}
+      </Icon>
     </Div>
   );
 };
@@ -43,12 +52,21 @@ const Div = styled.div`
 const Icon = styled.div`
   position: absolute;
 
-  background-color: red;
+  background-color: #1e821e;
 
-  top: 10px;
-  bottom: 10px;
-  left: 50px;
-  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+
+  bottom: 20px;
+  right: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+
+  color: red;
 `;
 
 export default Message;
