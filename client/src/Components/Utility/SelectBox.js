@@ -111,7 +111,7 @@ const Ul = styled.ul`
   }
 
   &:hover::-webkit-scrollbar {
-    width: 5px;
+    width: 2px;
   }
 `;
 

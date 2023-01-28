@@ -1,6 +1,4 @@
-export const chatList = [
-    {id : 0, name : }
-];
+export const chatList = [];
 
 export const statusList = [];
 

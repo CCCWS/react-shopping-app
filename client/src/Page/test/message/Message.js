@@ -4,11 +4,13 @@ import {
   MessageOutlined,
   PhoneOutlined,
   CameraOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 
 import Header from "./Component/Header";
 import Selector from "./Component/Selector";
 import TypeView from "./Component/TypeView";
+import MessageView from "./Page/MessageView";
 
 const Message = () => {
   const types = [
@@ -22,38 +24,63 @@ const Message = () => {
     setCurrType(data);
   };
 
+  const [clickMessage, setClickMessage] = useState([]);
+  const [onMessage, setOnMessage] = useState(false);
+
   return (
     <Div>
-      <Header />
+      <Header main={true} />
       <Selector types={types} currType={currType} onClickType={onClickType} />
-      <TypeView currType={currType} types={types} />
+      <TypeView
+        currType={currType}
+        setOnMessage={setOnMessage}
+        setClickMessage={setClickMessage}
+      />
 
-      <Icon>
-        {currType === 0 && <MessageOutlined />}
-        {currType === 1 && <CameraOutlined />}
-        {currType === 2 && <PhoneOutlined />}
-      </Icon>
+      <MessageView
+        onMessage={onMessage}
+        setOnMessage={setOnMessage}
+        clickMessage={clickMessage}
+      />
+
+      {!onMessage && (
+        <Icon>
+          {currType === 0 && <MessageOutlined />}
+          {currType === 1 && <CameraOutlined />}
+
+          {currType === 2 && <PhoneOutlined />}
+        </Icon>
+      )}
+
+      {currType === 1 && <StatusIcon>{<EditOutlined />}</StatusIcon>}
     </Div>
   );
 };
 
 const Div = styled.div`
-  margin: 100px;
   width: 350px;
   height: 650px;
-  background-color: beige;
+  background-color: whitesmoke;
 
   display: flex;
   flex-direction: column;
 
   position: relative;
+
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
-const Icon = styled.div`
+const IconBase = styled.div`
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
+const Icon = styled(IconBase)`
   background-color: #1e821e;
-
   width: 50px;
   height: 50px;
   border-radius: 50px;
@@ -61,12 +88,16 @@ const Icon = styled.div`
   bottom: 20px;
   right: 20px;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-size: 25px;
+`;
 
-  color: red;
+const StatusIcon = styled(IconBase)`
+  background-color: #aaaaaa;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  right: 25px;
+  bottom: 80px;
 `;
 
 export default Message;
