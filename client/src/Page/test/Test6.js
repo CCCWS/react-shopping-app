@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import Select from "./Select";
 import Select2 from "./Select2";
@@ -14,24 +14,47 @@ const Test6 = () => {
     "선택값 6",
     "선택값 7",
   ];
+
+  const observerRef = useRef(null);
+
+  useEffect(() => {
+    if (!observerRef.current) return;
+
+    const io = new IntersectionObserver((entries, observer) => {
+      if (entries[0].isIntersecting) {
+        console.log("test");
+      }
+    });
+    io.observe(observerRef.current);
+
+    return () => {
+      io.disconnect();
+    };
+  }, []);
+
+  const now = "shipping";
   return (
-    <Div>
-      {/* <Select
-        dataArr={dataArr}
-        width={"300px"}
-        selectValue={selectValue}
-        setSelectValue={setSelectValue}
-        slide={true}
-        // fade={true}
-        searchBar={true}
-      /> */}
-      <Select2 />
-    </Div>
+    <>
+      <Div>
+        <Select2 />
+      </Div>
+      <div ref={observerRef}>test</div>
+
+      <div>
+        {
+          {
+            info: <p>상품정보</p>,
+            shipping: <p>배송관련</p>,
+            refund: <p>환불약관</p>,
+          }[now]
+        }
+      </div>
+    </>
   );
 };
 
 const Div = styled.div`
-  margin: 100px;
+  height: 200vh;
 `;
 
 export default Test6;
