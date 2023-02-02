@@ -62,12 +62,13 @@ const GlobalStyle = createGlobalStyle`
 }
 
 .page {
-  padding: 0.8rem;
+  padding: 10px;
   width: 1000px;
   min-height: calc(100vh - 50px);
   margin: auto;
   position: relative;
   /* overflow-y: hidden; */
+
 }
 
 @media (max-width: 1000px) {

@@ -22,7 +22,7 @@ const useAxios = (url) => {
 
             if (res.data.length === 0) {
               setLastData(true);
-              console.log("라스트");
+              console.log("last data");
             }
           } else {
             setLoading(true);

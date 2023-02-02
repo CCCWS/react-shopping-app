@@ -1,5 +1,5 @@
 //library
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 import { RollbackOutlined } from "@ant-design/icons";
 import styled from "styled-components";
@@ -17,6 +17,7 @@ import ProductRankCarousel from "./ProductRankCarousel";
 //comstom hooks
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal.js";
+import useObserver from "../../hooks/useObserver";
 
 //etc
 import { categoryList, priceList } from "../../data/CatecoryList";
@@ -31,6 +32,9 @@ function Main() {
   const [priceRange, setPriceRange] = useState(); //가격 범위 필터링
   const [skip, setSkip] = useState(0); //현재 가져온 데이터 갯수
   const limit = 8; //한번에 불러올 데이터 갯수
+
+  const readMoreRef = useRef(null);
+  const { isView } = useObserver(readMoreRef, 1);
 
   //제품 목록 조회
   const {
@@ -102,10 +106,11 @@ function Main() {
       setSkip((prev) => prev + limit);
     };
 
-    if (setReadRef) {
+    if (productList === undefined) return console.log("없음");
+    if (isView) {
       readMore();
     }
-  }, [setReadRef, getProduct]);
+  }, [isView, getProduct]);
 
   //검색시 데이터 조회
   const onKeywordSearch = (e) => {
@@ -196,13 +201,10 @@ function Main() {
       {loading ? (
         <Loading />
       ) : (
-        <>
-          <ProductCard data={productList} viewType={click} />
-          {!lastData && productList.length >= limit && (
-            <ReadMore ref={readRef} />
-          )}
-        </>
+        <ProductCard data={productList} viewType={click} />
       )}
+
+      {!lastData && <ReadMore ref={readMoreRef} />}
     </div>
   );
 }
@@ -242,7 +244,7 @@ const SearchReset = styled.div`
 
 const ReadMore = styled.div`
   width: 100%;
-  height: 10px;
+  height: 20px;
 `;
 
 export default React.memo(Main);

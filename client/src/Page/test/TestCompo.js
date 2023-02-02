@@ -2,32 +2,35 @@ import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
+import TestCompoItem from "./TestCompoItem";
+
 const API_KEY = "17058e11301a4bf892f409d4ea85d5ff";
 const SEARCH_SIZE = 30;
 let CURR_PAGE = 1;
 
 const TestCompo = ({ loading, setLoading, isView }) => {
   const [apiData, setApiData] = useState([]);
-  //   const [currPage, setCurrPage] = useState(1);
 
-  //   useEffect(() => {
-  //     if (apiData.length === 0) getApi();
-  //   }, [apiData, getApi]);
+  const getApi = useCallback(async () => {
+    setLoading(true);
+    const res = await axios.get(
+      `https://api.rawg.io/api/games?key=${API_KEY}&page_size=${SEARCH_SIZE}&page=${CURR_PAGE}`
+    );
+
+    CURR_PAGE += 1;
+    setApiData((prev) => [...prev, ...res.data.results]);
+    setLoading(false);
+  }, [setLoading]);
 
   useEffect(() => {
-    const getApi = async () => {
-      setLoading(true);
-      const res = await axios.get(
-        `https://api.rawg.io/api/games?key=${API_KEY}&page_size=${SEARCH_SIZE}&page=${CURR_PAGE}`
-      );
+    if (apiData.length === 0) getApi();
+  }, [apiData, getApi]);
 
-      CURR_PAGE += 1;
-      setApiData((prev) => [...prev, ...res.data.results]);
-      setLoading(false);
-    };
-
+  useEffect(() => {
     if (isView) getApi();
-  }, [setLoading, isView]);
+  }, [getApi, isView]);
+
+  console.log(apiData);
 
   return (
     <>
@@ -35,9 +38,9 @@ const TestCompo = ({ loading, setLoading, isView }) => {
         {loading && "로딩중"}
         {/* <button onClick={getApi}>{loading ? "로딩중" : "더보기"}</button> */}
         {apiData.map((data) => (
-          <Items key={data.id} img={`url('${data.background_image}')`}>
-            {data.name}
-          </Items>
+          <React.Fragment key={data.id}>
+            <TestCompoItem data={data} />
+          </React.Fragment>
         ))}
       </Div>
     </>
