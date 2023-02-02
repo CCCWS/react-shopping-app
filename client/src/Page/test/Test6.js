@@ -1,60 +1,70 @@
 import React, { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
-import Select from "./Select";
+import styled, { css } from "styled-components";
 import Select2 from "./Select2";
+import TestCompo from "./TestCompo";
 
 const Test6 = () => {
-  const [selectValue, setSelectValue] = useState("기본값");
-  const dataArr = [
-    "선택값 1",
-    "선택값 2",
-    "선택값 3",
-    "선택값 4",
-    "선택값 5",
-    "선택값 6",
-    "선택값 7",
-  ];
-
   const observerRef = useRef(null);
+  const [isView, setIsView] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!observerRef.current) return;
 
-    const io = new IntersectionObserver((entries, observer) => {
-      if (entries[0].isIntersecting) {
-        console.log("test");
-      }
-    });
-    io.observe(observerRef.current);
+    const observerCb = (entry) => {
+      if (entry[0].isIntersecting) return setIsView(true);
+      return setIsView(false);
+    };
+
+    const option = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5,
+    };
+
+    const observer = new IntersectionObserver(observerCb, option);
+
+    observer.observe(observerRef.current);
 
     return () => {
-      io.disconnect();
+      observer.disconnect();
     };
   }, []);
 
-  const now = "shipping";
+  // useEffect(() => {
+  //   console.log(isView);
+  // }, [isView]);
+
   return (
     <>
-      <Div>
-        <Select2 />
-      </Div>
-      <div ref={observerRef}>test</div>
-
-      <div>
-        {
-          {
-            info: <p>상품정보</p>,
-            shipping: <p>배송관련</p>,
-            refund: <p>환불약관</p>,
-          }[now]
-        }
-      </div>
+      <TestCompo loading={loading} setLoading={setLoading} isView={isView} />
+      {/* <Div></Div> */}
+      <Observer ref={observerRef} isView={isView}>
+        {loading ? "로딩중" : "대기중"}
+      </Observer>
     </>
   );
 };
 
 const Div = styled.div`
   height: 200vh;
+`;
+
+const Observer = styled.div`
+  width: 200px;
+  height: 200px;
+  background-color: red;
+
+  display: flex;
+  align-items: flex-start;
+
+  /* ${(props) =>
+    !props.isView &&
+    css`
+      position: fixed;
+      bottom: 0;
+      right: 0;
+    `} */
 `;
 
 export default Test6;
