@@ -11,7 +11,7 @@ import Footer from "../Footer/Footer";
 
 //custom hooks
 import useAxios from "../../hooks/useAxios";
-import { usePrompt } from "../../hooks/usePrompt";
+import usePrompt from "../../hooks/usePrompt";
 
 //etc
 import { Section, Input, Textarea } from "../Style/InputStyle";

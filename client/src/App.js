@@ -24,6 +24,7 @@ import Test4 from "./Page/test/Test4";
 import Test5 from "./Page/test/Test5";
 import Test6 from "./Page/test/Test6";
 import Test7 from "./Page/test/Test7";
+import Test8 from "./Page/test/Test8";
 
 import Auth from "./hoc/auth";
 import GlobalStyle from "./Components/Style/GlobalStyle";
@@ -70,6 +71,7 @@ function App() {
           <Route path={`/test5`} element={<Test5 />} />
           <Route path={`/test6`} element={<Test6 />} />
           <Route path={`/test7`} element={<Test7 />} />
+          <Route path={`/test8`} element={<Test8 />} />
         </Routes>
       </Router>
     </>

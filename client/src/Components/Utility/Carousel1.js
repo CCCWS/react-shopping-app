@@ -24,8 +24,8 @@ const Carousel1 = ({
 
   //setInterval은 state를 변화시켜 재랜더링이 발생하면
   //처음 설정한 state의 초기값을 계속 참조하여 초기값으로 랜더링이 됨
-  //useInterval을 사용하여 참조하는 값을 동적으로 하여 변화된 state가 반영됨
-  useInterval(() => {
+  //useInterval을 사용하여 참조하는 값을 동적으로 하여 변화된 state가
+  const onAutoNext = () => {
     if (auto && mouseOver === false && children.length > 1) {
       if (location === children.length - 1) {
         setLocation(0);
@@ -33,7 +33,9 @@ const Carousel1 = ({
         setLocation((location) => location + 1);
       }
     }
-  }, delay);
+  };
+
+  useInterval(onAutoNext, delay);
 
   useEffect(() => {
     if (

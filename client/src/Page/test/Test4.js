@@ -9,9 +9,11 @@ import HamburgerBtn from "../../Components/Utility/HamburgerBtn";
 import Drag from "./Drag";
 import DragEvent from "./DragEvent";
 
+import useAxios from "./useAxios";
+
 const Test4 = () => {
   const [monster, setMonster] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
   //   const getApi = async () => {
@@ -23,10 +25,37 @@ const Test4 = () => {
   //   getApi();
   // }, []);
 
+  // const { apiData, loading } = useAxios({
+  //   url: "/api/product/productDetail",
+  //   type: "post",
+  //   body: { id: "62bc572a1973d6509eb5f89b" },
+  // });
+
+  const { apiData, loading } = useAxios({
+    url: "https://mhw-db.com/monsters",
+    type: "get",
+  });
+
+  const gett = () => {
+    console.log(apiData);
+  };
+
   const [moveValue, setMoveValue] = useState(0);
 
   return (
     <Box>
+      <button onClick={gett}>d</button>
+      <div>
+        {loading ? (
+          "로딩중"
+        ) : (
+          <>
+            {apiData.map((data, index) => (
+              <div key={index}>{data.name}</div>
+            ))}
+          </>
+        )}
+      </div>
       {/* <Drag>
         <Div color={"red"}></Div>
         <Div color={"blue"}></Div>
@@ -54,7 +83,7 @@ const Test4 = () => {
 
       {/* <Div onMouseDown={onMouseDown} onMouseUp={onMouseUp}></Div> */}
 
-      <DragEvent />
+      {/* <DragEvent /> */}
     </Box>
   );
 };

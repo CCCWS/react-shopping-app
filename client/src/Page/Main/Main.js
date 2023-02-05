@@ -106,7 +106,7 @@ function Main() {
       setSkip((prev) => prev + limit);
     };
 
-    if (productList === undefined) return console.log("없음");
+    if (productList === undefined) return;
     if (isView) {
       readMore();
     }
