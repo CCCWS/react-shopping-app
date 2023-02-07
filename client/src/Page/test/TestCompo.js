@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate, Outlet } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -9,6 +10,7 @@ const SEARCH_SIZE = 30;
 let CURR_PAGE = 1;
 
 const TestCompo = ({ loading, setLoading, isView }) => {
+  const nav = useNavigate();
   const [apiData, setApiData] = useState([]);
 
   const getApi = useCallback(async () => {
@@ -23,14 +25,14 @@ const TestCompo = ({ loading, setLoading, isView }) => {
   }, [setLoading]);
 
   useEffect(() => {
-    if (apiData.length === 0) getApi();
+    if (apiData.length === 0) {
+      getApi();
+    }
   }, [apiData, getApi]);
 
   useEffect(() => {
     if (isView) getApi();
   }, [getApi, isView]);
-
-  console.log(apiData);
 
   return (
     <>
@@ -39,10 +41,11 @@ const TestCompo = ({ loading, setLoading, isView }) => {
         {/* <button onClick={getApi}>{loading ? "로딩중" : "더보기"}</button> */}
         {apiData.map((data) => (
           <React.Fragment key={data.id}>
-            <TestCompoItem data={data} />
+            <TestCompoItem data={data} nav={nav} />
           </React.Fragment>
         ))}
       </Div>
+      <Outlet />
     </>
   );
 };
@@ -52,7 +55,7 @@ const Div = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 300px;
   min-height: 100vh;
   background-color: gray;
 `;

@@ -68,7 +68,6 @@ const GlobalStyle = createGlobalStyle`
   margin: auto;
   position: relative;
   /* overflow-y: hidden; */
-
 }
 
 @media (max-width: 1000px) {

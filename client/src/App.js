@@ -1,8 +1,6 @@
 /* eslint-disable */
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Route, Routes, useLocation, Outlet } from "react-router-dom";
 
 import PageTop from "./Components/Utility/PageTop";
 import Header from "./Components/Header/Header";
@@ -25,6 +23,7 @@ import Test5 from "./Page/test/Test5";
 import Test6 from "./Page/test/Test6";
 import Test7 from "./Page/test/Test7";
 import Test8 from "./Page/test/Test8";
+import TestModal from "./Page/test/TestModal";
 
 import Auth from "./hoc/auth";
 import GlobalStyle from "./Components/Style/GlobalStyle";
@@ -32,48 +31,50 @@ import GlobalStyle from "./Components/Style/GlobalStyle";
 import "./Color.css";
 
 function App() {
-  // const darkMode = useSelector((state) => state.darkMode.darkMode);
+  const location = useLocation();
+  const background = location.state && location.state.background;
 
   useEffect(() => {
     window.onbeforeunload = function pushRefresh() {
       window.scrollTo(0, 0);
     };
   }, []);
-
   return (
     <>
-      <Router>
-        {Auth(GlobalStyle, false)}
-        <Header />
-        <PageTop />
-        <Routes>
-          <Route path={`/`} element={Auth(Main, false)} />
-          <Route path={`/product/:id`} element={Auth(ProductDetail, false)} />
+      {Auth(GlobalStyle, false)}
+      <Header />
+      <PageTop />
+      <Routes>
+        <Route path={`/`} element={Auth(Main, false)} />
+        <Route path={`/product/:id`} element={Auth(ProductDetail, false)} />
 
-          <Route path={`/upload`} element={Auth(Upload, true)} />
-          <Route path={`/cart`} element={Auth(Cart, true)} />
-          <Route path={`/checkOut`} element={Auth(CheckOut, true)} />
-          <Route path={`/paymentResult`} element={Auth(PaymentResult, true)} />
-          <Route
-            path={`/productManagement`}
-            element={Auth(ProductManagement, true)}
-          />
-          <Route
-            path={`/purchaseHistory`}
-            element={Auth(PurchaseHistory, true)}
-          />
-          <Route path={`/edit/:id`} element={Auth(Edit, true)} />
+        <Route path={`/upload`} element={Auth(Upload, true)} />
+        <Route path={`/cart`} element={Auth(Cart, true)} />
+        <Route path={`/checkOut`} element={Auth(CheckOut, true)} />
+        <Route path={`/paymentResult`} element={Auth(PaymentResult, true)} />
+        <Route
+          path={`/productManagement`}
+          element={Auth(ProductManagement, true)}
+        />
+        <Route
+          path={`/purchaseHistory`}
+          element={Auth(PurchaseHistory, true)}
+        />
+        <Route path={`/edit/:id`} element={Auth(Edit, true)} />
 
-          <Route path={`/test`} element={<Test />} />
-          <Route path={`/test2`} element={<Test2 />} />
-          <Route path={`/test3`} element={<Test3 />} />
-          <Route path={`/test4`} element={<Test4 />} />
-          <Route path={`/test5`} element={<Test5 />} />
-          <Route path={`/test6`} element={<Test6 />} />
-          <Route path={`/test7`} element={<Test7 />} />
-          <Route path={`/test8`} element={<Test8 />} />
-        </Routes>
-      </Router>
+        <Route path={`/test`} element={<Test />} />
+        <Route path={`/test2`} element={<Test2 />} />
+        <Route path={`/test3`} element={<Test3 />} />
+        <Route path={`/test4`} element={<Test4 />} />
+        <Route path={`/test5`} element={<Test5 />} />
+        <Route path={`/test6`} element={<Test6 />}>
+          <Route path=":id" element={<TestModal />} />
+        </Route>
+        <Route path={`/test7`} element={<Test7 />} />
+        <Route path={`/test8`} element={<Test8 />}>
+          <Route path="modal" element={<TestModal />} />
+        </Route>
+      </Routes>
     </>
   );
 }
