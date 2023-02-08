@@ -15,40 +15,33 @@ function ProductCard({ data, viewType }) {
   const { darkMode } = useTheme();
 
   return (
-    <ProductCardDiv>
-      {data.map((data, index) => (
-        <CardDiv key={index} viewType={viewType}>
-          <FadeAnimation>
-            <Card
-              viewType={viewType}
-              id={data._id}
-              onClick={() => {
-                nav(`/product/${data._id}`);
-              }}
-            >
-              <NewImage
-                viewType={viewType}
-                img={`url('${postUrl}${data.image[0]}')`}
-                soldOut={data.count === 0 && true}
-              />
+    <CardDiv viewType={viewType}>
+      <FadeAnimation>
+        <Card
+          viewType={viewType}
+          id={data._id}
+          onClick={() => {
+            nav(`/product/${data._id}`);
+          }}
+        >
+          <NewImage
+            viewType={viewType}
+            img={`url('${postUrl}${data.image[0]}')`}
+            soldOut={data.count === 0 && true}
+          />
 
-              <Info viewType={viewType}>
-                <Title darkMode={darkMode}>{data.title}</Title>
+          <Info viewType={viewType}>
+            <Title darkMode={darkMode}>{data.title}</Title>
 
-                <TimeAndPrice viewType={viewType}>
-                  <Price>{`${parseInt(
-                    data.price,
-                    10
-                  ).toLocaleString()}원`}</Price>
-                  <Time>{getTime(data.createdAt)}</Time>
-                </TimeAndPrice>
-                <Count>{`남은 수량 ${data.count}개`}</Count>
-              </Info>
-            </Card>
-          </FadeAnimation>
-        </CardDiv>
-      ))}
-    </ProductCardDiv>
+            <TimeAndPrice viewType={viewType}>
+              <Price>{`${parseInt(data.price, 10).toLocaleString()}원`}</Price>
+              <Time>{getTime(data.createdAt)}</Time>
+            </TimeAndPrice>
+            <Count>{`남은 수량 ${data.count}개`}</Count>
+          </Info>
+        </Card>
+      </FadeAnimation>
+    </CardDiv>
   );
 }
 

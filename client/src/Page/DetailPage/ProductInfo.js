@@ -46,7 +46,11 @@ const ProductInfo = ({
           {otherLoading ? (
             <Loading />
           ) : (
-            <ProductCard data={otherProduct} viewType={true} />
+            <ProductCardDiv>
+              {otherProduct.map((data, index) => (
+                <ProductCard key={index} data={data} viewType={true} />
+              ))}
+            </ProductCardDiv>
           )}
         </FadeAnimation>
       )}
@@ -94,6 +98,13 @@ const Info = styled.div`
 const OtherProduct = styled.div`
   padding: 0.8rem;
   font-size: 1.2rem;
+`;
+
+const ProductCardDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 5rem;
 `;
 
 export default React.memo(ProductInfo);

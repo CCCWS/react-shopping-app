@@ -201,7 +201,11 @@ function Main() {
       {loading ? (
         <Loading />
       ) : (
-        <ProductCard data={productList} viewType={click} />
+        <ProductCardDiv>
+          {productList.map((data, index) => (
+            <ProductCard key={index} data={data} viewType={click} />
+          ))}
+        </ProductCardDiv>
       )}
 
       {!lastData && <ReadMore ref={readMoreRef} />}
@@ -245,6 +249,13 @@ const SearchReset = styled.div`
 const ReadMore = styled.div`
   width: 100%;
   height: 20px;
+`;
+
+const ProductCardDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 5rem;
 `;
 
 export default React.memo(Main);
