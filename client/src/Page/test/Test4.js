@@ -1,107 +1,112 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import styled from "styled-components";
 import axios from "axios";
-import styled, { css } from "styled-components";
+import ImageViewer from "./ImageViewer";
 
-import CarouselType1 from "./CarouselType1";
+// import Folder from "./Folder/Folder";
 
-import Carousel from "./Carousel";
-import HamburgerBtn from "../../Components/Utility/HamburgerBtn";
-import Drag from "./Drag";
-import DragEvent from "./DragEvent";
+import Item1 from "./Folder/Item1";
+import Item2 from "./Folder/Item2";
+import Item3 from "./Folder/Item3";
+import Item4 from "./Folder/Item4";
+import Item5 from "./Folder/Item5";
+import Item6 from "./Folder/Item6";
 
-import useAxios from "./useAxios";
+// const { apiData, loading } = useAxios({
+//   url: "https://mhw-db.com/monsters",
+//   type: "get",
+// });
+// const [img, setImg] = useState(null);
+
+// useEffect(() => {
+//   const getApi = async () => {
+//     const res = await axios.get(
+//       `https://api.rawg.io/api/games?key=${API_KEY}&page_size=${SEARCH_SIZE}&page=${CURR_PAGE}`
+//     );
+
+//     setImg(res.data.results[0].background_image);
+//   };
+
+//   getApi();
+// }, []);
+
+const API_KEY = "17058e11301a4bf892f409d4ea85d5ff";
+const SEARCH_SIZE = 1;
+let CURR_PAGE = 1;
 
 const Test4 = () => {
-  const [monster, setMonster] = useState([]);
-  // const [loading, setLoading] = useState(true);
+  const items = [
+    { component: Item1, name: "아이템1" },
+    { component: Item2, name: "아이템2" },
+    { component: Item3, name: "아이템3" },
+    { component: Item4, name: "아이템4" },
+    { component: Item5, name: "아이템5" },
+    { component: Item6, name: "아이템6" },
+  ];
 
-  // useEffect(() => {
-  //   const getApi = async () => {
-  //     const res = await axios.get("https://mhw-db.com/monsters");
-  //     setMonster(res.data);
-  //     setLoading(false);
-  //   };
-
-  //   getApi();
-  // }, []);
-
-  // const { apiData, loading } = useAxios({
-  //   url: "/api/product/productDetail",
-  //   type: "post",
-  //   body: { id: "62bc572a1973d6509eb5f89b" },
-  // });
-
-  const { apiData, loading } = useAxios({
-    url: "https://mhw-db.com/monsters",
-    type: "get",
-  });
-
-  const gett = () => {
-    console.log(apiData);
-  };
-
-  const [moveValue, setMoveValue] = useState(0);
+  const [full, setFull] = useState(false);
 
   return (
-    <Box>
-      <button onClick={gett}>d</button>
-      <div>
-        {loading ? (
-          "로딩중"
-        ) : (
-          <>
-            {apiData.map((data, index) => (
-              <div key={index}>{data.name}</div>
-            ))}
-          </>
-        )}
-      </div>
-      {/* <Drag>
-        <Div color={"red"}></Div>
-        <Div color={"blue"}></Div>
-        <Div color={"green"}></Div>
-      </Drag> */}
+    <Window full={full}>
+      <WindowHeader onDoubleClick={() => setFull((prev) => !prev)} />
 
-      {/* <CarouselType1 slide={true} nextBtn={true} point={true} height={"300px"}>
-        <Div color={"red"}></Div>
-        <Div color={"blue"}></Div>
-        <Div color={"green"}></Div>
-      </CarouselType1> */}
+      <Box>
+        {items.map((item, index) => (
+          <Folder key={index} name={item.name}></Folder>
+        ))}
+      </Box>
 
-      {/* <Carousel
-        height={"500px"}
-        transitionDuration={100}
-        point={true}
-        nextBtn={true}
-        // auto={true}
-        // autoDelay={300}
-      >
-        <Div color={"red"}></Div>
-        <Div color={"blue"}></Div>
-        <Div color={"green"}></Div>
-      </Carousel> */}
-
-      {/* <Div onMouseDown={onMouseDown} onMouseUp={onMouseUp}></Div> */}
-
-      {/* <DragEvent /> */}
-    </Box>
+      <WindowFooter></WindowFooter>
+    </Window>
   );
 };
 
-const Box = styled.div`
-  width: 100vw;
+const Window = styled.div`
+  background-color: beige;
+  width: ${(props) => (props.full ? "100vw" : "50vw")};
+  height: ${(props) => (props.full ? "90vh" : "50vw")};
+
+  position: relative;
+  transition: 0.5s;
 `;
 
-const Div = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 50px;
+const WindowHeader = styled.div`
+  width: 100%;
+  height: 30px;
+  background-color: red;
+`;
 
+const WindowFooter = styled.div`
+  width: 100%;
+  height: 30px;
+  background-color: black;
+
+  position: absolute;
+  bottom: 0;
+`;
+
+const Box = styled.div`
   width: 100%;
   height: 100%;
 
-  background-color: ${(props) => props.color};
+  padding: 10px;
+
+  display: flex;
+  justify-content: space-around;
+`;
+
+const Folder = styled.div`
+  width: 50px;
+  height: 50px;
+  background-color: yellow;
+
+  position: relative;
+
+  ::before {
+    content: "${(props) => `${props.name}`}";
+    position: absolute;
+    bottom: -25px;
+  }
 `;
 
 export default Test4;

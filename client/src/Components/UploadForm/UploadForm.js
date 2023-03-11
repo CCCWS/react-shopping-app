@@ -151,8 +151,10 @@ function UploadForm({ userId, edit, editData, productId }) {
   //usePrompt를 true로 주면 수정하기나 등록하기를 할때에도 페이지 이동 경고가 나옴
   //수정, 등록 완료시 이 기능을 끄기위해 state를 false로 바꿔주고 state가 변화했을때 홈으로 이동
   useEffect(() => {
-    if (!writeCheck) nav(`/product/${productId}`);
-  }, [productId, writeCheck, nav]);
+    if (!writeCheck) {
+      nav(edit ? `/product/${productId}` : "/");
+    }
+  }, [productId, writeCheck, nav, edit]);
 
   return (
     <div className="page">

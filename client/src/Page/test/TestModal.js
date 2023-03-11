@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 
+
 const TestModal = () => {
   const nav = useNavigate();
   const { state } = useLocation();
@@ -48,6 +49,7 @@ const Div = styled.div`
   align-items: center; */
 
   overflow: scroll;
+  overflow: overlay;
 `;
 
 const Box = styled.div`

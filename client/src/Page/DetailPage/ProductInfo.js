@@ -92,6 +92,7 @@ const Info = styled.div`
     font-size: 1rem;
     line-height: 2rem;
     margin-bottom: 1rem;
+    white-space: pre;
   }
 `;
 

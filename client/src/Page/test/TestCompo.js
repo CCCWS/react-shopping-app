@@ -55,7 +55,7 @@ const Div = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 300px;
+  width: 100%;
   min-height: 100vh;
   background-color: gray;
 `;
