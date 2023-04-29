@@ -152,7 +152,6 @@ const Message = styled.div`
 const ReadMore = styled.div`
   width: 100%;
   height: 10px;
-  background-color: red;
 `;
 
 export default React.memo(PurchaseHistory);

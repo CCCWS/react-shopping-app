@@ -107,9 +107,9 @@ function ProductManagement({ isAuth, userId }) {
             </Info>
           </SlideAnimation>
 
-          <FadeAnimation>
+          {/* <FadeAnimation>
             <BuyerList buyerList={buyerList} />
-          </FadeAnimation>
+          </FadeAnimation> */}
 
           {resData.length === 0 ? (
             <Empty>
