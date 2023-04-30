@@ -10,7 +10,6 @@ import ZoomAnimation from "../../Components/Utility/Animation/ZoomAnimation";
 import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 import SlideAnimation from "../../Components/Utility/Animation/SlideAnimation";
 
-
 import useAxios from "../../hooks/useAxios";
 import useTheme from "../../hooks/useTheme";
 
@@ -70,14 +69,6 @@ function ProductManagement({ isAuth, userId }) {
     //서버로부터 상품 데이터를 받아오고 판매개수와 가격이 아직 계산되지 않았을 경우
     if (resData && !totalSold && !totalPrice) {
       calcData(resData);
-    }
-
-    //판매개수와 가격의 계산이 되었을경우
-    if (
-      totalSold !== undefined &&
-      totalPrice !== undefined &&
-      buyerList !== undefined
-    ) {
       setLoading(false);
     }
   }, [resData, totalSold, totalPrice, buyerList]);

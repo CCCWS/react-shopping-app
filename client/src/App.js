@@ -15,16 +15,6 @@ import PurchaseHistory from "./Page/PurchaseHistory/PurchaseHistory";
 import ProductManagement from "./Page/ProductManagement/ProductManagement";
 import Edit from "./Page/Upload_Edit/Edit";
 
-import Test from "./Page/Test";
-import Test2 from "./Page/test/Test2";
-import Test3 from "./Page/test/Test3";
-import Test4 from "./Page/test/Test4";
-import Test5 from "./Page/test/Test5";
-import Test6 from "./Page/test/Test6";
-import Test7 from "./Page/test/Test7";
-import Test8 from "./Page/test/Test8";
-import TestModal from "./Page/test/TestModal";
-
 import Auth from "./hoc/auth";
 import GlobalStyle from "./Components/Style/GlobalStyle";
 
@@ -61,19 +51,6 @@ function App() {
           element={Auth(PurchaseHistory, true)}
         />
         <Route path={`/edit/:id`} element={Auth(Edit, true)} />
-
-        <Route path={`/test`} element={<Test />} />
-        <Route path={`/test2`} element={<Test2 />} />
-        <Route path={`/test3`} element={<Test3 />} />
-        <Route path={`/test4`} element={<Test4 />} />
-        <Route path={`/test5`} element={<Test5 />} />
-        <Route path={`/test6`} element={<Test6 />}>
-          <Route path=":id" element={<TestModal />} />
-        </Route>
-        <Route path={`/test7`} element={<Test7 />} />
-        <Route path={`/test8`} element={<Test8 />}>
-          <Route path="modal" element={<TestModal />} />
-        </Route>
       </Routes>
     </>
   );
