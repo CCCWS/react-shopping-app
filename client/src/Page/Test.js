@@ -7,8 +7,10 @@ const Test = () => {
       // const res = await axios.post("/api/product/productDetail", {
       //   id: "62bc572a1973d6509eb5f89b",
       // });
-      const res = await axios.get("/api");
-      console.log(res);
+      const res = await axios.get(
+        "https://jsonplaceholder.typicode.com/todos/1"
+      );
+      console.log(res.data);
     };
 
     api();
