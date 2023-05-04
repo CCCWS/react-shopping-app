@@ -18,6 +18,8 @@ import Edit from "./Page/Upload_Edit/Edit";
 import Auth from "./hoc/auth";
 import GlobalStyle from "./Components/Style/GlobalStyle";
 
+import Test from "./Page/Test";
+
 import "./Color.css";
 
 function App() {
@@ -51,6 +53,8 @@ function App() {
           element={Auth(PurchaseHistory, true)}
         />
         <Route path={`/edit/:id`} element={Auth(Edit, true)} />
+
+        <Route path={`/test`} element={Auth(Test, true)} />
       </Routes>
     </>
   );
