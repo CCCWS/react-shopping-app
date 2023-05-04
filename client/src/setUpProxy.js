@@ -5,7 +5,7 @@ module.exports = function (app) {
   const postUrl =
     process.env.NODE_ENV === "production"
       ? "http://3.36.235.60:3000"
-      : "http://localhost:3001";
+      : "http://3.36.235.60:3000";
 
   app.use(
     createProxyMiddleware("/api", {
