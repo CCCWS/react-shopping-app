@@ -54,7 +54,7 @@ function App() {
         />
         <Route path={`/edit/:id`} element={Auth(Edit, true)} />
 
-        <Route path={`/test`} element={Auth(Test, true)} />
+        <Route path={`/test`} element={Auth(Test, false)} />
       </Routes>
     </>
   );
