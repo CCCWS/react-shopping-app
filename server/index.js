@@ -51,4 +51,8 @@ mongoose
 //   res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
 // });
 
+app.get("/test", (req, res) => {
+  res.send("TEST");
+});
+
 app.listen(port, () => console.log(`port : ${port}`));

@@ -11,7 +11,7 @@ const Test = () => {
       //   "https://jsonplaceholder.typicode.com/todos/1"
       // );
 
-      const res = await axios.get("http://3.36.235.60:3000");
+      const res = await axios.get("httptest");
 
       console.log(res.data);
     };
