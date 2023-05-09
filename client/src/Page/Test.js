@@ -11,9 +11,7 @@ const Test = () => {
       //   "https://jsonplaceholder.typicode.com/todos/1"
       // );
 
-      const res = await axios.get(
-        "https://jsonplaceholder.typicode.com/todos/1"
-      );
+      const res = await axios.get("https://cws-ec2server.shop/api");
 
       console.log(res.data);
     };
