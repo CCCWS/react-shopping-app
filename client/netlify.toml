@@ -1,5 +1,5 @@
 [[redirects]]
 from = "/api/*"
-to = "http://3.36.235.60:3000/:splat"
+to = "https://cws-ec2server.shop/:splat"
 status = 200
 force = true
