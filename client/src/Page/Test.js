@@ -11,7 +11,11 @@ const Test = () => {
       //   "https://jsonplaceholder.typicode.com/todos/1"
       // );
 
-      const res = await axios.get("/ec2server/api");
+      const res = await axios.post("/ec2Server/api/papago/translate", {
+        source: "ko",
+        target: "en",
+        text: "테스트",
+      });
 
       console.log(res.data);
     };

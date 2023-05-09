@@ -1,5 +1,5 @@
 [[redirects]]
 from = "/ec2Server/*"
-to = "https://cws-ec2server.shop/:splat"
+to = "https://port-0-react-aichat-1maxx2algj8mzv5.sel3.cloudtype.app/:splat"
 status = 200
 force = true

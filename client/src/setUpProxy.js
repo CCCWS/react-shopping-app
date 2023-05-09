@@ -9,7 +9,17 @@ module.exports = function (app) {
 
   app.use(
     createProxyMiddleware("/api", {
-      target: "http://localhost:3000",
+      target: "http://localhost:3001",
+      changeOrigin: true,
+    })
+  );
+
+  app.use(
+    createProxyMiddleware("/ec2Server", {
+      target: "https://port-0-react-aichat-1maxx2algj8mzv5.sel3.cloudtype.app/",
+      pathRewrite: {
+        "^/ec2Server": "",
+      },
       changeOrigin: true,
     })
   );
