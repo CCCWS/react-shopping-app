@@ -4,14 +4,13 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 module.exports = function (app) {
   const postUrl =
     process.env.NODE_ENV === "production"
-      ? "http://3.36.235.60:3000"
+      ? "https://cws-ec2server.shop"
       : "http://3.36.235.60:3000";
 
   app.use(
     createProxyMiddleware("/api", {
-      target: "https://cws-ec2server.shop",
+      target: postUrl,
       changeOrigin: true,
     })
   );
 };
-
