@@ -36,7 +36,7 @@ function App() {
       {Auth(GlobalStyle, false)}
       <Header />
       <PageTop />
-      <Routes>
+      {/* <Routes>
         <Route path={`/`} element={Auth(Main, false)} />
         <Route path={`/product/:id`} element={Auth(ProductDetail, false)} />
 
@@ -55,7 +55,8 @@ function App() {
         <Route path={`/edit/:id`} element={Auth(Edit, true)} />
 
         <Route path={`/test`} element={Auth(Test, false)} />
-      </Routes>
+      </Routes> */}
+      <Test />
     </>
   );
 }
