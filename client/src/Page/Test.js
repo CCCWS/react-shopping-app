@@ -11,7 +11,9 @@ const Test = () => {
       //   "https://jsonplaceholder.typicode.com/todos/1"
       // );
 
-      const res = await axios.get("/corstest/api");
+      const res = await axios.get(
+        "https://jsonplaceholder.typicode.com/todos/1"
+      );
 
       console.log(res.data);
     };
