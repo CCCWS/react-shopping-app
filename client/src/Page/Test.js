@@ -14,7 +14,7 @@ const Test = () => {
       const postUrl =
         process.env.NODE_ENV === "production" ? "/ec2server/" : "";
 
-      const res = await axios.get(`${postUrl}/api/test`);
+      const res = await axios.get(`${postUrl}api/test`);
 
       console.log(res.data);
     };
