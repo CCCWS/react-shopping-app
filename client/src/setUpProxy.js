@@ -13,4 +13,11 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+
+  app.use(
+    createProxyMiddleware("/ec2Server", {
+      target: "https://cws-ec2server.shop",
+      changeOrigin: true,
+    })
+  );
 };
