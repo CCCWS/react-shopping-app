@@ -3,3 +3,9 @@ from = "/ec2Server/*"
 to = "https://port-0-react-aichat-1maxx2algj8mzv5.sel3.cloudtype.app/:splat"
 status = 200
 force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+	force = false
