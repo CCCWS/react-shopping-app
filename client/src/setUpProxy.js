@@ -8,7 +8,7 @@ module.exports = function (app) {
       : "http://3.36.235.60:3000";
 
   app.use(
-    createProxyMiddleware("/api", {
+    createProxyMiddleware("/corstest", {
       target: "https://cws-ec2server.shop",
       changeOrigin: true,
     })
