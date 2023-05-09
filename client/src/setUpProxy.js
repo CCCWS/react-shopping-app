@@ -9,13 +9,6 @@ module.exports = function (app) {
 
   app.use(
     createProxyMiddleware("/api", {
-      target: postUrl,
-      changeOrigin: true,
-    })
-  );
-
-  app.use(
-    createProxyMiddleware("/ec2Server", {
       target: "https://cws-ec2server.shop",
       changeOrigin: true,
     })

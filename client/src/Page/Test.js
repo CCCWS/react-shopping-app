@@ -11,7 +11,10 @@ const Test = () => {
       //   "https://jsonplaceholder.typicode.com/todos/1"
       // );
 
-      const res = await axios.get("https://cws-ec2server.shop/test");
+      const postUrl =
+        process.env.NODE_ENV === "production" ? "/ec2server/" : "";
+
+      const res = await axios.get(`${postUrl}/api/test`);
 
       console.log(res.data);
     };
