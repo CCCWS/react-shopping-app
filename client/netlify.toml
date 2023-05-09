@@ -1,5 +1,5 @@
 [[redirects]]
-from = "/corstest/*"
+from = "/ec2Server/*"
 to = "https://cws-ec2server.shop/:splat"
 status = 200
 force = true
