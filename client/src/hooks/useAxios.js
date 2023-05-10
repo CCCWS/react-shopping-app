@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import axios from "axios";
+import newAxios from "../productionCheck";
 
 const useAxios = (url) => {
   const [resData, setResData] = useState();
@@ -11,13 +11,13 @@ const useAxios = (url) => {
       try {
         if (option === undefined) {
           setLoading(true);
-          const res = await axios.get(url);
+          const res = await newAxios.get(url);
           setResData(res.data);
         }
 
         if (option) {
           if (option.readMore === true) {
-            const res = await axios.post(url, option);
+            const res = await newAxios.post(url, option);
             setResData((item) => [...item, ...res.data]);
 
             if (res.data.length === 0) {
@@ -26,7 +26,7 @@ const useAxios = (url) => {
             }
           } else {
             setLoading(true);
-            const res = await axios.post(url, option);
+            const res = await newAxios.post(url, option);
             setResData(res.data);
           }
         }
