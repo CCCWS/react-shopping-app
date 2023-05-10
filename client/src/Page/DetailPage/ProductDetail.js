@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { LeftOutlined, HomeOutlined, SearchOutlined } from "@ant-design/icons";
 import styled, { css } from "styled-components";
-import axios from "axios";
+import newAxios from "../../productionCheck";
 
 import RecentView from "../../Components/Product/RecentView";
 import Carousel2 from "../../Components/Utility/Carousel2";
@@ -95,7 +95,7 @@ function ProductDetail({ isAuth, userId }) {
 
   useEffect(() => {
     const getOtherProduct = async (PRODUCT_ID, PRODUCT_CATEGORY) => {
-      const res = await axios.post("/api/product/productList", {
+      const res = await newAxios.post("/api/product/productList", {
         filterId: PRODUCT_ID,
         category: PRODUCT_CATEGORY,
       });
@@ -103,14 +103,14 @@ function ProductDetail({ isAuth, userId }) {
     };
 
     const getProductWriter = async (PRODUCT_WRITER) => {
-      const res = await axios.post("/api/user/userInfo", {
+      const res = await newAxios.post("/api/user/userInfo", {
         id: PRODUCT_WRITER,
       });
       setProductWriter(res.data);
     };
 
     const getProduct = async (postId) => {
-      const res = await axios.post("/api/product/productDetail", {
+      const res = await newAxios.post("/api/product/productDetail", {
         id: postId,
       });
 

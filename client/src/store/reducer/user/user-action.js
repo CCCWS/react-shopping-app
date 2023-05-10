@@ -1,11 +1,11 @@
-import axios from "axios";
+import newAxios from "../../../productionCheck"
 import { userAction } from "./user";
 import { warningMessageAction } from "../warningMessage";
 
 export const auth = () => {
   return async (dispatch) => {
     const getApi = async () => {
-      await axios.get("/api/user/auth");
+      await newAxios.get("/api/user/auth");
     };
     getApi();
   };
@@ -17,7 +17,7 @@ export const login = (data) => {
 
   return async (dispatch) => {
     const loginApi = async () => {
-      const res = await axios.post("/api/user/login", data);
+      const res = await newAxios.post("/api/user/login", data);
       if (!res.data.loginSuccess) {
         dispatch(
           warningMessageAction.setLoginError({
@@ -49,7 +49,7 @@ export const logout = () => {
   return async (dispatch) => {
     const logoutApi = async () => {
       dispatch(userAction.setLogout());
-      await axios.get("/api/user/logout");
+      await newAxios.get("/api/user/logout");
       return true;
     };
 
@@ -62,7 +62,7 @@ export const register = (data) => {
   let registerCheck = false;
   return async (dispatch) => {
     const registerApi = async () => {
-      const res = await axios.post("/api/user/register", data);
+      const res = await newAxios.post("/api/user/register", data);
 
       if (!res.data.success) {
         dispatch(

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
-import axios from "axios";
+import newAxios from "../../productionCheck";
 import styled from "styled-components";
 import { CameraOutlined, CloseOutlined } from "@ant-design/icons";
 
@@ -41,7 +41,7 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
     formData.append("image", file[0]);
 
     try {
-      const res = await axios.post("/api/s3/s3Upload", formData);
+      const res = await newAxios.post("/api/s3/s3Upload", formData);
       // alert("이미지 업로드");
       console.log(res.data.fileName);
       setUploadImg((prev) => [...prev, res.data.fileName]);
@@ -55,7 +55,7 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
   const onDeleteImgS3 = async (img) => {
     try {
       if (!edit) {
-        const res = await axios.post("/api/s3/s3Delete", { img: img });
+        const res = await newAxios.post("/api/s3/s3Delete", { img: img });
       }
       alert("이미지 삭제");
       setUploadImg((prev) => prev.filter((data) => data !== img));
@@ -81,7 +81,7 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
   // };
 
   // const sendServerImageData = async (formData, config) => {
-  //   const res = await axios.post("/api/product/img", formData, config);
+  //   const res = await newAxios.post("/api/product/img", formData, config);
   //   const getImg = new Image();
   //   getImg.onload = function () {
   //     setUploadImg([
@@ -108,7 +108,7 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
 
   //   //등록페이지의 경우 이미지를 바로 삭제해도 무관함
   //   if (edit === undefined) {
-  //     const res = await axios.post("/api/product/delImg", { image: e.name });
+  //     const res = await newAxios.post("/api/product/delImg", { image: e.name });
   //     if (res.data.success) {
   //       // alert("삭제 완료");
   //     }
