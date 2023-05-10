@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "axios";
+import newAxios from "../productionCheck";
 
 const Test = () => {
   useEffect(() => {
@@ -11,10 +12,9 @@ const Test = () => {
       //   "https://jsonplaceholder.typicode.com/todos/1"
       // );
 
-      const postUrl =
-        process.env.NODE_ENV === "production" ? "/ec2server" : "";
+      const postUrl = process.env.NODE_ENV === "production" ? "/ec2server" : "";
 
-      const res = await axios.get(`${postUrl}/api/test`);
+      const res = await newAxios.get(`/api/test`);
 
       console.log(res);
     };
