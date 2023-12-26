@@ -5,11 +5,13 @@ module.exports = function (app) {
   const postUrl =
     process.env.NODE_ENV === "production"
       ? "https://cws-ec2server.shop"
-      : "http://localhost:3001";
+      : "https://cws-ec2server.shop";
+
+  //http://3.39.233.166
 
   app.use(
     createProxyMiddleware("/api", {
-      target: "https://cws-ec2server.shop",
+      target: postUrl,
       changeOrigin: true,
     })
   );

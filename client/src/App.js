@@ -41,7 +41,7 @@ function App() {
     if (KR_HOURS >= 8 && KR_HOURS <= 20) {
       setServerClose(false);
     } else {
-      setServerClose(true);
+      setServerClose(false);
     }
   }, []);
 
