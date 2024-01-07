@@ -7,7 +7,7 @@ const aws = require("aws-sdk");
 aws.config.loadFromPath(__dirname + "/../config/s3.json");
 
 const s3 = new aws.S3();
-const bucketName = "shopping-img";
+const bucketName = "cws-shopping-s3";
 
 //파일명 중복 방지를 위하여 랜덤한 이름으로 업로드
 const rendomName = () => {
