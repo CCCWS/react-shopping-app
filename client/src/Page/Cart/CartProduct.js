@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import axios from "axios";
+import newAxios from "../../productionCheck";
 
 import useTheme from "../../hooks/useTheme";
 
@@ -63,7 +63,7 @@ const CartProduct = ({ product, userCartList, userId }) => {
   const onDelProduct = (id) => {
     const delFunc = async () => {
       //전체 삭제시 id를 배열에 담아서 보내주었기 때문에 하나의 상품도 배열에 담아서 전송
-      await axios.post("/api/user/removeCart", {
+      await newAxios.post("/api/user/removeCart", {
         productId: [id],
         userId: userId,
       });

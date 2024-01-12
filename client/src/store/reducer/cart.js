@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 // import axios from "axios";
+import newAxios from "../../productionCheck";
 
 const cartState = {
   cartList: [],
@@ -71,9 +72,6 @@ const cartSlice = createSlice({
 
     onRemoveCart(state, action) {
       console.log(action.payload);
-      //   state.cartList = state.cartList.filter(
-      //     (data) => !action.payload.includes(data._id)
-      //   );
 
       if (action.payload.checkProduct.length === state.cartList.length) {
         console.log("전체 삭제");
@@ -131,10 +129,10 @@ const cartSlice = createSlice({
           }
         });
 
-        // await axios.post("/api/user/changeCart", {
-        //   id: action.payload.userId,
-        //   cart: action.payload.userCartList,
-        // });
+        await newAxios.post("/api/user/changeCart", {
+          id: action.payload.userId,
+          cart: action.payload.userCartList,
+        });
       };
 
       api();
@@ -160,10 +158,10 @@ const cartSlice = createSlice({
           }
         });
 
-        // await axios.post("/api/user/changeCart", {
-        //   id: action.payload.userId,
-        //   cart: action.payload.userCartList,
-        // });
+        await newAxios.post("/api/user/changeCart", {
+          id: action.payload.userId,
+          cart: action.payload.userCartList,
+        });
       };
 
       api();
