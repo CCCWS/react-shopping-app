@@ -111,6 +111,7 @@ function Cart({ isAuth, userId }) {
 
       //id만 담겨있는 배열을 option으로 api요청
       removeCartProduct({ productId: option, userId: userId });
+      
       dispatch(
         cartAction.onRemoveCart({ checkProduct: checkProduct, id: option })
       );

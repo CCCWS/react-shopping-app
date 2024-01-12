@@ -71,8 +71,6 @@ const cartSlice = createSlice({
     },
 
     onRemoveCart(state, action) {
-      console.log(action.payload);
-
       if (action.payload.checkProduct.length === state.cartList.length) {
         console.log("전체 삭제");
         state.totalCount = 0;

@@ -68,7 +68,9 @@ const CartProduct = ({ product, userCartList, userId }) => {
         userId: userId,
       });
 
-      dispatch(cartAction.onRemoveCart([id]));
+      dispatch(
+        cartAction.onRemoveCart({ checkProduct: checkProduct, id: [id] })
+      );
     };
 
     setOpenModal(true);
