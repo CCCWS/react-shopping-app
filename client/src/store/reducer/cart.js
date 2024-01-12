@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+// import axios from "axios";
 
 const cartState = {
   cartList: [],
@@ -131,10 +131,10 @@ const cartSlice = createSlice({
           }
         });
 
-        await axios.post("/api/user/changeCart", {
-          id: action.payload.userId,
-          cart: action.payload.userCartList,
-        });
+        // await axios.post("/api/user/changeCart", {
+        //   id: action.payload.userId,
+        //   cart: action.payload.userCartList,
+        // });
       };
 
       api();
@@ -160,10 +160,10 @@ const cartSlice = createSlice({
           }
         });
 
-        await axios.post("/api/user/changeCart", {
-          id: action.payload.userId,
-          cart: action.payload.userCartList,
-        });
+        // await axios.post("/api/user/changeCart", {
+        //   id: action.payload.userId,
+        //   cart: action.payload.userCartList,
+        // });
       };
 
       api();
