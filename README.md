@@ -14,7 +14,7 @@
 
 
 ## 주소
-* <https://iridescent-salmiakki-052c7c.netlify.app/>
+* <https://cwshopping.shop/>
 
 ## 페이지 구성
 |                       메인 페이지                     |                    로그인 & 회원가입 모달            |
