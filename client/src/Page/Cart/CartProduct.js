@@ -2,74 +2,143 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 import useTheme from "../../hooks/useTheme";
 
 import ProductCountBtn from "../../Components/Product/ProductCountBtn";
+import ModalBase from "../../Components/Modal/ModalBase";
 
 import { Image, Title, Price } from "../../Components/Style/ProductCard";
 
 import { postUrl } from "../../PostUrl";
 
-const CartProduct = ({
-  product,
-  checkProduct,
-  onCheckProduct,
-  onDelProduct,
-  onChangeCountPlus,
-  onChangeCountMinus,
-}) => {
+import { useDispatch, useSelector } from "react-redux";
+import { cartAction } from "../../store/reducer/cart";
+import useModal from "../../hooks/useModal";
+
+const CartProduct = ({ product, userCartList, userId }) => {
   const nav = useNavigate();
+  const dispatch = useDispatch();
   const { darkMode } = useTheme();
 
+  const { openModal, contents, setOpenModal, setContents } = useModal();
+  const checkProduct = useSelector((state) => state.cart.checkProduct);
+
+  const onChangeCountPlus = async () => {
+    //유저 장바구니 정보에서 해당 상품의 수량을 증가
+    for (let i of userCartList) {
+      if (i.id === product._id) {
+        i.purchasesCount = product.purchasesCount + 1;
+      }
+    }
+
+    dispatch(
+      cartAction.onIncreaseCartCount({
+        product: product,
+        userCartList: userCartList,
+        userId: userId,
+      })
+    );
+  };
+
+  //장바구니 상품 수량 감소
+  const onChangeCountMinus = async () => {
+    for (let i of userCartList) {
+      if (i.id === product._id) {
+        i.purchasesCount = product.purchasesCount - 1;
+      }
+    }
+
+    dispatch(
+      cartAction.onDecreaseCartCount({
+        product: product,
+        userCartList: userCartList,
+        userId: userId,
+      })
+    );
+  };
+
+  //하나의 상품 삭제
+  const onDelProduct = (id) => {
+    const delFunc = async () => {
+      //전체 삭제시 id를 배열에 담아서 보내주었기 때문에 하나의 상품도 배열에 담아서 전송
+      await axios.post("/api/user/removeCart", {
+        productId: [id],
+        userId: userId,
+      });
+
+      dispatch(cartAction.onRemoveCart([id]));
+    };
+
+    setOpenModal(true);
+    setContents({
+      title: "장바구니 삭제",
+      message: `상품을 삭제합니다.`,
+      delFunc: delFunc,
+      cartPage: true,
+    });
+  };
+
+  //하나의 상품 체크
+  const onCheckProduct = (product) => {
+    dispatch(cartAction.onAddCheckProduct(product));
+  };
+
   return (
-    <ProductCard
-      key={product._id}
-      darkMode={darkMode}
-      purchasesFail={product.count < product.purchasesCount && true}
-    >
-      <div>
-        <ProductCheckBox
-          productCheck={checkProduct}
-          onClick={() => onCheckProduct(product)}
-        >
-          <CheckOutlined />
-        </ProductCheckBox>
+    <>
+      <ModalBase
+        contents={contents}
+        modalOpen={openModal}
+        setModalOpen={setOpenModal}
+      />
 
-        <NewImage
-          img={`url('${postUrl}${product.image[0]}')`}
-          onClick={() => nav(`/product/${product._id}`)}
-        />
+      <ProductCard
+        darkMode={darkMode}
+        purchasesFail={product.count < product.purchasesCount && true}
+      >
+        <div>
+          <ProductCheckBox
+            productCheck={checkProduct.find((data) => data._id === product._id)}
+            onClick={() => onCheckProduct(product)}
+          >
+            <CheckOutlined />
+          </ProductCheckBox>
 
-        <ProductTitle>
-          <Title>{`${product.title}`}</Title>
-          <Price>{`${parseInt(
-            product.price * product.purchasesCount,
-            10
-          ).toLocaleString()}원`}</Price>
-
-          <ProductCountBtn
-            onChangeCountPlus={onChangeCountPlus}
-            onChangeCountMinus={onChangeCountMinus}
-            productCount={product.count}
-            purchasesCount={product.purchasesCount}
-            id={product._id}
-            cart={true}
+          <NewImage
+            img={`url('${postUrl}${product.image[0]}')`}
+            onClick={() => nav(`/product/${product._id}`)}
           />
-        </ProductTitle>
-      </div>
 
-      <ProductCheckBox onClick={() => onDelProduct(product._id)}>
-        <CloseOutlined />
-      </ProductCheckBox>
-    </ProductCard>
+          <ProductTitle>
+            <Title>{`${product.title}`}</Title>
+            <Price>{`${parseInt(
+              product.price * product.purchasesCount,
+              10
+            ).toLocaleString()}원`}</Price>
+
+            <ProductCountBtn
+              onChangeCountPlus={onChangeCountPlus}
+              onChangeCountMinus={onChangeCountMinus}
+              productCount={product.count}
+              purchasesCount={product.purchasesCount}
+              cart={true}
+            />
+          </ProductTitle>
+        </div>
+
+        <ProductCheckBox onClick={() => onDelProduct(product._id)}>
+          <CloseOutlined />
+        </ProductCheckBox>
+      </ProductCard>
+    </>
   );
 };
 
 const ProductCard = styled.div`
   background-color: ${(props) =>
     props.darkMode ? "var(--black)" : "var(--white)"};
-  /* box-shadow: 5px 5px 10px 3px var(--gray_transparency); */
+  box-shadow: 5px 5px 10px 3px var(--gray_transparency);
   width: 49%;
   height: 12rem;
   margin-bottom: 2rem;

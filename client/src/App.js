@@ -52,7 +52,7 @@ function App() {
 
       {serverClose ? (
         <Routes>
-          <Route path={`/`} element={<ServerShutdown />} />
+          {/* <Route path={`/`} element={<ServerShutdown />} /> */}
         </Routes>
       ) : (
         <>

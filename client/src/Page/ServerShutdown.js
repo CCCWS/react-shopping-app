@@ -5,16 +5,6 @@ import closeGif from "../data/serverCloseGif.gif";
 import axios from "axios";
 
 const ServerShutdown = () => {
-  useEffect(() => {
-    const api = async () => {
-      const res = await axios.get("/api");
-
-      console.log(res.data);
-    };
-
-    api();
-  }, []);
-
   return (
     <Page>
       <h2>지금은 서버가 닫혀있어요.</h2>

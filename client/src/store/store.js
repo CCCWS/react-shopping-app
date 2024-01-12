@@ -12,6 +12,7 @@ import pathnameReducer from "./reducer/pathname";
 import warningMessageReducer from "./reducer/warningMessage";
 import darkMode from "./reducer/darkMode";
 import notification from "./reducer/notification";
+import cart from "./reducer/cart";
 
 const reducers = combineReducers({
   user: userReducer,
@@ -19,13 +20,14 @@ const reducers = combineReducers({
   warningMessage: warningMessageReducer,
   darkMode: darkMode,
   notification: notification,
+  cart: cart,
 });
 
 const persistConfig = {
   key: "root",
   storage,
   whitelist: ["user", "darkMode"], //storage에 저장할 state, 새로고침해도 사라지지 않음
-  blacklist: ["modalOpen", "warningMessageReducer", "notification"], //저장하지 않을 state, 새로고침시 사라짐
+  blacklist: ["modalOpen", "warningMessageReducer", "notification", "cart"], //저장하지 않을 state, 새로고침시 사라짐
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

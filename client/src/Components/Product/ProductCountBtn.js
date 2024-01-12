@@ -7,7 +7,6 @@ function ProductCountBtn({
   productCount,
   onChangeCountPlus,
   onChangeCountMinus,
-  id,
   cart,
 }) {
   return (
@@ -16,7 +15,7 @@ function ProductCountBtn({
         onClick={() => {
           if (purchasesCount === 1) return;
           if (cart) {
-            onChangeCountMinus(id, purchasesCount);
+            onChangeCountMinus();
           } else {
             setPurchasesCount(parseInt(purchasesCount, 10) - 1);
           }
@@ -32,7 +31,7 @@ function ProductCountBtn({
           if (productCount === 0) return;
           if (purchasesCount === productCount) return;
           if (cart) {
-            onChangeCountPlus(id, purchasesCount);
+            onChangeCountPlus();
           } else {
             setPurchasesCount(parseInt(purchasesCount, 10) + 1);
           }
