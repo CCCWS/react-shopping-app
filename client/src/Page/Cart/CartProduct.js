@@ -33,13 +33,20 @@ const CartProduct = ({ product, userCartList, userId }) => {
       }
     }
 
-    dispatch(
-      cartAction.onIncreaseCartCount({
-        product: product,
-        userCartList: userCartList,
-        userId: userId,
+    await newAxios
+      .post("/api/user/changeCart", {
+        id: userId,
+        cart: userCartList,
       })
-    );
+      .then((res) => {
+        if (res.data.success) {
+          dispatch(
+            cartAction.onIncreaseCartCount({
+              product: product,
+            })
+          );
+        }
+      });
   };
 
   //장바구니 상품 수량 감소
@@ -50,27 +57,38 @@ const CartProduct = ({ product, userCartList, userId }) => {
       }
     }
 
-    dispatch(
-      cartAction.onDecreaseCartCount({
-        product: product,
-        userCartList: userCartList,
-        userId: userId,
+    await newAxios
+      .post("/api/user/changeCart", {
+        id: userId,
+        cart: userCartList,
       })
-    );
+      .then((res) => {
+        if (res.data.success) {
+          dispatch(
+            cartAction.onDecreaseCartCount({
+              product: product,
+            })
+          );
+        }
+      });
   };
 
   //하나의 상품 삭제
   const onDelProduct = (id) => {
     const delFunc = async () => {
       //전체 삭제시 id를 배열에 담아서 보내주었기 때문에 하나의 상품도 배열에 담아서 전송
-      await newAxios.post("/api/user/removeCart", {
-        productId: [id],
-        userId: userId,
-      });
-
-      dispatch(
-        cartAction.onRemoveCart({ checkProduct: checkProduct, id: [id] })
-      );
+      await newAxios
+        .post("/api/user/removeCart", {
+          productId: [id],
+          userId: userId,
+        })
+        .then((res) => {
+          if (res.data.success) {
+            dispatch(
+              cartAction.onRemoveCart({ checkProduct: checkProduct, id: [id] })
+            );
+          }
+        });
     };
 
     setOpenModal(true);

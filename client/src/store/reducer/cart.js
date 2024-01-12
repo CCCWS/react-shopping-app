@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import axios from "axios";
-import newAxios from "../../productionCheck";
 
 const cartState = {
   cartList: [],
@@ -108,61 +106,43 @@ const cartSlice = createSlice({
     },
 
     onIncreaseCartCount(state, action) {
-      const api = async () => {
-        if (
-          state.checkProduct.find(
-            (data) => data._id === action.payload.product._id
-          )
-        ) {
-          console.log("이미 있음");
-          state.totalCount += 1;
-          state.totalPrice += action.payload.product.price;
+      if (
+        state.checkProduct.find(
+          (data) => data._id === action.payload.product._id
+        )
+      ) {
+        console.log("이미 있음");
+        state.totalCount += 1;
+        state.totalPrice += action.payload.product.price;
+      }
+
+      // eslint-disable-next-line array-callback-return
+      state.cartList.find((e) => {
+        if (e._id === action.payload.product._id) {
+          console.log("개수 증가");
+          e.purchasesCount += 1;
         }
-
-        // eslint-disable-next-line array-callback-return
-        state.cartList.find((e) => {
-          if (e._id === action.payload.product._id) {
-            console.log("개수 증가");
-            e.purchasesCount += 1;
-          }
-        });
-
-        await newAxios.post("/api/user/changeCart", {
-          id: action.payload.userId,
-          cart: action.payload.userCartList,
-        });
-      };
-
-      api();
+      });
     },
 
     onDecreaseCartCount(state, action) {
-      const api = async () => {
-        if (
-          state.checkProduct.find(
-            (data) => data._id === action.payload.product._id
-          )
-        ) {
-          console.log("이미 있음");
-          state.totalCount -= 1;
-          state.totalPrice -= action.payload.product.price;
+      if (
+        state.checkProduct.find(
+          (data) => data._id === action.payload.product._id
+        )
+      ) {
+        console.log("이미 있음");
+        state.totalCount -= 1;
+        state.totalPrice -= action.payload.product.price;
+      }
+
+      // eslint-disable-next-line array-callback-return
+      state.cartList.find((e) => {
+        if (e._id === action.payload.product._id) {
+          console.log("개수 감소");
+          e.purchasesCount -= 1;
         }
-
-        // eslint-disable-next-line array-callback-return
-        state.cartList.find((e) => {
-          if (e._id === action.payload.product._id) {
-            console.log("개수 감소");
-            e.purchasesCount -= 1;
-          }
-        });
-
-        await newAxios.post("/api/user/changeCart", {
-          id: action.payload.userId,
-          cart: action.payload.userCartList,
-        });
-      };
-
-      api();
+      });
     },
   },
 });
