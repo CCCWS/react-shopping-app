@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, ussState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
@@ -23,10 +23,14 @@ const CartProduct = ({ product, userCartList, userId }) => {
   const { darkMode } = useTheme();
 
   const { openModal, contents, setOpenModal, setContents } = useModal();
+  const [countLoading, setCountLoading] = useState(false);
   const checkProduct = useSelector((state) => state.cart.checkProduct);
 
   const onChangeCountPlus = async () => {
     //유저 장바구니 정보에서 해당 상품의 수량을 증가
+
+    setCountLoading(true);
+
     for (let i of userCartList) {
       if (i.id === product._id) {
         i.purchasesCount = product.purchasesCount + 1;
@@ -45,12 +49,15 @@ const CartProduct = ({ product, userCartList, userId }) => {
               product: product,
             })
           );
+          setCountLoading(false);
         }
       });
   };
 
   //장바구니 상품 수량 감소
   const onChangeCountMinus = async () => {
+    setCountLoading(true);
+
     for (let i of userCartList) {
       if (i.id === product._id) {
         i.purchasesCount = product.purchasesCount - 1;
@@ -69,6 +76,8 @@ const CartProduct = ({ product, userCartList, userId }) => {
               product: product,
             })
           );
+
+          setCountLoading(false);
         }
       });
   };
@@ -142,6 +151,7 @@ const CartProduct = ({ product, userCartList, userId }) => {
               onChangeCountMinus={onChangeCountMinus}
               productCount={product.count}
               purchasesCount={product.purchasesCount}
+              countLoading={countLoading}
               cart={true}
             />
           </ProductTitle>

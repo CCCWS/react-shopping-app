@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 function ProductCountBtn({
   purchasesCount,
@@ -8,11 +8,14 @@ function ProductCountBtn({
   onChangeCountPlus,
   onChangeCountMinus,
   cart,
+  countLoading,
 }) {
   return (
     <Div>
       <Button
+        clickImpossibleCheck={purchasesCount === 1}
         onClick={() => {
+          if (countLoading) return;
           if (purchasesCount === 1) return;
           if (cart) {
             onChangeCountMinus();
@@ -27,7 +30,9 @@ function ProductCountBtn({
       <Count>{purchasesCount}</Count>
 
       <Button
+        clickImpossibleCheck={purchasesCount === productCount}
         onClick={() => {
+          if (countLoading) return;
           if (productCount === 0) return;
           if (purchasesCount === productCount) return;
           if (cart) {
@@ -75,10 +80,14 @@ const Button = styled.button`
   border: none;
   background-color: var(--gray_transparency);
 
-  &:hover {
-    background-color: var(--orange_hover);
-    cursor: pointer;
-  }
+  ${(props) =>
+    !props.clickImpossibleCheck &&
+    css`
+      &:hover {
+        background-color: var(--orange_hover);
+        cursor: pointer;
+      }
+    `}
 `;
 
 export default React.memo(ProductCountBtn);
