@@ -5,8 +5,6 @@ import styled, { css } from "styled-components";
 import FadeAnimation from "../Utility/Animation/FadeAnimation";
 
 import useTheme from "../../hooks/useTheme";
-
-import { postUrl } from "../../PostUrl";
 import { Title, Image, Price, Time, Count } from "../Style/ProductCard";
 import getTime from "../../hooks/getTime";
 
@@ -26,7 +24,8 @@ function ProductCard({ data, viewType }) {
         >
           <NewImage
             viewType={viewType}
-            img={`url('${postUrl}${data.image[0]}')`}
+            src={`${data.image[0]}`}
+            alt={data.title}
             soldOut={data.count === 0 && true}
           />
 
@@ -102,8 +101,7 @@ const Info = styled.div`
 
 const NewImage = styled(Image)`
   border-radius: 5px;
-  background-size: ${(props) =>
-    props.viewType ? "cover" : "cover"} !important;
+
   width: ${(props) => (props.viewType ? "100%" : "40%")};
   height: ${(props) => (props.viewType ? "70%" : "100%")};
 

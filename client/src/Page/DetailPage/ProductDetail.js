@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { LeftOutlined, HomeOutlined, SearchOutlined } from "@ant-design/icons";
+
 import styled, { css } from "styled-components";
 import newAxios from "../../productionCheck";
 
 import RecentView from "../../Components/Product/RecentView";
-import Carousel2 from "../../Components/Utility/Carousel2";
 import Loading from "../../Components/Utility/Loading";
 import ModalBase from "../../Components/Modal/ModalBase";
 import FooterDetailPage from "../../Components/Footer/FooterDetailPage";
@@ -15,8 +14,6 @@ import getTime from "../../hooks/getTime";
 import useAxios from "../../hooks/useAxios";
 import useModal from "../../hooks/useModal";
 import useLocalStorage from "../../hooks/useLocalStorage";
-
-import { postUrl } from "../../PostUrl";
 import ProductInfo from "./ProductInfo";
 
 function ProductDetail({ isAuth, userId }) {
@@ -276,7 +273,7 @@ function ProductDetail({ isAuth, userId }) {
       />
 
       <ModalBase modalOpen={openImgModal} setModalOpen={setOpenImgModal}>
-        <ImgDiv img={`url('${postUrl}${currImg}')`} modal={true} />
+        <ImgDiv src={currImg} alt={"img"} modal={true} />
       </ModalBase>
 
       {/* <BackBtn onClick={() => nav("/")}>
@@ -290,7 +287,6 @@ function ProductDetail({ isAuth, userId }) {
         <>
           <ProductCarousel
             img={product.image}
-            postUrl={postUrl}
             onImgModalOpen={onImgModalOpen}
             ImgDiv={ImgDiv}
           />
@@ -335,12 +331,8 @@ const BackBtn = styled.div`
   cursor: pointer;
 `;
 
-const ImgDiv = styled.div`
-  background-image: ${(props) => props.img};
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
+const ImgDiv = styled.img`
+  object-fit: cover;
   position: relative;
 
   ${(props) =>

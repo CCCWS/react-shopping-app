@@ -4,8 +4,6 @@ import newAxios from "../../productionCheck";
 import styled from "styled-components";
 import { CameraOutlined, CloseOutlined } from "@ant-design/icons";
 
-import { postUrl } from "../../PostUrl";
-
 function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
   const [upladeImg, setUploadImg] = useState([]); //현재 페이지에서 업로드된 이미지 목록
   const [imgLoading, setImgLoading] = useState(false);
@@ -25,30 +23,33 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
   //s3에 이미지 업로드 요청
   const onUploadImgS3 = async (file) => {
     //이미지 개수 제한
+    if (imgLoading) return alert("업로드 중입니다.");
+
     if (upladeImg.length === 12) {
       return alert("사진 첨부는 12개까지 가능합니다.");
     }
 
-    //이미지 용량 제한 3000000b = 3mb
-    const MAX_SIZE = 3000000;
-    if (file[0].size > MAX_SIZE) {
-      return alert("3mb 이하의 파일만 업로드 가능합니다.");
-    }
-
-    setImgLoading(true);
+    // //이미지 용량 제한 3000000b = 3mb
+    // const MAX_SIZE = 15000000;
+    // if (file[0].size > MAX_SIZE) {
+    //   return alert("15mb 이하의 파일만 업로드 가능합니다.");
+    // }
 
     const formData = new FormData();
     formData.append("image", file[0]);
 
-    try {
-      const res = await newAxios.post("/api/s3/s3Upload", formData);
-      // alert("이미지 업로드");
-      console.log(res.data.fileName);
-      setUploadImg((prev) => [...prev, res.data.fileName]);
-      setImgLoading(false);
-    } catch (err) {
-      alert("이미지 업로드 실패");
-    }
+    await newAxios.post("/api/s3/s3Upload", formData).then((res) => {
+      try {
+        // alert("이미지 업로드");
+        setUploadImg((prev) => [
+          ...prev,
+          res.data.fileName.transforms[0].location,
+        ]);
+        setImgLoading(false);
+      } catch (err) {
+        alert("이미지 업로드 실패");
+      }
+    });
   };
 
   //이미지 삭제 요청
@@ -127,10 +128,9 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
             <div {...getRootProps()}>
               <input {...getInputProps()} />
               <DropzoneIcon>
-                <div>
-                  <CameraOutlined />
-                </div>
+                <CameraOutlined />
                 <div>이미지 등록</div>
+                <div>15mb 이하</div>
               </DropzoneIcon>
             </div>
           )}
@@ -140,11 +140,12 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
       {upladeImg.length > 0 && (
         <>
           {upladeImg.map((data, index) => (
-            <UploadImg img={`url('${postUrl}${data}')`} key={index} alt="img">
+            <UploadImgBox key={index}>
+              <UploadImg src={data} key={index} alt="img" />
               <UploadImgDel onClick={() => onDeleteImgS3(data)}>
                 <CloseOutlined />
               </UploadImgDel>
-            </UploadImg>
+            </UploadImgBox>
           ))}
           {imgLoading ? <UploadImg></UploadImg> : null}
         </>
@@ -156,9 +157,11 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
 const Section = styled.div`
   display: flex;
   flex-wrap: wrap;
+  /* align-items: center; */
   width: 100%;
   max-height: 20rem;
   overflow-y: auto;
+  gap: 5px 5px;
 `;
 
 const DropBox = styled.div`
@@ -167,7 +170,6 @@ const DropBox = styled.div`
   height: 10rem;
   border-radius: 5px;
   border: 2px solid var(--gray);
-  margin: 0.3rem;
 
   & > :first-child {
     width: 100%;
@@ -191,36 +193,40 @@ const DropBox = styled.div`
 `;
 
 const DropzoneIcon = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
   & > :first-child {
-    display: flex;
-    justify-content: center;
     font-size: 2.5rem;
   }
 
   & > :nth-child(2) {
     font-size: 1rem;
   }
+
+  & > :last-child {
+    font-size: 0.8rem;
+    color: gray;
+  }
 `;
 
-const UploadImg = styled.div`
-  background-image: ${(props) => props.img};
+const UploadImgBox = styled.div`
+  position: relative;
   width: 10rem;
   height: 10rem;
   border: 2px solid rgba(146, 146, 146, 0.9);
   border-radius: 5px;
 
-  margin: 0.3rem;
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  position: relative;
-
   @media (max-width: 550px) {
     width: 6rem;
     height: 6rem;
   }
+`;
+
+const UploadImg = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 
 const UploadImgDel = styled.div`

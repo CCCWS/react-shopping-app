@@ -4,8 +4,6 @@ import styled, { css } from "styled-components";
 
 import { Image } from "../Style/ProductCard";
 
-import { postUrl } from "../../PostUrl";
-
 function RecentView({ SideMenu, setMenuClick, page }) {
   const { id } = useParams();
   const nav = useNavigate();
@@ -47,7 +45,7 @@ function RecentView({ SideMenu, setMenuClick, page }) {
                 page={page}
                 SideMenu={SideMenu}
                 key={data.id}
-                img={`url('${postUrl}${data.image}')`}
+                src={`${data.image}`}
                 onClick={() => goProduct(data.id)}
               />
             ))}

@@ -11,11 +11,8 @@ export const Card = styled.div`
   justify-content: space-between;
 `;
 
-export const Image = styled.div`
-  background-image: ${(props) => props.img};
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; ;
+export const Image = styled.img`
+  object-fit: contain;
 `;
 
 export const Title = styled.div`

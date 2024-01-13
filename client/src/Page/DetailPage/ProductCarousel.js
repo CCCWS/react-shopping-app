@@ -4,12 +4,12 @@ import styled from "styled-components";
 import Carousel2 from "../../Components/Utility/Carousel2";
 import { SearchOutlined } from "@ant-design/icons";
 
-const ProductCarousel = ({ img, postUrl, onImgModalOpen, ImgDiv }) => {
+const ProductCarousel = ({ img, onImgModalOpen, ImgDiv }) => {
   return (
     <Carousel2 height={"500px"} point={true}>
       {img.map((data, index) => (
         <React.Fragment key={index}>
-          <ImgDiv carousel={true} img={`url('${postUrl}${data}')`} />
+          <ImgDiv carousel={true} src={data} alt={"img"} />
           <OpenModalBtn
             onClick={() => {
               onImgModalOpen(data);

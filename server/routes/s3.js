@@ -9,7 +9,7 @@ aws.config.loadFromPath(__dirname + "/../config/s3.json");
 
 const s3 = new aws.S3();
 const bucketName = "cws-shopping-s3";
-const maxSize = 30 * 1024 * 1024; //최대 3mb
+const maxSize = 15 * 1024 * 1024; //최대 3mb
 
 //파일명 중복 방지를 위하여 랜덤한 이름으로 업로드
 const rendomName = () => {
@@ -26,22 +26,15 @@ const rendomName = () => {
 
 //업로드 미들웨어
 const upload = multer({
+  limits: {
+    fileSize: maxSize,
+  },
   storage: multerS3({
     s3: s3,
     bucket: bucketName,
     acl: "public-read",
     contentType: multerS3.AUTO_CONTENT_TYPE,
     shouldTransform: true,
-    // transforms: [
-    //   {
-    //     key: function (req, file, cb) {
-    //       cb(null, `${Date.now()}_${rendomName()}`);
-    //     },
-    //     transform: function (req, file, cb) {
-    //       cb(null, sharp().resize(100, 100));
-    //     },
-    //   },
-    // ],
     transforms: [
       {
         key: function (req, file, cb) {

@@ -11,8 +11,6 @@ import ModalBase from "../../Components/Modal/ModalBase";
 
 import { Image, Title, Price } from "../../Components/Style/ProductCard";
 
-import { postUrl } from "../../PostUrl";
-
 import { useDispatch, useSelector } from "react-redux";
 import { cartAction } from "../../store/reducer/cart";
 import useModal from "../../hooks/useModal";
@@ -135,7 +133,7 @@ const CartProduct = ({ product, userCartList, userId }) => {
           </ProductCheckBox>
 
           <NewImage
-            img={`url('${postUrl}${product.image[0]}')`}
+            img={`url(${product.image[0]})`}
             onClick={() => nav(`/product/${product._id}`)}
           />
 
@@ -231,7 +229,12 @@ const ProductCheckBox = styled.div`
   }
 `;
 
-const NewImage = styled(Image)`
+const NewImage = styled.div`
+  background-image: ${(props) => props.img};
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
   min-width: 8rem;
   height: 100%;
 

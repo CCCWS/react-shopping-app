@@ -6,8 +6,6 @@ import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 
 import useAxios from "../../hooks/useAxios";
 
-import { postUrl } from "../../PostUrl";
-
 const ProductRankCarousel = () => {
   //판매량이 높은 상품 조회
   const {
@@ -64,9 +62,8 @@ const CarouselSection = ({ data }) => {
     <Product>
       {data.map((item, index) => (
         <Card key={index} onClick={() => nav(`/product/${item._id}`)}>
-          <Image img={`url('${postUrl}${item.image[0]}')`}>
-            <Rank>{data.indexOf(item) + 1}</Rank>
-          </Image>
+          <Image src={item.image[0]} alt={item.title}></Image>
+          <Rank>{data.indexOf(item) + 1}</Rank>
           <Title>{item.title}</Title>
         </Card>
       ))}
@@ -88,17 +85,17 @@ const Card = styled.div`
   height: 430px;
   transition: all ease 0.5s;
 
+  position: relative;
+
   &:hover {
     border: 3px solid var(--orange_hover);
     cursor: pointer;
   }
 `;
 
-const Image = styled.div`
-  background-image: ${(props) => props.img};
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+const Image = styled.img`
+  object-fit: cover;
+  width: 100%;
   height: 70%;
   border-radius: 0px 30px 0px 0px;
   position: relative;

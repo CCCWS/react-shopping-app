@@ -28,18 +28,29 @@ export const Input = styled.input`
   width: ${(props) =>
     //UploadForm Components
     (props.inputType === "title" && "70%") ||
-    (props.inputType === "price" && "200px") ||
+    (props.inputType === "price" && "170px") ||
     (props.inputType === "count" && "100px") ||
     //CheckOut Page
-    (props.inputType === "name" && "200px") ||
+    (props.inputType === "name" && "100px") ||
     (props.inputType === "phone" && "200px") ||
     (props.inputType === "address" && "100%") ||
     (props.inputType === "req" && "100%")};
   height: 3rem;
   /* margin-right: 10px; */
-  padding: 0.5rem;
+  padding: 0.2rem;
   border-radius: 5px;
   outline: none;
+
+  @media (max-width: 400px) {
+    width: ${(props) =>
+      //UploadForm Components
+      (props.inputType === "title" && "100%") ||
+      (props.inputType === "price" && "100%") ||
+      (props.inputType === "count" && "100%") ||
+      //CheckOut Page
+      (props.inputType === "name" && "100%") ||
+      (props.inputType === "phone" && "100%")};
+  }
 
   &:focus {
     border: 2px solid var(--red_transparency);

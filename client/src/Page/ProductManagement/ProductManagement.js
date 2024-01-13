@@ -3,17 +3,14 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { WarningOutlined } from "@ant-design/icons";
 
-import BuyerList from "./BuyerList";
 import Loading from "../../Components/Utility/Loading";
 import Empty from "../../Components/Utility/Empty";
-import ZoomAnimation from "../../Components/Utility/Animation/ZoomAnimation";
 import FadeAnimation from "../../Components/Utility/Animation/FadeAnimation";
 import SlideAnimation from "../../Components/Utility/Animation/SlideAnimation";
 
 import useAxios from "../../hooks/useAxios";
 import useTheme from "../../hooks/useTheme";
 
-import { postUrl } from "../../PostUrl";
 import { Image } from "../../Components/Style/ProductCard";
 
 function ProductManagement({ isAuth, userId }) {
@@ -98,10 +95,6 @@ function ProductManagement({ isAuth, userId }) {
             </Info>
           </SlideAnimation>
 
-          {/* <FadeAnimation>
-            <BuyerList buyerList={buyerList} />
-          </FadeAnimation> */}
-
           {resData.length === 0 ? (
             <Empty>
               <WarningOutlined />
@@ -113,7 +106,7 @@ function ProductManagement({ isAuth, userId }) {
                 <Card key={index} onClick={() => nav(`/product/${data._id}`)}>
                   <FadeAnimation>
                     <Product darkMode={darkMode}>
-                      <NewImage img={`url('${postUrl}${data.image[0]}')`} />
+                      <NewImage src={data.image[0]} alt={data.title} />
                       <Content>
                         <div>{data.title}</div>
 

@@ -10,8 +10,6 @@ import {
   Price,
 } from "../../Components/Style/ProductCard";
 
-import { postUrl } from "../../PostUrl";
-
 const PurchaseHistotyProductList = ({ data }) => {
   const nav = useNavigate();
   return (
@@ -23,7 +21,7 @@ const PurchaseHistotyProductList = ({ data }) => {
               nav(`/product/${data._id}`);
             }}
           >
-            <NewImage img={`url('${postUrl}${data.image[0]}')`} />
+            <NewImage img={`url('${data.image[0]}')`} />
             <Title>{data.title}</Title>
           </Div>
 
@@ -42,7 +40,12 @@ const Div = styled.div`
   cursor: pointer;
 `;
 
-const NewImage = styled(Image)`
+const NewImage = styled.div`
+  background-image: ${(props) => props.img};
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
   min-width: 8rem;
   height: 8rem;
 

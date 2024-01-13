@@ -50,7 +50,6 @@ function UploadForm({ userId, edit, editData, productId }) {
 
     //edit페이지로 접근시 기본값을 상품의 정보로 지정
     if (edit) {
-      console.log(editData);
       setImage(editData.image);
       setCategory(editData.category);
 

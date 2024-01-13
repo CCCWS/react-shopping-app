@@ -8,15 +8,13 @@ import {
   Count,
 } from "../../Components/Style/ProductCard";
 
-import { postUrl } from "../../PostUrl";
-
 const CheckOutProduct = ({ state }) => {
   return (
     <List>
       {state.product.map((data) => (
         <Card key={data._id}>
           <Div>
-            <NewImage img={`url('${postUrl}${data.image[0]}')`} />
+            <NewImage img={`url('${data.image[0]}')`} />
             <Title>{data.title}</Title>
           </Div>
 
@@ -34,8 +32,13 @@ const Div = styled.div`
   display: flex;
 `;
 
-const NewImage = styled(Image)`
-  min-width: 120px;
+const NewImage = styled.div`
+  background-image: ${(props) => props.img};
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  min-width: 100px;
   height: 100%;
   margin-right: 0.5rem;
   border-radius: 5px;
