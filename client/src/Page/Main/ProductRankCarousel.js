@@ -61,7 +61,9 @@ const CarouselSection = ({ data }) => {
     <Product>
       {data.map((item, index) => (
         <Card key={index} onClick={() => nav(`/product/${item._id}`)}>
-          <Image src={item.image[0]} alt={item.title}></Image>
+          <ImageWrap>
+            <Image src={item.image[0]} alt={item.title}></Image>
+          </ImageWrap>
           <Rank>{data.indexOf(item) + 1}</Rank>
           <Title>{item.title}</Title>
         </Card>
@@ -92,10 +94,15 @@ const Card = styled.div`
   }
 `;
 
+const ImageWrap = styled.div`
+  width: 100%;
+  height: 70%;
+`;
+
 const Image = styled.img`
   object-fit: cover;
   width: 100%;
-  height: 70%;
+  height: 100%;
   border-radius: 0px 30px 0px 0px;
   position: relative;
 `;
