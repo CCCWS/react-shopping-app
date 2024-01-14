@@ -24,11 +24,13 @@ const ProductCard = ({ data, viewType }) => {
     >
       <ImageBox soldOut={data.count === 0 && true}>
         {isView ? (
-          <ProductImg
-            viewType={viewType}
-            src={data.image[0]}
-            alt={data.title}
-          />
+          <>
+            <ProductImg
+              viewType={viewType}
+              src={data.image[0]}
+              alt={data.title}
+            />
+          </>
         ) : (
           <ImageLoading></ImageLoading>
         )}

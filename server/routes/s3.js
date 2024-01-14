@@ -25,34 +25,65 @@ const rendomName = () => {
 };
 
 //업로드 미들웨어
+// const upload = multer({
+//   limits: {
+//     fileSize: maxSize,
+//   },
+//   storage: multerS3({
+//     s3: s3,
+//     bucket: bucketName,
+//     acl: "public-read",
+//     contentType: multerS3.AUTO_CONTENT_TYPE,
+//     ContentType: "image/webp",
+//     shouldTransform: true,
+//     transforms: [
+//       {
+//         key: function (req, file, cb) {
+//           fileName = `${Date.now()}_${rendomName()}.webp`;
+//           cb(null, fileName);
+//         },
+//         transform: function (req, file, cb) {
+//           cb(null, sharp().toFormat("webp"));
+//         },
+//       },
+//     ],
+//   }),
+// });
+
 const upload = multer({
-  limits: {
-    fileSize: maxSize,
-  },
-  storage: multerS3({
-    s3: s3,
-    bucket: bucketName,
-    acl: "public-read",
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    shouldTransform: true,
-    transforms: [
-      {
-        key: function (req, file, cb) {
-          fileName = `${Date.now()}_${rendomName()}.webp`;
-          cb(null, fileName);
-        },
-        transform: function (req, file, cb) {
-          cb(null, sharp().toFormat("webp"));
-        },
-      },
-    ],
-  }),
+  storage: multer.memoryStorage(),
 });
 
 //이미지 업로드
 
-app.post("/s3Upload", upload.single("image"), (req, res) => {
-  return res.status(200).json({ fileName: req.file });
+app.post("/s3Upload", upload.single("image"), async (req, res) => {
+  const maxSize = 20 * 1024 * 1024;
+
+  if (maxSize < req.file.size) {
+    return res
+      .status(200)
+      .json({ success: false, error: "제한 용량을 초과했습니다." });
+  }
+
+  const webpBuffer = await sharp(req.file.buffer).toFormat("webp").toBuffer();
+
+  const uploadParams = {
+    Bucket: bucketName,
+    Key: `${rendomName()}.webp`,
+    Body: webpBuffer,
+    ContentType: "image/webp",
+    ACL: "public-read",
+  };
+
+  if (!uploadParams.Body) {
+    throw new Error("body is empty");
+  }
+
+  const s3UploadResult = await s3.upload(uploadParams).promise();
+
+  return res
+    .status(200)
+    .json({ success: true, fileUrl: s3UploadResult.Location });
 });
 
 //이미지 삭제

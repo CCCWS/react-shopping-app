@@ -23,31 +23,35 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
   //s3에 이미지 업로드 요청
   const onUploadImgS3 = async (file) => {
     //이미지 개수 제한
+
     if (imgLoading) return alert("업로드 중입니다.");
 
     if (upladeImg.length === 12) {
       return alert("사진 첨부는 12개까지 가능합니다.");
     }
 
-    // //이미지 용량 제한 3000000b = 3mb
-    // const MAX_SIZE = 15000000;
-    // if (file[0].size > MAX_SIZE) {
-    //   return alert("15mb 이하의 파일만 업로드 가능합니다.");
-    // }
-
     const formData = new FormData();
     formData.append("image", file[0]);
 
+    // const formData = new FormData();
+    // file.forEach((file) => {
+    //   formData.append("images", file);
+    // });
+
     await newAxios.post("/api/s3/s3Upload", formData).then((res) => {
       try {
-        // alert("이미지 업로드");
-        setUploadImg((prev) => [
-          ...prev,
-          res.data.fileName.transforms[0].location,
-        ]);
-        setImgLoading(false);
+        if (!res.data.success) {
+          alert(res.data.error);
+          return;
+        }
+
+        if (res.data.success) {
+          // alert("이미지 업로드");
+          setUploadImg((prev) => [...prev, res.data.fileUrl]);
+          setImgLoading(false);
+        }
       } catch (err) {
-        alert("이미지 업로드 실패");
+        console.log("이미지 업로드 실패");
       }
     });
   };
@@ -130,7 +134,7 @@ function ImgUpload({ setImage, setImgDelete, edit, editImg }) {
               <DropzoneIcon>
                 <CameraOutlined />
                 <div>이미지 등록</div>
-                <div>15mb 이하</div>
+                <div>20mb 이하</div>
               </DropzoneIcon>
             </div>
           )}
