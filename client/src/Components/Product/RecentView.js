@@ -9,10 +9,8 @@ function RecentView({ SideMenu, setMenuClick, page }) {
   const { id } = useParams();
   const nav = useNavigate();
   const [histoty, setHistory] = useState([]);
-  const productRef = useRef(null);
-  const { isView } = useObserver(productRef, 0.1, false);
-
-  console.log(isView);
+  const recentViewProductRef = useRef(null);
+  const { isView } = useObserver(recentViewProductRef, 0.1, false);
 
   useEffect(() => {
     const getProductHistory = JSON.parse(
@@ -37,9 +35,9 @@ function RecentView({ SideMenu, setMenuClick, page }) {
   };
 
   return (
-    <Div page={page} SideMenu={SideMenu} ref={productRef}>
+    <Div page={page} SideMenu={SideMenu}>
       <div>
-        <Title>최근본상품</Title>
+        <Title ref={recentViewProductRef}>최근본상품</Title>
         {histoty.length === 0 ? (
           <Empty>최근본상품이 없습니다.</Empty>
         ) : (
