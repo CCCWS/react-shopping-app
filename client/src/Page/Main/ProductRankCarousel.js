@@ -27,7 +27,7 @@ const ProductRankCarousel = () => {
 
   return (
     <>
-      {!soldLoading && !viewsLoading && (
+      {!soldLoading && !viewsLoading ? (
         <Carousel1
           height={"500px"}
           point={true}
@@ -49,6 +49,8 @@ const ProductRankCarousel = () => {
             <CarouselSection data={sold} />
           </div>
         </Carousel1>
+      ) : (
+        <LoadingDiv />
       )}
     </>
   );
@@ -136,6 +138,41 @@ const Type = styled.div`
   justify-content: center;
   margin: 0.5rem;
   font-size: 1.5rem;
+`;
+
+const LoadingDiv = styled.div`
+  width: 100%;
+  height: 500px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  &::before {
+    content: "";
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    border: 3px solid transparent;
+    border-top: 3px solid gray;
+    border-right: 3px solid gray;
+
+    animation: spin 1s infinite linear;
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
 `;
 
 export default React.memo(ProductRankCarousel);

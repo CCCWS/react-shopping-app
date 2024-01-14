@@ -9,7 +9,6 @@ import RecentView from "../../Components/Product/RecentView";
 import SearchBar from "./SearchBar";
 // import ProductRank from "../../Components/Product/ProductRank";
 import ModalBase from "../../Components/Modal/ModalBase";
-import Loading from "../../Components/Utility/Loading";
 import Switch from "../../Components/Utility/Switch";
 import ProductRankCarousel from "./ProductRankCarousel";
 
@@ -26,8 +25,6 @@ const ProductCard = React.lazy(() =>
 );
 
 function Main() {
-  const [readRef, setReadRef] = useInView();
-
   const [click, setClick] = useState(true); //메인화면 제품카드 카드형 or 리스트형
   const [searchValue, setSearchValue] = useState(""); //검색어
   const [searchTrue, setSearchTrue] = useState(false); //검색 여부
@@ -201,9 +198,7 @@ function Main() {
         <ProductRankCarousel />
       )}
 
-      {loading ? (
-        <Loading />
-      ) : (
+      {!loading && (
         <ProductCardDiv>
           {productList.map((data, index) => (
             <ProductCard key={index} data={data} viewType={click} />
@@ -258,7 +253,8 @@ const ProductCardDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin-bottom: 5rem;
+  gap: 50px 0px;
+  padding: 10px;
 `;
 
 export default React.memo(Main);
