@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useObserver = (userRef, threshold) => {
+const useObserver = (userRef, threshold, onlyOnce) => {
   const [isView, setIsView] = useState(false);
 
   useEffect(() => {
@@ -21,10 +21,14 @@ const useObserver = (userRef, threshold) => {
 
     observer.observe(userRef.current);
 
+    if (onlyOnce && isView) {
+      observer.unobserve(userRef.current);
+    }
+
     return () => {
       observer.disconnect();
     };
-  }, [userRef, threshold]);
+  }, [userRef, threshold, isView, onlyOnce]);
 
   return { isView };
 };

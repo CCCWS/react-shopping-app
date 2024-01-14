@@ -4,7 +4,6 @@ import { useInView } from "react-intersection-observer";
 import { RollbackOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 //component
-import ProductCard from "../../Components/Product/ProductCard";
 import SelectBox from "../../Components/Utility/SelectBox";
 import RecentView from "../../Components/Product/RecentView";
 import SearchBar from "./SearchBar";
@@ -21,6 +20,10 @@ import useObserver from "../../hooks/useObserver";
 
 //etc
 import { categoryList, priceList } from "../../data/CatecoryList";
+
+const ProductCard = React.lazy(() =>
+  import("../../Components/Product/ProductCard")
+);
 
 function Main() {
   const [readRef, setReadRef] = useInView();

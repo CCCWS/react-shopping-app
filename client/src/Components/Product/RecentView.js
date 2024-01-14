@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
+import useObserver from "../../hooks/useObserver";
 
 import { Image } from "../Style/ProductCard";
 
@@ -8,6 +9,10 @@ function RecentView({ SideMenu, setMenuClick, page }) {
   const { id } = useParams();
   const nav = useNavigate();
   const [histoty, setHistory] = useState([]);
+  const productRef = useRef(null);
+  const { isView } = useObserver(productRef, 0.1, false);
+
+  console.log(isView);
 
   useEffect(() => {
     const getProductHistory = JSON.parse(
@@ -32,8 +37,7 @@ function RecentView({ SideMenu, setMenuClick, page }) {
   };
 
   return (
-    <Div page={page} SideMenu={SideMenu}>
-      {}
+    <Div page={page} SideMenu={SideMenu} ref={productRef}>
       <div>
         <Title>최근본상품</Title>
         {histoty.length === 0 ? (
@@ -45,7 +49,7 @@ function RecentView({ SideMenu, setMenuClick, page }) {
                 page={page}
                 SideMenu={SideMenu}
                 key={data.id}
-                src={`${data.image}`}
+                src={isView ? data.image : ""}
                 onClick={() => goProduct(data.id)}
               />
             ))}

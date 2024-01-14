@@ -1,58 +1,56 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
-
-import FadeAnimation from "../Utility/Animation/FadeAnimation";
 
 import useTheme from "../../hooks/useTheme";
 import { Title, Image, Price, Time, Count } from "../Style/ProductCard";
 import getTime from "../../hooks/getTime";
+import useObserver from "../../hooks/useObserver";
 
-function ProductCard({ data, viewType }) {
+const ProductCard = ({ data, viewType }) => {
   const nav = useNavigate();
   const { darkMode } = useTheme();
+  const productRef = useRef(null);
+  const { isView } = useObserver(productRef, 0.3, true);
 
   return (
-    <CardDiv viewType={viewType}>
-      <FadeAnimation>
-        <Card
+    <CardDiv viewType={viewType} ref={productRef} isView={isView}>
+      <Card
+        viewType={viewType}
+        id={data._id}
+        onClick={() => {
+          nav(`/product/${data._id}`);
+        }}
+      >
+        <NewImage
           viewType={viewType}
-          id={data._id}
-          onClick={() => {
-            nav(`/product/${data._id}`);
-          }}
-        >
-          <NewImage
-            viewType={viewType}
-            src={`${data.image[0]}`}
-            alt={data.title}
-            soldOut={data.count === 0 && true}
-          />
+          src={isView ? data.image[0] : ""}
+          alt={data.title}
+          soldOut={data.count === 0 && true}
+        />
 
-          <Info viewType={viewType}>
-            <Title darkMode={darkMode}>{data.title}</Title>
+        <Info viewType={viewType}>
+          <Title darkMode={darkMode}>{data.title}</Title>
 
-            <TimeAndPrice viewType={viewType}>
-              <Price>{`${parseInt(data.price, 10).toLocaleString()}원`}</Price>
-              <Time>{getTime(data.createdAt)}</Time>
-            </TimeAndPrice>
-            <Count>{`남은 수량 ${data.count}개`}</Count>
-          </Info>
-        </Card>
-      </FadeAnimation>
+          <TimeAndPrice viewType={viewType}>
+            <Price>{`${parseInt(data.price, 10).toLocaleString()}원`}</Price>
+            <Time>{getTime(data.createdAt)}</Time>
+          </TimeAndPrice>
+          <Count>{`남은 수량 ${data.count}개`}</Count>
+        </Info>
+      </Card>
     </CardDiv>
   );
-}
-
-const ProductCardDiv = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 5rem;
-`;
+};
 
 const CardDiv = styled.div`
   width: ${(props) => (props.viewType ? "25%" : "100%")};
+
+  transition: 0.5s;
+  transform: ${(props) =>
+    props.isView ? "translateY(0px)" : "translateY(50px)"};
+
+  opacity: ${(props) => (props.isView ? 1 : 0)};
 
   ${(props) =>
     props.viewType &&
@@ -64,11 +62,16 @@ const CardDiv = styled.div`
       @media (max-width: 650px) {
         width: 50%;
       }
+
+      @media (max-width: 340px) {
+        width: 100%;
+      }
     `}
 `;
 
 const Card = styled.div`
   //상품 카드의 크기
+
   margin: auto;
   margin-bottom: ${(props) => (props.viewType ? "6rem" : "3rem")};
   width: ${(props) => (props.viewType ? "90%" : "100%")};

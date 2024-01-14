@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Carousel2 = ({ children, height, point }) => {
   if (children.length === undefined) {
@@ -11,7 +11,7 @@ const Carousel2 = ({ children, height, point }) => {
   return (
     <>
       <Div>
-        <Section height={height}>
+        <Section height={height} checkChilren={children.length === 1}>
           {children.map((data, index) => (
             <Item key={index} id={index} location={location}>
               <div onClick={() => setLocation(index)}>{data}</div>
@@ -50,6 +50,15 @@ const Section = styled.div`
   position: relative;
 
   margin-left: 15%;
+
+  ${(props) =>
+    props.checkChilren &&
+    css`
+      margin-left: 0%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    `}
 `;
 
 const Item = styled.div`

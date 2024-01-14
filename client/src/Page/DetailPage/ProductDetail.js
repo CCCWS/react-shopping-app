@@ -77,10 +77,6 @@ function ProductDetail({ isAuth, userId }) {
 
   useEffect(() => {
     const init = () => {
-      // setProduct();
-      // setOtherProduct();
-      // setProductWriter();
-
       setLoading(true);
       setSideLoading(true);
 
@@ -89,6 +85,13 @@ function ProductDetail({ isAuth, userId }) {
     };
     init();
   }, [id, setOpenModal, setOpenImgModal]);
+
+  useEffect(() => {
+    if (product.title) {
+      const titleName = document.getElementsByTagName("title")[0];
+      titleName.innerHTML = product.title;
+    }
+  }, [product.title]);
 
   useEffect(() => {
     const getOtherProduct = async (PRODUCT_ID, PRODUCT_CATEGORY) => {
@@ -128,35 +131,6 @@ function ProductDetail({ isAuth, userId }) {
   useEffect(() => {
     if (productWriter && otherProduct) setSideLoading(false);
   }, [productWriter, otherProduct]);
-
-  // useEffect(() => {
-  //   //상품정보가 없을때 실행
-  //   let onFetch = false;
-  //   if (onFetch) return;
-
-  //   getProduct({ id });
-
-  //   return () => (onFetch = true);
-  // }, [id, getProduct]);
-
-  // const getApi = useCallback(() => {
-  //   getWriter({ id: product.writer });
-  //   getOtherProduct({
-  //     filterId: id,
-  //     category: product.category,
-  //   });
-  // }, [getOtherProduct, getWriter, id, product]);
-
-  // useEffect(() => {
-  //   //상품정보가 있을때 실행
-
-  //   if (product && product._id === id) {
-  //     const titleName = document.getElementsByTagName("title")[0];
-  //     titleName.innerHTML = product.title;
-
-  //     getApi();
-  //   }
-  // }, [id, product, getApi]);
 
   //장바구니와 구매하기 버튼 클릭시 가능여부 확인
   const onBtnCheck = useCallback(() => {
@@ -276,11 +250,6 @@ function ProductDetail({ isAuth, userId }) {
         <ImgDiv src={currImg} alt={"img"} modal={true} />
       </ModalBase>
 
-      {/* <BackBtn onClick={() => nav("/")}>
-        <LeftOutlined />
-        <HomeOutlined />
-      </BackBtn> */}
-
       {loading ? (
         <Loading />
       ) : (
@@ -332,7 +301,7 @@ const BackBtn = styled.div`
 `;
 
 const ImgDiv = styled.img`
-  object-fit: cover;
+  object-fit: contain;
   position: relative;
 
   ${(props) =>
