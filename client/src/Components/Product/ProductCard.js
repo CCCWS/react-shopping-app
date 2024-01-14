@@ -11,10 +11,10 @@ const ProductCard = ({ data, viewType }) => {
   const nav = useNavigate();
   const { darkMode } = useTheme();
   const productRef = useRef(null);
-  const { isView } = useObserver(productRef, 0.3, true);
+  const { isView } = useObserver(productRef, 0.5, true);
 
   return (
-    <CardDiv viewType={viewType} isView={isView}>
+    <CardDiv viewType={viewType}>
       <Card
         viewType={viewType}
         id={data._id}
@@ -23,6 +23,7 @@ const ProductCard = ({ data, viewType }) => {
         }}
       >
         <NewImage
+          isView={isView}
           ref={productRef}
           viewType={viewType}
           src={isView ? data.image[0] : ""}
@@ -46,12 +47,6 @@ const ProductCard = ({ data, viewType }) => {
 
 const CardDiv = styled.div`
   width: ${(props) => (props.viewType ? "25%" : "100%")};
-
-  transition: 0.5s;
-  transform: ${(props) =>
-    props.isView ? "translateY(0px)" : "translateY(50px)"};
-
-  opacity: ${(props) => (props.isView ? 1 : 0)};
 
   ${(props) =>
     props.viewType &&
@@ -111,6 +106,12 @@ const NewImage = styled(Image)`
 
   transition: all cubic-bezier(0, -0.16, 1, 1.9) 0.3s;
   position: relative;
+
+  /* transition: 0.5s; */
+  transform: ${(props) =>
+    props.isView ? "translateY(0px)" : "translateY(50px)"};
+
+  opacity: ${(props) => (props.isView ? 1 : 0)};
 
   &:hover {
     transform: scale(1.1);

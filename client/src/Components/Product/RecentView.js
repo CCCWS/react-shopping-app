@@ -10,9 +10,8 @@ function RecentView({ SideMenu, setMenuClick, page }) {
   const nav = useNavigate();
   const [histoty, setHistory] = useState([]);
   const recentViewProductRef = useRef(null);
-  const { isView } = useObserver(recentViewProductRef, 0.1, false);
+  const { isView } = useObserver(recentViewProductRef, 0.1, true);
 
- 
   useEffect(() => {
     const getProductHistory = JSON.parse(
       localStorage.getItem("productHistory")
