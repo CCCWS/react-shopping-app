@@ -14,7 +14,7 @@ const ProductCard = ({ data, viewType }) => {
   const { isView } = useObserver(productRef, 0.3, true);
 
   return (
-    <CardDiv viewType={viewType} ref={productRef} isView={isView}>
+    <CardDiv viewType={viewType} isView={isView}>
       <Card
         viewType={viewType}
         id={data._id}
@@ -23,6 +23,7 @@ const ProductCard = ({ data, viewType }) => {
         }}
       >
         <NewImage
+          ref={productRef}
           viewType={viewType}
           src={isView ? data.image[0] : ""}
           alt={data.title}

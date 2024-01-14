@@ -12,6 +12,7 @@ function RecentView({ SideMenu, setMenuClick, page }) {
   const recentViewProductRef = useRef(null);
   const { isView } = useObserver(recentViewProductRef, 0.1, false);
 
+ 
   useEffect(() => {
     const getProductHistory = JSON.parse(
       localStorage.getItem("productHistory")
