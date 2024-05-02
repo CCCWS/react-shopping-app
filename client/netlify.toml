@@ -1,6 +1,6 @@
 [[redirects]]
 from = "/ec2server/*"
-to = "https://cws-ec2server.shop/:splat"
+to = "https://cws-server.shop/:splat"
 status = 200
 force = true
 
